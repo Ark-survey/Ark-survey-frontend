@@ -578,7 +578,7 @@ export const opData: { [x: string]: string }[] = [
   {
     id: "澄闪",
     name: "澄闪",
-    profession: "狙击",
+    profession: "术师",
     sex: "女",
     rate: "6",
     deployment: "远程位",

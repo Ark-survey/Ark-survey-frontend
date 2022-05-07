@@ -2,18 +2,12 @@ import { Box, Image, createStyles, RangeSlider, Button } from "@mantine/core";
 import { format } from "date-fns";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { API } from "src/api";
-import {
-  opData,
-  Profession,
-  AccessChannel,
-  Deployment,
-  Sex,
-  Rate,
-} from "src/contexts";
+import { Profession, AccessChannel, Deployment, Sex, Rate } from "src/contexts";
 import useSWR from "swr";
 import { ChipGroups } from "./components/ChipGroups";
 import { DateSelect } from "./components/DateSelect";
 import DraggableTierList from "./components/DraggableTierList";
+import OptList from "./OptList";
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   iconWrapper: {
@@ -29,64 +23,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     },
   },
 }));
-
-function OptList({
-  filters,
-  filterOpen = false,
-}: {
-  filters: { [x: string]: string[] };
-  filterOpen?: boolean;
-}) {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexFlow: "row wrap",
-        padding: "5px",
-        paddingBottom: "0",
-      }}
-    >
-      {opData
-        .sort((a, b) => {
-          const diff = parseInt(a.time) - parseInt(b.time);
-          if (diff === 0) {
-            if (a.accessChannel === "限定寻访") return -1;
-            if (a.accessChannel === "普通寻访") return 0;
-            if (a.accessChannel === "活动赠送") return 1;
-          }
-          return diff;
-        })
-        .filter((value) => {
-          let flag = true;
-          if (filterOpen) {
-            for (let key in filters) {
-              if (
-                filters[key].length > 0 &&
-                filters[key].indexOf(value[key]) < 0
-              )
-                flag = false;
-            }
-          }
-          return flag;
-        })
-        .map((item) => (
-          <Box
-            key={item.id}
-            sx={{
-              margin: "5px",
-              width: 80,
-              height: 80,
-              boxShadow: "inset 0px 0px 10px 4px #ccc",
-              borderRadius: "20px",
-              overflow: "hidden",
-            }}
-          >
-            <Image src={item.imgUrl} width="80" height="80" alt={item.name} />
-          </Box>
-        ))}
-    </Box>
-  );
-}
 
 export default function Index() {
   // const { data, error } = useSWR(API.charList.get);
@@ -126,7 +62,7 @@ export default function Index() {
   return (
     <Box
       sx={{
-        maxWidth: "1200px",
+        maxWidth: "1210px",
         display: "flex",
         margin: "0 auto",
         marginTop: "100px",
@@ -210,7 +146,7 @@ export default function Index() {
       </Box>
       <Box
         sx={{
-          width: "700px",
+          width: "710px",
           boxShadow: "0 0 5px 5px #eee",
           marginLeft: "20px",
           borderRadius: "20px",

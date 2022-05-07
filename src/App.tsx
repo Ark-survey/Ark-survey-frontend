@@ -1,12 +1,15 @@
 import TierList from "src/pages/tier-list";
-import { Box } from "@mantine/core";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import SWR from "./api";
 
 function App() {
   return (
-    <SWR>
-      <TierList />
-    </SWR>
+    <DndProvider backend={HTML5Backend}>
+      <SWR>
+        <TierList />
+      </SWR>
+    </DndProvider>
   );
 }
 
