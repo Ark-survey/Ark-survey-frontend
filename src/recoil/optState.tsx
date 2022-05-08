@@ -14,12 +14,14 @@ export interface optType {
   selected: boolean
 }
 
+const initialState: optType[] = opData.map(item => ({
+  ...item,
+  selected: false
+})) as optType[]
+
 const optState = atom({
   key: 'optState',
-  default: opData.map(item => ({
-    ...item,
-    selected: false
-  })) as optType[]
+  default: initialState
 });
 
 export { optState }

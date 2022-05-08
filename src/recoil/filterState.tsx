@@ -6,20 +6,22 @@ export interface FilterType {
   fold: boolean;
 }
 
+const initialState: FilterType = {
+  fold: true,
+  chipGroup: {
+    opRate: [],
+    profession: [],
+    sex: [],
+    rate: [],
+    deployment: [],
+    accessChannel: [],
+  },
+  dateRange: [0, 100],
+}
+
 const filterState = atom({
   key: 'filterState',
-  default: {
-    fold: true,
-    chipGroup: {
-      opRate: [],
-      profession: [],
-      sex: [],
-      rate: [],
-      deployment: [],
-      accessChannel: [],
-    },
-    dateRange: [0, 100],
-  } as FilterType,
+  default: initialState,
 });
 
 const filterHeightState = selector({

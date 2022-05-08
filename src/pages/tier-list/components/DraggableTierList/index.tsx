@@ -13,7 +13,7 @@ import UploadPopover from "./components/UploadPopover";
 
 export default function Index() {
   const [tiers, setTiers] = useRecoilState(tierState);
-  const [opts, setOpts] = useRecoilState(optState)
+  const [opts, setOpts] = useRecoilState(optState);
 
   const handleDropOptOnTier = ({ opt, type, fromTierIndex }: OptDragItem, toTierIndex: number) => {
     if (type === OptListItemType.NORMAL || (type === OptListItemType.TIER && fromTierIndex !== toTierIndex)) {

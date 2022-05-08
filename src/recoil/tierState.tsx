@@ -5,38 +5,40 @@ export interface Tier {
   optIds: string[];
 }
 
+const initialState: Tier[] = [
+  {
+    value: 0,
+    optIds: [],
+  },
+  {
+    value: 0.5,
+    optIds: [],
+  },
+  {
+    value: 1,
+    optIds: [],
+  },
+  {
+    value: 1.5,
+    optIds: [],
+  },
+  {
+    value: 2,
+    optIds: [],
+  },
+  {
+    value: 3,
+    optIds: [],
+  },
+  {
+    value: 4,
+    optIds: [],
+  }
+]
+
 const tierState = atom({
   key: 'tierState',
-  default: [
-    {
-      value: 0,
-      optIds: [],
-    },
-    {
-      value: 0.5,
-      optIds: [],
-    },
-    {
-      value: 1,
-      optIds: [],
-    },
-    {
-      value: 1.5,
-      optIds: [],
-    },
-    {
-      value: 2,
-      optIds: [],
-    },
-    {
-      value: 3,
-      optIds: [],
-    },
-    {
-      value: 4,
-      optIds: [],
-    }
-  ] as Tier[],
+  default: initialState,
 });
 
 export { tierState }
