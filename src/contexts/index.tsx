@@ -1,4 +1,4 @@
-export const opData: { [x: string]: string }[] = [
+export const opData: { [x: string]: any }[] = [
   {
     id: "号角",
     name: "号角",
@@ -7,7 +7,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1649923200",
+    ts: 1649923200,
     imgUrl:
       "https://img.gejiba.com/images/27b6edb5141ed10bf9352ab796345451.png",
   },
@@ -19,7 +19,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1651392000",
+    ts: 1651392000,
     imgUrl:
       "https://img.gejiba.com/images/d95551a924f32dd8af10487d5751e894.png",
   },
@@ -31,7 +31,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "限定寻访",
-    time: "1651392000",
+    ts: 1651392000,
     imgUrl:
       "https://img.gejiba.com/images/53b25405dfa2b01c62e6255ec57d91bb.png",
   },
@@ -43,7 +43,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "活动赠送",
-    time: "1651392000",
+    ts: 1651392000,
     imgUrl:
       "https://img.gejiba.com/images/0a324ab4c61b121ddc076f9dcec0f9d9.png",
   },
@@ -55,7 +55,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1592467200",
+    ts: 1592467200,
     imgUrl:
       "https://img.gejiba.com/images/1676296ca86534db7aefe1c9be39096b.png",
   },
@@ -67,7 +67,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "限定寻访",
-    time: "1619856000",
+    ts: 1619856000,
     imgUrl:
       "https://img.gejiba.com/images/07c011cee22612979cdd4e2715802c93.png",
   },
@@ -79,7 +79,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1634284800",
+    ts: 1634284800,
     imgUrl:
       "https://img.gejiba.com/images/d595b9ea86cb478bf139125d5a086747.png",
   },
@@ -91,7 +91,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/7585e68e45305cfd94efd2bc3cb6691e.png",
   },
@@ -103,7 +103,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1618473600",
+    ts: 1618473600,
     imgUrl:
       "https://img.gejiba.com/images/d75221473d6d81a33daf8a5f471957b3.png",
   },
@@ -115,7 +115,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/556ac32c9c8a67372e0cbe9c66e2fa38.png",
   },
@@ -127,7 +127,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "限定寻访",
-    time: "1635753600",
+    ts: 1635753600,
     imgUrl:
       "https://img.gejiba.com/images/8d52ecc025a0bb1f4b4852820f63364d.png",
   },
@@ -139,7 +139,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/b6db7fa9c14a2cecc8f5835d9ca603fd.png",
   },
@@ -151,7 +151,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1635753600",
+    ts: 1635753600,
     imgUrl:
       "https://img.gejiba.com/images/cbb8c5b8b0a47454d5787f7ee1422bbf.png",
   },
@@ -163,7 +163,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/7a40444261143997a7364b24ebd70cbd.png",
   },
@@ -175,7 +175,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1602748800",
+    ts: 1602748800,
     imgUrl:
       "https://img.gejiba.com/images/ea15a9d0827c4d637930715694c473b2.png",
   },
@@ -187,7 +187,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "限定寻访",
-    time: "1612512000",
+    ts: 1612512000,
     imgUrl:
       "https://img.gejiba.com/images/845c2c88c15afb2e4851bc6e7e2bb76b.png",
   },
@@ -199,7 +199,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "不限制",
     accessChannel: "普通寻访",
-    time: "1588320000",
+    ts: 1588320000,
     imgUrl:
       "https://img.gejiba.com/images/305f0cae8e2a7073f01eb21a37a884fb.png",
   },
@@ -211,7 +211,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/02dec391529f33c47212b69c131984fd.png",
   },
@@ -223,7 +223,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1559181600",
+    ts: 1559181600,
     imgUrl:
       "https://img.gejiba.com/images/66589e336dc5023a5f464022d88346f7.png",
   },
@@ -235,7 +235,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1627977600",
+    ts: 1627977600,
     imgUrl:
       "https://img.gejiba.com/images/73364ed640efb5b543a12d610a950536.png",
   },
@@ -247,7 +247,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1600934400",
+    ts: 1600934400,
     imgUrl:
       "https://img.gejiba.com/images/3416ae891d8fcca45f050a48ebf56d46.png",
   },
@@ -259,7 +259,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/fa883b9b51b329705c5beb673c8f373e.png",
   },
@@ -271,7 +271,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1608192000",
+    ts: 1608192000,
     imgUrl:
       "https://img.gejiba.com/images/1004590a270868a3e9830cd88d700ffe.png",
   },
@@ -283,7 +283,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1598342400",
+    ts: 1598342400,
     imgUrl:
       "https://img.gejiba.com/images/f9b2e620ceb3df99140624192c91ba23.png",
   },
@@ -295,7 +295,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/3d594efd8c1af0c0d69052c776bd8cf8.png",
   },
@@ -307,7 +307,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1631865600",
+    ts: 1631865600,
     imgUrl:
       "https://img.gejiba.com/images/2aa4c1a337d2d45105d6b612c1d2b343.png",
   },
@@ -319,7 +319,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1625212800",
+    ts: 1625212800,
     imgUrl:
       "https://img.gejiba.com/images/2f1b06375dbd1f0472f724b31cceed64.png",
   },
@@ -331,7 +331,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "限定寻访",
-    time: "1611043200",
+    ts: 1611043200,
     imgUrl:
       "https://img.gejiba.com/images/fde2e575c22da0b3c0826c7b742b9703.png",
   },
@@ -343,7 +343,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/6a9d82203be35bf0635d1a6a38ca338e.png",
   },
@@ -355,7 +355,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1604217600",
+    ts: 1604217600,
     imgUrl:
       "https://img.gejiba.com/images/95e086bd8e881f7c883d5a935964b308.png",
   },
@@ -367,7 +367,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1571126400",
+    ts: 1571126400,
     imgUrl:
       "https://img.gejiba.com/images/402007575b5abdd863fc64287bda4142.png",
   },
@@ -379,7 +379,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "限定寻访",
-    time: "1604217600",
+    ts: 1604217600,
     imgUrl:
       "https://img.gejiba.com/images/e374ea9d234b850e4f94235c72e1ae54.png",
   },
@@ -391,7 +391,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1568102400",
+    ts: 1568102400,
     imgUrl:
       "https://img.gejiba.com/images/ac7fe222fe4dd045ccfb706a576cea93.png",
   },
@@ -403,7 +403,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1594281600",
+    ts: 1594281600,
     imgUrl:
       "https://img.gejiba.com/images/1426b4696806d1be509af9115f48c32f.png",
   },
@@ -415,7 +415,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1640073600",
+    ts: 1640073600,
     imgUrl:
       "https://img.gejiba.com/images/85d983f0dd57e5262b402809b11da54f.png",
   },
@@ -427,7 +427,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "限定寻访",
-    time: "1643097600",
+    ts: 1643097600,
     imgUrl:
       "https://img.gejiba.com/images/5c8faee8a988a07273a560f002b5eb30.png",
   },
@@ -439,7 +439,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1643097600",
+    ts: 1643097600,
     imgUrl:
       "https://img.gejiba.com/images/bbeeec8c98911a652198a3baf895c502.png",
   },
@@ -451,7 +451,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1587456000",
+    ts: 1587456000,
     imgUrl:
       "https://img.gejiba.com/images/10204d0904dceab0632cc4329c0f6127.png",
   },
@@ -463,7 +463,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1609833600",
+    ts: 1609833600,
     imgUrl:
       "https://img.gejiba.com/images/4a2ab1398f459618784e3e3f7b91fa09.png",
   },
@@ -475,7 +475,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1582617600",
+    ts: 1582617600,
     imgUrl:
       "https://img.gejiba.com/images/95d04053315e31d8f62ccd4604913da2.png",
   },
@@ -487,7 +487,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1619856000",
+    ts: 1619856000,
     imgUrl:
       "https://img.gejiba.com/images/a11fbde66ace40480a2f6dafa5d65bd3.png",
   },
@@ -499,7 +499,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1622534400",
+    ts: 1622534400,
     imgUrl:
       "https://img.gejiba.com/images/67b05b349df1779b91f2eb8ff1f7c713.png",
   },
@@ -511,7 +511,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "限定寻访",
-    time: "1627977600",
+    ts: 1627977600,
     imgUrl:
       "https://img.gejiba.com/images/b724fa7f8ca606fe7ccf58a9a35a41db.png",
   },
@@ -523,7 +523,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1599552000",
+    ts: 1599552000,
     imgUrl:
       "https://img.gejiba.com/images/63015875a1f38f34f973d914792c1dd2.png",
   },
@@ -535,7 +535,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "联动寻访",
-    time: "1615276800",
+    ts: 1615276800,
     imgUrl:
       "https://img.gejiba.com/images/b9a2fa28e5339de3e5f74e2d09bfbf8d.png",
   },
@@ -547,7 +547,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1577174400",
+    ts: 1577174400,
     imgUrl:
       "https://img.gejiba.com/images/d41e7eda6348d2739a8610d3753245d5.png",
   },
@@ -559,7 +559,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1568102400",
+    ts: 1568102400,
     imgUrl:
       "https://img.gejiba.com/images/3ffcacf89d623dcca4b486fb62829fe2.png",
   },
@@ -571,7 +571,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1566892800",
+    ts: 1566892800,
     imgUrl:
       "https://img.gejiba.com/images/40ab74532718008fadb25b45251339f1.png",
   },
@@ -583,7 +583,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1644912000",
+    ts: 1644912000,
     imgUrl:
       "https://img.gejiba.com/images/050a68a787e8935f58211031a7a874bb.png",
   },
@@ -595,7 +595,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1584432000",
+    ts: 1584432000,
     imgUrl:
       "https://img.gejiba.com/images/adfc8b487c99a283111efc8396db09d9.png",
   },
@@ -607,7 +607,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "不限制",
     accessChannel: "活动赠送",
-    time: "1619856000",
+    ts: 1619856000,
     imgUrl:
       "https://img.gejiba.com/images/ba867eb2f8460cfeec37a7fb9e79d42a.png",
   },
@@ -619,7 +619,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1647331200",
+    ts: 1647331200,
     imgUrl:
       "https://img.gejiba.com/images/3c5174b75d04c8be7d44ff2d537e6704.png",
   },
@@ -631,7 +631,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1612512000",
+    ts: 1612512000,
     imgUrl:
       "https://img.gejiba.com/images/f5e1072839804e2a5ebb145309a8e0f4.png",
   },
@@ -643,7 +643,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "近战位",
     accessChannel: "普通寻访",
-    time: "1562659200",
+    ts: 1562659200,
     imgUrl:
       "https://img.gejiba.com/images/f66715fae3c2e070d15336203e0740e1.png",
   },
@@ -655,7 +655,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "限定寻访",
-    time: "1588320000",
+    ts: 1588320000,
     imgUrl:
       "https://img.gejiba.com/images/3c7ea73087fc8a78923e758e85222e1d.png",
   },
@@ -667,7 +667,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/90b8d97e831fff4f5a78e8a466edadb4.png",
   },
@@ -679,7 +679,7 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1556697600",
+    ts: 1556697600,
     imgUrl:
       "https://img.gejiba.com/images/ca4928066fb78b9635c186f2086bb91c.png",
   },
@@ -691,12 +691,12 @@ export const opData: { [x: string]: string }[] = [
     rate: "6",
     deployment: "远程位",
     accessChannel: "普通寻访",
-    time: "1611043200",
+    ts: 1611043200,
     imgUrl:
       "https://img.gejiba.com/images/24d0958c7fa047b8dc3312aea9fe2e2c.png",
   },
 ];
-export const TimeMarks = [
+export const timeMarks = [
   {
     id: "开服",
     name: "开服",
@@ -737,7 +737,7 @@ export const TimeMarks = [
     ts: new Date().getTime() / 1000,
   },
 ];
-export const Rate = [
+export const rate = [
   {
     value: "6",
     name: "6★",
@@ -763,7 +763,7 @@ export const Rate = [
     name: "1★",
   },
 ];
-export const Profession = [
+export const profession = [
   {
     value: "近卫",
     name: "近卫",
@@ -799,7 +799,7 @@ export const Profession = [
     name: "辅助",
   },
 ];
-export const AccessChannel = [
+export const accessChannel = [
   {
     value: "普通寻访",
     name: "普通寻访",
@@ -825,7 +825,7 @@ export const AccessChannel = [
     name: "其他赠送",
   },
 ];
-export const Sex = [
+export const sex = [
   {
     value: "男",
     name: "男",
@@ -835,7 +835,7 @@ export const Sex = [
     name: "女",
   },
 ];
-export const Deployment = [
+export const deployment = [
   {
     value: "近战位",
     name: "近战位",

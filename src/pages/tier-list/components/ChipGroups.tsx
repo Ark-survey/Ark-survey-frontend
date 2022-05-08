@@ -1,18 +1,36 @@
-import { Box, Chip, Chips } from "@mantine/core";
+import { Box, Chip, Chips, createStyles } from "@mantine/core";
 
 interface ChipGroupsProps {
   tags: any[];
-  classNames: Record<"iconWrapper" | "checked", string>;
-  onChange?: (value: string[]) => void;
+  classNames?: Record<"iconWrapper" | "checked", string>;
+  values: string[];
+  onChange: (value: string[]) => void;
   label?: string;
 }
+
+const useStyles = createStyles((theme, _params, getRef) => ({
+  iconWrapper: {
+    ref: getRef("iconWrapper"),
+  },
+
+  checked: {
+    backgroundColor: `${theme.colors.blue[6]} !important`,
+    color: theme.white,
+
+    [`& .${getRef("iconWrapper")}`]: {
+      color: theme.white,
+    },
+  },
+}));
 
 export function ChipGroups({
   tags,
   classNames,
   onChange,
   label,
+  values
 }: ChipGroupsProps) {
+  const { classes } = useStyles()
   return (
     <Box
       sx={{
@@ -38,7 +56,7 @@ export function ChipGroups({
           {label}
         </Box>
       )}
-      <Chips multiple classNames={classNames} onChange={onChange}>
+      <Chips multiple value={values} classNames={classes} onChange={onChange}>
         {tags.map((item) => (
           <Chip value={item.value} key={item.value}>
             {item.name}

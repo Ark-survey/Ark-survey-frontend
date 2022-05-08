@@ -2,47 +2,46 @@ import { Box, Image, createStyles, RangeSlider, Button } from "@mantine/core";
 import { format } from "date-fns";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { API } from "src/api";
-import { Profession, AccessChannel, Deployment, Sex, Rate } from "src/contexts";
 import useSWR from "swr";
-import { ChipGroups } from "./components/ChipGroups";
-import { DateSelect } from "./components/DateSelect";
 import DraggableTierList from "./components/DraggableTierList";
+import FilterBox, { FilterType } from "./FilterBox";
 import OptList from "./OptList";
 
-const useStyles = createStyles((theme, _params, getRef) => ({
-  iconWrapper: {
-    ref: getRef("iconWrapper"),
-  },
-
-  checked: {
-    backgroundColor: `${theme.colors.blue[6]} !important`,
-    color: theme.white,
-
-    [`& .${getRef("iconWrapper")}`]: {
-      color: theme.white,
-    },
-  },
-}));
 
 export default function Index() {
   // const { data, error } = useSWR(API.charList.get);
 
-  const [filters, setFilters] = useState<{ [x: string]: string[] }>({
-    opRate: [],
-    profession: [],
-    sex: [],
-    rate: [],
-    deployment: [],
-    accessChannel: [],
-    timeRange: [],
+  const [filters, setFilters] = useState<FilterType>({
+    chipGroup: {
+      opRate: [],
+      profession: [],
+      sex: [],
+      rate: [],
+      deployment: [],
+      accessChannel: [],
+    },
+    dateRange: [0, 100],
   });
 
-  const { classes } = useStyles();
+  const handleDateSelectChange = useCallback(
+    (values: [number, number]) => {
+      setFilters((state) => {
+        state.dateRange = [...values];
+        return {
+          ...state,
+        };
+      });
+    },
+    []
+  );
 
   const handleChipsChange = useCallback(
     (values: string[], groupName: string) => {
       setFilters((state) => {
-        state[groupName] = values;
+        state.chipGroup = {
+          ...state.chipGroup,
+          [groupName]: values
+        }
         return {
           ...state,
         };
@@ -53,11 +52,13 @@ export default function Index() {
 
   const filterOpen = useMemo(() => {
     let flag = false;
-    for (let f in filters) {
-      if (filters[f].length !== 0) flag = true;
+    for (let f in filters.chipGroup) {
+      if (filters.chipGroup[f].length !== 0) flag = true;
     }
+    if (filters.dateRange[0] !== 0 || filters.dateRange[1] !== 100)
+      flag = true;
     return flag;
-  }, [filters]);
+  }, [filters.chipGroup, filters.dateRange]);
 
   return (
     <Box
@@ -76,61 +77,7 @@ export default function Index() {
           userSelect: "none",
         }}
       >
-        <Box
-          sx={{
-            boxShadow: "0 1px 2px 2px #eee",
-            borderRadius: "20px",
-            height: "590px",
-            padding: "0 10px",
-            overflow: "hidden",
-          }}
-        >
-          <DateSelect label={"干员实装时间"} />
-          <ChipGroups
-            label={"星级"}
-            tags={Rate}
-            classNames={classes}
-            onChange={(values) => handleChipsChange(values, "rate")}
-          />
-          <ChipGroups
-            label={"职业"}
-            tags={Profession}
-            classNames={classes}
-            onChange={(values) => handleChipsChange(values, "profession")}
-          />
-          <ChipGroups
-            label={"获取渠道"}
-            tags={AccessChannel}
-            classNames={classes}
-            onChange={(values) => handleChipsChange(values, "accessChannel")}
-          />
-          <ChipGroups
-            label={"性别"}
-            tags={Sex}
-            classNames={classes}
-            onChange={(values) => handleChipsChange(values, "sex")}
-          />
-          <ChipGroups
-            label={"部署位"}
-            tags={Deployment}
-            classNames={classes}
-            onChange={(values) => handleChipsChange(values, "deployment")}
-          />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "end",
-            }}
-          >
-            <Button variant="outline" color="dark" radius="xl">
-              重置为全部干员
-            </Button>
-            <Box sx={{ width: "10px" }}></Box>
-            <Button variant="outline" radius="xl">
-              收起筛选面板
-            </Button>
-          </Box>
-        </Box>
+        <FilterBox filters={filters} onChipsChange={handleChipsChange} onDateSelectChange={handleDateSelectChange} />
         <Box
           sx={{
             height: "365px",
