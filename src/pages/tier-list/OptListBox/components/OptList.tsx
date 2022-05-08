@@ -1,19 +1,23 @@
-import { Box, Image } from "@mantine/core";
+import { Box } from "@mantine/core";
 import { useMemo } from "react";
-import { opData, timeMarks } from "src/contexts";
-import { FilterType } from "../FilterBox";
-import OptListItem, { OptListItemType } from "./components/OptListItem";
+import { timeMarks } from "src/contexts";
+import { FilterType } from "../../FilterBox";
+import OptListItem, { OptListItemType } from "./OptListItem";
 
 export default function OptList({
   filters,
   filterOpen = false,
+  data,
 }: {
   filters: FilterType;
   filterOpen?: boolean;
+  data: {
+    [x: string]: any;
+  }
 }) {
   const orderlyList = useMemo(() => {
-    return opData
-      .sort((a, b) => {
+    return data
+      .sort((a: any, b: any) => {
         const diff = parseInt(a.ts) - parseInt(b.ts);
         if (diff === 0) {
           if (a.accessChannel === "限定寻访") return -1;
@@ -22,12 +26,12 @@ export default function OptList({
         }
         return diff;
       })
-  }, [])
+  }, [data])
 
 
   const list = useMemo(() => {
     return (
-      orderlyList.filter((opt) => {
+      orderlyList.filter((opt: any) => {
         if (filterOpen) {
           const startTime = timeMarks[0].ts
           const endTime = timeMarks[timeMarks.length - 1].ts
@@ -47,7 +51,7 @@ export default function OptList({
         }
         return true;
       })
-        .map((opt) => (
+        .map((opt: any) => (
           <OptListItem key={opt.id} opt={opt} type={OptListItemType.NORMAL} />
         )))
   }, [filterOpen, filters.chipGroup, filters.dateRange, orderlyList])
@@ -57,8 +61,7 @@ export default function OptList({
       sx={{
         display: "flex",
         flexFlow: "row wrap",
-        padding: "5px",
-        paddingBottom: "0",
+        paddingTop: "5px"
       }}
     >
       {list}

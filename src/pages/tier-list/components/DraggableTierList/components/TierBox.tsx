@@ -8,7 +8,7 @@ import { opData } from "src/contexts";
 import OptListItem, {
   OptDragItem,
   OptListItemType,
-} from "src/pages/tier-list/OptList/components/OptListItem";
+} from "src/pages/tier-list/OptListBox/components/OptListItem";
 
 export interface Tier {
   value: number;
