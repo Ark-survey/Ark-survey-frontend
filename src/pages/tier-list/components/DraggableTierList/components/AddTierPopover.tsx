@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Popover, Button, Box, Text, NumberInput } from "@mantine/core";
+import { Popover, Button, Box, NumberInput } from "@mantine/core";
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);

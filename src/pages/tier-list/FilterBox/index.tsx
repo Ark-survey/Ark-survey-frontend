@@ -1,24 +1,11 @@
 import { Button, Box, Badge, createStyles } from "@mantine/core";
 import { format } from "date-fns";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { rate, profession, accessChannel, sex, deployment, timeMarks } from "src/contexts";
+import { filterState, filterHeightState } from "src/recoil/filterState";
 import { ChipGroups } from "../components/ChipGroups";
 import { DateSelect } from "../components/DateSelect";
-
-export interface FilterType {
-  chipGroup: { [x: string]: string[] };
-  dateRange: [number, number];
-  fold: boolean;
-}
-
-interface FilterBoxProps {
-  filters: FilterType;
-  height: number;
-  onFoldStatusChange: () => void;
-  onChipsChange: (values: string[], key: string) => void;
-  onDateSelectChange: (value: [number, number]) => void;
-  onResetFilter: () => void;
-}
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   badge: {
@@ -27,8 +14,61 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-export default function Index({ filters, height, onChipsChange, onDateSelectChange, onResetFilter, onFoldStatusChange }: FilterBoxProps) {
+export default function Index() {
+  const [filters, setFilters] = useRecoilState(filterState);
+  const filterHeight = useRecoilValue(filterHeightState);
+
   const { classes } = useStyles();
+
+  const handleDateSelectChange = useCallback(
+    (values: [number, number]) => {
+      let newFilters = {
+        ...filters,
+        dateRange: values
+      }
+      setFilters(newFilters);
+    },
+    [filters, setFilters]
+  );
+
+  const handleChipsChange = useCallback(
+    (values: string[], groupName: string) => {
+      let newFilters = {
+        ...filters,
+        chipGroup: {
+          ...filters.chipGroup,
+          [groupName]: values
+        }
+      }
+      setFilters(newFilters);
+    },
+    [filters, setFilters]
+  );
+
+  const handleResetFilter = useCallback(
+    () => {
+      let newFilters = {
+        fold: filters.fold,
+        chipGroup: {
+          opRate: [],
+          profession: [],
+          sex: [],
+          rate: [],
+          deployment: [],
+          accessChannel: [],
+        },
+        dateRange: [0, 100] as [number, number],
+      }
+      setFilters(newFilters);
+    },
+    [filters.fold, setFilters]
+  )
+
+  useEffect(() => {
+    handleResetFilter()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const chipGroupList = useMemo(() => {
     return (
       <>
@@ -36,35 +76,35 @@ export default function Index({ filters, height, onChipsChange, onDateSelectChan
           label={"星级"}
           tags={rate}
           values={filters.chipGroup["rate"]}
-          onChange={(values) => onChipsChange(values, "rate")}
+          onChange={(values) => handleChipsChange(values, "rate")}
         />
         <ChipGroups
           label={"职业"}
           tags={profession}
           values={filters.chipGroup["profession"]}
-          onChange={(values) => onChipsChange(values, "profession")}
+          onChange={(values) => handleChipsChange(values, "profession")}
         />
         <ChipGroups
           label={"获取渠道"}
           tags={accessChannel}
           values={filters.chipGroup["accessChannel"]}
-          onChange={(values) => onChipsChange(values, "accessChannel")}
+          onChange={(values) => handleChipsChange(values, "accessChannel")}
         />
         <ChipGroups
           label={"性别"}
           tags={sex}
           values={filters.chipGroup["sex"]}
-          onChange={(values) => onChipsChange(values, "sex")}
+          onChange={(values) => handleChipsChange(values, "sex")}
         />
         <ChipGroups
           label={"部署位"}
           tags={deployment}
           values={filters.chipGroup["deployment"]}
-          onChange={(values) => onChipsChange(values, "deployment")}
+          onChange={(values) => handleChipsChange(values, "deployment")}
         />
       </>
     )
-  }, [filters.chipGroup, onChipsChange])
+  }, [filters.chipGroup, handleChipsChange])
 
   const filterBlock = useMemo(() => {
     if (filters.chipGroup["rate"].length === 0 &&
@@ -125,7 +165,7 @@ export default function Index({ filters, height, onChipsChange, onDateSelectChan
         transition: 'all 1s',
         boxShadow: "0 1px 2px 2px #eee",
         borderRadius: "0 0 20px 20px",
-        height,
+        height: filterHeight,
         padding: "0 10px",
         overflow: "hidden"
       }}
@@ -135,7 +175,7 @@ export default function Index({ filters, height, onChipsChange, onDateSelectChan
         marginTop: filters.fold ? '-532px' : '0'
       }}>
         <DateSelect
-          value={filters["dateRange"]} label={"干员实装时间"} onChange={onDateSelectChange} />
+          value={filters["dateRange"]} label={"干员实装时间"} onChange={handleDateSelectChange} />
         {chipGroupList}
       </Box>
       <Box
@@ -148,7 +188,7 @@ export default function Index({ filters, height, onChipsChange, onDateSelectChan
           marginRight: filters.fold ? '0' : '-478px'
         }}
       >
-        <Button variant="outline" color="dark" radius="xl" onClick={onResetFilter}>
+        <Button variant="outline" color="dark" radius="xl" onClick={handleResetFilter}>
           重置为全部干员
         </Button>
         <Box sx={{

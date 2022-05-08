@@ -1,22 +1,18 @@
 import { Box } from "@mantine/core";
 import { useMemo } from "react";
+import { useRecoilValue } from "recoil";
 import { timeMarks } from "src/contexts";
-import { FilterType } from "../../FilterBox";
+import { filterOpenState, filterState } from "src/recoil/filterState";
+import { optState } from "src/recoil/optState";
 import OptListItem, { OptListItemType } from "./OptListItem";
 
-export default function OptList({
-  filters,
-  filterOpen = false,
-  data,
-}: {
-  filters: FilterType;
-  filterOpen?: boolean;
-  data: {
-    [x: string]: any;
-  }
-}) {
+export default function OptList() {
+  const filters = useRecoilValue(filterState);
+  const opts = useRecoilValue(optState);
+  const filterOpen = useRecoilValue(filterOpenState);
+
   const orderlyList = useMemo(() => {
-    return data
+    return [...opts]
       .sort((a: any, b: any) => {
         const diff = parseInt(a.ts) - parseInt(b.ts);
         if (diff === 0) {
@@ -26,7 +22,7 @@ export default function OptList({
         }
         return diff;
       })
-  }, [data])
+  }, [opts])
 
 
   const list = useMemo(() => {

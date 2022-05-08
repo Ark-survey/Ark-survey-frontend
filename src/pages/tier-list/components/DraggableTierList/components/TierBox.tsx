@@ -1,5 +1,5 @@
-import { ActionIcon, Box } from "@mantine/core";
-import { useCallback, useMemo, useState } from "react";
+import { Box } from "@mantine/core";
+import { useMemo } from "react";
 import DeleteTier from "./DeleteTierPopover";
 import EditTierPopover from "./EditTierPopover";
 import { useDrop } from "react-dnd";
@@ -9,11 +9,8 @@ import OptListItem, {
   OptDragItem,
   OptListItemType,
 } from "src/pages/tier-list/OptListBox/components/OptListItem";
+import { Tier } from "src/recoil/tierState";
 
-export interface Tier {
-  value: number;
-  optIds: string[];
-}
 
 /**
  * @param value tier value

@@ -1,31 +1,45 @@
 import { Box, Overlay } from "@mantine/core";
 import { useDrop } from "react-dnd";
 import OptList from "./components/OptList";
-import { FilterType } from "../FilterBox";
 import { ItemTypes } from "src/common";
 import { OptDragItem } from "./components/OptListItem";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { optState } from "src/recoil/optState";
+import { tierState } from "src/recoil/tierState";
+import { filterHeightState, filterState } from "src/recoil/filterState";
 
-interface OptListItemProps {
-  opData: {
-    [x: string]: any;
-  };
-  filters: FilterType;
-  filterHeight: number;
-  filterOpen: boolean;
-  onOptReturn: (item: OptDragItem) => void;
-}
+export default function OptListItem() {
+  const filters = useRecoilValue(filterState);
+  const [tiers, setTiers] = useRecoilState(tierState);
+  const [opts, setOpts] = useRecoilState(optState);
+  const filterHeight = useRecoilValue(filterHeightState);
 
-export default function OptListItem({
-  opData,
-  filters,
-  filterHeight,
-  filterOpen,
-  onOptReturn
-}: OptListItemProps) {
+  const handleOptReturn = ({ fromTierIndex, opt }: OptDragItem) => {
+    const index = opts.findIndex((o: any) => o.id === opt.id)
+    let newOpts = opts.map(
+      (item, i) => {
+        if (index === i) {
+          return {
+            ...item,
+            selected: true
+          }
+        }
+        return item
+      }
+    )
+    setOpts(newOpts);
+
+    let newTiers = tiers.map(item => ({ ...item }))
+    newTiers[fromTierIndex ?? 0].optIds = newTiers[
+      fromTierIndex ?? 0
+    ].optIds.filter((item) => item !== opt.id)
+    setTiers(newTiers)
+  }
+
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: ItemTypes.OPERATOR,
-      drop: onOptReturn,
+      drop: handleOptReturn,
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
       }),
@@ -65,7 +79,7 @@ export default function OptListItem({
         "::-webkit-scrollbar": { width: "0 !important" },
         overflow: "auto",
       }}>
-        <OptList data={opData} filters={filters} filterOpen={filterOpen} />
+        <OptList />
       </Box>
     </Box>
   )

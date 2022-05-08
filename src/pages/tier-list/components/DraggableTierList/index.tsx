@@ -1,19 +1,46 @@
 import { Box, Button } from "@mantine/core";
+import { useRecoilState } from "recoil";
 import Header from "src/components/Header";
+import { optState } from "src/recoil/optState";
+import { tierState } from "src/recoil/tierState";
 import {
-  OptDragItem,
+  OptDragItem, OptListItemType,
 } from "../../OptListBox/components/OptListItem";
 import AddTierPopover from "./components/AddTierPopover";
 import ResetAllOptPopover from "./components/ResetAllOptPopover";
-import TierBox, { Tier } from "./components/TierBox";
+import TierBox from "./components/TierBox";
 import UploadPopover from "./components/UploadPopover";
 
-interface DraggableTierListProps {
-  tierList: Tier[],
-  onDropOptOnTier: (item: OptDragItem, toTierIndex: number) => void;
-}
+export default function Index() {
+  const [tiers, setTiers] = useRecoilState(tierState);
+  const [opts, setOpts] = useRecoilState(optState)
 
-export default function Index({ tierList, onDropOptOnTier }: DraggableTierListProps) {
+  const handleDropOptOnTier = ({ opt, type, fromTierIndex }: OptDragItem, toTierIndex: number) => {
+    if (type === OptListItemType.NORMAL || (type === OptListItemType.TIER && fromTierIndex !== toTierIndex)) {
+      const index = opts.findIndex((o: any) => o.id === opt.id)
+      let newOpts = opts.map(
+        (item, i) => {
+          if (index === i) {
+            return {
+              ...item,
+              selected: true
+            }
+          }
+          return item
+        }
+      )
+      setOpts(newOpts);
+
+      let newTiers = tiers.map(item => ({ ...item }))
+      if (type === OptListItemType.TIER) {
+        newTiers[fromTierIndex ?? 0].optIds = tiers[
+          fromTierIndex ?? 0
+        ].optIds.filter((item) => item !== opt.id)
+      }
+      newTiers[toTierIndex].optIds = [...tiers[toTierIndex].optIds, opt.id]
+      setTiers(newTiers)
+    }
+  };
 
   return (
     <Box
@@ -48,12 +75,12 @@ export default function Index({ tierList, onDropOptOnTier }: DraggableTierListPr
             margin: "15px",
           }}
         >
-          {tierList.map((tier, tierIndex) => (
+          {tiers.map((tier, tierIndex) => (
             <TierBox
               key={tier.value}
               tier={tier}
               tierIndex={tierIndex}
-              onDropOpt={(item) => onDropOptOnTier(item, tierIndex)}
+              onDropOpt={(item) => handleDropOptOnTier(item, tierIndex)}
               operationDisplay
             />
           ))}
