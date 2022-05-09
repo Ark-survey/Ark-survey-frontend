@@ -6,7 +6,7 @@ import { updateOptSelected } from 'src/store/slice/optSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 
-export default function DeleteTierPopover({ tierIndex }: { tierIndex: number }) {
+export default function DeleteTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
 
   const tiers = useSelector((state: RootState) => state.tiers);
@@ -14,10 +14,10 @@ export default function DeleteTierPopover({ tierIndex }: { tierIndex: number }) 
   const dispatch = useDispatch();
 
   const handleConfirm = () => {
-    dispatch(delTier({tierIndex}))
+    dispatch(delTier({tierValue}))
 
     opts.forEach((opt, index) => {
-      console.log(!!(tiers[tierIndex].optIds.includes(opt.id)));
+      const tierIndex = tiers.findIndex(item => item.value === tierValue);
       if (tiers[tierIndex].optIds.includes(opt.id)) {
         dispatch(updateOptSelected({optIndex:index, value:false}))
       }

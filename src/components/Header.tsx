@@ -29,6 +29,7 @@ export default function Index({ title, children }: HeaderProps) {
       sx={{
         display: "flex",
         justifyContent: "end",
+        alignItems:'center'
       }}
     >
       {children}

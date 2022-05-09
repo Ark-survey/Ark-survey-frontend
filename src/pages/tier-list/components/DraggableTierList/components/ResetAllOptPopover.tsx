@@ -13,8 +13,8 @@ export default function ResetAllOptPopover() {
   const dispatch = useDispatch();
 
   const handleConfirm = () => {
-    tiers.forEach((tier,index) => {
-      dispatch(delAllOptByTier({tierIndex: index}))
+    tiers.forEach((tier) => {
+      dispatch(delAllOptByTier({tierValue: tier.value}))
     })
       
     dispatch(updateAllOptSelected(false))
@@ -29,11 +29,11 @@ export default function ResetAllOptPopover() {
       target={
         <Button
           variant="outline"
-          color="dark"
+          color="red"
           radius="xl"
           onClick={() => setOpened((o) => !o)}
         >
-          全部放回
+          清空
         </Button>
       }
       width={160}

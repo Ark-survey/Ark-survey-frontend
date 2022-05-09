@@ -11,13 +11,11 @@ import OptListItem, {
 } from "src/pages/tier-list/OptListBox/components/OptListItem";
 import { Tier } from "src/store/slice/tierSlice";
 
-
 /**
  * @param value tier value
  */
 interface TierBoxProps {
   tier: Tier;
-  tierIndex: number;
   operationDisplay?: boolean;
   onDropOpt: (item: OptDragItem) => void;
 }
@@ -25,7 +23,6 @@ interface TierBoxProps {
 export default function TierBox({
   tier,
   operationDisplay = false,
-  tierIndex,
   onDropOpt,
 }: TierBoxProps) {
   const [{ isOver }, drop] = useDrop(
@@ -42,24 +39,24 @@ export default function TierBox({
     const opts = opData.filter((opt) => tier.optIds.indexOf(opt.id) > -1);
     let cache = [];
     for (let i in opts) {
-      if (i === "4") {
-        cache.push(
-          <Box sx={{ width: "90px" }}></Box>,
-          <Box sx={{ width: "90px" }}></Box>,
-          <Box sx={{ width: "90px" }}></Box>
-        );
-      }
+      // if (i === "4") {
+      //   cache.push(
+      //     <Box sx={{ width: "90px" }}></Box>,
+      //     <Box sx={{ width: "90px" }}></Box>,
+      //     <Box sx={{ width: "90px" }}></Box>
+      //   );
+      // }
       cache.push(
         <OptListItem
           key={opts[i].id}
           opt={opts[i]}
-          fromTierIndex={tierIndex}
+          fromTierValue={tier.value}
           type={OptListItemType.TIER}
         />
       );
     }
     return cache;
-  }, [tier.optIds, tierIndex]);
+  }, [tier.optIds, tier.value]);
 
   return (
     <>
@@ -94,34 +91,36 @@ export default function TierBox({
           {"T " + tier.value}
         </Box>
         {operationDisplay && (
-          <Box
-            sx={{
-              position: "absolute",
-              top: "30px",
-              left: "-10px",
-            }}
-          >
-            <EditTierPopover tierIndex={tierIndex} />
-            <Box sx={{ height: "5px" }} />
-            <DeleteTier tierIndex={tierIndex} />
-          </Box>
+          <>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "30px",
+                left: "-10px",
+              }}
+            >
+              <EditTierPopover tierValue={tier.value} />
+              <Box sx={{ height: "5px" }} />
+              <DeleteTier tierValue={tier.value} />
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                fontSize: "65px",
+                right: "20px",
+                lineHeight: "110px",
+                fontWeight: 900,
+                color: "#eee",
+                top: 0,
+                zIndex: -1,
+                WebkitTextStroke: isOver ? "2px #ccc" : "2px #eee",
+                WebkitTextFillColor: isOver ? "" : "transparent",
+              }}
+            >
+              {"Tier " + tier.value}  
+            </Box>
+          </>
         )}
-        <Box
-          sx={{
-            position: "absolute",
-            fontSize: "65px",
-            right: "20px",
-            lineHeight: "110px",
-            fontWeight: 900,
-            color: "#eee",
-            top: 0,
-            zIndex: -1,
-            WebkitTextStroke: isOver ? "2px #ccc" : "2px #eee",
-            WebkitTextFillColor: isOver ? "" : "transparent",
-          }}
-        >
-          {"Tier " + tier.value}
-        </Box>
       </Box>
     </>
   );

@@ -13,33 +13,59 @@ import AddTierPopover from "./components/AddTierPopover";
 import ResetAllOptPopover from "./components/ResetAllOptPopover";
 import TierBox from "./components/TierBox";
 import UploadPopover from "./components/UploadPopover";
+import { useRef, useState } from "react";
+// import html2canvas from "html2canvas";
+// import { format } from "date-fns";
 
 export default function Index() {
   const tiers = useSelector((state: RootState) => state.tiers);
   const opts = useSelector((state: RootState) => state.opts);
   const dispatch = useDispatch();
+  const tiersBox = useRef<HTMLDivElement>(null);
 
-  const handleDropOptOnTier = ({ opt, type, fromTierIndex }: OptDragItem, toTierIndex: number) => {
-    if (type === OptListItemType.NORMAL || (type === OptListItemType.TIER && fromTierIndex !== toTierIndex)) {
+  const [makingImg, setMakingImg] = useState(false)
+
+  const handleDropOptOnTier = ({ opt, type, fromTierValue }: OptDragItem, toTierValue: number) => {
+    console.log(type === OptListItemType.TIER && fromTierValue !== toTierValue);
+    
+    if (type === OptListItemType.NORMAL || (type === OptListItemType.TIER && fromTierValue !== toTierValue)) {
       const index = opts.findIndex((o: any) => o.id === opt.id)
       dispatch(updateOptSelected({ optIndex: index, value: true }))
       
       if (type === OptListItemType.TIER) {
         dispatch(
           delOptByTier({
-            tierIndex: fromTierIndex ?? 0,
+            tierValue: fromTierValue ?? 0,
             optId: opt.id
           }
         ))
       }
+
       dispatch(
         addOptByTier({
-          tierIndex: toTierIndex,
+          tierValue: toTierValue,
           optId: opt.id
         })
       )
     }
   };
+
+  // const makeTierImg = () => {
+  //   setMakingImg(true)
+  //   setTimeout(() => {
+  //     if (tiersBox.current) {
+  //         html2canvas(tiersBox.current, {
+  //           allowTaint: true
+  //         }).then((canvas) => {
+  //           var a = document.createElement("a");
+  //           a.href = canvas.toDataURL("image/png");
+  //           a.download = '等级表 ' + format(new Date().getTime(),'yy-MM-dd hh-mm-ss');
+  //           a.click();
+  //         });
+  //     }
+  //     setMakingImg(false)
+  //   })
+  // }
 
   return (
     <Box
@@ -57,30 +83,32 @@ export default function Index() {
         <Box sx={{ width: "10px" }}></Box>
         <AddTierPopover />
         <Box sx={{ width: "10px" }}></Box>
-        <Button variant="outline" color="dark" radius="xl" onClick={() => { }}>
+        {/* <Button variant="outline" color="blue" radius="xl" onClick={makeTierImg}>
           生成截图
         </Button>
-        <Box sx={{ width: "10px" }}></Box>
+        <Box sx={{ width: "10px" }}></Box> */}
         <UploadPopover />
       </Header>
-      <Box sx={{
-        overflow: "auto",
-        marginTop: '2px',
-        height: 'calc(100% - 68px)',
-        "::-webkit-scrollbar": { width: "0 !important" },
-      }}>
+      <Box 
+        ref={tiersBox}
+        sx={{
+          overflow: "auto",
+          marginTop: '2px',
+          height: 'calc(100% - 68px)',
+          "::-webkit-scrollbar": { width: "0 !important" },
+        }}
+      >
         <Box
           sx={{
             margin: "15px",
           }}
         >
-          {tiers.map((tier, tierIndex) => (
+          {tiers.map((tier) => (
             <TierBox
               key={tier.value}
               tier={tier}
-              tierIndex={tierIndex}
-              onDropOpt={(item) => handleDropOptOnTier(item, tierIndex)}
-              operationDisplay
+              onDropOpt={(item) => handleDropOptOnTier(item, tier.value)}
+              operationDisplay={!makingImg}
             />
           ))}
         </Box>

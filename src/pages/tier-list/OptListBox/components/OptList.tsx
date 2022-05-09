@@ -49,16 +49,17 @@ export default function OptList() {
         return true;
       })
         .map((opt: any) => (
-          <OptListItem key={opt.id} opt={opt} type={OptListItemType.NORMAL} />
-        )))
+          <>
+            <OptListItem key={opt.id} opt={opt} type={OptListItemType.NORMAL} />
+          </>
+        ))
+    )
   }, [filterOpen, filters.chipGroup, filters.dateRange, orderlyList])
 
   return (
     <Box
       sx={{
-        display: "flex",
-        flexFlow: "row wrap",
-        paddingTop: "5px"
+        paddingTop: "5px",
       }}
     >
       {list}

@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { useForm } from "@mantine/form";
 
-export default function EditTierPopover({ tierIndex }: { tierIndex: number }) {
+export default function EditTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
 
   const tiers = useSelector((state: RootState) => state.tiers);
@@ -14,7 +14,7 @@ export default function EditTierPopover({ tierIndex }: { tierIndex: number }) {
 
   const form = useForm({
     initialValues: {
-      value: tiers[tierIndex].value,
+      value: tierValue,
     },
 
     validate: {
@@ -24,7 +24,7 @@ export default function EditTierPopover({ tierIndex }: { tierIndex: number }) {
 
   const handleConfirm = ({value}:{value: number}) => {
     dispatch(updateTierValue({
-      tierIndex,
+      tierValue,
       value
     }))
     setOpened(false)

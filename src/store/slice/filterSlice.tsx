@@ -5,10 +5,14 @@ export interface FilterType {
   chipGroup: { [x: string]: string[] };
   dateRange: [number, number];
   fold: boolean;
+  nameDisplay: boolean;
+  mini: boolean;
 }
 
 const initialState: FilterType = {
+  mini: false,
   fold: true,
+  nameDisplay:false,
   chipGroup: {
     opRate: [],
     profession: [],
@@ -36,6 +40,12 @@ export const filterSlice = createSlice({
     changeDateRange: (state, action: PayloadAction<[number, number]>) => {
       state.dateRange = action.payload
     },
+    changeNameDisplay: (state, action: PayloadAction<boolean>) => {
+      state.nameDisplay = action.payload
+    },
+    changeMini: (state, action: PayloadAction<boolean>) => {
+      state.mini = action.payload
+    },
     reset: (state) => {
       state.chipGroup = {
         opRate: [],
@@ -50,7 +60,7 @@ export const filterSlice = createSlice({
   },
 })
 
-export const { changeDateRange, changeFold, changeChipGroup, reset } = filterSlice.actions
+export const { changeDateRange, changeFold, changeChipGroup, changeNameDisplay, changeMini, reset } = filterSlice.actions
 
 export default filterSlice.reducer
 

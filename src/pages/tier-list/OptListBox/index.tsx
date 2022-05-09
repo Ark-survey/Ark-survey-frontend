@@ -16,12 +16,12 @@ export default function OptListItem() {
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
 
-  const handleOptReturn = ({ fromTierIndex, opt }: OptDragItem) => {
+  const handleOptReturn = ({ fromTierValue, opt }: OptDragItem) => {
     const index = opts.findIndex((o: any) => o.id === opt.id)
     dispatch(updateOptSelected({optIndex:index,value:false}))
 
     dispatch(delOptByTier({
-      tierIndex: fromTierIndex ?? 0,
+      tierValue: fromTierValue ?? 0,
       optId: opt.id
     }))
   }

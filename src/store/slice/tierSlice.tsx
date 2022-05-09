@@ -36,21 +36,26 @@ export const tierSlice = createSlice({
       state.push(action.payload);
       state.sort((a,b)=>a.value - b.value);
     },
-    delTier: (state, action: PayloadAction<{tierIndex:number}>) => {
-      state.splice(action.payload.tierIndex,1);
+    delTier: (state, action: PayloadAction<{ tierValue: number }>) => {
+      const tierIndex = state.findIndex(item => item.value === action.payload.tierValue);
+      state.splice(tierIndex, 1);
     },
-    updateTierValue: (state, action: PayloadAction<{tierIndex:number, value: number}>) => {
-      state[action.payload.tierIndex].value = action.payload.value;
+    updateTierValue: (state, action: PayloadAction<{tierValue:number, value: number}>) => {
+      const tierIndex = state.findIndex(item => item.value === action.payload.tierValue);
+      state[tierIndex].value = action.payload.value;
       state.sort((a,b)=>a.value - b.value);
     },
-    addOptByTier: (state, action: PayloadAction<{tierIndex:number, optId: string}>) => {
-      state[action.payload.tierIndex].optIds.push(action.payload.optId);
+    addOptByTier: (state, action: PayloadAction<{tierValue:number, optId: string}>) => {
+      const tierIndex = state.findIndex(item => item.value === action.payload.tierValue);
+      state[tierIndex].optIds.push(action.payload.optId);
     },
-    delOptByTier: (state, action: PayloadAction<{tierIndex:number, optId: string}>) => {
-      state[action.payload.tierIndex].optIds = state[action.payload.tierIndex].optIds.filter(item => !(item === action.payload.optId));
+    delOptByTier: (state, action: PayloadAction<{tierValue:number, optId: string}>) => {
+      const tierIndex = state.findIndex(item => item.value === action.payload.tierValue);
+      state[tierIndex].optIds = state[tierIndex].optIds.filter(item => !(item === action.payload.optId));
     },
-    delAllOptByTier: (state, action: PayloadAction<{ tierIndex: number }>) => {
-      state[action.payload.tierIndex].optIds = [];
+    delAllOptByTier: (state, action: PayloadAction<{ tierValue: number }>) => {
+      const tierIndex = state.findIndex(item => item.value === action.payload.tierValue);
+      state[tierIndex].optIds = [];
     },
   },
 })

@@ -4,13 +4,22 @@ import DraggableTierList from "./components/DraggableTierList";
 import FilterBox from "./FilterBox";
 import OptListBox from "./OptListBox";
 
-import { changeFold } from 'src/store/slice/filterSlice';
+import { changeFold, changeNameDisplay, changeMini } from 'src/store/slice/filterSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
+import { FoldDown, FoldUp } from "tabler-icons-react";
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
+
+  const handleMiniStatusChange = () => {
+    dispatch(changeMini(!filters.mini))
+  }
+
+  const handleNameStatusChange = () => {
+    dispatch(changeNameDisplay(!filters.nameDisplay))
+  }
 
   const handleFoldStatusChange = () => {
     dispatch(changeFold(!filters.fold))
@@ -35,8 +44,16 @@ export default function Index() {
         }}
       >
         <Header title="干员盒">
-          <Button variant="outline" radius="xl" onClick={handleFoldStatusChange}>
-            {filters.fold ? '展开筛选面板' : '收起筛选面板'}
+          <Button size="xs" variant={!filters.mini?"outline":"filled"} color={!filters.mini?"blue":"green"} radius="xl" onClick={handleMiniStatusChange}>
+            {'mini模式'}
+          </Button>
+          <Box sx={{width:'15px'}}></Box>
+          <Button size="xs" variant={!filters.nameDisplay?"outline":"filled"} color={!filters.nameDisplay?"blue":"green"} radius="xl" onClick={handleNameStatusChange}>
+            {'名称模式'}
+          </Button>
+          <Box sx={{width:'15px'}}></Box>
+          <Button size="xs" leftIcon={filters.fold?<FoldDown />:<FoldUp />} variant="outline" radius="xl" onClick={handleFoldStatusChange}>
+            {filters.fold ? '展开面板' : '收起面板'}
           </Button>
         </Header>
         <FilterBox />
