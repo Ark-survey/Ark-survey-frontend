@@ -1,25 +1,20 @@
 import { Box, Button } from "@mantine/core";
-import { useCallback } from "react";
 import Header from "src/components/Header";
 import DraggableTierList from "./components/DraggableTierList";
 import FilterBox from "./FilterBox";
 import OptListBox from "./OptListBox";
-import { filterState } from "src/store/filterState";
-import { useAtom } from "jotai";
+
+import { changeFold } from 'src/store/slice/filterSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "src/store";
 
 export default function Index() {
-  const [filters, setFilters] = useAtom(filterState);
+  const filters = useSelector((state: RootState) => state.filters);
+  const dispatch = useDispatch();
 
-  const handleFoldStatusChange = useCallback(
-    () => {
-      let newFilters = {
-        ...filters,
-        fold: !filters.fold
-      }
-      setFilters(newFilters)
-    },
-    [filters, setFilters]
-  )
+  const handleFoldStatusChange = () => {
+    dispatch(changeFold(!filters.fold))
+  }
 
   return (
     <Box

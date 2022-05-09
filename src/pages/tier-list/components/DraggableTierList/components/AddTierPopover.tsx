@@ -1,23 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover, Button, Box, NumberInput } from "@mantine/core";
-import { tierState } from "src/store/tierState";
-import { useAtom } from "jotai";
+import { useDispatch, useSelector } from 'react-redux';
+import { addTier } from 'src/store/slice/tierSlice';
+import { RootState } from "src/store";
+import { useForm } from "@mantine/form";
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
-  const [value, setValue] = useState(0);
 
-  const [tiers, setTiers] = useAtom(tierState);
+  const tiers = useSelector((state: RootState) => state.tiers);
+  const dispatch = useDispatch();
+  
+  const form = useForm({
+    initialValues: {
+      value: 0,
+    },
 
-  const handleConfirm = () => {
-    let newTiers = [...tiers, {
+    validate: {
+      value: (value) => (tiers.filter(v => v.value === value).length > 0 ? '该等级已经存在' : null),
+    },
+  });
+
+  const handleConfirm = ({value}:{value: number}) => {
+    if (tiers.filter(v => v.value === value).length > 0) {
+      return;
+    }
+      
+    dispatch(addTier({
       value,
       optIds: []
-    }]
-    setTiers(newTiers)
+    }))
+
     setOpened(false)
   }
 
+  useEffect(() => {
+    form.reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [opened])
+  
   return (
     <Popover
       opened={opened}
@@ -31,26 +52,27 @@ export default function UploadPopover() {
       position="bottom"
       withArrow
     >
-      <NumberInput
-        label="等级数值"
-        description="范围[0-9]，保留一位小数"
-        placeholder="请输入"
-        value={value}
-        onChange={(v) => setValue(v ?? 0)}
-        precision={1}
-        step={0.5}
-        min={0}
-        max={9}
-      />
-      <Box sx={{ width: "100%", textAlign: "center" }}>
-        <Button
-          sx={{ marginTop: "15px" }}
-          radius="xl"
-          onClick={handleConfirm}
-        >
-          确认添加
-        </Button>
-      </Box>
+      <form onSubmit={form.onSubmit(handleConfirm)}>
+        <NumberInput
+          label="等级数值"
+          description="范围[0-9]，保留一位小数"
+          placeholder="请输入"
+          {...form.getInputProps('value')}
+          precision={1}
+          step={0.5}
+          min={0}
+          max={9}
+        />
+        <Box sx={{ width: "100%", textAlign: "center" }}>
+          <Button
+            sx={{ marginTop: "15px" }}
+            radius="xl"
+            type="submit"
+          >
+            确认添加
+          </Button>
+        </Box>
+      </form>
     </Popover>
   );
 }

@@ -1,8 +1,11 @@
 import { Box, Button } from "@mantine/core";
-import { useAtom } from "jotai";
 import Header from "src/components/Header";
-import { optState } from "src/store/optState";
-import { tierState } from "src/store/tierState";
+
+import { delOptByTier, addOptByTier } from 'src/store/slice/tierSlice';
+import { updateOptSelected } from 'src/store/slice/optSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "src/store";
+
 import {
   OptDragItem, OptListItemType,
 } from "../../OptListBox/components/OptListItem";
@@ -12,33 +15,29 @@ import TierBox from "./components/TierBox";
 import UploadPopover from "./components/UploadPopover";
 
 export default function Index() {
-  const [tiers, setTiers] = useAtom(tierState);
-  const [opts, setOpts] = useAtom(optState);
+  const tiers = useSelector((state: RootState) => state.tiers);
+  const opts = useSelector((state: RootState) => state.opts);
+  const dispatch = useDispatch();
 
   const handleDropOptOnTier = ({ opt, type, fromTierIndex }: OptDragItem, toTierIndex: number) => {
     if (type === OptListItemType.NORMAL || (type === OptListItemType.TIER && fromTierIndex !== toTierIndex)) {
       const index = opts.findIndex((o: any) => o.id === opt.id)
-      let newOpts = opts.map(
-        (item, i) => {
-          if (index === i) {
-            return {
-              ...item,
-              selected: true
-            }
-          }
-          return item
-        }
-      )
-      setOpts(newOpts);
-
-      let newTiers = tiers.map(item => ({ ...item }))
+      dispatch(updateOptSelected({ optIndex: index, value: true }))
+      
       if (type === OptListItemType.TIER) {
-        newTiers[fromTierIndex ?? 0].optIds = tiers[
-          fromTierIndex ?? 0
-        ].optIds.filter((item) => item !== opt.id)
+        dispatch(
+          delOptByTier({
+            tierIndex: fromTierIndex ?? 0,
+            optId: opt.id
+          }
+        ))
       }
-      newTiers[toTierIndex].optIds = [...tiers[toTierIndex].optIds, opt.id]
-      setTiers(newTiers)
+      dispatch(
+        addOptByTier({
+          tierIndex: toTierIndex,
+          optId: opt.id
+        })
+      )
     }
   };
 

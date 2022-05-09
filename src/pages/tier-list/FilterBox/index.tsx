@@ -1,9 +1,10 @@
 import { Button, Box, Badge, createStyles } from "@mantine/core";
 import { format } from "date-fns";
-import { useAtom } from "jotai";
 import { useCallback, useEffect, useMemo } from "react";
 import { rate, profession, accessChannel, sex, deployment, timeMarks } from "src/contexts";
-import { filterState, filterHeightState } from "src/store/filterState";
+import { filterHeightState, changeChipGroup, changeDateRange, reset } from "src/store/slice/filterSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "src/store";
 import { ChipGroups } from "../components/ChipGroups";
 import { DateSelect } from "../components/DateSelect";
 
@@ -15,53 +16,35 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 }));
 
 export default function Index() {
-  const [filters, setFilters] = useAtom(filterState);
-  const [filterHeight] = useAtom(filterHeightState);
+  const filters = useSelector((state: RootState) => state.filters);
+  const filterHeight = useSelector(filterHeightState);
+  const dispatch = useDispatch();
 
   const { classes } = useStyles();
 
   const handleDateSelectChange = useCallback(
     (values: [number, number]) => {
-      let newFilters = {
-        ...filters,
-        dateRange: values
-      }
-      setFilters(newFilters);
+      dispatch(changeDateRange(values));
     },
-    [filters, setFilters]
+    [dispatch]
   );
 
   const handleChipsChange = useCallback(
     (values: string[], groupName: string) => {
-      let newFilters = {
-        ...filters,
-        chipGroup: {
+      dispatch(
+        changeChipGroup({
           ...filters.chipGroup,
           [groupName]: values
-        }
-      }
-      setFilters(newFilters);
+        }));
     },
-    [filters, setFilters]
+    [dispatch, filters]
   );
 
   const handleResetFilter = useCallback(
     () => {
-      let newFilters = {
-        fold: filters.fold,
-        chipGroup: {
-          opRate: [],
-          profession: [],
-          sex: [],
-          rate: [],
-          deployment: [],
-          accessChannel: [],
-        },
-        dateRange: [0, 100] as [number, number],
-      }
-      setFilters(newFilters);
+      dispatch(reset());
     },
-    [filters.fold, setFilters]
+    [dispatch]
   )
 
   useEffect(() => {

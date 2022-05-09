@@ -1532,6 +1532,11 @@
     react-popper "^2.2.5"
     react-textarea-autosize "^8.3.2"
 
+"@mantine/form@^4.2.4":
+  version "4.2.4"
+  resolved "https://registry.npmmirror.com/@mantine/form/-/form-4.2.4.tgz#37719262bf5dfe6ba5a6cce23b4b87b12a1a836d"
+  integrity sha512-7exttJwSY0yRjzChL6L0NM5i5xxXuGiP4c8quGb7/mxP/hwfUSFMOua3Pme8svP7U8w3gxZL3HWvzGMQQfXqSw==
+
 "@mantine/hooks@^4.2.2":
   version "4.2.2"
   resolved "https://registry.npmmirror.com/@mantine/hooks/-/hooks-4.2.2.tgz#b124776724caad5ec7cf2c07b8942d8a55e1998e"
@@ -5883,11 +5888,6 @@ jest@^27.4.3:
     "@jest/core" "^27.5.1"
     import-local "^3.0.2"
     jest-cli "^27.5.1"
-
-jotai@^1.6.5:
-  version "1.6.5"
-  resolved "https://registry.npmmirror.com/jotai/-/jotai-1.6.5.tgz#989efe63dc65beea23b3a5eab56f689d78e38070"
-  integrity sha512-B+DGV5ALIkIeyA1Bi9yBpdGmcWkmDS/p8C1XFYx9jFBs+lkeOdu0WAozAPCG4Qq1EcQ68vF+07HmPYFN5kf9OQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

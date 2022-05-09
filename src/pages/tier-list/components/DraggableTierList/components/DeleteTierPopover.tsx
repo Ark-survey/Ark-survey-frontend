@@ -1,33 +1,28 @@
 import { useState } from "react";
 import { Popover, Button, Box, Text, ActionIcon } from "@mantine/core";
 import { Trash } from "tabler-icons-react";
-import { tierState } from "src/store/tierState";
-import { optState } from "src/store/optState";
-import { useAtom } from "jotai";
+import { delTier } from 'src/store/slice/tierSlice';
+import { updateOptSelected } from 'src/store/slice/optSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "src/store";
 
 export default function DeleteTierPopover({ tierIndex }: { tierIndex: number }) {
   const [opened, setOpened] = useState(false);
 
-  const [tiers, setTiers] = useAtom(tierState);
-  const [opts, setOpts] = useAtom(optState);
+  const tiers = useSelector((state: RootState) => state.tiers);
+  const opts = useSelector((state: RootState) => state.opts);
+  const dispatch = useDispatch();
 
   const handleConfirm = () => {
-    let newTiers = tiers.filter((tier, index) => {
-      return index !== tierIndex
-    })
-    setTiers(newTiers)
+    dispatch(delTier({tierIndex}))
 
-    let newOpts = opts.map((tier, index) => {
-      console.log(!!(tiers[tierIndex].optIds.includes(tier.id)));
-      if (tiers[tierIndex].optIds.includes(tier.id)) {
-        return {
-          ...tier,
-          selected: false
-        }
+    opts.forEach((opt, index) => {
+      console.log(!!(tiers[tierIndex].optIds.includes(opt.id)));
+      if (tiers[tierIndex].optIds.includes(opt.id)) {
+        dispatch(updateOptSelected({optIndex:index, value:false}))
       }
-      return tier
+      return opt
     })
-    setOpts(newOpts)
 
     setOpened(false)
   }

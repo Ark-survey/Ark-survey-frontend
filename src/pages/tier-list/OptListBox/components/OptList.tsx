@@ -1,15 +1,16 @@
 import { Box } from "@mantine/core";
-import { useAtom } from "jotai";
 import { useMemo } from "react";
 import { timeMarks } from "src/contexts";
-import { filterOpenState, filterState } from "src/store/filterState";
-import { optState } from "src/store/optState";
 import OptListItem, { OptListItemType } from "./OptListItem";
 
+import { useSelector } from "react-redux";
+import { RootState } from "src/store";
+import { filterOpenState } from "src/store/slice/filterSlice";
+
 export default function OptList() {
-  const [filters] = useAtom(filterState);
-  const [opts] = useAtom(optState);
-  const [filterOpen] = useAtom(filterOpenState);
+  const opts = useSelector((state: RootState) => state.opts);
+  const filters = useSelector((state: RootState) => state.filters);
+  const filterOpen = useSelector(filterOpenState);
 
   const orderlyList = useMemo(() => {
     return [...opts]

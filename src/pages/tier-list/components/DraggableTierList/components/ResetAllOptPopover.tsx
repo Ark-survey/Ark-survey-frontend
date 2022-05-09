@@ -1,27 +1,23 @@
 import { useState } from "react";
 import { Popover, Button, Box, Text } from "@mantine/core";
-import { tierState } from "src/store/tierState";
-import { optState } from "src/store/optState";
-import { useAtom } from "jotai";
+
+import { delAllOptByTier } from 'src/store/slice/tierSlice';
+import { updateAllOptSelected } from 'src/store/slice/optSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "src/store";
 
 export default function ResetAllOptPopover() {
   const [opened, setOpened] = useState(false);
 
-  const [tiers, setTiers] = useAtom(tierState);
-  const [opts, setOpts] = useAtom(optState);
+  const tiers = useSelector((state: RootState) => state.tiers);
+  const dispatch = useDispatch();
 
   const handleConfirm = () => {
-    let newTiers = tiers.map(tier => ({
-      ...tier,
-      optIds: []
-    }));
-    setTiers(newTiers)
-
-    let newOpts = opts.map(opt => ({
-      ...opt,
-      selected: false
-    }));
-    setOpts(newOpts)
+    tiers.forEach((tier,index) => {
+      dispatch(delAllOptByTier({tierIndex: index}))
+    })
+      
+    dispatch(updateAllOptSelected(false))
 
     setOpened(false)
   }
