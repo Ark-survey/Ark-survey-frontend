@@ -101,9 +101,9 @@ export default function TierBox({
               left: "-10px",
             }}
           >
-            <EditTierPopover />
+            <EditTierPopover tierIndex={tierIndex} />
             <Box sx={{ height: "5px" }} />
-            <DeleteTier />
+            <DeleteTier tierIndex={tierIndex} />
           </Box>
         )}
         <Box

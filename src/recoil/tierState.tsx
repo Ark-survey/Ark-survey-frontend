@@ -8,7 +8,7 @@ export interface Tier {
 const initialState: Tier[] = [
   {
     value: 0,
-    optIds: [],
+    optIds: ['夜莺'],
   },
   {
     value: 0.5,

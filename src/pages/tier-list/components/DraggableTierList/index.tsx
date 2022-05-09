@@ -84,7 +84,8 @@ export default function Index() {
               operationDisplay
             />
           ))}
-        </Box></Box>
+        </Box>
+      </Box>
     </Box>
   );
 }

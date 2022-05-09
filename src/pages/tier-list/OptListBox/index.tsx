@@ -15,6 +15,8 @@ export default function OptListItem() {
   const filterHeight = useRecoilValue(filterHeightState);
 
   const handleOptReturn = ({ fromTierIndex, opt }: OptDragItem) => {
+    console.log(tiers);
+    
     const index = opts.findIndex((o: any) => o.id === opt.id)
     let newOpts = opts.map(
       (item, i) => {

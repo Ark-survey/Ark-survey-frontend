@@ -1,9 +1,26 @@
 import { useState } from "react";
 import { Popover, Button, Box, NumberInput, ActionIcon } from "@mantine/core";
 import { Edit } from "tabler-icons-react";
+import { useRecoilState } from "recoil";
+import { tierState } from "src/recoil/tierState";
 
-export default function EditTierPopover() {
+export default function EditTierPopover({ tierIndex }: { tierIndex: number }) {
   const [opened, setOpened] = useState(false);
+  const [tiers, setTiers] = useRecoilState(tierState);
+
+  const [value, setValue] = useState(tiers[tierIndex].value);
+
+  const handleConfirm = () => {
+    let newTiers = tiers.map((tiers, index) => {
+      return {
+        ...tiers,
+        value: index === tierIndex ? value : tiers.value
+      }
+    })
+    setTiers(newTiers)
+    setOpened(false)
+  }
+
   return (
     <Popover
       opened={opened}
@@ -29,6 +46,8 @@ export default function EditTierPopover() {
         label="等级数值"
         description="范围[0-9]，保留一位小数"
         placeholder="请输入"
+        value={value}
+        onChange={(v) => setValue(v ?? 0)}
         precision={1}
         step={0.5}
         min={0}
@@ -38,7 +57,7 @@ export default function EditTierPopover() {
         <Button
           sx={{ marginTop: "15px" }}
           radius="xl"
-          onClick={() => setOpened((o) => !o)}
+          onClick={handleConfirm}
         >
           确认修改
         </Button>

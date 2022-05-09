@@ -22,8 +22,8 @@ export default function UploadPopover() {
       withArrow
     >
       <Text size="sm">
-        注意：提交之后页面会显示该等级表的唯一 ID
-        ，请妥善保存，下次进入本页面时输入该 ID 即可获取本次填写的数据。
+        注意：提交之后页面会显示您的唯一 ID
+        ，请妥善保存，下次进入本页面时输入您的 ID 即可获取之前提交的数据。
       </Text>
       <Box sx={{ width: "100%", textAlign: "center" }}>
         <Button
