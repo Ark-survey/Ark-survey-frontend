@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { Popover, Button, Box, NumberInput } from "@mantine/core";
-import { useRecoilState } from "recoil";
-import { tierState } from "src/recoil/tierState";
+import { tierState } from "src/store/tierState";
+import { useAtom } from "jotai";
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
   const [value, setValue] = useState(0);
 
-  const [tiers, setTiers] = useRecoilState(tierState);
+  const [tiers, setTiers] = useAtom(tierState);
 
   const handleConfirm = () => {
     let newTiers = [...tiers, {
       value,
-      optIds:[]
+      optIds: []
     }]
     setTiers(newTiers)
     setOpened(false)
   }
-  
+
   return (
     <Popover
       opened={opened}
@@ -36,7 +36,7 @@ export default function UploadPopover() {
         description="范围[0-9]，保留一位小数"
         placeholder="请输入"
         value={value}
-        onChange={(v)=>setValue(v??0)}
+        onChange={(v) => setValue(v ?? 0)}
         precision={1}
         step={0.5}
         min={0}

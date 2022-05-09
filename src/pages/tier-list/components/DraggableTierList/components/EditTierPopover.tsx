@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Popover, Button, Box, NumberInput, ActionIcon } from "@mantine/core";
 import { Edit } from "tabler-icons-react";
-import { useRecoilState } from "recoil";
-import { tierState } from "src/recoil/tierState";
+import { tierState } from "src/store/tierState";
+import { useAtom } from "jotai";
 
 export default function EditTierPopover({ tierIndex }: { tierIndex: number }) {
   const [opened, setOpened] = useState(false);
-  const [tiers, setTiers] = useRecoilState(tierState);
+  const [tiers, setTiers] = useAtom(tierState);
 
   const [value, setValue] = useState(tiers[tierIndex].value);
 

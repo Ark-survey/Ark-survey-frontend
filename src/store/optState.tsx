@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom } from "jotai";
 import { opData } from "src/contexts";
 
 export interface optType {
@@ -19,9 +19,6 @@ const initialState: optType[] = opData.map(item => ({
   selected: false
 })) as optType[]
 
-const optState = atom({
-  key: 'optState',
-  default: initialState
-});
+const optState = atom(initialState);
 
 export { optState }

@@ -1,9 +1,9 @@
 import { Button, Box, Badge, createStyles } from "@mantine/core";
 import { format } from "date-fns";
+import { useAtom } from "jotai";
 import { useCallback, useEffect, useMemo } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
 import { rate, profession, accessChannel, sex, deployment, timeMarks } from "src/contexts";
-import { filterState, filterHeightState } from "src/recoil/filterState";
+import { filterState, filterHeightState } from "src/store/filterState";
 import { ChipGroups } from "../components/ChipGroups";
 import { DateSelect } from "../components/DateSelect";
 
@@ -15,8 +15,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 }));
 
 export default function Index() {
-  const [filters, setFilters] = useRecoilState(filterState);
-  const filterHeight = useRecoilValue(filterHeightState);
+  const [filters, setFilters] = useAtom(filterState);
+  const [filterHeight] = useAtom(filterHeightState);
 
   const { classes } = useStyles();
 

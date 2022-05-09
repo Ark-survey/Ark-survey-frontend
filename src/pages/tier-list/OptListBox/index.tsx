@@ -3,33 +3,33 @@ import { useDrop } from "react-dnd";
 import OptList from "./components/OptList";
 import { ItemTypes } from "src/common";
 import { OptDragItem } from "./components/OptListItem";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { optState } from "src/recoil/optState";
-import { tierState } from "src/recoil/tierState";
-import { filterHeightState, filterState } from "src/recoil/filterState";
+import { optState } from "src/store/optState";
+import { tierState } from "src/store/tierState";
+import { filterHeightState, filterState } from "src/store/filterState";
+import { useAtom } from "jotai";
 
 export default function OptListItem() {
-  const filters = useRecoilValue(filterState);
-  const [tiers, setTiers] = useRecoilState(tierState);
-  const [opts, setOpts] = useRecoilState(optState);
-  const filterHeight = useRecoilValue(filterHeightState);
+  const [filters] = useAtom(filterState);
+  const [tiers, setTiers] = useAtom(tierState);
+  const [opts, setOpts] = useAtom(optState);
+  const [filterHeight] = useAtom(filterHeightState);
 
   const handleOptReturn = ({ fromTierIndex, opt }: OptDragItem) => {
     console.log(tiers);
-    
+
     const index = opts.findIndex((o: any) => o.id === opt.id)
-    let newOpts = opts.map(
+    const newOpts = opts.map(
       (item, i) => {
         if (index === i) {
           return {
             ...item,
-            selected: true
+            selected: false
           }
         }
         return item
       }
     )
-    setOpts(newOpts);
+    setOpts(newOpts)
 
     let newTiers = tiers.map(item => ({ ...item }))
     newTiers[fromTierIndex ?? 0].optIds = newTiers[

@@ -1,8 +1,8 @@
 import { Box, Button } from "@mantine/core";
-import { useRecoilState } from "recoil";
+import { useAtom } from "jotai";
 import Header from "src/components/Header";
-import { optState } from "src/recoil/optState";
-import { tierState } from "src/recoil/tierState";
+import { optState } from "src/store/optState";
+import { tierState } from "src/store/tierState";
 import {
   OptDragItem, OptListItemType,
 } from "../../OptListBox/components/OptListItem";
@@ -12,8 +12,8 @@ import TierBox from "./components/TierBox";
 import UploadPopover from "./components/UploadPopover";
 
 export default function Index() {
-  const [tiers, setTiers] = useRecoilState(tierState);
-  const [opts, setOpts] = useRecoilState(optState);
+  const [tiers, setTiers] = useAtom(tierState);
+  const [opts, setOpts] = useAtom(optState);
 
   const handleDropOptOnTier = ({ opt, type, fromTierIndex }: OptDragItem, toTierIndex: number) => {
     if (type === OptListItemType.NORMAL || (type === OptListItemType.TIER && fromTierIndex !== toTierIndex)) {

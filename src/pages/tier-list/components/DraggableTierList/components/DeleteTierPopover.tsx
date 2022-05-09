@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Popover, Button, Box, Text, ActionIcon } from "@mantine/core";
 import { Trash } from "tabler-icons-react";
-import { useRecoilState } from "recoil";
-import { tierState } from "src/recoil/tierState";
-import { optState } from "src/recoil/optState";
+import { tierState } from "src/store/tierState";
+import { optState } from "src/store/optState";
+import { useAtom } from "jotai";
 
 export default function DeleteTierPopover({ tierIndex }: { tierIndex: number }) {
   const [opened, setOpened] = useState(false);
 
-  const [tiers, setTiers] = useRecoilState(tierState);
-  const [opts, setOpts] = useRecoilState(optState);
+  const [tiers, setTiers] = useAtom(tierState);
+  const [opts, setOpts] = useAtom(optState);
 
   const handleConfirm = () => {
     let newTiers = tiers.filter((tier, index) => {

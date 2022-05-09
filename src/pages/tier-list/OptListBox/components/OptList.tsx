@@ -1,15 +1,15 @@
 import { Box } from "@mantine/core";
+import { useAtom } from "jotai";
 import { useMemo } from "react";
-import { useRecoilValue } from "recoil";
 import { timeMarks } from "src/contexts";
-import { filterOpenState, filterState } from "src/recoil/filterState";
-import { optState } from "src/recoil/optState";
+import { filterOpenState, filterState } from "src/store/filterState";
+import { optState } from "src/store/optState";
 import OptListItem, { OptListItemType } from "./OptListItem";
 
 export default function OptList() {
-  const filters = useRecoilValue(filterState);
-  const opts = useRecoilValue(optState);
-  const filterOpen = useRecoilValue(filterOpenState);
+  const [filters] = useAtom(filterState);
+  const [opts] = useAtom(optState);
+  const [filterOpen] = useAtom(filterOpenState);
 
   const orderlyList = useMemo(() => {
     return [...opts]

@@ -9,7 +9,7 @@ import OptListItem, {
   OptDragItem,
   OptListItemType,
 } from "src/pages/tier-list/OptListBox/components/OptListItem";
-import { Tier } from "src/recoil/tierState";
+import { Tier } from "src/store/tierState";
 
 
 /**

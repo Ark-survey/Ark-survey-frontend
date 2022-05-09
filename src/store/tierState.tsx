@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom } from "jotai";
 
 export interface Tier {
   value: number;
@@ -36,9 +36,6 @@ const initialState: Tier[] = [
   }
 ]
 
-const tierState = atom({
-  key: 'tierState',
-  default: initialState,
-});
+const tierState = atom(initialState);
 
 export { tierState }

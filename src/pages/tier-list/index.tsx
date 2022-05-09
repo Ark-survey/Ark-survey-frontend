@@ -4,13 +4,11 @@ import Header from "src/components/Header";
 import DraggableTierList from "./components/DraggableTierList";
 import FilterBox from "./FilterBox";
 import OptListBox from "./OptListBox";
-import {
-  useRecoilState,
-} from 'recoil';
-import { filterState } from "src/recoil/filterState";
+import { filterState } from "src/store/filterState";
+import { useAtom } from "jotai";
 
 export default function Index() {
-  const [filters, setFilters] = useRecoilState(filterState);
+  const [filters, setFilters] = useAtom(filterState);
 
   const handleFoldStatusChange = useCallback(
     () => {
