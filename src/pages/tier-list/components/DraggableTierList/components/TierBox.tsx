@@ -70,7 +70,7 @@ export default function TierBox({
         sx={{
           boxSizing: "border-box",
           width: "calc(100% - 20px)",
-          border: isOver ? "2px #ccc solid" : "2px #ccc dashed",
+          border: isOver ? "2px #aaa solid" : "2px #ccc dashed",
           borderRadius: "20px",
           minHeight: filter.mini ? "75px" : '115px',
           position: "relative",

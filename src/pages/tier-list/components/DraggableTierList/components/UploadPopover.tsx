@@ -16,7 +16,7 @@ export default function UploadPopover() {
           leftIcon={<CloudUpload size={14} />}
           onClick={() => setOpened((o) => !o)}
         >
-          提交等级表
+          提交
         </Button>
       }
       width={220}

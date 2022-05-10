@@ -6,6 +6,7 @@ import SWR from "./api";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { useIsMobile } from "./hooks";
+import Nav from "./components/Nav";
 
 function App() {
   const isMobile = useIsMobile()
@@ -13,6 +14,7 @@ function App() {
     <Provider store={store}>
       <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
         <SWR>
+          <Nav />
           <TierList />
         </SWR>
       </DndProvider>

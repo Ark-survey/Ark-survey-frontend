@@ -1,4 +1,4 @@
-import { Box } from "@mantine/core";
+import { Box, Button } from "@mantine/core";
 import Header from "src/components/Header";
 
 import { delOptByTier, addOptByTier } from 'src/store/slice/tierSlice';
@@ -85,10 +85,10 @@ export default function Index() {
         <Box sx={{ width: "10px" }}></Box>
         <AddTierPopover />
         <Box sx={{ width: "10px" }}></Box>
-        {/* <Button variant="outline" color="blue" radius="xl" onClick={makeTierImg}>
-          生成截图
+        <Button disabled size='xs' variant="outline" color="blue" radius="xl" /* onClick={makeTierImg} */>
+          截图
         </Button>
-        <Box sx={{ width: "10px" }}></Box> */}
+        <Box sx={{ width: "10px" }}></Box>
         <UploadPopover />
       </Header>
       <Box

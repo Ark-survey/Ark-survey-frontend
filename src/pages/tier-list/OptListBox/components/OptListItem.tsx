@@ -4,6 +4,7 @@ import { useDrag } from "react-dnd";
 import { RootState } from "src/store";
 import { OptType, updateOptSelecting } from "src/store/slice/optSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { useIsMobile } from "src/hooks";
 
 export enum OptListItemType {
   NORMAL,
@@ -32,6 +33,7 @@ export default function OptListItem({
   const filters = useSelector((state: RootState) => state.filters);
   const opts = useSelector((state: RootState) => state.opts);
   const dispatch = useDispatch();
+  const isMobile = useIsMobile()
 
   const [{ isDragging }, dragger] = useDrag(
     () => ({
@@ -54,7 +56,7 @@ export default function OptListItem({
     <>
       <Box
         key={opt?.id}
-        ref={opt?.picked && type === OptListItemType.NORMAL ? null : dragger}
+        ref={(opt?.picked && type === OptListItemType.NORMAL) || (isMobile && type === OptListItemType.NORMAL) ? null : dragger}
         sx={{
           margin: empty ? "0 5px" : "5px",
           width: filters.mini ? 40 : 80,

@@ -11,7 +11,7 @@ export default function Index({ title, children }: HeaderProps) {
       display: "flex",
       borderBottom: "2px #eee solid",
       padding: "15px",
-      flexFlow:'row wrap'
+      flexFlow: 'row wrap'
     }}
   >
     <Box
@@ -20,10 +20,10 @@ export default function Index({ title, children }: HeaderProps) {
         lineHeight: "30px",
         paddingLeft: 5,
         fontWeight: 900,
-        marginRight:'20px',
+        marginRight: '20px',
         height: "30px",
         marginTop: '6px',
-        whiteSpace:'nowrap'
+        whiteSpace: 'nowrap'
       }}
     >
       {title}
@@ -35,7 +35,7 @@ export default function Index({ title, children }: HeaderProps) {
         display: "flex",
         justifyContent: "end",
         alignItems: 'center',
-        marginTop:'6px'
+        marginTop: '6px'
       }}
     >
       {children}
