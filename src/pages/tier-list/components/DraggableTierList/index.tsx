@@ -1,4 +1,4 @@
-import { Box, Button } from "@mantine/core";
+import { Box } from "@mantine/core";
 import Header from "src/components/Header";
 
 import { delOptByTier, addOptByTier } from 'src/store/slice/tierSlice';
@@ -23,7 +23,7 @@ export default function Index() {
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
-  const [makingImg, setMakingImg] = useState(false)
+  const [makingImg] = useState(false)
 
   const handleDropOptOnTier = ({ opt, type, fromTierValue }: OptDragItem, toTierValue: number) => {
     console.log(type === OptListItemType.TIER && fromTierValue !== toTierValue);

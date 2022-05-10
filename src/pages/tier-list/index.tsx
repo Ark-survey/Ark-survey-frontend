@@ -8,7 +8,6 @@ import { changeFold, changeNameDisplay, changeMini } from 'src/store/slice/filte
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { FoldDown, FoldUp } from "tabler-icons-react";
-import { useChangeSize } from "src/hooks";
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
