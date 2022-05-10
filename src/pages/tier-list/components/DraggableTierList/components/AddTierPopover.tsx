@@ -10,7 +10,7 @@ export default function UploadPopover() {
 
   const tiers = useSelector((state: RootState) => state.tiers);
   const dispatch = useDispatch();
-  
+
   const form = useForm({
     initialValues: {
       value: 0,
@@ -21,11 +21,11 @@ export default function UploadPopover() {
     },
   });
 
-  const handleConfirm = ({value}:{value: number}) => {
+  const handleConfirm = ({ value }: { value: number }) => {
     if (tiers.filter(v => v.value === value).length > 0) {
       return;
     }
-      
+
     dispatch(addTier({
       value,
       optIds: []
@@ -38,13 +38,14 @@ export default function UploadPopover() {
     form.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opened])
-  
+
   return (
     <Popover
       opened={opened}
       onClose={() => setOpened(false)}
       target={
-        <Button radius="xl" variant="outline" color="green" onClick={() => setOpened((o) => !o)}>
+        <Button
+          size="xs" radius="xl" variant="outline" color="green" onClick={() => setOpened((o) => !o)}>
           添加等级
         </Button>
       }

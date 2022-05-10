@@ -4,12 +4,14 @@ import DeleteTier from "./DeleteTierPopover";
 import EditTierPopover from "./EditTierPopover";
 import { useDrop } from "react-dnd";
 import { ItemTypes } from "src/common";
-import { opData } from "src/contexts";
 import OptListItem, {
   OptDragItem,
   OptListItemType,
 } from "src/pages/tier-list/OptListBox/components/OptListItem";
 import { Tier } from "src/store/slice/tierSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "src/store";
+import AddOptsToTierPopover from "./AddOptsToTierPopover";
 
 /**
  * @param value tier value
@@ -25,6 +27,9 @@ export default function TierBox({
   operationDisplay = false,
   onDropOpt,
 }: TierBoxProps) {
+  const opts = useSelector((state: RootState) => state.opts);
+  const filter = useSelector((state: RootState) => state.filters);
+
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: ItemTypes.OPERATOR,
@@ -36,9 +41,9 @@ export default function TierBox({
     []
   );
   const optIMgList = useMemo(() => {
-    const opts = opData.filter((opt) => tier.optIds.indexOf(opt.id) > -1);
+    const optList = opts.filter((opt) => tier.optIds.indexOf(opt.id) > -1);
     let cache = [];
-    for (let i in opts) {
+    for (let i in optList) {
       // if (i === "4") {
       //   cache.push(
       //     <Box sx={{ width: "90px" }}></Box>,
@@ -48,15 +53,15 @@ export default function TierBox({
       // }
       cache.push(
         <OptListItem
-          key={opts[i].id}
-          opt={opts[i]}
+          key={optList[i].id}
+          opt={optList[i]}
           fromTierValue={tier.value}
           type={OptListItemType.TIER}
         />
       );
     }
     return cache;
-  }, [tier.optIds, tier.value]);
+  }, [opts, tier.optIds, tier.value]);
 
   return (
     <>
@@ -67,7 +72,7 @@ export default function TierBox({
           width: "calc(100% - 20px)",
           border: isOver ? "2px #ccc solid" : "2px #ccc dashed",
           borderRadius: "20px",
-          minHeight: "115px",
+          minHeight: filter.mini ? "75px" : '115px',
           position: "relative",
           margin: "0 10px",
           marginBottom: "20px",
@@ -95,20 +100,24 @@ export default function TierBox({
             <Box
               sx={{
                 position: "absolute",
-                top: "30px",
-                left: "-10px",
+                top: filter.mini ? "-10px" : "12px",
+                left: filter.mini ? "" : "-10px",
+                right: filter.mini ? "20px" : "",
+                display: filter.mini ? 'flex' : ''
               }}
             >
+              <AddOptsToTierPopover tierValue={tier.value} />
+              <Box sx={{ width: "6px", height: "4px" }} />
               <EditTierPopover tierValue={tier.value} />
-              <Box sx={{ height: "5px" }} />
+              <Box sx={{ width: "6px", height: "4px" }} />
               <DeleteTier tierValue={tier.value} />
             </Box>
             <Box
               sx={{
                 position: "absolute",
-                fontSize: "65px",
+                fontSize: filter.mini ? '40px' : "65px",
                 right: "20px",
-                lineHeight: "110px",
+                lineHeight: filter.mini ? "75px" : '110px',
                 fontWeight: 900,
                 color: "#eee",
                 top: 0,
@@ -117,7 +126,7 @@ export default function TierBox({
                 WebkitTextFillColor: isOver ? "" : "transparent",
               }}
             >
-              {"Tier " + tier.value}  
+              {"Tier " + tier.value}
             </Box>
           </>
         )}

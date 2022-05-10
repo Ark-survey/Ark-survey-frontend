@@ -2,7 +2,7 @@ import { Box } from "@mantine/core";
 import Header from "src/components/Header";
 
 import { delOptByTier, addOptByTier } from 'src/store/slice/tierSlice';
-import { updateOptSelected } from 'src/store/slice/optSlice';
+import { updateOptPicked, updateOptSelecting } from 'src/store/slice/optSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 
@@ -30,7 +30,8 @@ export default function Index() {
 
     if (type === OptListItemType.NORMAL || (type === OptListItemType.TIER && fromTierValue !== toTierValue)) {
       const index = opts.findIndex((o: any) => o.id === opt.id)
-      dispatch(updateOptSelected({ optIndex: index, value: true }))
+      dispatch(updateOptPicked({ optIndex: index, value: true }))
+      dispatch(updateOptSelecting({ optIndex: index, value: false }))
 
       if (type === OptListItemType.TIER) {
         dispatch(
@@ -93,7 +94,7 @@ export default function Index() {
       <Box
         sx={{
           overflow: "auto",
-          height: '100%',
+          height: "calc(100% - 100px)",
           "::-webkit-scrollbar": { width: "0 !important" },
         }}>
         <Box

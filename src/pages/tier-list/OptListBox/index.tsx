@@ -5,7 +5,7 @@ import { ItemTypes } from "src/common";
 import { OptDragItem } from "./components/OptListItem";
 
 import { delOptByTier } from 'src/store/slice/tierSlice';
-import { updateOptSelected } from 'src/store/slice/optSlice';
+import { updateOptPicked } from 'src/store/slice/optSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { filterHeightState } from "src/store/slice/filterSlice";
@@ -21,7 +21,7 @@ export default function OptListItem() {
 
   const handleOptReturn = ({ fromTierValue, opt }: OptDragItem) => {
     const index = opts.findIndex((o: any) => o.id === opt.id)
-    dispatch(updateOptSelected({ optIndex: index, value: false }))
+    dispatch(updateOptPicked({ optIndex: index, value: false }))
 
     dispatch(delOptByTier({
       tierValue: fromTierValue ?? 0,

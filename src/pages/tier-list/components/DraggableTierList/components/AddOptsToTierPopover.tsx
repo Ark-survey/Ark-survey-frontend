@@ -1,25 +1,22 @@
 import { useState } from "react";
 import { Popover, Button, Box, Text, ActionIcon } from "@mantine/core";
-import { Trash } from "tabler-icons-react";
-import { delTier } from 'src/store/slice/tierSlice';
-import { updateOptPicked } from 'src/store/slice/optSlice';
+import { Plus } from "tabler-icons-react";
+import { updateOptPicked, updateOptSelecting } from 'src/store/slice/optSlice';
+import { addOptByTier } from 'src/store/slice/tierSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 
-export default function DeleteTierPopover({ tierValue }: { tierValue: number }) {
+export default function AddOptsToTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
-
-  const tiers = useSelector((state: RootState) => state.tiers);
   const opts = useSelector((state: RootState) => state.opts);
   const dispatch = useDispatch();
 
   const handleConfirm = () => {
-    dispatch(delTier({ tierValue }))
-
-    const tierIndex = tiers.findIndex(item => item.value === tierValue);
     opts.forEach((opt, index) => {
-      if (tiers[tierIndex].optIds.includes(opt.id)) {
-        dispatch(updateOptPicked({ optIndex: index, value: false }))
+      if (opt.selecting) {
+        dispatch(updateOptPicked({ optIndex: index, value: true }))
+        dispatch(updateOptSelecting({ optIndex: index, value: false }))
+        dispatch(addOptByTier({ tierValue, optId: opt.id }))
       }
       return opt
     })
@@ -40,7 +37,7 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
           radius="xs"
           onClick={() => setOpened((o) => !o)}
         >
-          <Trash />
+          <Plus />
         </ActionIcon>
       }
       width={210}
@@ -48,15 +45,15 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
       placement="center"
       withArrow
     >
-      <Text size="sm">这会删除该等级并放回该等级的干员，确定要继续吗？</Text>
+      <Text size="sm">这会向该等级添加您选中的全部干员，确定要继续吗？</Text>
       <Box sx={{ width: "100%", textAlign: "center" }}>
         <Button
           sx={{ marginTop: "15px" }}
           radius="xl"
-          color={"red"}
+          color={"blue"}
           onClick={handleConfirm}
         >
-          确认删除
+          确认添加
         </Button>
       </Box>
     </Popover>

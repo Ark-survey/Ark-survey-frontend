@@ -11,6 +11,8 @@ export default function UploadPopover() {
       target={
         <Button
           radius="xl"
+          size="xs"
+          disabled
           leftIcon={<CloudUpload size={14} />}
           onClick={() => setOpened((o) => !o)}
         >

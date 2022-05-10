@@ -11,29 +11,34 @@ export interface OptType {
   accessChannel: string,
   ts: number,
   imgUrl: string,
-  selected: boolean
+  picked: boolean,
+  selecting: boolean
 }
 
 const initialState: OptType[] = opData.map(item => ({
   ...item,
-  selected: false
+  picked: false,
+  selecting: false
 })) as OptType[]
 
 export const optSlice = createSlice({
   name: 'opts',
   initialState,
   reducers: {
-    updateOptSelected: (state, action: PayloadAction<{optIndex:number,value:boolean}>) => {
-      state[action.payload.optIndex].selected = action.payload.value
+    updateOptSelecting: (state, action: PayloadAction<{ optIndex: number, value: boolean }>) => {
+      state[action.payload.optIndex].selecting = action.payload.value
     },
-    updateAllOptSelected: (state, action: PayloadAction<boolean>) => {
+    updateOptPicked: (state, action: PayloadAction<{ optIndex: number, value: boolean }>) => {
+      state[action.payload.optIndex].picked = action.payload.value
+    },
+    updateAllOptPicked: (state, action: PayloadAction<boolean>) => {
       state.forEach((item) => {
-        item.selected = action.payload
-      }) 
+        item.picked = action.payload
+      })
     },
   },
 })
 
-export const { updateOptSelected, updateAllOptSelected } = optSlice.actions
+export const { updateOptPicked, updateAllOptPicked, updateOptSelecting } = optSlice.actions
 
 export default optSlice.reducer
