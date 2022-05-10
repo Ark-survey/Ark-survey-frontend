@@ -704,7 +704,7 @@ export const timeMarks = [
   },
   {
     id: "0.5周年",
-    name: "0.5周年",
+    name: " ",
     ts: 1572595200,
   },
   {
@@ -714,7 +714,7 @@ export const timeMarks = [
   },
   {
     id: "1.5周年",
-    name: "1.5周年",
+    name: " ",
     ts: 1604217600,
   },
   {
@@ -724,7 +724,7 @@ export const timeMarks = [
   },
   {
     id: "2.5周年",
-    name: "2.5周年",
+    name: " ",
     ts: 1635753600,
   },
   {

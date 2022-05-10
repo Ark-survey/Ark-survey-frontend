@@ -45,7 +45,7 @@ export default function UploadPopover() {
       onClose={() => setOpened(false)}
       target={
         <Button radius="xl" variant="outline" color="green" onClick={() => setOpened((o) => !o)}>
-          添加
+          添加等级
         </Button>
       }
       width={200}

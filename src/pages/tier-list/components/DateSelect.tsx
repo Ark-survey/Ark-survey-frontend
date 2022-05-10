@@ -44,6 +44,7 @@ export function DateSelect({ value, classNames, onChange, label }: DateSelectPro
               marginTop: 5,
             },
           }}
+          size="xs"
           label={(val) =>
             format(
               new Date(

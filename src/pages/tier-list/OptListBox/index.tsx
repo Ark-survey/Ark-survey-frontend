@@ -9,6 +9,7 @@ import { updateOptSelected } from 'src/store/slice/optSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { filterHeightState } from "src/store/slice/filterSlice";
+import { useChangeSize } from "src/hooks";
 
 export default function OptListItem() {
   const filters = useSelector((state: RootState) => state.filters);
@@ -16,9 +17,11 @@ export default function OptListItem() {
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
 
+  const size = useChangeSize()
+
   const handleOptReturn = ({ fromTierValue, opt }: OptDragItem) => {
     const index = opts.findIndex((o: any) => o.id === opt.id)
-    dispatch(updateOptSelected({optIndex:index,value:false}))
+    dispatch(updateOptSelected({ optIndex: index, value: false }))
 
     dispatch(delOptByTier({
       tierValue: fromTierValue ?? 0,
@@ -40,13 +43,14 @@ export default function OptListItem() {
     <Box
       ref={drop}
       sx={{
+        maxHeight: size.width < 720 ? (filters.mini ? '160px' : '600px') : '',
         height: filters.fold ? "calc(100% - 85px - " + filterHeight + "px)" : "calc(100% -  85px - " + filterHeight + "px)",
         margin: "0 13px",
         overflow: "hidden",
-        transition: 'height 1s',
+        transition: 'all 1s',
         // border: '2px #ccc solid',
         borderRadius: '0 0 20px 20px',
-        position: 'relative',
+        position: 'relative'
       }}>
       {isOver &&
         <Overlay
@@ -59,7 +63,7 @@ export default function OptListItem() {
             fontSize: isOver ? '24px' : '30px',
             fontWeight: 600,
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         >
           {"拖到这里放回干员"}

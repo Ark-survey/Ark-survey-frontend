@@ -1,4 +1,4 @@
-import { Box, Button } from "@mantine/core";
+import { Box, Button, Container, Stack } from "@mantine/core";
 import Header from "src/components/Header";
 import DraggableTierList from "./components/DraggableTierList";
 import FilterBox from "./FilterBox";
@@ -8,6 +8,7 @@ import { changeFold, changeNameDisplay, changeMini } from 'src/store/slice/filte
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { FoldDown, FoldUp } from "tabler-icons-react";
+import { useChangeSize } from "src/hooks";
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
@@ -25,42 +26,55 @@ export default function Index() {
     dispatch(changeFold(!filters.fold))
   }
 
+
   return (
-    <Box
-      sx={{
-        maxWidth: "1210px",
-        display: "flex",
-        margin: "0 auto",
-        marginTop: "100px",
-      }}
-    >
-      <Box
+    <Container size={1400}>
+      <Stack
+        spacing={20}
         sx={{
-          width: "480px",
-          boxShadow: "0 0 5px 5px #eee",
-          borderRadius: "20px",
-          userSelect: "none",
-          maxHeight: '890px'
+          flexFlow: "row wrap",
+          alignItems: "stretch"
         }}
       >
-        <Header title="干员盒">
-          <Button size="xs" variant={!filters.mini?"outline":"filled"} color={!filters.mini?"blue":"green"} radius="xl" onClick={handleMiniStatusChange}>
-            {'mini模式'}
-          </Button>
-          <Box sx={{width:'15px'}}></Box>
-          <Button size="xs" variant={!filters.nameDisplay?"outline":"filled"} color={!filters.nameDisplay?"blue":"green"} radius="xl" onClick={handleNameStatusChange}>
-            {'名称模式'}
-          </Button>
-          <Box sx={{width:'15px'}}></Box>
-          <Button size="xs" leftIcon={filters.fold?<FoldDown />:<FoldUp />} variant="outline" radius="xl" onClick={handleFoldStatusChange}>
-            {filters.fold ? '展开面板' : '收起面板'}
-          </Button>
-        </Header>
-        <FilterBox />
-        <OptListBox />
-        <Box sx={{ width: "100%", height: "15px" }}></Box>
-      </Box>
-      <DraggableTierList />
-    </Box >
+        <Box
+          sx={{
+            flex: '1',
+            minWidth: "326px",
+            maxWidth: "726px",
+            boxShadow: "0 0 5px 5px #eee",
+            borderRadius: "20px",
+            userSelect: "none",
+            maxHeight: '890px',
+            overflow: 'hidden'
+          }}>
+          <Box
+            sx={{
+              overflow: "auto",
+              height: '100%',
+              "::-webkit-scrollbar": { width: "0 !important" },
+            }}
+          >
+            <Header title="干员盒">
+              <Button size="xs" variant={!filters.mini ? "outline" : "filled"} color={!filters.mini ? "blue" : "green"} radius="xl" onClick={handleMiniStatusChange}>
+                {'MINI'}
+              </Button>
+              <Box sx={{ width: '15px' }}></Box>
+              <Button size="xs" variant={!filters.nameDisplay ? "outline" : "filled"} color={!filters.nameDisplay ? "blue" : "green"} radius="xl" onClick={handleNameStatusChange}>
+                {'名称'}
+              </Button>
+              <Box sx={{ width: '15px' }}></Box>
+              <Button size="xs" variant="outline" radius="xl" onClick={handleFoldStatusChange}>
+                {filters.fold ? <FoldDown /> : <FoldUp />}
+                {/* { filters.fold ? '展开' : '收起'} */}
+              </Button>
+            </Header>
+            <FilterBox />
+            <OptListBox />
+            <Box sx={{ width: "100%", height: "15px" }}></Box>
+          </Box>
+        </Box>
+        <DraggableTierList />
+      </Stack >
+    </Container>
   );
 }

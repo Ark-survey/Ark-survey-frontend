@@ -23,12 +23,7 @@ export default function OptList() {
         }
         return diff;
       })
-  }, [opts])
-
-
-  const list = useMemo(() => {
-    return (
-      orderlyList.filter((opt: any) => {
+      .filter((opt: any) => {
         if (filterOpen) {
           const startTime = timeMarks[0].ts
           const endTime = timeMarks[timeMarks.length - 1].ts
@@ -48,21 +43,34 @@ export default function OptList() {
         }
         return true;
       })
-        .map((opt: any) => (
-          <>
-            <OptListItem key={opt.id} opt={opt} type={OptListItemType.NORMAL} />
-          </>
-        ))
+  }, [filterOpen, filters.chipGroup, filters.dateRange, opts])
+
+
+  const list = useMemo(() => {
+    return (
+      orderlyList
+        .map((opt: any, index: number) => {
+          return (
+            <>
+              <OptListItem key={opt.id} opt={opt} type={OptListItemType.NORMAL} />
+              {index === orderlyList.length - 1 &&
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((i, index) => <OptListItem key={'e-' + index} empty type={OptListItemType.NORMAL} />)
+              }
+            </>
+          )
+        })
     )
-  }, [filterOpen, filters.chipGroup, filters.dateRange, orderlyList])
+  }, [orderlyList])
 
   return (
     <Box
       sx={{
         paddingTop: "5px",
+        display: 'flex',
+        flexFlow: 'row wrap'
       }}
     >
-      {list}
+      {orderlyList.length > 0 ? list : <Box sx={{ width: '100%', textAlign: 'center', marginTop: '10px', color: '#ccc' }}>没有符合条件的干员</Box>}
     </Box>
   );
 

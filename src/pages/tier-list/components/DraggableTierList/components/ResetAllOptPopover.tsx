@@ -40,7 +40,7 @@ export default function ResetAllOptPopover() {
       position="bottom"
       withArrow
     >
-      <Text size="sm">这会放回表中所有干员，确定要继续吗？</Text>
+      <Text size="sm">这会清空表中所有干员，确定要继续吗？</Text>
       <Box sx={{ width: "100%", textAlign: "center" }}>
         <Button
           sx={{ marginTop: "15px" }}
@@ -48,7 +48,7 @@ export default function ResetAllOptPopover() {
           color={"red"}
           onClick={handleConfirm}
         >
-          确认放回
+          确认清空
         </Button>
       </Box>
     </Popover>

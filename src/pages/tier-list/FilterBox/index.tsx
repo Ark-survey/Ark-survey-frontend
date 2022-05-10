@@ -108,7 +108,7 @@ export default function Index() {
     const tsRange = endTime - startTime
     return (
       filterBlock ?
-        (<Box sx={{ color: '#aaa', fontWeight: 900 }}>{"未筛选"}</Box>) :
+        (<Box sx={{ color: '#aaa', fontWeight: 900, lineHeight:'30px' }}>{"未筛选"}</Box>) :
         (<>
           {(filters.dateRange[0] !== 0 ||
             filters.dateRange[1] !== 100) &&
@@ -130,7 +130,7 @@ export default function Index() {
               <Badge>{'职业：' + filters.chipGroup["profession"].join(',')}</Badge></Box>}
           {filters.chipGroup["accessChannel"].length > 0 &&
             <Box className={classes.badge} >
-              <Badge>{'获取渠道：' + filters.chipGroup["accessChannel"].join(',')}</Badge></Box>}
+              <Badge>{'获取渠道：' + filters.chipGroup["accessChannel"].map(i=>i.slice(0,2)).join(',')}</Badge></Box>}
           {filters.chipGroup["sex"].length > 0 &&
             <Box className={classes.badge} >
               <Badge>{'性别：' + filters.chipGroup["sex"].join(',')}</Badge></Box >
@@ -150,7 +150,8 @@ export default function Index() {
         borderRadius: "0 0 20px 20px",
         height: filterHeight,
         padding: "0 10px",
-        overflow: "hidden"
+        overflow: "hidden",
+        position: 'relative',
       }}
     >
       <Box sx={{
@@ -163,19 +164,22 @@ export default function Index() {
       </Box>
       <Box
         sx={{
+          width:'calc(114px + 100%)',
           display: 'flex',
           justifyContent: 'end',
+          position:'absolute',
           transition: 'all 1s',
-          height: "50px",
-          marginLeft: filters.fold ? '-147px' : '0',
-          marginRight: filters.fold ? '0' : '-478px'
+          height: "40px",
+          marginRight: filters.fold ? '0' : '-100%',
+          bottom: filters.fold ? filterHeight - 47 : '0',
+          right: filters.fold ? '0' : '12px'
         }}
       >
-        <Button variant="outline" color="dark" radius="xl" onClick={handleResetFilter}>
+        <Button variant="outline" color="dark" radius="xl" size="xs" onClick={handleResetFilter}>
           重置为全部干员
         </Button>
         <Box sx={{
-          width: 478,
+          width: 'calc(100% - 114px)',
           display: 'flex',
           justifyContent: filterBlock ? 'center' : 'start',
           flexFlow: 'row wrap',

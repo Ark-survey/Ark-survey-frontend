@@ -56,7 +56,7 @@ export function ChipGroups({
           {label}
         </Box>
       )}
-      <Chips multiple value={values} classNames={classes} onChange={onChange}>
+      <Chips multiple size="xs" value={values} classNames={classes} onChange={onChange}>
         {tags.map((item) => (
           <Chip value={item.value} key={item.value}>
             {item.name}

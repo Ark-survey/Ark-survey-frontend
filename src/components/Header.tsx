@@ -11,15 +11,19 @@ export default function Index({ title, children }: HeaderProps) {
       display: "flex",
       borderBottom: "2px #eee solid",
       padding: "15px",
+      flexFlow:'row wrap'
     }}
   >
     <Box
       sx={{
-        flex: "1",
         fontSize: "20px",
-        lineHeight: "36px",
+        lineHeight: "30px",
         paddingLeft: 5,
         fontWeight: 900,
+        marginRight:'20px',
+        height: "30px",
+        marginTop: '6px',
+        whiteSpace:'nowrap'
       }}
     >
       {title}
@@ -27,9 +31,11 @@ export default function Index({ title, children }: HeaderProps) {
 
     <Box
       sx={{
+        flex: "1",
         display: "flex",
         justifyContent: "end",
-        alignItems:'center'
+        alignItems: 'center',
+        marginTop:'6px'
       }}
     >
       {children}

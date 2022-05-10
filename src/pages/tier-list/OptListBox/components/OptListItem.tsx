@@ -10,11 +10,12 @@ export enum OptListItemType {
 }
 
 interface OptListItemProps {
-  opt: {
+  opt?: {
     [x: string]: string;
   };
-  type: OptListItemType;
+  type?: OptListItemType;
   fromTierValue?: number;
+  empty?: boolean
 }
 
 export interface OptDragItem {
@@ -27,9 +28,10 @@ export default function OptListItem({
   opt,
   type,
   fromTierValue,
+  empty
 }: OptListItemProps) {
   const filters = useSelector((state: RootState) => state.filters);
-  
+
   const [{ isDragging }, dragger] = useDrag(
     () => ({
       type: ItemTypes.OPERATOR,
@@ -44,21 +46,22 @@ export default function OptListItem({
   return (
     <>
       <Box
-        key={opt.id}
-        ref={opt.selected && type === OptListItemType.NORMAL ? null : dragger}
+        key={opt?.id}
+        ref={opt?.selected && type === OptListItemType.NORMAL ? null : dragger}
         sx={{
-          margin: "5px",
+          margin: empty ? "0 5px" : "5px",
           width: filters.mini ? 40 : 80,
-          height: filters.mini ? 40 : 80,
+          // maxHeight: filters.mini ? 40 : 80,
           boxShadow: "inset 0px 0px 10px 4px #ccc",
-          backgroundRepeat:'no-repeat',
-          borderRadius: "20px",
+          backgroundRepeat: 'no-repeat',
+          borderRadius: filters.mini ? '50%' : "20px",
           overflow: "hidden",
           position: "relative",
-          float:'left'
+          flex: type === OptListItemType.NORMAL ? ('auto') : '',
+          height: empty ? '0' : 'auto'
         }}
       >
-        {(isDragging || (opt.selected && type === OptListItemType.NORMAL)) && (
+        {(isDragging || (opt?.selected && type === OptListItemType.NORMAL)) && (
           <Overlay
             opacity={0.6}
             color="#000"
@@ -67,7 +70,7 @@ export default function OptListItem({
               color: "#fff",
               display: "flex",
               fontWeight: 600,
-              fontSize:filters.mini?'10px':'',
+              fontSize: filters.mini ? '10px' : '',
               alignItems: "center",
               justifyContent: "center",
             }}
@@ -77,27 +80,27 @@ export default function OptListItem({
         )}
         {filters.nameDisplay &&
           <Box sx={{
-            position: 'absolute', zIndex: 4, bottom: filters.mini?'28px':'0',left: filters.mini ?'-10px':'0px', width: filters.mini ? '150%' : '100%', 
+            position: 'absolute', zIndex: 4, bottom: filters.mini ? '' : '0', top: filters.mini ? '3px' : '', left: filters.mini ? '-10px' : '0px', width: filters.mini ? '150%' : '100%',
             display: 'flex',
             alignItems: 'end',
-            justifyContent:'center',
-            height: filters.mini ?'8px':'14px',
+            justifyContent: 'center',
+            height: filters.mini ? '8px' : '14px',
             background: 'linear-gradient(to top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.7) 90%, rgba(255,249,242,0) 100%)'
           }}>
             <Box sx={
               {
                 textAlign: 'center',
                 fontSize: '10px',
-                fontWeight:700,
-                height: filters.mini ?'10px':'15px',
+                fontWeight: 700,
+                height: filters.mini ? '10px' : '15px',
                 transform: filters.mini ? 'scale(0.5)' : ''
               }
             }>
-            {opt.name}
+              {opt?.name}
             </Box>
           </Box>
         }
-        <Image src={opt.imgUrl} width="80" height="80" alt={opt.name} />
+        <Image src={opt?.imgUrl} width="80" height="80" alt={opt?.name} />
       </Box>
     </>
   );
