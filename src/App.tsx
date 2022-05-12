@@ -2,22 +2,25 @@ import TierList from "src/pages/tier-list";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TouchBackend } from 'react-dnd-touch-backend'
-import SWR from "./api";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import store from "./store";
 import { useIsMobile } from "./hooks";
 import Nav from "./components/Nav";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from 'redux-persist'
+
+let persistor = persistStore(store);
 
 function App() {
   const isMobile = useIsMobile()
   return (
     <Provider store={store}>
-      <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-        <SWR>
+      <PersistGate loading={null} persistor={persistor}>
+        <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
           <Nav />
           <TierList />
-        </SWR>
-      </DndProvider>
+        </DndProvider>
+      </PersistGate>
     </Provider>
   );
 }

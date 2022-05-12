@@ -8,9 +8,12 @@ import { changeFold, changeNameDisplay, changeMini } from 'src/store/slice/filte
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { FoldDown, FoldUp } from "tabler-icons-react";
+import LoadDataPaper from "./LoadDataPaper";
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
+  const userTierList = useSelector((state: RootState) => state.userTierList);
+  const newTierList = useSelector((state: RootState) => state.user.newTierList);
   const dispatch = useDispatch();
 
   const handleMiniStatusChange = () => {
@@ -25,55 +28,57 @@ export default function Index() {
     dispatch(changeFold(!filters.fold))
   }
 
-
   return (
-    <Container size={1400}>
-      <Stack
-        spacing={20}
-        sx={{
-          flexFlow: "row wrap",
-          alignItems: "stretch"
-        }}
-      >
-        <Box
+    newTierList || (!newTierList && userTierList?.id) ?
+      (<Container size={1400} >
+        < Stack
+          spacing={20}
           sx={{
-            flex: '1',
-            minWidth: "326px",
-            maxWidth: "726px",
-            boxShadow: "0 0 5px 5px #eee",
-            borderRadius: "20px",
-            userSelect: "none",
-            maxHeight: '890px',
-            overflow: 'hidden'
-          }}>
+            flexFlow: "row wrap",
+            alignItems: "stretch"
+          }
+          }
+        >
           <Box
             sx={{
-              overflow: "auto",
-              height: '100%',
-              "::-webkit-scrollbar": { width: "0 !important" },
-            }}
-          >
-            <Header title="干员盒">
-              <Button size="xs" variant={!filters.mini ? "outline" : "filled"} color={!filters.mini ? "blue" : "green"} radius="xl" onClick={handleMiniStatusChange}>
-                {'MINI'}
-              </Button>
-              <Box sx={{ width: '15px' }}></Box>
-              <Button size="xs" variant={!filters.nameDisplay ? "outline" : "filled"} color={!filters.nameDisplay ? "blue" : "green"} radius="xl" onClick={handleNameStatusChange}>
-                {'名称'}
-              </Button>
-              <Box sx={{ width: '15px' }}></Box>
-              <Button size="xs" variant="outline" radius="xl" onClick={handleFoldStatusChange}>
-                {filters.fold ? <FoldDown /> : <FoldUp />}
-                {/* { filters.fold ? '展开' : '收起'} */}
-              </Button>
-            </Header>
-            <FilterBox />
-            <OptListBox />
-            <Box sx={{ width: "100%", height: "15px" }}></Box>
+              flex: '1',
+              minWidth: "326px",
+              maxWidth: "726px",
+              boxShadow: "0 0 5px 5px #eee",
+              borderRadius: "20px",
+              userSelect: "none",
+              maxHeight: '890px',
+              overflow: 'hidden'
+            }}>
+            <Box
+              sx={{
+                overflow: "auto",
+                height: '100%',
+                "::-webkit-scrollbar": { width: "0 !important" },
+              }}
+            >
+              <Header title="干员盒">
+                <Button size="xs" variant={!filters.mini ? "outline" : "filled"} color={!filters.mini ? "blue" : "green"} radius="xl" onClick={handleMiniStatusChange}>
+                  {'MINI'}
+                </Button>
+                <Box sx={{ width: '15px' }}></Box>
+                <Button size="xs" variant={!filters.nameDisplay ? "outline" : "filled"} color={!filters.nameDisplay ? "blue" : "green"} radius="xl" onClick={handleNameStatusChange}>
+                  {'名称'}
+                </Button>
+                <Box sx={{ width: '15px' }}></Box>
+                <Button size="xs" variant="outline" radius="xl" onClick={handleFoldStatusChange}>
+                  {filters.fold ? <FoldDown /> : <FoldUp />}
+                  {/* { filters.fold ? '展开' : '收起'} */}
+                </Button>
+              </Header>
+              <FilterBox />
+              <OptListBox />
+              <Box sx={{ width: "100%", height: "15px" }}></Box>
+            </Box>
           </Box>
-        </Box>
-        <DraggableTierList />
-      </Stack >
-    </Container>
+          <DraggableTierList />
+        </Stack >
+      </Container >)
+      : <LoadDataPaper />
   );
 }

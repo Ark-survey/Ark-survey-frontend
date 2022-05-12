@@ -1,9 +1,30 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Popover, Text, Button, Box } from "@mantine/core";
 import { CloudUpload } from "tabler-icons-react";
+import { TierListServer } from "src/api";
+import { useSelector } from "react-redux";
+import { RootState } from "src/store";
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const useTierList = useSelector((state: RootState) => state.userTierList);
+
+  const fetchCreateTierList = useCallback(async () => {
+    return await new TierListServer().createOne(useTierList)
+  }, [useTierList])
+
+  const handleTierListSubmit = useCallback(async () => {
+    setOpened(false)
+    setLoading(true)
+    try {
+      const res = await fetchCreateTierList()
+      // todo
+    } finally {
+      setLoading(false)
+    }
+  }, [fetchCreateTierList])
+
   return (
     <Popover
       opened={opened}
@@ -12,7 +33,7 @@ export default function UploadPopover() {
         <Button
           radius="xl"
           size="xs"
-          disabled
+          loading={loading}
           leftIcon={<CloudUpload size={14} />}
           onClick={() => setOpened((o) => !o)}
         >
@@ -31,7 +52,7 @@ export default function UploadPopover() {
         <Button
           sx={{ marginTop: "15px" }}
           radius="xl"
-          onClick={() => setOpened((o) => !o)}
+          onClick={handleTierListSubmit}
         >
           了解，继续提交
         </Button>

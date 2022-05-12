@@ -8,10 +8,10 @@ import OptListItem, {
   OptDragItem,
   OptListItemType,
 } from "src/pages/tier-list/OptListBox/components/OptListItem";
-import { Tier } from "src/store/slice/tierSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import AddOptsToTierPopover from "./AddOptsToTierPopover";
+import { Tier } from "src/api/TierListServer";
 
 /**
  * @param value tier value

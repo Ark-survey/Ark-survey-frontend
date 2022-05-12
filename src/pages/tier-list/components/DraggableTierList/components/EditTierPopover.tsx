@@ -9,7 +9,7 @@ import { useForm } from "@mantine/form";
 export default function EditTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
 
-  const tiers = useSelector((state: RootState) => state.tiers);
+  const tiers = useSelector((state: RootState) => state.userTierList.tierList);
   const dispatch = useDispatch();
 
   const form = useForm({
@@ -22,7 +22,7 @@ export default function EditTierPopover({ tierValue }: { tierValue: number }) {
     },
   });
 
-  const handleConfirm = ({value}:{value: number}) => {
+  const handleConfirm = ({ value }: { value: number }) => {
     dispatch(updateTierValue({
       tierValue,
       value
@@ -33,7 +33,7 @@ export default function EditTierPopover({ tierValue }: { tierValue: number }) {
   useEffect(() => {
     form.reset();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[opened])
+  }, [opened])
 
   return (
     <Popover

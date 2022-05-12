@@ -18,7 +18,7 @@ import { useRef, useState } from "react";
 // import { format } from "date-fns";
 
 export default function Index() {
-  const tiers = useSelector((state: RootState) => state.tiers);
+  const tiers = useSelector((state: RootState) => state.userTierList.tierList);
   const opts = useSelector((state: RootState) => state.opts);
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);

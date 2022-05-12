@@ -8,7 +8,7 @@ import { useForm } from "@mantine/form";
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
 
-  const tiers = useSelector((state: RootState) => state.tiers);
+  const tiers = useSelector((state: RootState) => state.userTierList.tierList);
   const dispatch = useDispatch();
 
   const form = useForm({

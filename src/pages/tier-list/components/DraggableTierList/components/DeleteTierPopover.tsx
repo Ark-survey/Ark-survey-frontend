@@ -9,7 +9,7 @@ import { RootState } from "src/store";
 export default function DeleteTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
 
-  const tiers = useSelector((state: RootState) => state.tiers);
+  const tiers = useSelector((state: RootState) => state.userTierList.tierList);
   const opts = useSelector((state: RootState) => state.opts);
   const dispatch = useDispatch();
 
