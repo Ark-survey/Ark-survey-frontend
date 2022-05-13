@@ -1,72 +1,66 @@
 import { Box, Button } from "@mantine/core";
 import Header from "src/components/Header";
 
-import { delOptByTier, addOptByTier } from 'src/store/slice/tierSlice';
-import { updateOptPicked, updateOptSelecting } from 'src/store/slice/optSlice';
+import { delCharacterByTier, addCharacterByTier } from 'src/store/slice/tierSlice';
+import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 
 import {
-  OptDragItem, OptListItemType,
-} from "../../OptListBox/components/OptListItem";
+  CharacterDragItem, CharacterListItemType,
+} from "../../CharacterListBox/components/CharacterListItem";
 import AddTierPopover from "./components/AddTierPopover";
-import ResetAllOptPopover from "./components/ResetAllOptPopover";
+import ResetAllCharacterPopover from "./components/ResetAllCharacterPopover";
 import TierBox from "./components/TierBox";
 import UploadPopover from "./components/UploadPopover";
 import { useRef, useState } from "react";
+import { capture } from "src/utils/CaptureUtils";
 // import html2canvas from "html2canvas";
-// import { format } from "date-fns";
+import { format } from "date-fns";
 
 export default function Index() {
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
-  const opts = useSelector((state: RootState) => state.opts);
+  const characters = useSelector((state: RootState) => state.characters);
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
-  const [makingImg] = useState(false)
+  const [makingImg, setMakingImg] = useState(false)
 
-  const handleDropOptOnTier = ({ opt, type, fromTierValue }: OptDragItem, toTierValue: number) => {
-    console.log(type === OptListItemType.TIER && fromTierValue !== toTierValue);
+  const handleDropCharacterOnTier = ({ character, type, fromTierValue }: CharacterDragItem, toTierValue: number) => {
+    console.log(type === CharacterListItemType.TIER && fromTierValue !== toTierValue);
 
-    if (type === OptListItemType.NORMAL || (type === OptListItemType.TIER && fromTierValue !== toTierValue)) {
-      const index = opts.findIndex((o: any) => o.id === opt.id)
-      dispatch(updateOptPicked({ optIndex: index, value: true }))
-      dispatch(updateOptSelecting({ optIndex: index, value: false }))
+    if (type === CharacterListItemType.NORMAL || (type === CharacterListItemType.TIER && fromTierValue !== toTierValue)) {
+      const index = characters.findIndex((o: any) => o.id === character.id)
+      dispatch(updateCharacterPicked({ characterIndex: index, value: true }))
+      dispatch(updateCharacterSelecting({ characterIndex: index, value: false }))
 
-      if (type === OptListItemType.TIER) {
+      if (type === CharacterListItemType.TIER) {
         dispatch(
-          delOptByTier({
+          delCharacterByTier({
             tierValue: fromTierValue ?? 0,
-            optId: opt.id
+            characterId: character.id
           }
           ))
       }
 
       dispatch(
-        addOptByTier({
+        addCharacterByTier({
           tierValue: toTierValue,
-          optId: opt.id
+          characterId: character.id
         })
       )
     }
   };
 
-  // const makeTierImg = () => {
-  //   setMakingImg(true)
-  //   setTimeout(() => {
-  //     if (tiersBox.current) {
-  //         html2canvas(tiersBox.current, {
-  //           allowTaint: true
-  //         }).then((canvas) => {
-  //           var a = document.createElement("a");
-  //           a.href = canvas.toDataURL("image/png");
-  //           a.download = '等级表 ' + format(new Date().getTime(),'yy-MM-dd hh-mm-ss');
-  //           a.click();
-  //         });
-  //     }
-  //     setMakingImg(false)
-  //   })
-  // }
+  const makeTierImg = () => {
+    setMakingImg(true)
+    setTimeout(() => {
+      if (tiersBox.current) {
+        capture(tiersBox.current.id, '等级表 ' + format(new Date().getTime(), 'yy-MM-dd hh-mm-ss'))
+      }
+      setMakingImg(false)
+    })
+  }
 
   return (
     <Box
@@ -81,11 +75,11 @@ export default function Index() {
         minWidth: "326px",
       }}>
       <Header title="等级表编辑">
-        <ResetAllOptPopover />
+        <ResetAllCharacterPopover />
         <Box sx={{ width: "10px" }}></Box>
         <AddTierPopover />
         <Box sx={{ width: "10px" }}></Box>
-        <Button disabled size='xs' variant="outline" color="blue" radius="xl" /* onClick={makeTierImg} */>
+        <Button size='xs' variant="outline" color="blue" radius="xl" onClick={makeTierImg}>
           截图
         </Button>
         <Box sx={{ width: "10px" }}></Box>
@@ -99,9 +93,11 @@ export default function Index() {
         }}>
         <Box
           ref={tiersBox}
+          id="tierList"
           sx={{
             overflow: "auto",
             marginTop: '2px',
+            background: '#fff'
           }}
         >
           <Box
@@ -113,7 +109,7 @@ export default function Index() {
               <TierBox
                 key={tier.value}
                 tier={tier}
-                onDropOpt={(item) => handleDropOptOnTier(item, tier.value)}
+                onDropCharacter={(item) => handleDropCharacterOnTier(item, tier.value)}
                 operationDisplay={!makingImg}
               />
             ))}

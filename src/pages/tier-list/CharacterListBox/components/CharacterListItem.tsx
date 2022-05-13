@@ -2,43 +2,43 @@ import { Box, Image, Overlay } from "@mantine/core";
 import { ItemTypes } from "src/common";
 import { useDrag } from "react-dnd";
 import { RootState } from "src/store";
-import { OptType, updateOptSelecting } from "src/store/slice/optSlice";
+import { CharacterType, updateCharacterSelecting } from "src/store/slice/characterSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useIsMobile } from "src/hooks";
 
-export enum OptListItemType {
+export enum CharacterListItemType {
   NORMAL,
   TIER,
 }
 
-interface OptListItemProps {
-  opt?: OptType;
-  type?: OptListItemType;
+interface CharacterListItemProps {
+  character?: CharacterType;
+  type?: CharacterListItemType;
   fromTierValue?: number;
   empty?: boolean
 }
 
-export interface OptDragItem {
-  type: OptListItemType;
-  opt: { [x: string]: any };
+export interface CharacterDragItem {
+  type: CharacterListItemType;
+  character: { [x: string]: any };
   fromTierValue?: number;
 }
 
-export default function OptListItem({
-  opt,
+export default function CharacterListItem({
+  character,
   type,
   fromTierValue,
   empty
-}: OptListItemProps) {
+}: CharacterListItemProps) {
   const filters = useSelector((state: RootState) => state.filters);
-  const opts = useSelector((state: RootState) => state.opts);
+  const characters = useSelector((state: RootState) => state.characters);
   const dispatch = useDispatch();
   const isMobile = useIsMobile()
 
   const [{ isDragging }, dragger] = useDrag(
     () => ({
       type: ItemTypes.OPERATOR,
-      item: { type, opt, fromTierValue } as OptDragItem,
+      item: { type, character, fromTierValue } as CharacterDragItem,
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0 : 1,
         isDragging: !!monitor.isDragging(),
@@ -47,30 +47,31 @@ export default function OptListItem({
     []
   );
 
-  const handleOptSelect = () => {
-    if (type === OptListItemType.NORMAL)
-      dispatch(updateOptSelecting({ optIndex: opts.findIndex(v => v.id === opt?.id), value: !opt?.selecting }))
+  const handleCharacterSelect = () => {
+    if (type === CharacterListItemType.NORMAL)
+      dispatch(updateCharacterSelecting({ characterIndex: characters.findIndex(v => v.id === character?.id), value: !character?.selecting }))
   }
 
   return (
     <>
       <Box
-        key={opt?.id}
-        ref={(opt?.picked && type === OptListItemType.NORMAL) || (isMobile && type === OptListItemType.NORMAL) ? null : dragger}
+        key={character?.id}
+        ref={(character?.picked && type === CharacterListItemType.NORMAL) || (isMobile && type === CharacterListItemType.NORMAL) ? null : dragger}
         sx={{
           margin: empty ? "0 5px" : "5px",
           width: filters.mini ? 40 : 80,
           boxSizing: 'border-box',
-          boxShadow: (opt?.selecting && type === OptListItemType.NORMAL && !empty) ? "inset 0px 0px 10px 4px green" : "inset 0px 0px 10px 4px #ccc",
+          boxShadow: (character?.selecting && type === CharacterListItemType.NORMAL && !empty) ? "inset 0px 0px 10px 4px green" : "inset 0px 0px 10px 4px #ccc",
           backgroundRepeat: 'no-repeat',
           borderRadius: filters.mini ? '50%' : "20px",
           overflow: "hidden",
           position: "relative",
-          flex: type === OptListItemType.NORMAL ? ('auto') : '',
+          zIndex: 1,
+          flex: type === CharacterListItemType.NORMAL ? ('auto') : '',
           height: empty ? '0' : 'auto'
         }}
       >
-        {(isDragging || (opt?.picked && type === OptListItemType.NORMAL)) && (
+        {(isDragging || (character?.picked && type === CharacterListItemType.NORMAL)) && (
           <Overlay
             opacity={0.6}
             color="#000"
@@ -105,11 +106,11 @@ export default function OptListItem({
                 transform: filters.mini ? 'scale(0.5)' : ''
               }
             }>
-              {opt?.name}
+              {character?.name}
             </Box>
           </Box>
         }
-        <Image src={opt?.imgUrl} width="80" height="80" alt={opt?.name} onClick={handleOptSelect} />
+        <Image src={character?.imgUrl} width="80" height="80" alt={character?.name} onClick={handleCharacterSelect} />
       </Box>
     </>
   );

@@ -4,7 +4,7 @@ import { get, post } from ".";
 export interface Tier {
   name?: string;
   value: number;
-  optIds: string[];
+  characterIds: string[];
 }
 
 export interface UserTierList {

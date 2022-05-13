@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
-import optReducer from './slice/optSlice'
+import characterReducer from './slice/characterSlice'
 import filterReducer from './slice/filterSlice'
 import tiersReducer from './slice/tierSlice'
 import userReducer from './slice/userSlice'
@@ -9,7 +9,7 @@ import storage from 'redux-persist/lib/storage'
 import thunk from 'redux-thunk'
 
 const reducers = combineReducers({
-  opts: optReducer,
+  characters: characterReducer,
   filters: filterReducer,
   userTierList: tiersReducer,
   user: userReducer,

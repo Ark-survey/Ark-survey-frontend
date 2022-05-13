@@ -6,23 +6,23 @@ const initialState: UserTierList = {
   tierList: [
     {
       value: 0,
-      optIds: [],
+      characterIds: [],
     },
     {
       value: 1,
-      optIds: [],
+      characterIds: [],
     },
     {
       value: 2,
-      optIds: [],
+      characterIds: [],
     },
     {
       value: 3,
-      optIds: [],
+      characterIds: [],
     },
     {
       value: 4,
-      optIds: [],
+      characterIds: [],
     }
   ],
   type: 'NORMAL',
@@ -51,21 +51,21 @@ export const tierSlice = createSlice({
       state.tierList[tierIndex].value = action.payload.value;
       state.tierList.sort((a, b) => a.value - b.value);
     },
-    addOptByTier: (state, action: PayloadAction<{ tierValue: number, optId: string }>) => {
+    addCharacterByTier: (state, action: PayloadAction<{ tierValue: number, characterId: string }>) => {
       const tierIndex = state.tierList.findIndex(item => item.value === action.payload.tierValue);
-      state.tierList[tierIndex].optIds.push(action.payload.optId);
+      state.tierList[tierIndex].characterIds.push(action.payload.characterId);
     },
-    delOptByTier: (state, action: PayloadAction<{ tierValue: number, optId: string }>) => {
+    delCharacterByTier: (state, action: PayloadAction<{ tierValue: number, characterId: string }>) => {
       const tierIndex = state.tierList.findIndex(item => item.value === action.payload.tierValue);
-      state.tierList[tierIndex].optIds = state.tierList[tierIndex].optIds.filter(item => !(item === action.payload.optId));
+      state.tierList[tierIndex].characterIds = state.tierList[tierIndex].characterIds.filter(item => !(item === action.payload.characterId));
     },
-    delAllOptByTier: (state, action: PayloadAction<{ tierValue: number }>) => {
+    delAllCharacterByTier: (state, action: PayloadAction<{ tierValue: number }>) => {
       const tierIndex = state.tierList.findIndex(item => item.value === action.payload.tierValue);
-      state.tierList[tierIndex].optIds = [];
+      state.tierList[tierIndex].characterIds = [];
     },
   },
 })
 
-export const { loadUserTierList, addTier, delTier, updateTierValue, addOptByTier, delAllOptByTier, delOptByTier } = tierSlice.actions
+export const { loadUserTierList, addTier, delTier, updateTierValue, addCharacterByTier, delAllCharacterByTier, delCharacterByTier } = tierSlice.actions
 
 export default tierSlice.reducer

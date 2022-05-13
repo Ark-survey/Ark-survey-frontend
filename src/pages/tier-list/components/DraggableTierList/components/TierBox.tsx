@@ -4,13 +4,13 @@ import DeleteTier from "./DeleteTierPopover";
 import EditTierPopover from "./EditTierPopover";
 import { useDrop } from "react-dnd";
 import { ItemTypes } from "src/common";
-import OptListItem, {
-  OptDragItem,
-  OptListItemType,
-} from "src/pages/tier-list/OptListBox/components/OptListItem";
+import CharacterListItem, {
+  CharacterDragItem,
+  CharacterListItemType,
+} from "src/pages/tier-list/CharacterListBox/components/CharacterListItem";
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";
-import AddOptsToTierPopover from "./AddOptsToTierPopover";
+import AddCharactersToTierPopover from "./AddCharactersToTierPopover";
 import { Tier } from "src/api/TierListServer";
 
 /**
@@ -19,31 +19,31 @@ import { Tier } from "src/api/TierListServer";
 interface TierBoxProps {
   tier: Tier;
   operationDisplay?: boolean;
-  onDropOpt: (item: OptDragItem) => void;
+  onDropCharacter: (item: CharacterDragItem) => void;
 }
 
 export default function TierBox({
   tier,
   operationDisplay = false,
-  onDropOpt,
+  onDropCharacter,
 }: TierBoxProps) {
-  const opts = useSelector((state: RootState) => state.opts);
+  const characters = useSelector((state: RootState) => state.characters);
   const filter = useSelector((state: RootState) => state.filters);
 
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: ItemTypes.OPERATOR,
-      drop: onDropOpt,
+      drop: onDropCharacter,
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
       }),
     }),
     []
   );
-  const optIMgList = useMemo(() => {
-    const optList = opts.filter((opt) => tier.optIds.indexOf(opt.id) > -1);
+  const characterIMgList = useMemo(() => {
+    const characterList = characters.filter((character) => tier.characterIds.indexOf(character.id) > -1);
     let cache = [];
-    for (let i in optList) {
+    for (let i in characterList) {
       // if (i === "4") {
       //   cache.push(
       //     <Box sx={{ width: "90px" }}></Box>,
@@ -52,16 +52,16 @@ export default function TierBox({
       //   );
       // }
       cache.push(
-        <OptListItem
-          key={optList[i].id}
-          opt={optList[i]}
+        <CharacterListItem
+          key={characterList[i].id}
+          character={characterList[i]}
           fromTierValue={tier.value}
-          type={OptListItemType.TIER}
+          type={CharacterListItemType.TIER}
         />
       );
     }
     return cache;
-  }, [opts, tier.optIds, tier.value]);
+  }, [characters, tier.characterIds, tier.value]);
 
   return (
     <>
@@ -80,7 +80,7 @@ export default function TierBox({
         }}
       >
         <Box sx={{ padding: "10px", display: "flex", flexFlow: "row wrap" }}>
-          {optIMgList}
+          {characterIMgList}
         </Box>
         <Box
           sx={{
@@ -106,7 +106,7 @@ export default function TierBox({
                 display: filter.mini ? 'flex' : ''
               }}
             >
-              <AddOptsToTierPopover tierValue={tier.value} />
+              <AddCharactersToTierPopover tierValue={tier.value} />
               <Box sx={{ width: "6px", height: "4px" }} />
               <EditTierPopover tierValue={tier.value} />
               <Box sx={{ width: "6px", height: "4px" }} />
@@ -121,7 +121,7 @@ export default function TierBox({
                 fontWeight: 900,
                 color: "#eee",
                 top: 0,
-                zIndex: -1,
+                zIndex: 0,
                 WebkitTextStroke: isOver ? "2px #ccc" : "2px #eee",
                 WebkitTextFillColor: isOver ? "" : "transparent",
               }}

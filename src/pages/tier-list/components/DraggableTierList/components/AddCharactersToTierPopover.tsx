@@ -1,24 +1,24 @@
 import { useState } from "react";
 import { Popover, Button, Box, Text, ActionIcon } from "@mantine/core";
 import { Plus } from "tabler-icons-react";
-import { updateOptPicked, updateOptSelecting } from 'src/store/slice/optSlice';
-import { addOptByTier } from 'src/store/slice/tierSlice';
+import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
+import { addCharacterByTier } from 'src/store/slice/tierSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 
-export default function AddOptsToTierPopover({ tierValue }: { tierValue: number }) {
+export default function AddCharactersToTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
-  const opts = useSelector((state: RootState) => state.opts);
+  const characters = useSelector((state: RootState) => state.characters);
   const dispatch = useDispatch();
 
   const handleConfirm = () => {
-    opts.forEach((opt, index) => {
-      if (opt.selecting) {
-        dispatch(updateOptPicked({ optIndex: index, value: true }))
-        dispatch(updateOptSelecting({ optIndex: index, value: false }))
-        dispatch(addOptByTier({ tierValue, optId: opt.id }))
+    characters.forEach((character, index) => {
+      if (character.selecting) {
+        dispatch(updateCharacterPicked({ characterIndex: index, value: true }))
+        dispatch(updateCharacterSelecting({ characterIndex: index, value: false }))
+        dispatch(addCharacterByTier({ tierValue, characterId: character.id }))
       }
-      return opt
+      return character
     })
 
     setOpened(false)

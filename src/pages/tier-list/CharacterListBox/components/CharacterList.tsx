@@ -1,19 +1,19 @@
 import { Box } from "@mantine/core";
 import { useMemo } from "react";
 import { timeMarks } from "src/contexts";
-import OptListItem, { OptListItemType } from "./OptListItem";
+import CharacterListItem, { CharacterListItemType } from "./CharacterListItem";
 
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import { filterOpenState } from "src/store/slice/filterSlice";
 
-export default function OptList() {
-  const opts = useSelector((state: RootState) => state.opts);
+export default function CharacterList() {
+  const characters = useSelector((state: RootState) => state.characters);
   const filters = useSelector((state: RootState) => state.filters);
   const filterOpen = useSelector(filterOpenState);
 
   const orderlyList = useMemo(() => {
-    return [...opts]
+    return [...characters]
       .sort((a: any, b: any) => {
         const diff = parseInt(a.ts) - parseInt(b.ts);
         if (diff === 0) {
@@ -23,18 +23,18 @@ export default function OptList() {
         }
         return diff;
       })
-      .filter((opt: any) => {
+      .filter((character: any) => {
         if (filterOpen) {
           const startTime = timeMarks[0].ts
           const endTime = timeMarks[timeMarks.length - 1].ts
           const tsRange = endTime - startTime
-          if (filters.dateRange[0] * tsRange / 100 + startTime > opt.ts || filters.dateRange[1] * tsRange / 100 + startTime < opt.ts) {
+          if (filters.dateRange[0] * tsRange / 100 + startTime > character.ts || filters.dateRange[1] * tsRange / 100 + startTime < character.ts) {
             return false
           }
           else {
             for (let key in filters.chipGroup) {
               if (filters.chipGroup[key].length > 0 &&
-                filters.chipGroup[key].indexOf(opt[key]) < 0
+                filters.chipGroup[key].indexOf(character[key]) < 0
               ) {
                 return false;
               }
@@ -43,18 +43,18 @@ export default function OptList() {
         }
         return true;
       })
-  }, [filterOpen, filters.chipGroup, filters.dateRange, opts])
+  }, [filterOpen, filters.chipGroup, filters.dateRange, characters])
 
 
   const list = useMemo(() => {
     return (
       orderlyList
-        .map((opt: any, index: number) => {
+        .map((character: any, index: number) => {
           return (
             <>
-              <OptListItem key={opt.id} opt={opt} type={OptListItemType.NORMAL} />
+              <CharacterListItem key={character.id} character={character} type={CharacterListItemType.NORMAL} />
               {index === orderlyList.length - 1 &&
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((i, index) => <OptListItem key={'e-' + index} empty type={OptListItemType.NORMAL} />)
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((i, index) => <CharacterListItem key={'e-' + index} empty type={CharacterListItemType.NORMAL} />)
               }
             </>
           )

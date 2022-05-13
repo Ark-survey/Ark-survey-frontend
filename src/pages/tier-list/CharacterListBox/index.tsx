@@ -1,38 +1,38 @@
 import { Box, Overlay } from "@mantine/core";
 import { useDrop } from "react-dnd";
-import OptList from "./components/OptList";
+import CharacterList from "./components/CharacterList";
 import { ItemTypes } from "src/common";
-import { OptDragItem } from "./components/OptListItem";
+import { CharacterDragItem } from "./components/CharacterListItem";
 
-import { delOptByTier } from 'src/store/slice/tierSlice';
-import { updateOptPicked } from 'src/store/slice/optSlice';
+import { delCharacterByTier } from 'src/store/slice/tierSlice';
+import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { filterHeightState } from "src/store/slice/filterSlice";
 import { useChangeSize } from "src/hooks";
 
-export default function OptListItem() {
+export default function CharacterListItem() {
   const filters = useSelector((state: RootState) => state.filters);
-  const opts = useSelector((state: RootState) => state.opts);
+  const characters = useSelector((state: RootState) => state.characters);
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
 
   const size = useChangeSize()
 
-  const handleOptReturn = ({ fromTierValue, opt }: OptDragItem) => {
-    const index = opts.findIndex((o: any) => o.id === opt.id)
-    dispatch(updateOptPicked({ optIndex: index, value: false }))
+  const handleCharacterReturn = ({ fromTierValue, character }: CharacterDragItem) => {
+    const index = characters.findIndex((o: any) => o.id === character.id)
+    dispatch(updateCharacterPicked({ characterIndex: index, value: false }))
 
-    dispatch(delOptByTier({
+    dispatch(delCharacterByTier({
       tierValue: fromTierValue ?? 0,
-      optId: opt.id
+      characterId: character.id
     }))
   }
 
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: ItemTypes.OPERATOR,
-      drop: handleOptReturn,
+      drop: handleCharacterReturn,
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
       }),
@@ -73,7 +73,7 @@ export default function OptListItem() {
         "::-webkit-scrollbar": { width: "0 !important" },
         overflow: "auto",
       }}>
-        <OptList />
+        <CharacterList />
       </Box>
     </Box>
   )

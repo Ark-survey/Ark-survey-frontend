@@ -2,7 +2,7 @@ import { Box, Button, Container, Stack } from "@mantine/core";
 import Header from "src/components/Header";
 import DraggableTierList from "./components/DraggableTierList";
 import FilterBox from "./FilterBox";
-import OptListBox from "./OptListBox";
+import CharacterListBox from "./CharacterListBox";
 
 import { changeFold, changeNameDisplay, changeMini } from 'src/store/slice/filterSlice';
 import { useSelector, useDispatch } from "react-redux";
@@ -72,7 +72,7 @@ export default function Index() {
                 </Button>
               </Header>
               <FilterBox />
-              <OptListBox />
+              <CharacterListBox />
               <Box sx={{ width: "100%", height: "15px" }}></Box>
             </Box>
           </Box>

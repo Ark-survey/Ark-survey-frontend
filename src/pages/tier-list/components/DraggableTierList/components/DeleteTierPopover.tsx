@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Popover, Button, Box, Text, ActionIcon } from "@mantine/core";
 import { Trash } from "tabler-icons-react";
 import { delTier } from 'src/store/slice/tierSlice';
-import { updateOptPicked } from 'src/store/slice/optSlice';
+import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 
@@ -10,18 +10,18 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
   const [opened, setOpened] = useState(false);
 
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
-  const opts = useSelector((state: RootState) => state.opts);
+  const characters = useSelector((state: RootState) => state.characters);
   const dispatch = useDispatch();
 
   const handleConfirm = () => {
     dispatch(delTier({ tierValue }))
 
     const tierIndex = tiers.findIndex(item => item.value === tierValue);
-    opts.forEach((opt, index) => {
-      if (tiers[tierIndex].optIds.includes(opt.id)) {
-        dispatch(updateOptPicked({ optIndex: index, value: false }))
+    characters.forEach((character, index) => {
+      if (tiers[tierIndex].characterIds.includes(character.id)) {
+        dispatch(updateCharacterPicked({ characterIndex: index, value: false }))
       }
-      return opt
+      return character
     })
 
     setOpened(false)

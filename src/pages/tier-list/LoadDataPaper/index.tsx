@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TierListServer } from "src/api";
 import { RootState } from "src/store";
-import { updateOptPicked, updateOptSelecting } from "src/store/slice/optSlice";
+import { updateCharacterPicked, updateCharacterSelecting } from "src/store/slice/characterSlice";
 import { loadUserTierList } from "src/store/slice/tierSlice";
 import { updateNewTierListStatus } from "src/store/slice/userSlice";
 
@@ -17,7 +17,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 export default function Index() {
   const userTierList = useSelector((state: RootState) => state.userTierList);
-  const opts = useSelector((state: RootState) => state.opts);
+  const characters = useSelector((state: RootState) => state.characters);
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
@@ -54,10 +54,10 @@ export default function Index() {
           setFieldError('id', '未查询到该 ID 数据')
         } else {
           res.data.tierList.forEach(item => {
-            item.optIds.forEach(
-              optId => {
-                const optIndex = opts.findIndex(i => i.id === optId)
-                dispatch(updateOptPicked({ optIndex, value: true }));
+            item.characterIds.forEach(
+              characterId => {
+                const characterIndex = characters.findIndex(i => i.id === characterId)
+                dispatch(updateCharacterPicked({ characterIndex, value: true }));
               }
             )
           })

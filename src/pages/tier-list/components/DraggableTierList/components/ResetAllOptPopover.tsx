@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Popover, Button, Box, Text } from "@mantine/core";
 
-import { delAllOptByTier } from 'src/store/slice/tierSlice';
-import { updateAllOptPicked } from 'src/store/slice/optSlice';
+import { delAllCharacterByTier } from 'src/store/slice/tierSlice';
+import { updateAllCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 
-export default function ResetAllOptPopover() {
+export default function ResetAllCharacterPopover() {
   const [opened, setOpened] = useState(false);
 
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
@@ -14,10 +14,10 @@ export default function ResetAllOptPopover() {
 
   const handleConfirm = () => {
     tiers.forEach((tier) => {
-      dispatch(delAllOptByTier({ tierValue: tier.value }))
+      dispatch(delAllCharacterByTier({ tierValue: tier.value }))
     })
 
-    dispatch(updateAllOptPicked(false))
+    dispatch(updateAllCharacterPicked(false))
 
     setOpened(false)
   }
