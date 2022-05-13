@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { TierListServer } from "src/api";
 import { RootState } from "src/store";
 import { updateCharacterPicked } from "src/store/slice/characterSlice";
-import { loadUserTierList } from "src/store/slice/tierSlice";
+import { loadUserTierList, resetUserTierList } from "src/store/slice/tierSlice";
 import { updateNewTierListStatus } from "src/store/slice/userSlice";
+import { showNotification } from '@mantine/notifications';
+import { Check } from "tabler-icons-react";
 
 // const useStyles = createStyles((theme, _params, getRef) => ({
 //   badge: {
@@ -26,8 +28,8 @@ export default function Index() {
   }, [])
 
   const handleCreateTierList = () => {
-    dispatch(updateNewTierListStatus({ value: true }));
-    // todo 清空 userTierList
+    dispatch(updateNewTierListStatus(true));
+    dispatch(resetUserTierList());
   }
 
   const form = useForm({
@@ -58,7 +60,14 @@ export default function Index() {
             )
           })
           dispatch(loadUserTierList(res.data));
-          dispatch(updateNewTierListStatus({ value: false }));
+          dispatch(updateNewTierListStatus(false));
+          showNotification({
+            color: 'green',
+            icon: <Check />,
+            title: '等级表数据更新成功',
+            message: '您的数据已经缓存在本地，下次打开本站时会自动加载。',
+            loading: false,
+          })
         }
         // todo
       } finally {

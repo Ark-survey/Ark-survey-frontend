@@ -12,8 +12,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateNewTierListStatus: (state, action: PayloadAction<{ value: boolean }>) => {
-      state.newTierList = action.payload.value
+    updateNewTierListStatus: (state, action: PayloadAction<boolean>) => {
+      state.newTierList = action.payload
     },
   },
 })

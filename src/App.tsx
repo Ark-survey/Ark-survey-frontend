@@ -8,6 +8,8 @@ import { useIsMobile } from "./hooks";
 import Nav from "./components/Nav";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from 'redux-persist'
+import { NotificationsProvider } from '@mantine/notifications';
+import { MantineProvider } from "@mantine/core";
 
 let persistor = persistStore(store);
 
@@ -15,12 +17,16 @@ function App() {
   const isMobile = useIsMobile()
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-          <Nav />
-          <TierList />
-        </DndProvider>
-      </PersistGate>
+      <MantineProvider>
+        <NotificationsProvider position={'top-right'}>
+          <PersistGate loading={null} persistor={persistor}>
+            <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+              <Nav />
+              <TierList />
+            </DndProvider>
+          </PersistGate>
+        </NotificationsProvider>
+      </MantineProvider>
     </Provider>
   );
 }

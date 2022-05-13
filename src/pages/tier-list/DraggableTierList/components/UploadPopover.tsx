@@ -1,29 +1,51 @@
 import { useCallback, useState } from "react";
 import { Popover, Text, Button, Box } from "@mantine/core";
-import { CloudUpload } from "tabler-icons-react";
+import { Check, CloudUpload } from "tabler-icons-react";
 import { TierListServer } from "src/api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "src/store";
+import { loadUserTierList } from "src/store/slice/tierSlice";
+import { updateNewTierListStatus } from "src/store/slice/userSlice";
+import { showNotification } from '@mantine/notifications';
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
   const useTierList = useSelector((state: RootState) => state.userTierList);
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
 
   const fetchCreateTierList = useCallback(async () => {
     return await new TierListServer().createOne(useTierList)
+  }, [useTierList])
+
+  const fetchUpdateTierList = useCallback(async () => {
+    return await new TierListServer().updateOne(useTierList)
   }, [useTierList])
 
   const handleTierListSubmit = useCallback(async () => {
     setOpened(false)
     setLoading(true)
     try {
-      const res = await fetchCreateTierList()
+      if (user.newTierList) {
+        const res = await fetchCreateTierList()
+        dispatch(loadUserTierList(res.data))
+        dispatch(updateNewTierListStatus(false))
+      } else {
+        const res = await fetchUpdateTierList()
+        dispatch(loadUserTierList(res.data))
+      }
+      showNotification({
+        color: 'green',
+        icon: <Check />,
+        title: '等级表数据更新成功',
+        message: '您的数据已经缓存在本地，下次打开本站时会自动加载。',
+      })
       // todo
     } finally {
       setLoading(false)
     }
-  }, [fetchCreateTierList])
+  }, [dispatch, fetchCreateTierList, fetchUpdateTierList, user.newTierList])
 
   return (
     <Popover
@@ -37,24 +59,24 @@ export default function UploadPopover() {
           leftIcon={<CloudUpload size={14} />}
           onClick={() => setOpened((o) => !o)}
         >
-          提交
+          {user.newTierList ? '提交' : '更新'}
         </Button>
       }
-      width={220}
+      width={user.newTierList ? 220 : 150}
       position="bottom"
       withArrow
     >
-      <Text size="sm">
-        注意：提交之后页面会显示您的唯一 ID
-        ，请妥善保存，下次进入本页面时输入您的 ID 即可获取之前提交的数据。
-      </Text>
+      {user.newTierList &&
+        <Text size="sm" sx={{ marginBottom: "15px" }} >
+          {'注意：提交之后页面会显示您的唯一 ID，下次进入本页面时输入您的 ID 即可获取之前提交的数据。'}
+        </Text>
+      }
       <Box sx={{ width: "100%", textAlign: "center" }}>
         <Button
-          sx={{ marginTop: "15px" }}
           radius="xl"
           onClick={handleTierListSubmit}
         >
-          了解，继续提交
+          {user.newTierList ? '了解，继续提交' : '确认更新数据'}
         </Button>
       </Box>
     </Popover>
