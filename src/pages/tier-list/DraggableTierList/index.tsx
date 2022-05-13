@@ -8,7 +8,7 @@ import { RootState } from "src/store";
 
 import {
   CharacterDragItem, CharacterListItemType,
-} from "../../CharacterListBox/components/CharacterListItem";
+} from "../CharacterListBox/components/CharacterListItem";
 import AddTierPopover from "./components/AddTierPopover";
 import ResetAllCharacterPopover from "./components/ResetAllCharacterPopover";
 import TierBox from "./components/TierBox";

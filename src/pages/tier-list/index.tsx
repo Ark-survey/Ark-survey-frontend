@@ -1,6 +1,6 @@
 import { Box, Button, Container, Stack } from "@mantine/core";
 import Header from "src/components/Header";
-import DraggableTierList from "./components/DraggableTierList";
+import DraggableTierList from "./DraggableTierList";
 import FilterBox from "./FilterBox";
 import CharacterListBox from "./CharacterListBox";
 

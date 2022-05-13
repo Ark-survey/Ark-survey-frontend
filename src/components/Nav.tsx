@@ -17,6 +17,7 @@ export default function Index() {
   >
     <Box
       sx={{
+        display: 'flex',
         fontSize: "32px",
         paddingLeft: 5,
         fontWeight: 900,
@@ -25,13 +26,23 @@ export default function Index() {
         whiteSpace: 'nowrap',
       }}
     >
-      {'ArkSurvey'}
+      <Box>
+        {'ArkSurvey'}
+        <Box sx={
+          {
+            fontSize: '10px',
+            paddingBottom: "10px",
+            textAlign: 'center'
+          }
+        }>{'明日方舟调查大数据'}</Box>
+      </Box>
       <Box sx={
         {
           fontSize: '10px',
           paddingBottom: "10px",
+          textAlign: 'right'
         }
-      }>{'用大数据告诉你想知道的一切'}</Box>
+      }>{'v0.1.5(Beta)'}</Box>
     </Box>
     <Box sx={{ paddingBottom: '20px', flex: 1 }}>
       <SegmentedControl
