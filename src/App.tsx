@@ -9,7 +9,7 @@ import Nav from "./components/Nav";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from 'redux-persist'
 import { NotificationsProvider } from '@mantine/notifications';
-import { MantineProvider } from "@mantine/core";
+import { Container, MantineProvider } from "@mantine/core";
 
 let persistor = persistStore(store);
 
@@ -21,8 +21,10 @@ function App() {
         <NotificationsProvider position={'top-right'}>
           <PersistGate loading={null} persistor={persistor}>
             <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-              <Nav />
-              <TierList />
+              <Container sx={{ minWidth: '360px', maxWidth: '1500px', padding: 0 }}>
+                <Nav />
+                <TierList />
+              </Container>
             </DndProvider>
           </PersistGate>
         </NotificationsProvider>
