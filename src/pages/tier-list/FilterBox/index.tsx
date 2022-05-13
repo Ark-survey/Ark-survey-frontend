@@ -85,11 +85,11 @@ export default function Index() {
   }, [filters.chipGroup, handleChipsChange])
 
   const filterBlock = useMemo(() => {
-    if (filters.chipGroup["rarity"].length === 0 &&
-      filters.chipGroup["profession"].length === 0 &&
-      filters.chipGroup["accessChannel"].length === 0 &&
-      filters.chipGroup["sex"].length === 0 &&
-      filters.chipGroup["deployment"].length === 0 &&
+    if (filters.chipGroup["rarity"]?.length === 0 &&
+      filters.chipGroup["profession"]?.length === 0 &&
+      filters.chipGroup["accessChannel"]?.length === 0 &&
+      filters.chipGroup["sex"]?.length === 0 &&
+      filters.chipGroup["deployment"]?.length === 0 &&
       filters.dateRange[0] === 0 &&
       filters.dateRange[1] === 100) {
       return true

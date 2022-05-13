@@ -12,7 +12,7 @@ export function mapToArray<T>(map: { [key: string]: T }) {
 export function setMapAttr(map: { [key: string]: any }, itemKey: string, attrValue: any) {
   map[itemKey] = {
     ...map[itemKey],
-    attrValue
+    ...attrValue
   }
   return map
 }
@@ -21,7 +21,7 @@ export function setAllMapAttr(map: { [key: string]: any }, attrValue: any) {
   map.forEach((value: any, key: string) => {
     value = {
       ...value,
-      attrValue
+      ...attrValue
     }
   })
   return map

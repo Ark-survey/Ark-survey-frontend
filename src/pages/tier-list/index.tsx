@@ -9,9 +9,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { FoldDown, FoldUp } from "tabler-icons-react";
 import LoadDataPaper from "./LoadDataPaper";
-import { useEffect } from "react";
-import { characterDataLoad } from "src/utils/JSONLoadUtils";
-import { updateCharacter } from "src/store/slice/characterSlice";
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
@@ -19,20 +16,6 @@ export default function Index() {
   const newTierList = useSelector((state: RootState) => state.user.newTierList);
   const dispatch = useDispatch();
 
-  const resetCharList = async () => {
-    await characterDataLoad().then(
-      res => {
-        console.log(res);
-
-        dispatch(updateCharacter(res))
-      }
-    )
-  }
-
-  useEffect(() => {
-    resetCharList()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
   const handleMiniStatusChange = () => {
     dispatch(changeMini(!filters.mini))
   }

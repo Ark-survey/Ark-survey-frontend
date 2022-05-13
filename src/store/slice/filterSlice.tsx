@@ -10,7 +10,7 @@ export interface FilterType {
 }
 
 const initialState: FilterType = {
-  mini: false,
+  mini: true,
   fold: true,
   nameDisplay: false,
   chipGroup: {

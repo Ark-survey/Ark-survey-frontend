@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { characterDataLoad } from "src/utils/JSONLoadUtils";
 import { setAllMapAttr, setMapAttr } from "src/utils/ObjectUtils";
 
 export interface CharacterType {
@@ -17,7 +18,7 @@ export interface CharacterType {
 }
 
 let initialState: { charMap: { [key: string]: CharacterType } } = {
-  charMap: {}
+  charMap: characterDataLoad()
 }
 
 export const characterSlice = createSlice({
@@ -28,7 +29,7 @@ export const characterSlice = createSlice({
       state.charMap = action.payload
     },
     updateCharacterSelecting: (state, action: PayloadAction<{ key: string, selecting: boolean }>) => {
-      state.charMap = setMapAttr(state.charMap, action.payload.key, { picked: action.payload.selecting })
+      state.charMap = setMapAttr(state.charMap, action.payload.key, { selecting: action.payload.selecting })
     },
     updateCharacterPicked: (state, action: PayloadAction<{ key: string, picked: boolean }>) => {
       state.charMap = setMapAttr(state.charMap, action.payload.key, { picked: action.payload.picked })

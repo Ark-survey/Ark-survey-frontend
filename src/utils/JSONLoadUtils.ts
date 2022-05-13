@@ -6,7 +6,7 @@ export function isValidKey(
     return key in object;
 }
 
-export async function characterDataLoad() {
+export function characterDataLoad() {
   let characters = {} as any
   Object.getOwnPropertyNames(character_table_new).forEach((key) => {
     if (isValidKey(key, character_table_new)) {

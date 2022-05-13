@@ -1,5 +1,5 @@
 import { Box } from "@mantine/core";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { timeMarks } from "src/contexts";
 import CharacterListItem, { CharacterListItemType } from "./CharacterListItem";
 
@@ -30,8 +30,11 @@ export default function CharacterList() {
           const startTime = timeMarks[0].ts
           const endTime = timeMarks[timeMarks.length - 1].ts
           const tsRange = endTime - startTime
-          if (filters.dateRange[0] * tsRange / 100 + startTime > (c?.ts ?? 0) || filters.dateRange[1] * tsRange / 100 + startTime < (c?.ts ?? 0)) {
-            return false
+          if (filters.dateRange[0] !== 0 || filters.dateRange[1] !== 100) {
+            if (filters.dateRange[0] * tsRange / 100 + startTime > (c?.ts ?? 0) ||
+              filters.dateRange[1] * tsRange / 100 + startTime < (c?.ts ?? 0)) {
+              return false
+            }
           }
           else {
             for (let key in filters.chipGroup) {
@@ -51,16 +54,14 @@ export default function CharacterList() {
   const list = useMemo(() => {
     return (
       orderlyList
-        .map((character, index) => {
-          return (
-            <>
-              <CharacterListItem key={character.key} character={character} type={CharacterListItemType.NORMAL} />
-              {index === orderlyList.length - 1 &&
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((i, index) => <CharacterListItem key={'e-' + index} empty type={CharacterListItemType.NORMAL} />)
-              }
-            </>
-          )
-        })
+        .map((character, index) =>
+          <React.Fragment key={character.key}>
+            <CharacterListItem character={character} type={CharacterListItemType.NORMAL} />
+            {index === orderlyList.length - 1 &&
+              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((i, index) => <CharacterListItem key={'e-' + index} empty type={CharacterListItemType.NORMAL} />)
+            }
+          </React.Fragment>
+        )
     )
   }, [orderlyList])
 
@@ -72,7 +73,7 @@ export default function CharacterList() {
         flexFlow: 'row wrap'
       }}
     >
-      {orderlyList.length > 0 ? list : <Box sx={{ width: '100%', textAlign: 'center', marginTop: '10px', color: '#ccc' }}>没有符合条件的干员</Box>}
+      {orderlyList.length > 0 ? list : <Box key={'none'} sx={{ width: '100%', textAlign: 'center', marginTop: '10px', color: '#ccc' }}>没有符合条件的干员</Box>}
     </Box>
   );
 
