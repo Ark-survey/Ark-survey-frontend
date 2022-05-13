@@ -5,6 +5,7 @@ import { delAllCharacterByTier } from 'src/store/slice/tierSlice';
 import { updateAllCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
+import { successNotice } from "../../components/Notice";
 
 export default function ResetAllCharacterPopover() {
   const [opened, setOpened] = useState(false);
@@ -18,7 +19,7 @@ export default function ResetAllCharacterPopover() {
     })
 
     dispatch(updateAllCharacterPicked(false))
-
+    successNotice('等级表重置成功')
     setOpened(false)
   }
 

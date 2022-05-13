@@ -4,18 +4,10 @@ import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TierListServer } from "src/api";
 import { RootState } from "src/store";
-import { updateCharacterPicked } from "src/store/slice/characterSlice";
+import { updateAllCharacterPicked, updateCharacterPicked } from "src/store/slice/characterSlice";
 import { loadUserTierList, resetUserTierList } from "src/store/slice/tierSlice";
 import { updateNewTierListStatus } from "src/store/slice/userSlice";
-import { showNotification } from '@mantine/notifications';
-import { Check } from "tabler-icons-react";
-
-// const useStyles = createStyles((theme, _params, getRef) => ({
-//   badge: {
-//     marginRight: '15px',
-//     width: '100%'
-//   },
-// }));
+import { successNotice } from "../components/Notice";
 
 export default function Index() {
   const userTierList = useSelector((state: RootState) => state.userTierList);
@@ -23,13 +15,14 @@ export default function Index() {
 
   const [loading, setLoading] = useState(false);
 
-  const fetchCreateTierList = useCallback(async ({ id }: { id: string }) => {
+  const fetchFindTierList = useCallback(async ({ id }: { id: string }) => {
     return await new TierListServer().findById({ id })
   }, [])
 
   const handleCreateTierList = () => {
     dispatch(updateNewTierListStatus(true));
     dispatch(resetUserTierList());
+    dispatch(updateAllCharacterPicked(false));
   }
 
   const form = useForm({
@@ -48,9 +41,11 @@ export default function Index() {
     setLoading(true)
     setTimeout(async () => {
       try {
-        const res = await fetchCreateTierList({ id })
+        const res = await fetchFindTierList({ id })
         if (!res?.data?.id) {
-          setFieldError('id', '未查询到该 ID 数据')
+          setFieldError('id', '未查询到该 ID 数据');
+          dispatch(resetUserTierList());
+          dispatch(updateAllCharacterPicked(false));
         } else {
           res.data.tierList.forEach(item => {
             item.characterKeys.forEach(
@@ -61,20 +56,12 @@ export default function Index() {
           })
           dispatch(loadUserTierList(res.data));
           dispatch(updateNewTierListStatus(false));
-          showNotification({
-            color: 'green',
-            icon: <Check />,
-            title: '等级表数据更新成功',
-            message: '您的数据已经缓存在本地，下次打开本站时会自动加载。',
-            loading: false,
-          })
+          successNotice('等级表数据加载成功');
         }
-        // todo
       } finally {
         setLoading(false)
       }
     }, 1000)
-    // todo 清空 userTierList
   }
 
   return (

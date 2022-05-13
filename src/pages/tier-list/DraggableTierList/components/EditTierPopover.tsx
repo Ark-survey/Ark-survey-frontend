@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Popover, Button, Box, NumberInput, ActionIcon } from "@mantine/core";
+import { Popover, Button, Box, NumberInput, ActionIcon, InputWrapper, TextInput, Space } from "@mantine/core";
 import { Edit } from "tabler-icons-react";
-import { updateTierValue } from 'src/store/slice/tierSlice';
+import { updateTierName, updateTierValue } from 'src/store/slice/tierSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { useForm } from "@mantine/form";
+import { Tier } from "src/api/TierListServer";
+import { successNotice } from "../../components/Notice";
 
-export default function EditTierPopover({ tierValue }: { tierValue: number }) {
+export default function EditTierPopover({ tier }: { tier: Tier }) {
   const [opened, setOpened] = useState(false);
 
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
@@ -14,19 +16,28 @@ export default function EditTierPopover({ tierValue }: { tierValue: number }) {
 
   const form = useForm({
     initialValues: {
-      value: tierValue,
+      value: tier.value,
+      name: tier.name,
     },
 
     validate: {
-      value: (value) => (tiers.filter(v => v.value === value).length > 0 ? '该等级已经存在' : null),
+      value: (value) => (tier.value !== value && tiers.filter(v => v.value === value).length > 0 ? '该等级已经存在' : null),
+      name: (value) => {
+        return ((value?.length ?? '') > 6 ? '名称不能大于 6 字' : null)
+      },
     },
   });
 
-  const handleConfirm = ({ value }: { value: number }) => {
+  const handleConfirm = ({ value, name }: { value: number, name?: string }) => {
     dispatch(updateTierValue({
-      tierValue,
+      tierValue: tier.value,
       value
     }))
+    dispatch(updateTierName({
+      tierValue: tier.value,
+      value: name ?? ''
+    }))
+    successNotice('等级修改成功')
     setOpened(false)
   }
 
@@ -59,19 +70,26 @@ export default function EditTierPopover({ tierValue }: { tierValue: number }) {
       withArrow
     >
       <form onSubmit={form.onSubmit(handleConfirm)}>
+        <InputWrapper
+          label="等级名称"
+          description="选填，不超过 6 字"
+        >
+          <TextInput {...form.getInputProps('name')} placeholder="默认显示 T + 等级数值" />
+        </InputWrapper>
+        <Space h={'sm'} />
         <NumberInput
           label="等级数值"
-          description="范围[0-9]，保留一位小数"
+          description="范围[-9,9]，保留一位小数"
           placeholder="请输入"
           {...form.getInputProps('value')}
           precision={1}
           step={0.5}
-          min={0}
+          min={-9}
           max={9}
         />
+        <Space h={'lg'} />
         <Box sx={{ width: "100%", textAlign: "center" }}>
           <Button
-            sx={{ marginTop: "15px" }}
             radius="xl"
             type="submit"
           >

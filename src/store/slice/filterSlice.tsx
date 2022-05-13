@@ -17,7 +17,7 @@ const initialState: FilterType = {
     opRate: [],
     profession: [],
     sex: [],
-    rarity: [],
+    rarity: [5],
     position: [],
     accessChannel: [],
   },

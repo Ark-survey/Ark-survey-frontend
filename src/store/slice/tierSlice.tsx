@@ -75,6 +75,10 @@ export const tierSlice = createSlice({
       state.tierList[tierIndex].value = action.payload.value;
       state.tierList.sort((a, b) => a.value - b.value);
     },
+    updateTierName: (state, action: PayloadAction<{ tierValue: number, value: string }>) => {
+      const tierIndex = state.tierList.findIndex(item => item.value === action.payload.tierValue);
+      state.tierList[tierIndex].name = action.payload.value;
+    },
     addCharacterByTier: (state, action: PayloadAction<{ tierValue: number, key: string }>) => {
       const tierIndex = state.tierList.findIndex(item => item.value === action.payload.tierValue);
       state.tierList[tierIndex].characterKeys.push(action.payload.key);
@@ -90,6 +94,9 @@ export const tierSlice = createSlice({
   },
 })
 
-export const { loadUserTierList, resetUserTierList, addTier, delTier, updateTierValue, addCharacterByTier, delAllCharacterByTier, delCharacterByTier } = tierSlice.actions
+export const { loadUserTierList, resetUserTierList, addTier, delTier,
+  updateTierValue,
+  updateTierName,
+  addCharacterByTier, delAllCharacterByTier, delCharacterByTier } = tierSlice.actions
 
 export default tierSlice.reducer

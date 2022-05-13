@@ -5,6 +5,7 @@ import { delTier } from 'src/store/slice/tierSlice';
 import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
+import { successNotice } from "../../components/Notice";
 
 export default function DeleteTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
@@ -22,7 +23,7 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
         dispatch(updateCharacterPicked({ key, picked: false }))
       }
     })
-
+    successNotice('等级删除成功')
     setOpened(false)
   }
 

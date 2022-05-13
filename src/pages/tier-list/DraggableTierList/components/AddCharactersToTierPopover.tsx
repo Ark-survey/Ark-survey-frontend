@@ -5,6 +5,7 @@ import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice
 import { addCharacterByTier } from 'src/store/slice/tierSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
+import { successNotice } from "../../components/Notice";
 
 export default function AddCharactersToTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
@@ -19,7 +20,7 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
         dispatch(addCharacterByTier({ tierValue, key }))
       }
     })
-
+    successNotice('批量新增成功')
     setOpened(false)
   }
 

@@ -94,7 +94,7 @@ export default function TierBox({
             left: "20px",
           }}
         >
-          {"T " + tier.value}
+          {(tier?.name?.length ?? 0) > 0 ? tier.name : ("T " + tier.value)}
         </Box>
         {operationDisplay && (
           <>
@@ -109,14 +109,14 @@ export default function TierBox({
             >
               <AddCharactersToTierPopover tierValue={tier.value} />
               <Box sx={{ width: "6px", height: "4px" }} />
-              <EditTierPopover tierValue={tier.value} />
+              <EditTierPopover tier={tier} />
               <Box sx={{ width: "6px", height: "4px" }} />
               <DeleteTier tierValue={tier.value} />
             </Box>
             <Box
               sx={{
                 position: "absolute",
-                fontSize: filter.mini ? '40px' : "65px",
+                fontSize: '40px',
                 right: "20px",
                 lineHeight: filter.mini ? "75px" : '110px',
                 fontWeight: 900,
@@ -127,7 +127,7 @@ export default function TierBox({
                 WebkitTextFillColor: isOver ? "" : "transparent",
               }}
             >
-              {"Tier " + tier.value}
+              {(tier?.name?.length ?? 0) > 0 ? tier.name : ("T " + tier.value)}
             </Box>
           </>
         )}

@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react";
 import { Popover, Text, Button, Box } from "@mantine/core";
-import { Check, CloudUpload } from "tabler-icons-react";
+import { CloudUpload } from "tabler-icons-react";
 import { TierListServer } from "src/api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "src/store";
 import { loadUserTierList } from "src/store/slice/tierSlice";
 import { updateNewTierListStatus } from "src/store/slice/userSlice";
-import { showNotification } from '@mantine/notifications';
+import { successNotice } from "../../components/Notice";
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
@@ -35,12 +35,7 @@ export default function UploadPopover() {
         const res = await fetchUpdateTierList()
         dispatch(loadUserTierList(res.data))
       }
-      showNotification({
-        color: 'green',
-        icon: <Check />,
-        title: '等级表数据更新成功',
-        message: '您的数据已经缓存在本地，下次打开本站时会自动加载。',
-      })
+      successNotice('等级表数据上传成功')
       // todo
     } finally {
       setLoading(false)

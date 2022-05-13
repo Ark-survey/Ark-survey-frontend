@@ -152,7 +152,7 @@ export default function Index() {
         }}
       >
         <Button variant="outline" color="dark" radius="xl" size="xs" onClick={handleResetFilter}>
-          重置为全部干员
+          重置条件
         </Button>
         <Box sx={{
           width: 'calc(100% - 114px)',

@@ -17,6 +17,7 @@ import { useRef, useState } from "react";
 import { capture } from "src/utils/CaptureUtils";
 // import html2canvas from "html2canvas";
 import { format } from "date-fns";
+import { successNotice } from "../components/Notice";
 
 export default function Index() {
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
@@ -50,9 +51,10 @@ export default function Index() {
 
   const makeTierImg = () => {
     setMakingImg(true)
-    setTimeout(() => {
+    setTimeout(async () => {
       if (tiersBox.current) {
-        capture(tiersBox.current.id, '等级表 ' + format(new Date().getTime(), 'yy-MM-dd hh-mm-ss'))
+        await capture(tiersBox.current.id, '等级表 ' + format(new Date().getTime(), 'yy-MM-dd hh-mm-ss'))
+        successNotice('截图成功', '已自动下载。')
       }
       setMakingImg(false)
     })

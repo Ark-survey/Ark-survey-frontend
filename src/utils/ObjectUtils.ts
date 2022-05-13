@@ -18,9 +18,9 @@ export function setMapAttr(map: { [key: string]: any }, itemKey: string, attrVal
 }
 
 export function setAllMapAttr(map: { [key: string]: any }, attrValue: any) {
-  map.forEach((value: any, key: string) => {
-    value = {
-      ...value,
+  Object.keys(map).forEach((key) => {
+    map[key] = {
+      ...map[key],
       ...attrValue
     }
   })

@@ -9,6 +9,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { FoldDown, FoldUp } from "tabler-icons-react";
 import LoadDataPaper from "./LoadDataPaper";
+import { useCallback, useEffect } from "react";
+import { errorNotice, successNotice } from "./components/Notice";
+import { TierListServer } from "src/api";
+import { updateAllCharacterPicked, updateCharacterPicked } from "src/store/slice/characterSlice";
+import { loadUserTierList, resetUserTierList } from "src/store/slice/tierSlice";
+import { updateNewTierListStatus } from "src/store/slice/userSlice";
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
@@ -27,6 +33,37 @@ export default function Index() {
   const handleFoldStatusChange = () => {
     dispatch(changeFold(!filters.fold))
   }
+
+  const fetchFindTierList = useCallback(async ({ id }: { id: string }) => {
+    return await new TierListServer().findById({ id })
+  }, [])
+
+  const handleLoadData = async () => {
+    if (!newTierList && userTierList?.id) {
+      const res = await fetchFindTierList({ id: userTierList.id })
+      if (!res?.data?.id) {
+        errorNotice('该 ID 无对应数据');
+        dispatch(resetUserTierList());
+        dispatch(updateAllCharacterPicked(false));
+      } else {
+        res.data.tierList.forEach(item => {
+          item.characterKeys.forEach(
+            key => {
+              dispatch(updateCharacterPicked({ key, picked: true }));
+            }
+          )
+        })
+        dispatch(loadUserTierList(res.data));
+        dispatch(updateNewTierListStatus(false));
+        successNotice('等级表数据加载成功');
+      }
+    }
+  }
+
+  useEffect(() => {
+    handleLoadData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     newTierList || (!newTierList && userTierList?.id) ?
