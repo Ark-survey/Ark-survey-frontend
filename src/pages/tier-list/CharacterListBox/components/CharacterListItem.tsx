@@ -20,7 +20,7 @@ interface CharacterListItemProps {
 
 export interface CharacterDragItem {
   type: CharacterListItemType;
-  character: { [x: string]: any };
+  character: CharacterType;
   fromTierValue?: number;
 }
 
@@ -31,7 +31,6 @@ export default function CharacterListItem({
   empty
 }: CharacterListItemProps) {
   const filters = useSelector((state: RootState) => state.filters);
-  const characters = useSelector((state: RootState) => state.characters);
   const dispatch = useDispatch();
   const isMobile = useIsMobile()
 
@@ -49,7 +48,7 @@ export default function CharacterListItem({
 
   const handleCharacterSelect = () => {
     if (type === CharacterListItemType.NORMAL)
-      dispatch(updateCharacterSelecting({ characterIndex: characters.findIndex(v => v.id === character?.id), value: !character?.selecting }))
+      dispatch(updateCharacterSelecting({ key: character?.key ?? '', selecting: !character?.selecting }))
   }
 
   return (

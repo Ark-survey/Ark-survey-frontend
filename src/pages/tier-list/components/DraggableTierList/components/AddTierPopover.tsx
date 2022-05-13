@@ -28,7 +28,7 @@ export default function UploadPopover() {
 
     dispatch(addTier({
       value,
-      characterIds: []
+      characterKeys: []
     }))
 
     setOpened(false)

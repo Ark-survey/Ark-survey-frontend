@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface FilterType {
-  chipGroup: { [x: string]: string[] };
+  chipGroup: { [x: string]: any[] };
   dateRange: [number, number];
   fold: boolean;
   nameDisplay: boolean;
@@ -12,13 +12,13 @@ export interface FilterType {
 const initialState: FilterType = {
   mini: false,
   fold: true,
-  nameDisplay:false,
+  nameDisplay: false,
   chipGroup: {
     opRate: [],
     profession: [],
     sex: [],
-    rate: [],
-    deployment: [],
+    rarity: [],
+    position: [],
     accessChannel: [],
   },
   dateRange: [0, 100],
@@ -31,10 +31,10 @@ export const filterSlice = createSlice({
     // replaceFilters: (state, action: PayloadAction<FilterType>) => {
     //   state = action.payload
     // },
-    changeFold:(state, action: PayloadAction<boolean>) => {
+    changeFold: (state, action: PayloadAction<boolean>) => {
       state.fold = action.payload
     },
-    changeChipGroup: (state, action: PayloadAction<{[x: string]: string[]}>) => {
+    changeChipGroup: (state, action: PayloadAction<{ [x: string]: string[] }>) => {
       state.chipGroup = action.payload
     },
     changeDateRange: (state, action: PayloadAction<[number, number]>) => {
@@ -51,7 +51,7 @@ export const filterSlice = createSlice({
         opRate: [],
         profession: [],
         sex: [],
-        rate: [],
+        rarity: [5],
         deployment: [],
         accessChannel: [],
       };
@@ -64,7 +64,7 @@ export const { changeDateRange, changeFold, changeChipGroup, changeNameDisplay, 
 
 export default filterSlice.reducer
 
-export const filterHeightState = (state:any) => {
+export const filterHeightState = (state: any) => {
   let sum = 0
   for (let i in state.filters.chipGroup) {
     if (state.filters.chipGroup[i].length > 0) sum++
@@ -76,7 +76,7 @@ export const filterHeightState = (state:any) => {
     return state.filters.fold ? 40 + (sum - 1) * 22 : 590
 };
 
-export const filterOpenState = (state:any) => {
+export const filterOpenState = (state: any) => {
   let flag = false;
   for (let f in state.filters.chipGroup) {
     if (state.filters.chipGroup[f].length !== 0) flag = true;

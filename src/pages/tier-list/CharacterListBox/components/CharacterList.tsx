@@ -6,16 +6,18 @@ import CharacterListItem, { CharacterListItemType } from "./CharacterListItem";
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import { filterOpenState } from "src/store/slice/filterSlice";
+import { mapToArray } from "src/utils/ObjectUtils";
+import { CharacterType } from "src/store/slice/characterSlice";
 
 export default function CharacterList() {
-  const characters = useSelector((state: RootState) => state.characters);
+  const charMap = useSelector((state: RootState) => state.characters.charMap);
   const filters = useSelector((state: RootState) => state.filters);
   const filterOpen = useSelector(filterOpenState);
 
   const orderlyList = useMemo(() => {
-    return [...characters]
-      .sort((a: any, b: any) => {
-        const diff = parseInt(a.ts) - parseInt(b.ts);
+    return mapToArray<CharacterType>(charMap)
+      .sort((a, b) => {
+        const diff = (a?.ts ?? 0) - (b?.ts ?? 0)
         if (diff === 0) {
           if (a.accessChannel === "限定寻访") return -1;
           if (a.accessChannel === "普通寻访") return 0;
@@ -23,18 +25,18 @@ export default function CharacterList() {
         }
         return diff;
       })
-      .filter((character: any) => {
+      .filter((c: any) => {
         if (filterOpen) {
           const startTime = timeMarks[0].ts
           const endTime = timeMarks[timeMarks.length - 1].ts
           const tsRange = endTime - startTime
-          if (filters.dateRange[0] * tsRange / 100 + startTime > character.ts || filters.dateRange[1] * tsRange / 100 + startTime < character.ts) {
+          if (filters.dateRange[0] * tsRange / 100 + startTime > (c?.ts ?? 0) || filters.dateRange[1] * tsRange / 100 + startTime < (c?.ts ?? 0)) {
             return false
           }
           else {
             for (let key in filters.chipGroup) {
               if (filters.chipGroup[key].length > 0 &&
-                filters.chipGroup[key].indexOf(character[key]) < 0
+                filters.chipGroup[key].indexOf(c[key]) < 0
               ) {
                 return false;
               }
@@ -43,16 +45,16 @@ export default function CharacterList() {
         }
         return true;
       })
-  }, [filterOpen, filters.chipGroup, filters.dateRange, characters])
+  }, [charMap, filterOpen, filters.dateRange, filters.chipGroup])
 
 
   const list = useMemo(() => {
     return (
       orderlyList
-        .map((character: any, index: number) => {
+        .map((character, index) => {
           return (
             <>
-              <CharacterListItem key={character.id} character={character} type={CharacterListItemType.NORMAL} />
+              <CharacterListItem key={character.key} character={character} type={CharacterListItemType.NORMAL} />
               {index === orderlyList.length - 1 &&
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((i, index) => <CharacterListItem key={'e-' + index} empty type={CharacterListItemType.NORMAL} />)
               }

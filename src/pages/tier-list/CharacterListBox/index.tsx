@@ -13,19 +13,17 @@ import { useChangeSize } from "src/hooks";
 
 export default function CharacterListItem() {
   const filters = useSelector((state: RootState) => state.filters);
-  const characters = useSelector((state: RootState) => state.characters);
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
 
   const size = useChangeSize()
 
   const handleCharacterReturn = ({ fromTierValue, character }: CharacterDragItem) => {
-    const index = characters.findIndex((o: any) => o.id === character.id)
-    dispatch(updateCharacterPicked({ characterIndex: index, value: false }))
+    dispatch(updateCharacterPicked({ key: character.key, picked: false }))
 
     dispatch(delCharacterByTier({
       tierValue: fromTierValue ?? 0,
-      characterId: character.id
+      key: character.key
     }))
   }
 

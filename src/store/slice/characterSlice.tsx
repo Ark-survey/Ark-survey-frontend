@@ -1,44 +1,44 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { opData } from "src/contexts";
+import { setAllMapAttr, setMapAttr } from "src/utils/ObjectUtils";
 
 export interface CharacterType {
-  id: string,
-  name: string,
-  profession: string,
-  sex: string,
-  rate: number,
-  deployment: string,
-  accessChannel: string,
-  ts: number,
-  imgUrl: string,
-  picked: boolean,
-  selecting: boolean
+  key: string,
+  id?: string,
+  name?: string,
+  profession?: string,
+  sex?: string,
+  rarity?: number,
+  deployment?: string,
+  accessChannel?: string,
+  ts?: number,
+  imgUrl?: string,
+  picked?: boolean,
+  selecting?: boolean
 }
 
-const initialState: CharacterType[] = opData.map(item => ({
-  ...item,
-  picked: false,
-  selecting: false
-})) as CharacterType[]
+let initialState: { charMap: { [key: string]: CharacterType } } = {
+  charMap: {}
+}
 
 export const characterSlice = createSlice({
   name: 'characters',
   initialState,
   reducers: {
-    updateCharacterSelecting: (state, action: PayloadAction<{ characterIndex: number, value: boolean }>) => {
-      state[action.payload.characterIndex].selecting = action.payload.value
+    updateCharacter: (state, action: PayloadAction<{ [key: string]: CharacterType }>) => {
+      state.charMap = action.payload
     },
-    updateCharacterPicked: (state, action: PayloadAction<{ characterIndex: number, value: boolean }>) => {
-      state[action.payload.characterIndex].picked = action.payload.value
+    updateCharacterSelecting: (state, action: PayloadAction<{ key: string, selecting: boolean }>) => {
+      state.charMap = setMapAttr(state.charMap, action.payload.key, { picked: action.payload.selecting })
+    },
+    updateCharacterPicked: (state, action: PayloadAction<{ key: string, picked: boolean }>) => {
+      state.charMap = setMapAttr(state.charMap, action.payload.key, { picked: action.payload.picked })
     },
     updateAllCharacterPicked: (state, action: PayloadAction<boolean>) => {
-      state.forEach((item) => {
-        item.picked = action.payload
-      })
+      state.charMap = setAllMapAttr(state.charMap, { picked: action.payload })
     },
   },
 })
 
-export const { updateCharacterPicked, updateAllCharacterPicked, updateCharacterSelecting } = characterSlice.actions
+export const { updateCharacterPicked, updateCharacter, updateAllCharacterPicked, updateCharacterSelecting } = characterSlice.actions
 
 export default characterSlice.reducer

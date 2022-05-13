@@ -1,6 +1,7 @@
 import { Box, Chip, Chips, createStyles } from "@mantine/core";
 
 interface ChipGroupsProps {
+  disabled?: boolean;
   tags: any[];
   classNames?: Record<"iconWrapper" | "checked", string>;
   values: string[];
@@ -25,7 +26,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 export function ChipGroups({
   tags,
-  classNames,
+  classNames, disabled,
   onChange,
   label,
   values
@@ -58,7 +59,7 @@ export function ChipGroups({
       )}
       <Chips multiple size="xs" value={values} classNames={classes} onChange={onChange}>
         {tags.map((item) => (
-          <Chip value={item.value} key={item.value}>
+          <Chip disabled={disabled} value={item.value} key={item.value}>
             {item.name}
           </Chip>
         ))}

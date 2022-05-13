@@ -8,17 +8,16 @@ import { RootState } from "src/store";
 
 export default function AddCharactersToTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
-  const characters = useSelector((state: RootState) => state.characters);
+  const charMap = useSelector((state: RootState) => state.characters.charMap);
   const dispatch = useDispatch();
 
   const handleConfirm = () => {
-    characters.forEach((character, index) => {
-      if (character.selecting) {
-        dispatch(updateCharacterPicked({ characterIndex: index, value: true }))
-        dispatch(updateCharacterSelecting({ characterIndex: index, value: false }))
-        dispatch(addCharacterByTier({ tierValue, characterId: character.id }))
+    Object.keys(charMap).forEach((key) => {
+      if (charMap[key].selecting) {
+        dispatch(updateCharacterPicked({ key, picked: true }))
+        dispatch(updateCharacterSelecting({ key, selecting: false }))
+        dispatch(addCharacterByTier({ tierValue, key }))
       }
-      return character
     })
 
     setOpened(false)

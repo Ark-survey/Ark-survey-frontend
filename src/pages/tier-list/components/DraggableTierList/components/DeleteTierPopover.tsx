@@ -10,18 +10,17 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
   const [opened, setOpened] = useState(false);
 
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
-  const characters = useSelector((state: RootState) => state.characters);
+  const charMap = useSelector((state: RootState) => state.characters.charMap);
   const dispatch = useDispatch();
 
   const handleConfirm = () => {
     dispatch(delTier({ tierValue }))
 
     const tierIndex = tiers.findIndex(item => item.value === tierValue);
-    characters.forEach((character, index) => {
-      if (tiers[tierIndex].characterIds.includes(character.id)) {
-        dispatch(updateCharacterPicked({ characterIndex: index, value: false }))
+    Object.keys(charMap).forEach((key) => {
+      if (tiers[tierIndex].characterKeys.includes(key)) {
+        dispatch(updateCharacterPicked({ key, picked: false }))
       }
-      return character
     })
 
     setOpened(false)

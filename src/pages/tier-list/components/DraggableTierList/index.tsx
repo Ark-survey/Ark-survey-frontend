@@ -20,33 +20,29 @@ import { format } from "date-fns";
 
 export default function Index() {
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
-  const characters = useSelector((state: RootState) => state.characters);
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
   const [makingImg, setMakingImg] = useState(false)
 
   const handleDropCharacterOnTier = ({ character, type, fromTierValue }: CharacterDragItem, toTierValue: number) => {
-    console.log(type === CharacterListItemType.TIER && fromTierValue !== toTierValue);
-
     if (type === CharacterListItemType.NORMAL || (type === CharacterListItemType.TIER && fromTierValue !== toTierValue)) {
-      const index = characters.findIndex((o: any) => o.id === character.id)
-      dispatch(updateCharacterPicked({ characterIndex: index, value: true }))
-      dispatch(updateCharacterSelecting({ characterIndex: index, value: false }))
+      dispatch(updateCharacterPicked({ key: character.key, picked: true }))
+      dispatch(updateCharacterSelecting({ key: character.key, selecting: false }))
 
       if (type === CharacterListItemType.TIER) {
         dispatch(
           delCharacterByTier({
             tierValue: fromTierValue ?? 0,
-            characterId: character.id
-          }
-          ))
+            key: character.key
+          })
+        )
       }
 
       dispatch(
         addCharacterByTier({
           tierValue: toTierValue,
-          characterId: character.id
+          key: character.key
         })
       )
     }

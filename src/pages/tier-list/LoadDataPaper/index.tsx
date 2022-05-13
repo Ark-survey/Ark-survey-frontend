@@ -1,23 +1,22 @@
-import { createStyles, Center, Paper, InputWrapper, TextInput, Button, Space, Group } from "@mantine/core";
+import { Center, Paper, InputWrapper, TextInput, Button, Space, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TierListServer } from "src/api";
 import { RootState } from "src/store";
-import { updateCharacterPicked, updateCharacterSelecting } from "src/store/slice/characterSlice";
+import { updateCharacterPicked } from "src/store/slice/characterSlice";
 import { loadUserTierList } from "src/store/slice/tierSlice";
 import { updateNewTierListStatus } from "src/store/slice/userSlice";
 
-const useStyles = createStyles((theme, _params, getRef) => ({
-  badge: {
-    marginRight: '15px',
-    width: '100%'
-  },
-}));
+// const useStyles = createStyles((theme, _params, getRef) => ({
+//   badge: {
+//     marginRight: '15px',
+//     width: '100%'
+//   },
+// }));
 
 export default function Index() {
   const userTierList = useSelector((state: RootState) => state.userTierList);
-  const characters = useSelector((state: RootState) => state.characters);
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(false);
@@ -48,16 +47,13 @@ export default function Index() {
     setTimeout(async () => {
       try {
         const res = await fetchCreateTierList({ id })
-        console.log(res);
-
         if (!res?.data?.id) {
           setFieldError('id', '未查询到该 ID 数据')
         } else {
           res.data.tierList.forEach(item => {
-            item.characterIds.forEach(
-              characterId => {
-                const characterIndex = characters.findIndex(i => i.id === characterId)
-                dispatch(updateCharacterPicked({ characterIndex, value: true }));
+            item.characterKeys.forEach(
+              key => {
+                dispatch(updateCharacterPicked({ key, picked: true }));
               }
             )
           })

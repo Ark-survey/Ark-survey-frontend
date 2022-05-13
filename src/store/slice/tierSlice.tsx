@@ -6,23 +6,23 @@ const initialState: UserTierList = {
   tierList: [
     {
       value: 0,
-      characterIds: [],
+      characterKeys: [],
     },
     {
       value: 1,
-      characterIds: [],
+      characterKeys: [],
     },
     {
       value: 2,
-      characterIds: [],
+      characterKeys: [],
     },
     {
       value: 3,
-      characterIds: [],
+      characterKeys: [],
     },
     {
       value: 4,
-      characterIds: [],
+      characterKeys: [],
     }
   ],
   type: 'NORMAL',
@@ -51,17 +51,17 @@ export const tierSlice = createSlice({
       state.tierList[tierIndex].value = action.payload.value;
       state.tierList.sort((a, b) => a.value - b.value);
     },
-    addCharacterByTier: (state, action: PayloadAction<{ tierValue: number, characterId: string }>) => {
+    addCharacterByTier: (state, action: PayloadAction<{ tierValue: number, key: string }>) => {
       const tierIndex = state.tierList.findIndex(item => item.value === action.payload.tierValue);
-      state.tierList[tierIndex].characterIds.push(action.payload.characterId);
+      state.tierList[tierIndex].characterKeys.push(action.payload.key);
     },
-    delCharacterByTier: (state, action: PayloadAction<{ tierValue: number, characterId: string }>) => {
+    delCharacterByTier: (state, action: PayloadAction<{ tierValue: number, key: string }>) => {
       const tierIndex = state.tierList.findIndex(item => item.value === action.payload.tierValue);
-      state.tierList[tierIndex].characterIds = state.tierList[tierIndex].characterIds.filter(item => !(item === action.payload.characterId));
+      state.tierList[tierIndex].characterKeys = state.tierList[tierIndex].characterKeys.filter(item => !(item === action.payload.key));
     },
     delAllCharacterByTier: (state, action: PayloadAction<{ tierValue: number }>) => {
       const tierIndex = state.tierList.findIndex(item => item.value === action.payload.tierValue);
-      state.tierList[tierIndex].characterIds = [];
+      state.tierList[tierIndex].characterKeys = [];
     },
   },
 })

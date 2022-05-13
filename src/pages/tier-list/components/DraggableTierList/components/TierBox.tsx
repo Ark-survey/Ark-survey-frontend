@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import AddCharactersToTierPopover from "./AddCharactersToTierPopover";
 import { Tier } from "src/api/TierListServer";
+import { mapToArray } from "src/utils/ObjectUtils";
 
 /**
  * @param value tier value
@@ -27,7 +28,7 @@ export default function TierBox({
   operationDisplay = false,
   onDropCharacter,
 }: TierBoxProps) {
-  const characters = useSelector((state: RootState) => state.characters);
+  const charMap = useSelector((state: RootState) => state.characters.charMap);
   const filter = useSelector((state: RootState) => state.filters);
 
   const [{ isOver }, drop] = useDrop(
@@ -41,7 +42,7 @@ export default function TierBox({
     []
   );
   const characterIMgList = useMemo(() => {
-    const characterList = characters.filter((character) => tier.characterIds.indexOf(character.id) > -1);
+    const characterList = mapToArray(charMap).filter((character) => tier.characterKeys.indexOf(character.key) > -1);
     let cache = [];
     for (let i in characterList) {
       // if (i === "4") {
@@ -53,7 +54,7 @@ export default function TierBox({
       // }
       cache.push(
         <CharacterListItem
-          key={characterList[i].id}
+          key={characterList[i].key}
           character={characterList[i]}
           fromTierValue={tier.value}
           type={CharacterListItemType.TIER}
@@ -61,7 +62,7 @@ export default function TierBox({
       );
     }
     return cache;
-  }, [characters, tier.characterIds, tier.value]);
+  }, [charMap, tier.characterKeys, tier.value]);
 
   return (
     <>

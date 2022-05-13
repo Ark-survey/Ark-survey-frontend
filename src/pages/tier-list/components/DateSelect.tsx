@@ -3,13 +3,14 @@ import { format } from "date-fns";
 import { timeMarks } from "src/contexts";
 
 interface DateSelectProps {
+  disabled?: boolean;
   value: [number, number];
   classNames?: Record<"iconWrapper" | "checked", string>;
   onChange: (value: [number, number]) => void;
   label?: string;
 }
 
-export function DateSelect({ value, classNames, onChange, label }: DateSelectProps) {
+export function DateSelect({ value, classNames, onChange, label, disabled }: DateSelectProps) {
   return (
     <Box
       sx={{
@@ -38,6 +39,7 @@ export function DateSelect({ value, classNames, onChange, label }: DateSelectPro
 
       <Box sx={{ padding: "15px 8px", paddingTop: "10px" }}>
         <RangeSlider
+          disabled={disabled}
           styles={{
             markLabel: {
               fontSize: "10px",

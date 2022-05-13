@@ -1,10 +1,9 @@
-import { AxiosResponse } from "axios";
-import { get, post } from ".";
+import { post } from ".";
 
 export interface Tier {
   name?: string;
   value: number;
-  characterIds: string[];
+  characterKeys: string[];
 }
 
 export interface UserTierList {

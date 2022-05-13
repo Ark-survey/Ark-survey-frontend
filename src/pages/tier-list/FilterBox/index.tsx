@@ -1,26 +1,18 @@
-import { Button, Box, Badge, createStyles } from "@mantine/core";
-import { format } from "date-fns";
+import { Button, Box } from "@mantine/core";
 import { useCallback, useEffect, useMemo } from "react";
-import { rate, profession, accessChannel, sex, deployment, timeMarks } from "src/contexts";
+import { rarity, profession, accessChannel, sex, position } from "src/contexts";
 import { filterHeightState, changeChipGroup, changeDateRange, reset } from "src/store/slice/filterSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/store";
 import { ChipGroups } from "../components/ChipGroups";
 import { DateSelect } from "../components/DateSelect";
-
-const useStyles = createStyles((theme, _params, getRef) => ({
-  badge: {
-    marginRight: '15px',
-    width: '100%'
-  },
-}));
+import TimeBadgeBox from "./TimeBadgeBox";
+import BadgeBox from "./BadgeBox";
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
-
-  const { classes } = useStyles();
 
   const handleDateSelectChange = useCallback(
     (values: [number, number]) => {
@@ -56,10 +48,11 @@ export default function Index() {
     return (
       <>
         <ChipGroups
+          disabled
           label={"星级"}
-          tags={rate}
-          values={filters.chipGroup["rate"]}
-          onChange={(values) => handleChipsChange(values, "rate")}
+          tags={rarity}
+          values={filters.chipGroup["rarity"]}
+          onChange={(values) => handleChipsChange(values, "rarity")}
         />
         <ChipGroups
           label={"职业"}
@@ -68,12 +61,14 @@ export default function Index() {
           onChange={(values) => handleChipsChange(values, "profession")}
         />
         <ChipGroups
+          disabled
           label={"获取渠道"}
           tags={accessChannel}
           values={filters.chipGroup["accessChannel"]}
           onChange={(values) => handleChipsChange(values, "accessChannel")}
         />
         <ChipGroups
+          disabled
           label={"性别"}
           tags={sex}
           values={filters.chipGroup["sex"]}
@@ -81,16 +76,16 @@ export default function Index() {
         />
         <ChipGroups
           label={"部署位"}
-          tags={deployment}
-          values={filters.chipGroup["deployment"]}
-          onChange={(values) => handleChipsChange(values, "deployment")}
+          tags={position}
+          values={filters.chipGroup["position"]}
+          onChange={(values) => handleChipsChange(values, "position")}
         />
       </>
     )
   }, [filters.chipGroup, handleChipsChange])
 
   const filterBlock = useMemo(() => {
-    if (filters.chipGroup["rate"].length === 0 &&
+    if (filters.chipGroup["rarity"].length === 0 &&
       filters.chipGroup["profession"].length === 0 &&
       filters.chipGroup["accessChannel"].length === 0 &&
       filters.chipGroup["sex"].length === 0 &&
@@ -103,44 +98,24 @@ export default function Index() {
   }, [filters.chipGroup, filters.dateRange])
 
   const badges = useMemo(() => {
-    const startTime = timeMarks[0].ts
-    const endTime = timeMarks[timeMarks.length - 1].ts
-    const tsRange = endTime - startTime
     return (
       filterBlock ?
-        (<Box sx={{ color: '#aaa', fontWeight: 900, lineHeight:'30px' }}>{"未筛选"}</Box>) :
-        (<>
-          {(filters.dateRange[0] !== 0 ||
-            filters.dateRange[1] !== 100) &&
-            <Box className={classes.badge} >
-              <Badge>
-                {'干员实装时间：' + [format(new Date((filters.dateRange[0] * tsRange / 100 + startTime) * 1000), 'yyyy-MM-dd'),
-                format(new Date((filters.dateRange[1] * tsRange / 100 + startTime) * 1000), 'yyyy-MM-dd')].join('至')
-                }
-              </Badge>
-            </Box>
-          }
-          {filters.chipGroup["rate"].length > 0 &&
-            <Box className={classes.badge} >
-              <Badge> {'星级：' + filters.chipGroup["rate"].join(',')}</Badge>
-            </Box>
-          }
-          {filters.chipGroup["profession"].length > 0 &&
-            <Box className={classes.badge} >
-              <Badge>{'职业：' + filters.chipGroup["profession"].join(',')}</Badge></Box>}
-          {filters.chipGroup["accessChannel"].length > 0 &&
-            <Box className={classes.badge} >
-              <Badge>{'获取渠道：' + filters.chipGroup["accessChannel"].map(i=>i.slice(0,2)).join(',')}</Badge></Box>}
-          {filters.chipGroup["sex"].length > 0 &&
-            <Box className={classes.badge} >
-              <Badge>{'性别：' + filters.chipGroup["sex"].join(',')}</Badge></Box >
-          }
-          {filters.chipGroup["deployment"].length > 0 &&
-            <Box className={classes.badge} >
-              <Badge>{'部署位：' + filters.chipGroup["deployment"].join(',')}</Badge></Box>}
-        </>)
+        (<Box sx={{ color: '#aaa', fontWeight: 900, lineHeight: '30px' }}>{"未筛选"}</Box>) :
+        (
+          <>
+            {(filters.dateRange[0] !== 0 ||
+              filters.dateRange[1] !== 100) &&
+              <TimeBadgeBox />
+            }
+            <BadgeBox title={'星级：'} badgeKey={"rarity"} list={rarity} />
+            <BadgeBox title={'职业：'} badgeKey={"profession"} list={profession} />
+            <BadgeBox title={'获取渠道：'} badgeKey={"accessChannel"} list={accessChannel} />
+            <BadgeBox title={'性别：'} badgeKey={"sex"} list={sex} />
+            <BadgeBox title={'部署位：'} badgeKey={"position"} list={position} />
+          </>
+        )
     )
-  }, [classes.badge, filterBlock, filters.chipGroup, filters.dateRange])
+  }, [filterBlock, filters.dateRange])
 
   return (
     <Box
@@ -159,15 +134,16 @@ export default function Index() {
         marginTop: filters.fold ? '-532px' : '0'
       }}>
         <DateSelect
+          disabled
           value={filters["dateRange"]} label={"干员实装时间"} onChange={handleDateSelectChange} />
         {chipGroupList}
       </Box>
       <Box
         sx={{
-          width:'calc(114px + 100%)',
+          width: 'calc(114px + 100%)',
           display: 'flex',
           justifyContent: 'end',
-          position:'absolute',
+          position: 'absolute',
           transition: 'all 1s',
           height: "40px",
           marginRight: filters.fold ? '0' : '-100%',
