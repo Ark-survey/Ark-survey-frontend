@@ -11,11 +11,10 @@ export function characterDataLoad() {
   Object.getOwnPropertyNames(character_table_new).forEach((key) => {
     if (isValidKey(key, character_table_new)) {
       characters[key] = character_table_new[key]
-      characters[key].imgUrl = 'https://raw.githubusercontent.com/yuanyan3060/Arknights-Bot-Resource/main/avatar/' + key + '.png'
+      characters[key].imgUrl = 'https://cdn.jsdelivr.net/gh/HEGGRIA/Ark-survey-assets@main/avatar/' + key + '.png'
       characters[key].key = key
     }
   })
-  
   
   return characters
 }

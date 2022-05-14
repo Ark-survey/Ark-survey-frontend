@@ -31,7 +31,6 @@ export default function Index() {
         fontSize: "32px",
         paddingLeft: 5,
         fontWeight: 900,
-        marginRight: '20px',
         whiteSpace: 'nowrap',
       }}
     >
@@ -51,7 +50,7 @@ export default function Index() {
           paddingBottom: "10px",
           textAlign: 'right'
         }
-      }>{'v0.1.5(Beta)'}</Box>
+      }>{user.version}</Box>
     </Box>
     <Box sx={{
       paddingBottom: '20px', flex: 1, display: 'flex',
