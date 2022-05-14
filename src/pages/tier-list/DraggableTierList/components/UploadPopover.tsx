@@ -23,6 +23,13 @@ export default function UploadPopover() {
     return await new TierListServer().updateOne(useTierList)
   }, [useTierList])
 
+  const handleCopyText = useCallback(async () => {
+    if (useTierList.id) {
+      navigator.clipboard.writeText(useTierList.id)
+      successNotice('已复制到剪贴板')
+    }
+  }, [useTierList.id])
+
   const handleTierListSubmit = useCallback(async () => {
     setOpened(false)
     setLoading(true)
@@ -57,14 +64,21 @@ export default function UploadPopover() {
           {user.newTierList ? '提交' : '更新'}
         </Button>
       }
-      width={user.newTierList ? 220 : 150}
-      position="bottom"
+      width={user.newTierList ? 220 : 300}
+      position="left"
       withArrow
     >
-      {user.newTierList &&
+      {user.newTierList ?
         <Text size="sm" sx={{ marginBottom: "15px" }} >
           {'注意：提交之后页面会显示您的唯一 ID，下次进入本页面时输入您的 ID 即可获取之前提交的数据。'}
         </Text>
+        :
+        <>
+          <Text size="sm" align="center" sx={{ marginBottom: "15px", fontSize: '10px', cursor: 'pointer' }} onClick={handleCopyText}>
+            {'点击复制您的表单 ID 至剪贴板'}<br />
+            {useTierList.id}
+          </Text>
+        </>
       }
       <Box sx={{ width: "100%", textAlign: "center" }}>
         <Button
