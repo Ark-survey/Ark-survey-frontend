@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { Popover, Button, Box, Text, ActionIcon } from "@mantine/core";
-import { Plus } from "tabler-icons-react";
+import { useState } from 'react';
+import { Popover, Button, Box, Text, ActionIcon } from '@mantine/core';
+import { Plus } from 'tabler-icons-react';
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
 import { addCharacterByTier } from 'src/store/slice/tierSlice';
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "src/store";
-import { successNotice } from "../../components/Notice";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'src/store';
+import { successNotice } from '../../components/Notice';
 
 export default function AddCharactersToTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
@@ -15,14 +15,14 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
   const handleConfirm = () => {
     Object.keys(charMap).forEach((key) => {
       if (charMap[key].selecting) {
-        dispatch(updateCharacterPicked({ key, picked: true }))
-        dispatch(updateCharacterSelecting({ key, selecting: false }))
-        dispatch(addCharacterByTier({ tierValue, key }))
+        dispatch(updateCharacterPicked({ key, picked: true }));
+        dispatch(updateCharacterSelecting({ key, selecting: false }));
+        dispatch(addCharacterByTier({ tierValue, key }));
       }
-    })
-    successNotice('批量新增成功')
-    setOpened(false)
-  }
+    });
+    successNotice('批量新增成功');
+    setOpened(false);
+  };
 
   return (
     <Popover
@@ -31,7 +31,7 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
       target={
         <ActionIcon
           sx={{
-            background: "#fff",
+            background: '#fff',
           }}
           size="xs"
           radius="xs"
@@ -46,13 +46,8 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
       withArrow
     >
       <Text size="sm">这会向该等级添加您选中的全部干员，确定要继续吗？</Text>
-      <Box sx={{ width: "100%", textAlign: "center" }}>
-        <Button
-          sx={{ marginTop: "15px" }}
-          radius="xl"
-          color={"blue"}
-          onClick={handleConfirm}
-        >
+      <Box sx={{ width: '100%', textAlign: 'center' }}>
+        <Button sx={{ marginTop: '15px' }} radius="xl" color="blue" onClick={handleConfirm}>
           确认添加
         </Button>
       </Box>

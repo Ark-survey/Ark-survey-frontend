@@ -1,3 +1,3 @@
 export const ItemTypes = {
-  OPERATOR: "Operator",
+  OPERATOR: 'Operator',
 };

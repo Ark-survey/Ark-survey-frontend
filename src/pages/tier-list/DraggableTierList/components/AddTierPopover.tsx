@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { Popover, Button, Box, NumberInput, InputWrapper, Space, TextInput } from "@mantine/core";
+import { useEffect, useState } from 'react';
+import { Popover, Button, Box, NumberInput, InputWrapper, Space, TextInput } from '@mantine/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTier } from 'src/store/slice/tierSlice';
-import { RootState } from "src/store";
-import { useForm } from "@mantine/form";
-import { successNotice } from "../../components/Notice";
+import { RootState } from 'src/store';
+import { useForm } from '@mantine/form';
+import { successNotice } from '../../components/Notice';
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
@@ -15,44 +15,44 @@ export default function UploadPopover() {
   const form = useForm({
     initialValues: {
       value: 0,
-      name: ''
+      name: '',
     },
 
     validate: {
-      value: (value) => (tiers.filter(v => v.value === value).length > 0 ? '该等级已经存在' : null),
+      value: (value) => (tiers.filter((v) => v.value === value).length > 0 ? '该等级已经存在' : null),
       name: (value) => {
-        return (value.length > 6 ? '名称不能大于 6 字' : null)
+        return value.length > 6 ? '名称不能大于 6 字' : null;
       },
     },
   });
 
   const handleConfirm = ({ value, name }: { value: number; name?: string }) => {
-    if (tiers.filter(v => v.value === value).length > 0) {
+    if (tiers.filter((v) => v.value === value).length > 0) {
       return;
     }
 
-    dispatch(addTier({
-      value,
-      name,
-      characterKeys: []
-    }))
+    dispatch(
+      addTier({
+        value,
+        name,
+        characterKeys: [],
+      }),
+    );
 
-    successNotice('等级添加成功')
-    setOpened(false)
-  }
+    successNotice('等级添加成功');
+    setOpened(false);
+  };
 
   useEffect(() => {
     form.reset();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [opened])
+  }, [form, opened]);
 
   return (
     <Popover
       opened={opened}
       onClose={() => setOpened(false)}
       target={
-        <Button
-          size="xs" radius="xl" variant="outline" color="green" onClick={() => setOpened((o) => !o)}>
+        <Button size="xs" radius="xl" variant="outline" color="green" onClick={() => setOpened((o) => !o)}>
           添加等级
         </Button>
       }
@@ -61,13 +61,10 @@ export default function UploadPopover() {
       withArrow
     >
       <form onSubmit={form.onSubmit(handleConfirm)}>
-        <InputWrapper
-          label="等级名称"
-          description="选填，不超过 6 字"
-        >
+        <InputWrapper label="等级名称" description="选填，不超过 6 字">
           <TextInput {...form.getInputProps('name')} placeholder="默认显示 T + 等级数值" />
         </InputWrapper>
-        <Space h={'sm'} />
+        <Space h="sm" />
         <NumberInput
           label="等级数值"
           description="范围[-9,9]，保留一位小数"
@@ -78,12 +75,9 @@ export default function UploadPopover() {
           min={-9}
           max={9}
         />
-        <Space h={'lg'} />
-        <Box sx={{ width: "100%", textAlign: "center" }}>
-          <Button
-            radius="xl"
-            type="submit"
-          >
+        <Space h="lg" />
+        <Box sx={{ width: '100%', textAlign: 'center' }}>
+          <Button radius="xl" type="submit">
             确认添加
           </Button>
         </Box>

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Popover, Button, Box, NumberInput, ActionIcon, InputWrapper, TextInput, Space } from "@mantine/core";
-import { Edit } from "tabler-icons-react";
+import { useEffect, useState } from 'react';
+import { Popover, Button, Box, NumberInput, ActionIcon, InputWrapper, TextInput, Space } from '@mantine/core';
+import { Edit } from 'tabler-icons-react';
 import { updateTierName, updateTierValue } from 'src/store/slice/tierSlice';
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "src/store";
-import { useForm } from "@mantine/form";
-import { Tier } from "src/api/TierListServer";
-import { successNotice } from "../../components/Notice";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'src/store';
+import { useForm } from '@mantine/form';
+import { Tier } from 'src/api/TierListServer';
+import { successNotice } from '../../components/Notice';
 
 export default function EditTierPopover({ tier }: { tier: Tier }) {
   const [opened, setOpened] = useState(false);
@@ -21,30 +21,34 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
     },
 
     validate: {
-      value: (value) => (tier.value !== value && tiers.filter(v => v.value === value).length > 0 ? '该等级已经存在' : null),
+      value: (value) =>
+        tier.value !== value && tiers.filter((v) => v.value === value).length > 0 ? '该等级已经存在' : null,
       name: (value) => {
-        return ((value?.length ?? '') > 6 ? '名称不能大于 6 字' : null)
+        return (value?.length ?? '') > 6 ? '名称不能大于 6 字' : null;
       },
     },
   });
 
-  const handleConfirm = ({ value, name }: { value: number, name?: string }) => {
-    dispatch(updateTierValue({
-      tierValue: tier.value,
-      value
-    }))
-    dispatch(updateTierName({
-      tierValue: tier.value,
-      value: name ?? ''
-    }))
-    successNotice('等级修改成功')
-    setOpened(false)
-  }
+  const handleConfirm = ({ value, name }: { value: number; name?: string }) => {
+    dispatch(
+      updateTierValue({
+        tierValue: tier.value,
+        value,
+      }),
+    );
+    dispatch(
+      updateTierName({
+        tierValue: tier.value,
+        value: name ?? '',
+      }),
+    );
+    successNotice('等级修改成功');
+    setOpened(false);
+  };
 
   useEffect(() => {
     form.reset();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [opened])
+  }, [form, opened]);
 
   return (
     <Popover
@@ -55,7 +59,7 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
       target={
         <ActionIcon
           sx={{
-            background: "#fff",
+            background: '#fff',
           }}
           size="xs"
           radius="xs"
@@ -70,13 +74,10 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
       withArrow
     >
       <form onSubmit={form.onSubmit(handleConfirm)}>
-        <InputWrapper
-          label="等级名称"
-          description="选填，不超过 6 字"
-        >
+        <InputWrapper label="等级名称" description="选填，不超过 6 字">
           <TextInput {...form.getInputProps('name')} placeholder="默认显示 T + 等级数值" />
         </InputWrapper>
-        <Space h={'sm'} />
+        <Space h="sm" />
         <NumberInput
           label="等级数值"
           description="范围[-9,9]，保留一位小数"
@@ -87,12 +88,9 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
           min={-9}
           max={9}
         />
-        <Space h={'lg'} />
-        <Box sx={{ width: "100%", textAlign: "center" }}>
-          <Button
-            radius="xl"
-            type="submit"
-          >
+        <Space h="lg" />
+        <Box sx={{ width: '100%', textAlign: 'center' }}>
+          <Button radius="xl" type="submit">
             确认修改
           </Button>
         </Box>

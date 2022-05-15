@@ -1,5 +1,4 @@
-
-import { Check, X } from "tabler-icons-react";
+import { Check, X } from 'tabler-icons-react';
 import { showNotification } from '@mantine/notifications';
 
 export function successNotice(message: string, title?: string) {
@@ -8,7 +7,7 @@ export function successNotice(message: string, title?: string) {
     icon: <Check />,
     title,
     message,
-  })
+  });
 }
 
 export function errorNotice(message: string, title?: string) {
@@ -17,5 +16,5 @@ export function errorNotice(message: string, title?: string) {
     icon: <X />,
     title,
     message,
-  })
+  });
 }

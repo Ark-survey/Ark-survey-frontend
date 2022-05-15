@@ -1,9 +1,9 @@
-import { Box, Chip, Chips, createStyles } from "@mantine/core";
+import { Box, Chip, Chips, createStyles } from '@mantine/core';
 
 interface ChipGroupsProps {
   disabled?: boolean;
   tags: any[];
-  classNames?: Record<"iconWrapper" | "checked", string>;
+  classNames?: Record<'iconWrapper' | 'checked', string>;
   values: string[];
   onChange: (value: string[]) => void;
   label?: string;
@@ -11,47 +11,41 @@ interface ChipGroupsProps {
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   iconWrapper: {
-    ref: getRef("iconWrapper"),
+    ref: getRef('iconWrapper'),
   },
 
   checked: {
     backgroundColor: `${theme.colors.blue[6]} !important`,
     color: theme.white,
 
-    [`& .${getRef("iconWrapper")}`]: {
+    [`& .${getRef('iconWrapper')}`]: {
       color: theme.white,
     },
   },
 }));
 
-export function ChipGroups({
-  tags,
-  classNames, disabled,
-  onChange,
-  label,
-  values
-}: ChipGroupsProps) {
-  const { classes } = useStyles()
+export function ChipGroups({ tags, classNames, disabled, onChange, label, values }: ChipGroupsProps) {
+  const { classes } = useStyles();
   return (
     <Box
       sx={{
-        margin: "20px 0",
-        border: "2px #eee solid",
-        padding: "10px",
-        borderRadius: "20px",
-        position: "relative",
+        margin: '20px 0',
+        border: '2px #eee solid',
+        padding: '10px',
+        borderRadius: '20px',
+        position: 'relative',
       }}
     >
       {label && (
         <Box
           sx={{
-            position: "absolute",
-            background: "#fff",
+            position: 'absolute',
+            background: '#fff',
             fontWeight: 600,
-            fontSize: "12px",
-            padding: "2px 5px",
-            top: "-12px",
-            left: "20px",
+            fontSize: '12px',
+            padding: '2px 5px',
+            top: '-12px',
+            left: '20px',
           }}
         >
           {label}

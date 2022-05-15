@@ -1,4 +1,4 @@
-import { post } from ".";
+import { post } from '.';
 
 export interface Tier {
   name?: string;
@@ -16,17 +16,17 @@ export interface UserTierList {
 }
 
 export class TierListServer {
-  serviceName = 'userTierList';
+  public serviceName = 'userTierList';
   public createOne(params: UserTierList) {
-    return post<UserTierList>(this.serviceName, 'createOne', params)
+    return post<UserTierList>(this.serviceName, 'createOne', params);
   }
   public updateOne(params: UserTierList) {
-    return post<UserTierList>(this.serviceName, 'updateOne', params)
+    return post<UserTierList>(this.serviceName, 'updateOne', params);
   }
   public findById(params: { id: string }) {
-    return post<UserTierList>(this.serviceName, 'findById', params)
+    return post<UserTierList>(this.serviceName, 'findById', params);
   }
   public deleteById(params: { id: string }) {
-    return post<UserTierList>(this.serviceName, 'deleteById', params)
+    return post<UserTierList>(this.serviceName, 'deleteById', params);
   }
 }
