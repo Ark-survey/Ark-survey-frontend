@@ -11,11 +11,12 @@ import { FoldDown, FoldUp } from 'tabler-icons-react';
 import LoadDataPaper from './LoadDataPaper';
 import { useCallback, useEffect } from 'react';
 import { TierListServer } from 'src/api';
-import { updateAllCharacterPicked, updateCharacterPicked } from 'src/store/slice/characterSlice';
+import { updateAllCharacterPicked, updateCharacterPicked, updateCharacterUrl } from 'src/store/slice/characterSlice';
 import { resetUserTierList, loadUserTierList } from 'src/store/slice/tierSlice';
-import { updateNewTierListStatus } from 'src/store/slice/userSlice';
+import { updateNewTierListStatus, updateVersion } from 'src/store/slice/userSlice';
 import { errorNotice, successNotice } from './components/Notice';
 import TierListStatistics from './TierListStatistics';
+import { MetaDataServer } from 'src/api/MetaDataServer.';
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
@@ -40,7 +41,19 @@ export default function Index() {
     return await new TierListServer().findById({ id });
   }, []);
 
+  const fetchLatestMetaData = useCallback(async () => {
+    return await new MetaDataServer().latest();
+  }, []);
+
   const handleLoadData = async () => {
+    try {
+      const { data } = await fetchLatestMetaData();
+      dispatch(updateVersion(data.version ?? ''));
+      dispatch(updateCharacterUrl(data.imgUrlOrigin ?? ''));
+      successNotice('基础数据更新成功');
+    } catch {
+      errorNotice('网络出状况啦');
+    }
     if (!newTierList && userTierList?.id) {
       try {
         const res = await fetchFindTierList({ id: userTierList.id });

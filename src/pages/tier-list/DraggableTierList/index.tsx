@@ -11,7 +11,7 @@ import AddTierPopover from './components/AddTierPopover';
 import ResetAllCharacterPopover from './components/ResetAllCharacterPopover';
 import TierBox from './components/TierBox';
 import UploadPopover from './components/UploadPopover';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { capture } from 'src/utils/CaptureUtils';
 // import html2canvas from "html2canvas";
 import { format } from 'date-fns';
@@ -24,30 +24,33 @@ export default function Index() {
 
   const [makingImg, setMakingImg] = useState(false);
 
-  const handleDropCharacterOnTier = ({ character, type, fromTierValue }: CharDragItem, toTierValue: number) => {
-    if (type === CharListItemType.NORMAL || (type === CharListItemType.TIER && fromTierValue !== toTierValue)) {
-      dispatch(updateCharacterPicked({ key: character?.key ?? '', picked: true }));
-      dispatch(updateCharacterSelecting({ key: character?.key ?? '', selecting: false }));
+  const handleDropCharacterOnTier = useCallback(
+    ({ character, type, fromTierValue }: CharDragItem, toTierValue: number) => {
+      if (type === CharListItemType.NORMAL || (type === CharListItemType.TIER && fromTierValue !== toTierValue)) {
+        dispatch(updateCharacterPicked({ key: character?.key ?? '', picked: true }));
+        dispatch(updateCharacterSelecting({ key: character?.key ?? '', selecting: false }));
 
-      if (type === CharListItemType.TIER) {
+        if (type === CharListItemType.TIER) {
+          dispatch(
+            delCharacterByTier({
+              tierValue: fromTierValue ?? 0,
+              key: character?.key ?? '',
+            }),
+          );
+        }
+
         dispatch(
-          delCharacterByTier({
-            tierValue: fromTierValue ?? 0,
+          addCharacterByTier({
+            tierValue: toTierValue,
             key: character?.key ?? '',
           }),
         );
       }
+    },
+    [dispatch],
+  );
 
-      dispatch(
-        addCharacterByTier({
-          tierValue: toTierValue,
-          key: character?.key ?? '',
-        }),
-      );
-    }
-  };
-
-  const makeTierImg = () => {
+  const makeTierImg = useCallback(() => {
     setMakingImg(true);
     setTimeout(async () => {
       if (tiersBox.current) {
@@ -56,7 +59,7 @@ export default function Index() {
       }
       setMakingImg(false);
     });
-  };
+  }, []);
 
   return (
     <Box

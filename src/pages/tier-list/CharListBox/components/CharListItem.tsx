@@ -121,6 +121,7 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
       sx={{
         margin: empty ? '0 5px' : '5px',
         width: filters.mini ? 40 : 80,
+        minHeight: !empty ? (filters.mini ? 40 : 80) : 0,
         boxSizing: 'border-box',
         boxShadow:
           character?.selecting && type === CharListItemType.NORMAL && !empty
@@ -133,6 +134,7 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
         zIndex: 1,
         flex: type === CharListItemType.NORMAL ? 'auto' : '',
         height: empty ? '0' : 'auto',
+        fontSize: 10,
       }}
     >
       {overlay}

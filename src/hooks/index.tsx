@@ -18,7 +18,8 @@ export function useChangeSize() {
     return () => {
       window.removeEventListener('resize', onResize);
     };
-  }, [onResize]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return size;
 }
@@ -35,7 +36,8 @@ export function useIsMobile() {
         setIsMobile(true);
       }
     });
-  }, [agents, ua]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return isMobile;
 }

@@ -48,7 +48,8 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
 
   useEffect(() => {
     form.reset();
-  }, [form, opened]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [opened]);
 
   return (
     <Popover
