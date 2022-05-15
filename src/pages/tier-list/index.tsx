@@ -124,7 +124,6 @@ export default function Index() {
                 <Box sx={{ width: '15px' }} />
                 <Button size="xs" variant="outline" radius="xl" onClick={handleFoldStatusChange}>
                   {filters.fold ? <FoldDown /> : <FoldUp />}
-                  {/* { filters.fold ? '展开' : '收起'} */}
                 </Button>
               </Header>
               <FilterBox />
