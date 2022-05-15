@@ -25,10 +25,18 @@ jobs:
           yarn
           yarn run build
 
-      - name: Deploy
+      - name: Deploy org
         uses: s0/git-publish-subdir-action@develop
         env:
           REPO: git@github.com:Ark-survey/product-env.git
+          BRANCH: main
+          FOLDER: build
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+
+      - name: Deploy per
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: git@github.com:HEGGRIA/Ark-survey-product-env.git
           BRANCH: main
           FOLDER: build
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
