@@ -137,7 +137,7 @@ export default function Index() {
         sx={{
           width: 'calc(114px + 100%)',
           display: 'flex',
-          justifyContent: 'end',
+          justifyContent: 'flex-end',
           position: 'absolute',
           transition: 'all 1s',
           height: '40px',
@@ -153,7 +153,7 @@ export default function Index() {
           sx={{
             width: 'calc(100% - 114px)',
             display: 'flex',
-            justifyContent: filterBlock ? 'center' : 'start',
+            justifyContent: filterBlock ? 'center' : 'flex-start',
             flexFlow: 'row wrap',
             boxSizing: 'border-box',
             padding: '0 18px',

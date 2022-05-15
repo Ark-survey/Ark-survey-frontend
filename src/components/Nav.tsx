@@ -63,7 +63,7 @@ export default function Index() {
           flex: 1,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'end',
+          justifyContent: 'flex-end',
         }}
       >
         <SegmentedControl
