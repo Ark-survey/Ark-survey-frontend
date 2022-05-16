@@ -54,7 +54,7 @@ export default function Index() {
             textAlign: 'right',
           }}
         >
-          {user.version}
+          {'v' + user.version}
         </Box>
       </Box>
       <Box
