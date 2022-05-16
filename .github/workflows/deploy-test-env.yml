@@ -1,4 +1,4 @@
-name: Deploy site files in test env
+name: Deploy site files in master env
 
 on:
   push:
