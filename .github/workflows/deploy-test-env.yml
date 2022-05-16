@@ -1,9 +1,9 @@
-name: Deploy site files in master env
+name: Deploy site files in test env
 
 on:
   push:
     branches:
-      - master # 只在master上push触发部署
+      - test # 只在master上push触发部署
     paths-ignore: # 下列文件的变更不触发部署，可以自行添加
       - README.md
       - LICENSE
@@ -28,7 +28,7 @@ jobs:
       - name: Deploy org
         uses: s0/git-publish-subdir-action@develop
         env:
-          REPO: git@github.com:Ark-survey/product-env.git
+          REPO: git@github.com:Ark-survey/test-env.git
           BRANCH: main
           FOLDER: build
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
@@ -36,7 +36,7 @@ jobs:
       - name: Deploy per
         uses: s0/git-publish-subdir-action@develop
         env:
-          REPO: git@github.com:HEGGRIA/Ark-survey-product-env.git
+          REPO: git@github.com:HEGGRIA/Ark-survey-test-env.git
           BRANCH: main
           FOLDER: build
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
