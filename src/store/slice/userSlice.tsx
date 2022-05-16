@@ -9,7 +9,7 @@ export interface UserType {
 const initialState: UserType = {
   newTierList: false,
   viewPageId: 'tier-list-commit',
-  version: '0.1.7',
+  version: '',
 };
 
 export const userSlice = createSlice({
