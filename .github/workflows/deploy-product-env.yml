@@ -1,4 +1,4 @@
-name: Deploy site files in product env
+name: Deploy site files in test env
 
 on:
   push:
