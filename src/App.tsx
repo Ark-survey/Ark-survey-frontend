@@ -40,7 +40,7 @@ function App() {
                 </Box>
                 <Box
                   sx={{
-                    height: windowSize.innerWidth < 550 ? '200px' : '150px',
+                    height: windowSize.innerWidth < 550 ? '200px' : '140px',
                   }}
                 />
                 <Footer />

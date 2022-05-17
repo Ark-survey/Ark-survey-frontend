@@ -1,6 +1,6 @@
-import { Avatar, AvatarsGroup, Box, Button, Group, Stack } from '@mantine/core';
+import { Avatar, AvatarsGroup, Box, Button, Group, Space, Stack } from '@mantine/core';
 import { useWindowSize } from 'src/hooks';
-import { BrandGithub, Tent } from 'tabler-icons-react';
+import { BrandGithub, Tent, Trash } from 'tabler-icons-react';
 
 interface HeaderProps {
   children?: any;
@@ -16,7 +16,7 @@ export default function Index({ children }: HeaderProps) {
         bottom: 0,
         left: 0,
         right: 0,
-        height: windowSize.innerWidth < 550 ? '200px' : '150px',
+        height: windowSize.innerWidth < 550 ? '200px' : '140px',
         width: '100vw',
         padding: '0 30px',
         boxSizing: 'border-box',
@@ -35,7 +35,7 @@ export default function Index({ children }: HeaderProps) {
           justifyContent: 'center',
         }}
       >
-        <Box>
+        <Box sx={{ textAlign: windowSize.innerWidth < 550 ? 'center' : undefined }}>
           <Box>Contributors</Box>
           <Box sx={{ display: 'flex' }}>
             <Box
@@ -49,6 +49,7 @@ export default function Index({ children }: HeaderProps) {
                 src="https://avatars.githubusercontent.com/u/34475327"
                 component="a"
                 radius="xl"
+                sx={{ margin: windowSize.innerWidth < 550 ? '0 auto' : '' }}
                 href="https://github.com/HEGGRIA"
               />
             </Box>
@@ -63,6 +64,7 @@ export default function Index({ children }: HeaderProps) {
                 src="https://avatars.githubusercontent.com/u/32563762"
                 component="a"
                 radius="xl"
+                sx={{ margin: windowSize.innerWidth < 550 ? '0 auto' : '' }}
                 href="https://github.com/Gliese129"
               />
             </Box>
@@ -73,7 +75,7 @@ export default function Index({ children }: HeaderProps) {
               }}
             >
               Backend
-              <AvatarsGroup limit={2}>
+              <AvatarsGroup limit={2} sx={{ justifyContent: windowSize.innerWidth < 550 ? 'center' : '' }}>
                 <Avatar
                   src="https://portrait.gitee.com/uploads/avatars/user/3225/9676698_yamasakura_1652758812.png"
                   component="a"
@@ -91,17 +93,28 @@ export default function Index({ children }: HeaderProps) {
         {windowSize.innerWidth < 550 ? (
           <Box sx={{ marginTop: '20px' }}>
             <Group position="center">
+              <Button variant="filled" color="dark" onClick={() => window.open('https://github.com/Ark-survey')}>
+                <BrandGithub />
+              </Button>
               <Button
                 variant="filled"
-                color="dark"
-                sx={{ width: '150px' }}
-                leftIcon={<BrandGithub />}
-                onClick={() => window.open('https://github.com/Ark-survey')}
+                onClick={() => {
+                  window.open(
+                    'https://qm.qq.com/cgi-bin/qm/qr?k=rugM8TD2A65C5T0RxWYNpy6JjpcHnjwR&authKey=%2BVKzJroyWHCSU2aFTTyt%2Bhg6GpTL26oMHZn5uVPfPQ2EgNvFpZKt9eY1EqtO%2B7E9&noverify=0&group_code=860266851#',
+                  );
+                }}
               >
-                GitHub
+                <Tent />
               </Button>
-              <Button variant="filled" sx={{ width: '150px' }} leftIcon={<Tent />}>
-                加入我们
+              <Button
+                variant="filled"
+                color="red"
+                onClick={() => {
+                  localStorage.clear();
+                  location.reload();
+                }}
+              >
+                <Trash />
               </Button>
             </Group>
           </Box>
@@ -118,15 +131,35 @@ export default function Index({ children }: HeaderProps) {
               <Button
                 variant="filled"
                 color="dark"
-                sx={{ width: '150px' }}
+                sx={{ width: '200px' }}
                 leftIcon={<BrandGithub />}
                 onClick={() => window.open('https://github.com/Ark-survey')}
               >
                 GitHub
               </Button>
-              <Button variant="filled" sx={{ width: '150px' }} leftIcon={<Tent />}>
-                加入我们
-              </Button>
+              <Box sx={{ display: 'flex' }}>
+                <Button
+                  variant="filled"
+                  onClick={() => {
+                    window.open(
+                      'https://qm.qq.com/cgi-bin/qm/qr?k=rugM8TD2A65C5T0RxWYNpy6JjpcHnjwR&authKey=%2BVKzJroyWHCSU2aFTTyt%2Bhg6GpTL26oMHZn5uVPfPQ2EgNvFpZKt9eY1EqtO%2B7E9&noverify=0&group_code=860266851#',
+                    );
+                  }}
+                >
+                  加入我们
+                </Button>
+                <Space w="sm" />
+                <Button
+                  variant="filled"
+                  color="red"
+                  onClick={() => {
+                    localStorage.clear();
+                    location.reload();
+                  }}
+                >
+                  清除缓存
+                </Button>
+              </Box>
             </Stack>
           </Box>
         )}

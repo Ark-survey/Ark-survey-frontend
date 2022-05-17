@@ -19,16 +19,21 @@ function CharStatisticBox({ char, statistic }: { char: CharacterType; statistic:
         boxShadow: '0 0 5px 2px #ccc',
         textAlign: 'center',
         minHeight: '90px',
+        flex: '1',
+        display: 'flex',
+        flexFlow: 'row wrap',
       }}
     >
-      <CharListItem character={char} />
+      <Box sx={{ margin: '0 auto' }}>
+        <CharListItem character={char} />
+      </Box>
       {statistic?.count ? (
         <>
-          <Box sx={{ fontSize: '20px' }}>{statistic?.avgValue?.toFixed(2)}</Box>
-          <Box sx={{ fontSize: '12px' }}>{statistic?.count}</Box>
+          <Box sx={{ fontSize: '20px', width: '100%' }}>{statistic?.avgValue?.toFixed(2)}</Box>
+          <Box sx={{ fontSize: '12px', width: '100%' }}>{statistic?.count}</Box>
         </>
       ) : (
-        <Box sx={{ fontSize: '12px', lineHeight: '40px' }}>暂无评分</Box>
+        <Box sx={{ fontSize: '12px', width: '100%', lineHeight: '40px' }}>暂无评分</Box>
       )}
     </Box>
   );
@@ -59,7 +64,8 @@ export default function Index() {
   useEffect(() => {
     const timeout = setTimeout(() => handleLoadData(), 100);
     return () => clearTimeout(timeout);
-  }, [handleLoadData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const statistic = useMemo(() => {
     const sortableCharList = mapToArray(statisticData?.charStatistics ?? {})
@@ -74,7 +80,7 @@ export default function Index() {
 
   return (
     <>
-      <Box sx={{ width: '100%', margin: '8px', marginBottom: '10px' }}>
+      <Box sx={{ width: '100%', margin: '8px', marginBottom: '20px' }}>
         <Group spacing="xs">
           <Box
             sx={{
@@ -104,7 +110,14 @@ export default function Index() {
           </Box>
         </Group>
       </Box>
-      <Box sx={{ display: 'flex', flexFlow: 'row wrap' }}>{statistic}</Box>
+      <Box sx={{ display: 'flex', flexFlow: 'row wrap' }}>
+        {statistic}
+        {new Array(20).fill(0).map((item, key) => {
+          return (
+            <Box key={key} sx={{ flex: '1', minWidth: '50px', margin: '0 8px', padding: '0 10px', height: '1px' }} />
+          );
+        })}
+      </Box>
     </>
   );
 }

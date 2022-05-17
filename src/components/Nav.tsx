@@ -66,7 +66,6 @@ export default function Index() {
         </Box>
         <Box
           sx={{
-            paddingBottom: '20px',
             flex: 1,
             display: 'flex',
             alignItems: 'center',
