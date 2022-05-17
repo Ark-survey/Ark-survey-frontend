@@ -84,7 +84,7 @@ export default function Index() {
   }, []);
 
   return newTierList || (!newTierList && userTierList?.id) ? (
-    <Container size={1400}>
+    <Container size={1500} sx={{ paddingBottom: '50px' }}>
       {user.viewPageId === 'tier-list-real-time' ? (
         <TierListStatistics />
       ) : (
