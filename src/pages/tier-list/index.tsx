@@ -46,33 +46,25 @@ export default function Index() {
   }, []);
 
   const handleLoadData = async () => {
-    try {
-      const { data } = await fetchLatestMetaData();
-      dispatch(updateVersion(data.version ?? ''));
-      dispatch(updateCharacterUrl(data.imgUrlOrigin ?? ''));
-      successNotice('基础数据更新成功');
-    } catch {
-      errorNotice('网络出状况啦');
-    }
+    const { data } = await fetchLatestMetaData();
+    dispatch(updateVersion(data.version ?? ''));
+    dispatch(updateCharacterUrl(data.imgUrlOrigin ?? ''));
+    successNotice('基础数据更新成功');
     if (!newTierList && userTierList?.id) {
-      try {
-        const res = await fetchFindTierList({ id: userTierList.id });
-        if (!res?.data?.id) {
-          errorNotice('该 ID 无对应数据');
-          dispatch(resetUserTierList());
-          dispatch(updateAllCharacterPicked(false));
-        } else {
-          res.data.tierList.forEach((item) => {
-            item.characterKeys.forEach((key) => {
-              dispatch(updateCharacterPicked({ key, picked: true }));
-            });
+      const res = await fetchFindTierList({ id: userTierList.id });
+      if (!res?.data?.id) {
+        errorNotice('该 ID 无对应数据');
+        dispatch(resetUserTierList());
+        dispatch(updateAllCharacterPicked(false));
+      } else {
+        res.data.tierList.forEach((item) => {
+          item.characterKeys.forEach((key) => {
+            dispatch(updateCharacterPicked({ key, picked: true }));
           });
-          dispatch(loadUserTierList(res.data));
-          dispatch(updateNewTierListStatus(false));
-          successNotice('等级表数据加载成功');
-        }
-      } catch {
-        errorNotice('网络出状况啦');
+        });
+        dispatch(loadUserTierList(res.data));
+        dispatch(updateNewTierListStatus(false));
+        successNotice('等级表数据加载成功');
       }
     }
   };
