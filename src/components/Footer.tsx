@@ -77,7 +77,7 @@ export default function Index({ children }: HeaderProps) {
               Backend
               <AvatarsGroup limit={2} sx={{ justifyContent: windowSize.innerWidth < 550 ? 'center' : '' }}>
                 <Avatar
-                  src="https://portrait.gitee.com/uploads/avatars/user/3225/9676698_yamasakura_1652758812.png"
+                  src="https://portrait.gitee.com/uploads/avatars/user/3225/9676698_yamasakura_1652758812.png!avatar200"
                   component="a"
                   href="https://gitee.com/yamasakura"
                 />
