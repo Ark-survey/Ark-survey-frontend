@@ -1,3 +1,4 @@
+import { useMantineTheme } from '@mantine/core';
 import { useState, useCallback, useEffect, useMemo } from 'react';
 
 export function useChangeSize() {
@@ -43,6 +44,7 @@ export function useIsMobile() {
 }
 
 export function useWindowSize() {
+  const theme = useMantineTheme();
   const getWindowSize = () => ({
     innerHeight: window.innerHeight,
     innerWidth: window.innerWidth,
@@ -59,5 +61,8 @@ export function useWindowSize() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return windowSize;
+  const isXS = windowSize.innerWidth <= theme.breakpoints.xs;
+  const isSM = windowSize.innerWidth <= theme.breakpoints.sm;
+
+  return { isXS, isSM };
 }

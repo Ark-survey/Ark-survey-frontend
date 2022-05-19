@@ -65,11 +65,13 @@
   "no-qualified": "没有符合条件的干员",
   "footer": {
     "contributors": "贡献者",
-    "maintain": "维护",
-    "frontend": "前端",
-    "backend": "后端",
+    "maintain": "maintain",
+    "frontend": "frontend",
+    "backend": "backend",
+    "design": "design",
     "gitHub": "GitHub",
     "join-us": "加入我们",
+    "report": "建议反馈",
     "clean-cache": "清除缓存"
   },
   "statistics": {

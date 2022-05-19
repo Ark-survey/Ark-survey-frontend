@@ -1,8 +1,9 @@
-import { Box, SegmentedControl } from '@mantine/core';
+import { ActionIcon, Box, SegmentedControl, useMantineColorScheme } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { updateViewPageId } from 'src/store/slice/userSlice';
+import { MoonStars, Sun } from 'tabler-icons-react';
 
 export default function Index() {
   const user = useSelector((state: RootState) => state.user);
@@ -12,6 +13,8 @@ export default function Index() {
   const handlePageControlChange = (value: string) => {
     dispatch(updateViewPageId(value));
   };
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const dark = colorScheme === 'dark';
 
   return (
     <Box
@@ -84,6 +87,14 @@ export default function Index() {
               { label: t('header.statistics'), value: 'tier-list-real-time' },
             ]}
           />
+          <ActionIcon
+            variant="outline"
+            color={dark ? 'yellow' : 'blue'}
+            onClick={() => toggleColorScheme()}
+            title="Toggle color scheme"
+          >
+            {dark ? <Sun size={18} /> : <MoonStars size={18} />}
+          </ActionIcon>
         </Box>
       </Box>
     </Box>

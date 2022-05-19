@@ -1,172 +1,237 @@
-import { Avatar, AvatarsGroup, Box, Button, Group, Space, Stack } from '@mantine/core';
+import {
+  Avatar,
+  AvatarsGroup,
+  Box,
+  Button,
+  Text,
+  createStyles,
+  Group,
+  Space,
+  Stack,
+  Grid,
+  Center,
+} from '@mantine/core';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'src/hooks';
-import { BrandGithub, Tent, Trash } from 'tabler-icons-react';
+import { BrandGithub, Container, Notes, Tent, Trash } from 'tabler-icons-react';
 
 interface HeaderProps {
   children?: any;
 }
 
-export default function Index({ children }: HeaderProps) {
-  const windowSize = useWindowSize();
-  const { t } = useTranslation();
+const useStyles = createStyles((theme, _params, getRef) => ({
+  container: {
+    maxWidth: theme.breakpoints.lg,
+    padding: theme.spacing.lg,
+    boxSizing: 'border-box',
+    height: '100%',
+    display: 'flex',
+    flexFlow: 'row wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0 auto',
+  },
+  contributorsBox: {
+    flex: '1',
+    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
+      textAlign: 'center',
+      width: '100%',
+    },
+  },
+  avatarTitle: {
+    fontSize: '14px',
+    width: '100px',
+  },
+  buttonBox: {
+    maxWidth: '250px',
+    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
+      maxWidth: '',
+    },
+  },
+  buttonGrid: {
+    width: 100,
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      width: 30,
+    },
+    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
+      width: 'auto',
+    },
+  },
+  bigLetter: {
+    fontSize: '30px',
+    position: 'absolute',
+    top: '-10px',
+  },
+  text: {
+    fontSize: theme.fontSizes.xs,
+    textAlign: 'center',
+  },
+}));
 
+const CustomAvatar: FC<{ letter: string; text: string; src: { imgUrl: string; to: string }[] }> = ({
+  letter,
+  src,
+  text,
+}) => {
+  const { isSM } = useWindowSize();
+  const { classes } = useStyles();
   return (
     <Box
       sx={{
-        backgroundColor: '#f8f9fa',
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: windowSize.innerWidth < 550 ? '200px' : '140px',
-        width: '100vw',
-        padding: '0 30px',
-        boxSizing: 'border-box',
+        fontSize: '14px',
+        width: '100px',
+        position: 'relative',
       }}
     >
-      <Box
-        sx={{
-          maxWidth: 1200,
-          width: '100%',
-          margin: '0 auto',
-          fontWeight: 700,
-          fontSize: '20px',
-          marginTop: '25px',
-          display: 'flex',
-          flexFlow: 'row wrap',
-          justifyContent: 'center',
-        }}
-      >
-        <Box sx={{ textAlign: windowSize.innerWidth < 550 ? 'center' : undefined }}>
-          <Box>{t('footer.contributors')}</Box>
-          <Box sx={{ display: 'flex' }}>
-            <Box
-              sx={{
-                fontSize: '14px',
-                width: '100px',
-              }}
-            >
-              {t('footer.maintain')}
-              <Avatar
-                src="https://avatars.githubusercontent.com/u/34475327"
-                component="a"
-                radius="xl"
-                sx={{ margin: windowSize.innerWidth < 550 ? '0 auto' : '' }}
-                href="https://github.com/HEGGRIA"
-              />
-            </Box>
-            <Box
-              sx={{
-                fontSize: '14px',
-                width: '100px',
-              }}
-            >
-              {t('footer.frontend')}
-              <Avatar
-                src="https://avatars.githubusercontent.com/u/32563762"
-                component="a"
-                radius="xl"
-                sx={{ margin: windowSize.innerWidth < 550 ? '0 auto' : '' }}
-                href="https://github.com/Gliese129"
-              />
-            </Box>
-            <Box
-              sx={{
-                fontSize: '14px',
-                width: '100px',
-              }}
-            >
-              {t('footer.backend')}
-              <AvatarsGroup limit={2} sx={{ justifyContent: windowSize.innerWidth < 550 ? 'center' : '' }}>
-                <Avatar
-                  src="https://portrait.gitee.com/uploads/avatars/user/3225/9676698_yamasakura_1652758812.png!avatar200"
-                  component="a"
-                  href="https://gitee.com/yamasakura"
+      {!isSM ? <Box className={classes.bigLetter}>{letter}</Box> : <Box className={classes.text}>{text}</Box>}
+      <AvatarsGroup size="md" radius="xl" limit={2} sx={{ marginLeft: isSM ? '' : '12px', padding: isSM ? '0' : '' }}>
+        {src.map((it, index) => {
+          return (
+            <Avatar
+              key={index}
+              src={it.imgUrl}
+              sx={{ margin: isSM ? '0 auto' : '' }}
+              component={it.to ? 'a' : 'div'}
+              href={it.to ?? undefined}
+            />
+          );
+        })}
+      </AvatarsGroup>
+    </Box>
+  );
+};
+
+export default function Index({ children }: HeaderProps) {
+  const { t } = useTranslation();
+  const { isSM, isXS } = useWindowSize();
+  const { classes } = useStyles();
+
+  return (
+    <Box className={classes.container}>
+      <Box className={classes.contributorsBox}>
+        <Box sx={{ maxWidth: '550px', minWidth: '340px' }}>
+          <Center sx={{ justifyContent: isSM ? undefined : 'left', fontWeight: 600 }}>
+            {t('footer.contributors')}
+          </Center>
+          <Space h={10} />
+          <Grid gutter="xs">
+            <Grid.Col span={isSM ? 3 : 3}>
+              <Center>
+                <CustomAvatar
+                  letter="M"
+                  text={t('footer.maintain')}
+                  src={[
+                    {
+                      imgUrl: 'https://avatars.githubusercontent.com/u/34475327',
+                      to: 'https://github.com/HEGGRIA',
+                    },
+                  ]}
                 />
-                <Avatar
-                  src="	https://avatars.githubusercontent.com/u/17798738"
-                  component="a"
-                  href="https://github.com/LamForest"
+              </Center>
+            </Grid.Col>
+            <Grid.Col span={isSM ? 3 : 3}>
+              <Center>
+                <CustomAvatar
+                  letter="F"
+                  text={t('footer.frontend')}
+                  src={[
+                    {
+                      imgUrl: 'https://avatars.githubusercontent.com/u/32563762',
+                      to: 'https://github.com/Gliese129',
+                    },
+                  ]}
                 />
-              </AvatarsGroup>
-            </Box>
-          </Box>
+              </Center>
+            </Grid.Col>
+            <Grid.Col span={isSM ? 3 : 3}>
+              <Center>
+                <CustomAvatar
+                  letter="B"
+                  text={t('footer.backend')}
+                  src={[
+                    {
+                      imgUrl:
+                        'https://portrait.gitee.com/uploads/avatars/user/3225/9676698_yamasakura_1652758812.png!avatar200',
+                      to: 'https://gitee.com/yamasakura',
+                    },
+                    {
+                      imgUrl: 'https://avatars.githubusercontent.com/u/17798738',
+                      to: 'https://github.com/LamForest',
+                    },
+                  ]}
+                />
+              </Center>
+            </Grid.Col>
+            <Grid.Col span={isSM ? 3 : 3}>
+              <Center>
+                <CustomAvatar
+                  letter="D"
+                  text={t('footer.design')}
+                  src={[
+                    {
+                      imgUrl: '',
+                      to: '',
+                    },
+                  ]}
+                />
+              </Center>
+            </Grid.Col>
+          </Grid>
         </Box>
-        {windowSize.innerWidth < 550 ? (
-          <Box sx={{ marginTop: '20px' }}>
-            <Group position="center">
-              <Button variant="filled" color="dark" onClick={() => window.open('https://github.com/Ark-survey')}>
-                <BrandGithub />
-              </Button>
-              <Button
-                variant="filled"
-                onClick={() => {
-                  window.open(
-                    'https://qm.qq.com/cgi-bin/qm/qr?k=rugM8TD2A65C5T0RxWYNpy6JjpcHnjwR&authKey=%2BVKzJroyWHCSU2aFTTyt%2Bhg6GpTL26oMHZn5uVPfPQ2EgNvFpZKt9eY1EqtO%2B7E9&noverify=0&group_code=860266851#',
-                  );
-                }}
-              >
-                <Tent />
-              </Button>
-              <Button
-                variant="filled"
-                color="red"
-                onClick={() => {
-                  localStorage.clear();
-                  location.reload();
-                }}
-              >
-                <Trash />
-              </Button>
-            </Group>
-          </Box>
-        ) : (
-          <Box sx={{ flex: '1' }}>
-            <Stack
-              align="flex-end"
-              justify="flex-start"
-              sx={(theme) => ({
-                backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-                height: 300,
-              })}
-            >
-              <Button
-                variant="filled"
-                color="dark"
-                sx={{ width: '200px' }}
-                leftIcon={<BrandGithub />}
-                onClick={() => window.open('https://github.com/Ark-survey')}
-              >
-                {t('footer.gitHub')}
-              </Button>
-              <Box sx={{ display: 'flex' }}>
-                <Button
-                  variant="filled"
-                  onClick={() => {
-                    window.open(
-                      'https://qm.qq.com/cgi-bin/qm/qr?k=rugM8TD2A65C5T0RxWYNpy6JjpcHnjwR&authKey=%2BVKzJroyWHCSU2aFTTyt%2Bhg6GpTL26oMHZn5uVPfPQ2EgNvFpZKt9eY1EqtO%2B7E9&noverify=0&group_code=860266851#',
-                    );
-                  }}
-                >
-                  {t('footer.join-us')}
-                </Button>
-                <Space w="sm" />
-                <Button
-                  variant="filled"
-                  color="red"
-                  onClick={() => {
-                    localStorage.clear();
-                    location.reload();
-                  }}
-                >
-                  {t('footer.clean-cache')}
-                </Button>
-              </Box>
-            </Stack>
-          </Box>
-        )}
       </Box>
+      <Grid gutter="sm" className={classes.buttonBox}>
+        <Grid.Col span={isXS ? 3 : 6} className={classes.buttonGrid}>
+          <Button
+            variant="filled"
+            fullWidth
+            size="xs"
+            color="dark"
+            onClick={() => window.open('https://github.com/Ark-survey')}
+          >
+            {isSM ? <BrandGithub /> : t('footer.gitHub')}
+          </Button>
+        </Grid.Col>
+        <Grid.Col span={isXS ? 3 : 6} className={classes.buttonGrid}>
+          <Button
+            variant="filled"
+            fullWidth
+            size="xs"
+            color="teal"
+            onClick={() => window.open('https://github.com/Ark-survey')}
+          >
+            {isSM ? <Notes /> : t('footer.report')}
+          </Button>
+        </Grid.Col>
+        <Grid.Col span={isXS ? 3 : 6} className={classes.buttonGrid}>
+          <Button
+            variant="filled"
+            fullWidth
+            size="xs"
+            onClick={() => {
+              window.open(
+                'https://qm.qq.com/cgi-bin/qm/qr?k=rugM8TD2A65C5T0RxWYNpy6JjpcHnjwR&authKey=%2BVKzJroyWHCSU2aFTTyt%2Bhg6GpTL26oMHZn5uVPfPQ2EgNvFpZKt9eY1EqtO%2B7E9&noverify=0&group_code=860266851#',
+              );
+            }}
+          >
+            {isSM ? <Tent /> : t('footer.join-us')}
+          </Button>
+        </Grid.Col>
+        <Grid.Col span={isXS ? 3 : 6} className={classes.buttonGrid}>
+          <Button
+            variant="filled"
+            fullWidth
+            color="red"
+            size="xs"
+            onClick={() => {
+              localStorage.clear();
+              location.reload();
+            }}
+          >
+            {isSM ? <Trash /> : t('footer.clean-cache')}
+          </Button>
+        </Grid.Col>
+      </Grid>
     </Box>
   );
 }
