@@ -8,11 +8,13 @@ import { RootState } from 'src/store';
 import { filterOpenState } from 'src/store/slice/filterSlice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { CharacterType } from 'src/store/slice/characterSlice';
+import { useTranslation } from 'react-i18next';
 
 export default function CharacterList() {
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const filters = useSelector((state: RootState) => state.filters);
   const filterOpen = useSelector(filterOpenState);
+  const { t } = useTranslation();
 
   const orderlyList = useMemo(() => {
     return mapToArray<CharacterType>(charMap)
@@ -81,7 +83,7 @@ export default function CharacterList() {
             color: '#ccc',
           }}
         >
-          没有符合条件的干员
+          {t('no-qualified')}
         </Box>
       )}
     </Box>

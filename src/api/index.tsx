@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { t } from 'i18next';
 import { errorNotice } from 'src/pages/tier-list/components/Notice';
 import { TierListServer } from './TierListServer';
 
@@ -9,7 +10,7 @@ export const get = (server: string, resource: string, data: { [key: string]: str
     .get(process.env.REACT_APP_ORIGIN_ENV + server + '/' + resource + '?' + params.join('&'))
     .then((res) => res.data)
     .catch(() => {
-      errorNotice('网络出状况啦');
+      errorNotice(t('network.error'));
     });
 };
 
@@ -26,7 +27,7 @@ export const post: <T>(server: string, resource: string, data?: any) => Promise<
     })
     .then((res) => res.data)
     .catch(() => {
-      errorNotice('网络出状况啦');
+      errorNotice(t('network.error'));
     });
 
 export { TierListServer };

@@ -6,6 +6,7 @@ import { CharacterType, updateCharacterSelecting } from 'src/store/slice/charact
 import { useSelector, useDispatch } from 'react-redux';
 import { useIsMobile } from 'src/hooks';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export enum CharListItemType {
   NORMAL,
@@ -29,6 +30,7 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
   const filters = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
 
   const charDragItem: CharDragItem = { type, character, fromTierValue };
   const [{ isDragging }, dragger] = useDrag(
@@ -69,11 +71,11 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
             justifyContent: 'center',
           }}
         >
-          {isDragging ? '拖动中' : '已选取'}
+          {isDragging ? t('dragging') : t('picked')}
         </Overlay>
       )
     );
-  }, [isDragging, filters.mini, character, type]);
+  }, [isDragging, character?.picked, type, filters.mini, t]);
 
   const name = useMemo(() => {
     return (

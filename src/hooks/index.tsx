@@ -28,7 +28,7 @@ export function useIsMobile() {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const ua = navigator.userAgent.toLowerCase();
-  const agents = useMemo(() => ['iphone', 'ipad', 'ipod', 'android', 'linux', 'windows phone'], []); // 所有可能是移动端设备的字段
+  const agents = useMemo(() => ['iphone', 'ipad', 'ipod', 'android', 'linux', 'windows phone'], []);
 
   useEffect(() => {
     agents.forEach((value) => {
@@ -54,10 +54,7 @@ export function useWindowSize() {
   };
 
   useEffect(() => {
-    // 监听
     window.addEventListener('resize', handleResize);
-
-    // 销毁
     return () => window.removeEventListener('resize', handleResize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

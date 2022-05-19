@@ -10,11 +10,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { filterHeightState } from 'src/store/slice/filterSlice';
 import { useChangeSize } from 'src/hooks';
+import { useTranslation } from 'react-i18next';
 
 export default function CharListItemType() {
   const filters = useSelector((state: RootState) => state.filters);
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const size = useChangeSize();
 
@@ -69,7 +71,7 @@ export default function CharListItemType() {
             justifyContent: 'center',
           }}
         >
-          拖到这里放回干员
+          {t('drag-it-here-and-put-it-back')}
         </Overlay>
       )}
       <Box

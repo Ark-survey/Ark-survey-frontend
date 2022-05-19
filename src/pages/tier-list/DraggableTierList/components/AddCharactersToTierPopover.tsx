@@ -6,11 +6,13 @@ import { addCharacterByTier } from 'src/store/slice/tierSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { successNotice } from '../../components/Notice';
+import { useTranslation } from 'react-i18next';
 
 export default function AddCharactersToTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleConfirm = () => {
     Object.keys(charMap).forEach((key) => {
@@ -20,7 +22,7 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
         dispatch(addCharacterByTier({ tierValue, key }));
       }
     });
-    successNotice('批量新增成功');
+    successNotice(t('bulk-added-successfully'));
     setOpened(false);
   };
 
@@ -45,10 +47,10 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
       placement="center"
       withArrow
     >
-      <Text size="sm">这会向该等级添加您选中的全部干员，确定要继续吗？</Text>
+      <Text size="sm">{t('tier-add-confirm')}</Text>
       <Box sx={{ width: '100%', textAlign: 'center' }}>
         <Button sx={{ marginTop: '15px' }} radius="xl" color="blue" onClick={handleConfirm}>
-          确认添加
+          {t('confirm-add')}
         </Button>
       </Box>
     </Popover>

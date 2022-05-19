@@ -17,6 +17,7 @@ import { updateNewTierListStatus, updateVersion } from 'src/store/slice/userSlic
 import { errorNotice, successNotice } from './components/Notice';
 import TierListStatistics from './TierListStatistics';
 import { MetaDataServer } from 'src/api/MetaDataServer.';
+import { useTranslation } from 'react-i18next';
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
@@ -24,6 +25,7 @@ export default function Index() {
   const user = useSelector((state: RootState) => state.user);
   const newTierList = useSelector((state: RootState) => state.user.newTierList);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleMiniStatusChange = () => {
     dispatch(changeMini(!filters.mini));
@@ -49,11 +51,11 @@ export default function Index() {
     const { data } = await fetchLatestMetaData();
     dispatch(updateVersion(data.version ?? ''));
     dispatch(updateCharacterUrl(data.imgUrlOrigin ?? ''));
-    successNotice('基础数据更新成功');
+    successNotice(t('basic-data-updated-successfully'));
     if (!newTierList && userTierList?.id) {
       const res = await fetchFindTierList({ id: userTierList.id });
       if (!res?.data?.id) {
-        errorNotice('该 ID 无对应数据');
+        errorNotice(t('no-corresponding-data-for-this-ID'));
         dispatch(resetUserTierList());
         dispatch(updateAllCharacterPicked(false));
       } else {
@@ -64,7 +66,7 @@ export default function Index() {
         });
         dispatch(loadUserTierList(res.data));
         dispatch(updateNewTierListStatus(false));
-        successNotice('等级表数据加载成功');
+        successNotice(t('no-corresponding-data-for-this-ID'));
       }
     }
   };
@@ -106,7 +108,7 @@ export default function Index() {
                 '::-webkit-scrollbar': { width: '0 !important' },
               }}
             >
-              <Header title="干员盒">
+              <Header title={t('charTitle')}>
                 <Button
                   size="xs"
                   variant={!filters.mini ? 'outline' : 'filled'}
@@ -114,7 +116,7 @@ export default function Index() {
                   radius="xl"
                   onClick={handleMiniStatusChange}
                 >
-                  MINI
+                  {t('MINI')}
                 </Button>
                 <Box sx={{ width: '15px' }} />
                 <Button
@@ -124,7 +126,7 @@ export default function Index() {
                   radius="xl"
                   onClick={handleNameStatusChange}
                 >
-                  名称
+                  {t('name')}
                 </Button>
                 <Box sx={{ width: '15px' }} />
                 <Button size="xs" variant="outline" radius="xl" onClick={handleFoldStatusChange}>

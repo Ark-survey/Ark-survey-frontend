@@ -5,12 +5,13 @@ import { addTier } from 'src/store/slice/tierSlice';
 import { RootState } from 'src/store';
 import { useForm } from '@mantine/form';
 import { successNotice } from '../../components/Notice';
+import { useTranslation } from 'react-i18next';
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
-
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const form = useForm({
     initialValues: {
@@ -19,9 +20,9 @@ export default function UploadPopover() {
     },
 
     validate: {
-      value: (value) => (tiers.filter((v) => v.value === value).length > 0 ? '该等级已经存在' : null),
+      value: (value) => (tiers.filter((v) => v.value === value).length > 0 ? t('this-level-already-exists') : null),
       name: (value) => {
-        return value.length > 6 ? '名称不能大于 6 字' : null;
+        return value.length > 6 ? t('name-cannot-be-longer-than-6-characters') : null;
       },
     },
   });
@@ -39,7 +40,7 @@ export default function UploadPopover() {
       }),
     );
 
-    successNotice('等级添加成功');
+    successNotice(t('level-added-successfully'));
     setOpened(false);
   };
 
@@ -54,7 +55,7 @@ export default function UploadPopover() {
       onClose={() => setOpened(false)}
       target={
         <Button size="xs" radius="xl" variant="outline" color="green" onClick={() => setOpened((o) => !o)}>
-          添加等级
+          {t('confirm-add')}
         </Button>
       }
       width={200}
@@ -62,14 +63,14 @@ export default function UploadPopover() {
       withArrow
     >
       <form onSubmit={form.onSubmit(handleConfirm)}>
-        <InputWrapper label="等级名称" description="选填，不超过 6 字">
-          <TextInput {...form.getInputProps('name')} placeholder="默认显示 T + 等级数值" />
+        <InputWrapper label={t('tier-name')} description={t('optional-no-more-than-6-characters')}>
+          <TextInput {...form.getInputProps('name')} placeholder={t('displays-the-T+grade-value-by-default')} />
         </InputWrapper>
         <Space h="sm" />
         <NumberInput
-          label="等级数值"
-          description="范围[-9,9]，保留一位小数"
-          placeholder="请输入"
+          label={t('grade-value')}
+          description={t('range-[-9,9]-with-one-decimal-place')}
+          placeholder={t('please-enter')}
           {...form.getInputProps('value')}
           precision={1}
           step={0.5}
@@ -79,7 +80,7 @@ export default function UploadPopover() {
         <Space h="lg" />
         <Box sx={{ width: '100%', textAlign: 'center' }}>
           <Button radius="xl" type="submit">
-            确认添加
+            {t('confirm-add')}
           </Button>
         </Box>
       </form>

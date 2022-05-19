@@ -1,5 +1,6 @@
 import { Box, Group, Image } from '@mantine/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { TierListServer } from 'src/api';
 import { CharStatistic, TierListStatisticType } from 'src/api/TierListServer';
@@ -10,6 +11,8 @@ import CharListItem from '../CharListBox/components/CharListItem';
 import { successNotice, errorNotice } from '../components/Notice';
 
 function CharStatisticBox({ char, statistic }: { char: CharacterType; statistic: CharStatistic }) {
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -33,7 +36,7 @@ function CharStatisticBox({ char, statistic }: { char: CharacterType; statistic:
           <Box sx={{ fontSize: '12px', width: '100%' }}>{statistic?.count}</Box>
         </>
       ) : (
-        <Box sx={{ fontSize: '12px', width: '100%', lineHeight: '40px' }}>暂无评分</Box>
+        <Box sx={{ fontSize: '12px', width: '100%', lineHeight: '40px' }}>{t('no-ratings-yet')}</Box>
       )}
     </Box>
   );
@@ -43,6 +46,7 @@ export default function Index() {
   const [statisticData, setStatisticData] = useState<TierListStatisticType>();
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const fetchStatisticData = useCallback(async () => {
     return await new TierListServer().averageAll();
@@ -58,8 +62,8 @@ export default function Index() {
       };
     });
     setStatisticData(data);
-    successNotice('统计数据更新成功');
-  }, [charMap, fetchStatisticData]);
+    successNotice(t('statistics-updated-successfully'));
+  }, [charMap, fetchStatisticData, t]);
 
   useEffect(() => {
     const timeout = setTimeout(() => handleLoadData(), 100);
@@ -91,7 +95,9 @@ export default function Index() {
               textAlign: 'center',
             }}
           >
-            <Box sx={{ fontSize: '20px', fontWeight: 600, padding: '15px', paddingBottom: '10px' }}>总样本数量</Box>
+            <Box sx={{ fontSize: '20px', fontWeight: 600, padding: '15px', paddingBottom: '10px' }}>
+              {t('statistics.count')}
+            </Box>
             <Box sx={{ fontSize: '25px' }}>{statisticData?.count}</Box>
           </Box>
 
@@ -105,7 +111,9 @@ export default function Index() {
               textAlign: 'center',
             }}
           >
-            <Box sx={{ fontSize: '20px', fontWeight: 600, padding: '15px', paddingBottom: '10px' }}>有效样本数量</Box>
+            <Box sx={{ fontSize: '20px', fontWeight: 600, padding: '15px', paddingBottom: '10px' }}>
+              {t('statistics.validCount')}
+            </Box>
             <Box sx={{ fontSize: '25px' }}>{statisticData?.validCount}</Box>
           </Box>
         </Group>

@@ -7,6 +7,7 @@ import { RootState } from 'src/store';
 import { loadUserTierList } from 'src/store/slice/tierSlice';
 import { updateNewTierListStatus } from 'src/store/slice/userSlice';
 import { successNotice } from '../../components/Notice';
+import { useTranslation } from 'react-i18next';
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
@@ -14,6 +15,7 @@ export default function UploadPopover() {
   const useTierList = useSelector((state: RootState) => state.userTierList);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const fetchCreateTierList = useCallback(async () => {
     return await new TierListServer().createOne(useTierList);
@@ -26,9 +28,9 @@ export default function UploadPopover() {
   const handleCopyText = useCallback(async () => {
     if (useTierList.id) {
       navigator.clipboard.writeText(useTierList.id);
-      successNotice('已复制到剪贴板');
+      successNotice(t('copied'));
     }
-  }, [useTierList.id]);
+  }, [t, useTierList.id]);
 
   const handleTierListSubmit = useCallback(async () => {
     setOpened(false);
@@ -42,12 +44,12 @@ export default function UploadPopover() {
         const res = await fetchUpdateTierList();
         dispatch(loadUserTierList(res.data));
       }
-      successNotice('等级表数据上传成功');
+      successNotice(t('upload-success'));
       // todo
     } finally {
       setLoading(false);
     }
-  }, [dispatch, fetchCreateTierList, fetchUpdateTierList, user.newTierList]);
+  }, [dispatch, fetchCreateTierList, fetchUpdateTierList, t, user.newTierList]);
 
   return (
     <Popover
@@ -61,7 +63,7 @@ export default function UploadPopover() {
           leftIcon={<CloudUpload size={14} />}
           onClick={() => setOpened((o) => !o)}
         >
-          {user.newTierList ? '提交' : '更新'}
+          {user.newTierList ? t('submit') : t('update')}
         </Button>
       }
       width={user.newTierList ? 220 : 300}
@@ -70,7 +72,7 @@ export default function UploadPopover() {
     >
       {user.newTierList ? (
         <Text size="sm" sx={{ marginBottom: '15px' }}>
-          注意：提交之后页面会显示您的唯一 ID，下次进入本页面时输入您的 ID 即可获取之前提交的数据。
+          {t('upload-confirm')}
         </Text>
       ) : (
         <Text
@@ -79,14 +81,14 @@ export default function UploadPopover() {
           sx={{ marginBottom: '15px', fontSize: '10px', cursor: 'pointer' }}
           onClick={handleCopyText}
         >
-          点击复制您的表单 ID 至剪贴板
+          {t('copy-note')}
           <br />
           {useTierList.id}
         </Text>
       )}
       <Box sx={{ width: '100%', textAlign: 'center' }}>
         <Button radius="xl" onClick={handleTierListSubmit}>
-          {user.newTierList ? '了解，继续提交' : '确认更新数据'}
+          {user.newTierList ? t('continue-upload') : t('continue-update')}
         </Button>
       </Box>
     </Popover>

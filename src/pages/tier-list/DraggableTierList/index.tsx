@@ -16,12 +16,14 @@ import { capture } from 'src/utils/CaptureUtils';
 // import html2canvas from "html2canvas";
 import { format } from 'date-fns';
 import { successNotice } from '../components/Notice';
+import { useTranslation } from 'react-i18next';
 
 export default function Index() {
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
+  const { t } = useTranslation();
   const [makingImg, setMakingImg] = useState(false);
 
   const handleDropCharacterOnTier = useCallback(
@@ -54,12 +56,12 @@ export default function Index() {
     setMakingImg(true);
     setTimeout(async () => {
       if (tiersBox.current) {
-        await capture(tiersBox.current.id, '等级表 ' + format(new Date().getTime(), 'yy-MM-dd hh-mm-ss'));
-        successNotice('截图成功', '已自动下载。');
+        await capture(tiersBox.current.id, t('tier-list') + ' ' + format(new Date().getTime(), t('screenshot-time')));
+        successNotice(t('downloaded-successfully'));
       }
       setMakingImg(false);
     });
-  }, []);
+  }, [t]);
 
   return (
     <Box
@@ -74,13 +76,13 @@ export default function Index() {
         minWidth: '326px',
       }}
     >
-      <Header title="等级表编辑">
+      <Header title={t('tier-list-edit')}>
         <ResetAllCharacterPopover />
         <Box sx={{ width: '10px' }} />
         <AddTierPopover />
         <Box sx={{ width: '10px' }} />
         <Button size="xs" variant="outline" color="blue" radius="xl" onClick={makeTierImg}>
-          截图
+          {t('screenshot')}
         </Button>
         <Box sx={{ width: '10px' }} />
         <UploadPopover />

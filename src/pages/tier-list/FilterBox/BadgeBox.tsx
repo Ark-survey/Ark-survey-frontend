@@ -17,6 +17,7 @@ export default function Index({ title, badgeKey, list }: { title: string; badgeK
     <Box className={classes.badge}>
       <Badge>
         {title +
+          ' ' +
           filters.chipGroup[badgeKey].map((item) => list[list.findIndex((i) => i.value === item)]?.name).join(',')}
       </Badge>
     </Box>

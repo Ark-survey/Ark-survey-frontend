@@ -1,4 +1,5 @@
 import { Avatar, AvatarsGroup, Box, Button, Group, Space, Stack } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'src/hooks';
 import { BrandGithub, Tent, Trash } from 'tabler-icons-react';
 
@@ -8,6 +9,8 @@ interface HeaderProps {
 
 export default function Index({ children }: HeaderProps) {
   const windowSize = useWindowSize();
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -36,7 +39,7 @@ export default function Index({ children }: HeaderProps) {
         }}
       >
         <Box sx={{ textAlign: windowSize.innerWidth < 550 ? 'center' : undefined }}>
-          <Box>Contributors</Box>
+          <Box>{t('footer.contributors')}</Box>
           <Box sx={{ display: 'flex' }}>
             <Box
               sx={{
@@ -44,7 +47,7 @@ export default function Index({ children }: HeaderProps) {
                 width: '100px',
               }}
             >
-              Maintain
+              {t('footer.maintain')}
               <Avatar
                 src="https://avatars.githubusercontent.com/u/34475327"
                 component="a"
@@ -59,7 +62,7 @@ export default function Index({ children }: HeaderProps) {
                 width: '100px',
               }}
             >
-              Frontend
+              {t('footer.frontend')}
               <Avatar
                 src="https://avatars.githubusercontent.com/u/32563762"
                 component="a"
@@ -74,7 +77,7 @@ export default function Index({ children }: HeaderProps) {
                 width: '100px',
               }}
             >
-              Backend
+              {t('footer.backend')}
               <AvatarsGroup limit={2} sx={{ justifyContent: windowSize.innerWidth < 550 ? 'center' : '' }}>
                 <Avatar
                   src="https://portrait.gitee.com/uploads/avatars/user/3225/9676698_yamasakura_1652758812.png!avatar200"
@@ -135,7 +138,7 @@ export default function Index({ children }: HeaderProps) {
                 leftIcon={<BrandGithub />}
                 onClick={() => window.open('https://github.com/Ark-survey')}
               >
-                GitHub
+                {t('footer.gitHub')}
               </Button>
               <Box sx={{ display: 'flex' }}>
                 <Button
@@ -146,7 +149,7 @@ export default function Index({ children }: HeaderProps) {
                     );
                   }}
                 >
-                  加入我们
+                  {t('footer.join-us')}
                 </Button>
                 <Space w="sm" />
                 <Button
@@ -157,7 +160,7 @@ export default function Index({ children }: HeaderProps) {
                     location.reload();
                   }}
                 >
-                  清除缓存
+                  {t('footer.clean-cache')}
                 </Button>
               </Box>
             </Stack>

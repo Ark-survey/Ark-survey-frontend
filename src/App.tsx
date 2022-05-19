@@ -11,6 +11,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { Box, MantineProvider } from '@mantine/core';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
+import './i18n';
 
 let persistor = persistStore(store);
 

@@ -8,11 +8,13 @@ import { ChipGroups } from '../components/ChipGroups';
 import { DateSelect } from '../components/DateSelect';
 import TimeBadgeBox from './TimeBadgeBox';
 import BadgeBox from './BadgeBox';
+import { useTranslation } from 'react-i18next';
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleDateSelectChange = useCallback(
     (values: [number, number]) => {
@@ -47,40 +49,40 @@ export default function Index() {
       <>
         <ChipGroups
           disabled
-          label="星级"
+          label={t('rarity')}
           tags={rarity}
           values={filters.chipGroup['rarity']}
           onChange={(values) => handleChipsChange(values, 'rarity')}
         />
         <ChipGroups
-          label="职业"
+          label={t('profession')}
           tags={profession}
           values={filters.chipGroup['profession']}
           onChange={(values) => handleChipsChange(values, 'profession')}
         />
         <ChipGroups
           disabled
-          label="获取渠道"
+          label={t('accessChannel')}
           tags={accessChannel}
           values={filters.chipGroup['accessChannel']}
           onChange={(values) => handleChipsChange(values, 'accessChannel')}
         />
         <ChipGroups
           disabled
-          label="性别"
+          label={t('gender')}
           tags={sex}
           values={filters.chipGroup['sex']}
           onChange={(values) => handleChipsChange(values, 'sex')}
         />
         <ChipGroups
-          label="部署位"
+          label={t('position')}
           tags={position}
           values={filters.chipGroup['position']}
           onChange={(values) => handleChipsChange(values, 'position')}
         />
       </>
     );
-  }, [filters.chipGroup, handleChipsChange]);
+  }, [filters.chipGroup, handleChipsChange, t]);
 
   const filterBlock = useMemo(() => {
     if (
@@ -99,18 +101,18 @@ export default function Index() {
 
   const badges = useMemo(() => {
     return filterBlock ? (
-      <Box sx={{ color: '#aaa', fontWeight: 900, lineHeight: '30px' }}>未筛选</Box>
+      <Box sx={{ color: '#aaa', fontWeight: 900, lineHeight: '30px' }}>{t('Not-filtered')}</Box>
     ) : (
       <>
         {(filters.dateRange[0] !== 0 || filters.dateRange[1] !== 100) && <TimeBadgeBox />}
-        <BadgeBox title="星级：" badgeKey="rarity" list={rarity} />
-        <BadgeBox title="职业：" badgeKey="profession" list={profession} />
-        <BadgeBox title="获取渠道：" badgeKey="accessChannel" list={accessChannel} />
-        <BadgeBox title="性别：" badgeKey="sex" list={sex} />
-        <BadgeBox title="部署位：" badgeKey="position" list={position} />
+        <BadgeBox title={t('rarity')} badgeKey="rarity" list={rarity} />
+        <BadgeBox title={t('profession')} badgeKey="profession" list={profession} />
+        <BadgeBox title={t('accessChannel')} badgeKey="accessChannel" list={accessChannel} />
+        <BadgeBox title={t('gender')} badgeKey="sex" list={sex} />
+        <BadgeBox title={t('position')} badgeKey="position" list={position} />
       </>
     );
-  }, [filterBlock, filters.dateRange]);
+  }, [filterBlock, filters.dateRange, t]);
 
   return (
     <Box
@@ -130,7 +132,12 @@ export default function Index() {
           marginTop: filters.fold ? '-532px' : '0',
         }}
       >
-        <DateSelect disabled value={filters['dateRange']} label="干员实装时间" onChange={handleDateSelectChange} />
+        <DateSelect
+          disabled
+          value={filters['dateRange']}
+          label={t('Operator-installation-time')}
+          onChange={handleDateSelectChange}
+        />
         {chipGroupList}
       </Box>
       <Box
@@ -147,7 +154,7 @@ export default function Index() {
         }}
       >
         <Button variant="outline" color="dark" radius="xl" size="xs" onClick={handleResetFilter}>
-          重置条件
+          {t('reset-condition')}
         </Button>
         <Box
           sx={{
@@ -172,7 +179,7 @@ export default function Index() {
                 right: 10,
               }}
             >
-              条件
+              {t('condition')}
             </Box>
           )}
         </Box>

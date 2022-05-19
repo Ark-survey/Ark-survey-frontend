@@ -6,10 +6,11 @@ import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { successNotice } from '../../components/Notice';
+import { useTranslation } from 'react-i18next';
 
 export default function DeleteTierPopover({ tierValue }: { tierValue: number }) {
   const [opened, setOpened] = useState(false);
-
+  const { t } = useTranslation();
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
         dispatch(updateCharacterPicked({ key, picked: false }));
       }
     });
-    successNotice('等级删除成功');
+    successNotice(t('level-del-successfully'));
     setOpened(false);
   };
 
@@ -48,10 +49,10 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
       placement="center"
       withArrow
     >
-      <Text size="sm">这会删除该等级并放回该等级的干员，确定要继续吗？</Text>
+      <Text size="sm">{t('del-tier-confirm')}</Text>
       <Box sx={{ width: '100%', textAlign: 'center' }}>
         <Button sx={{ marginTop: '15px' }} radius="xl" color="red" onClick={handleConfirm}>
-          确认删除
+          {t('confirm-del')}
         </Button>
       </Box>
     </Popover>

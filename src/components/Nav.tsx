@@ -1,4 +1,5 @@
 import { Box, SegmentedControl } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { updateViewPageId } from 'src/store/slice/userSlice';
@@ -7,6 +8,7 @@ export default function Index() {
   const user = useSelector((state: RootState) => state.user);
   const userTierList = useSelector((state: RootState) => state.userTierList);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const handlePageControlChange = (value: string) => {
     dispatch(updateViewPageId(value));
   };
@@ -43,7 +45,7 @@ export default function Index() {
           }}
         >
           <Box>
-            ArkSurvey
+            {t('header.title')}
             <Box
               sx={{
                 fontSize: '10px',
@@ -51,7 +53,7 @@ export default function Index() {
                 textAlign: 'center',
               }}
             >
-              明日方舟调查大数据
+              {t('header.ark-survey')}
             </Box>
           </Box>
           <Box
@@ -78,8 +80,8 @@ export default function Index() {
             value={user.viewPageId}
             onChange={handlePageControlChange}
             data={[
-              { label: '强度风评样本提交', value: 'tier-list-commit' },
-              { label: '强度风评实时统计', value: 'tier-list-real-time' },
+              { label: t('header.sample-submission'), value: 'tier-list-commit' },
+              { label: t('header.statistics'), value: 'tier-list-real-time' },
             ]}
           />
         </Box>
