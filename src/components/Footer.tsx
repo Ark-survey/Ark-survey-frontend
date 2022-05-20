@@ -45,6 +45,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
   buttonBox: {
     maxWidth: '250px',
+    padding: '0 20px',
     [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
       maxWidth: '',
     },

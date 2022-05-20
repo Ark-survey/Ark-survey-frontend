@@ -92,6 +92,7 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
             alignItems: 'end',
             justifyContent: 'center',
             height: filters.mini ? '8px' : '14px',
+            backgroundColor: '#fff',
             background:
               'linear-gradient(to top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.7) 90%, rgba(255,249,242,0) 100%)',
           }}
@@ -125,6 +126,7 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
         width: filters.mini ? 40 : 80,
         minHeight: !empty ? (filters.mini ? 40 : 80) : 0,
         boxSizing: 'border-box',
+        backgroundColor: '#fff',
         boxShadow:
           character?.selecting && type === CharListItemType.NORMAL && !empty
             ? 'inset 0px 0px 10px 4px green'

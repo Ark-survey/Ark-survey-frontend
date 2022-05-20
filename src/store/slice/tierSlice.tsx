@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Tier, UserTierList } from 'src/api/TierListServer';
 
 const initialState: UserTierList = {
-  name: '',
+  name: 'tierList',
   tierList: [
     {
       value: 0,

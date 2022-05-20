@@ -87,14 +87,14 @@ export default function Index() {
               { label: t('header.statistics'), value: 'tier-list-real-time' },
             ]}
           />
-          <ActionIcon
+          {/* <ActionIcon
             variant="outline"
             color={dark ? 'yellow' : 'blue'}
             onClick={() => toggleColorScheme()}
             title="Toggle color scheme"
           >
             {dark ? <Sun size={18} /> : <MoonStars size={18} />}
-          </ActionIcon>
+          </ActionIcon> */}
         </Box>
       </Box>
     </Box>
