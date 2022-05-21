@@ -1,4 +1,4 @@
-import { Box, Group, Image, Space, Sx, useMantineTheme } from '@mantine/core';
+import { Box, Group, Image, Space, Sx, Tooltip, useMantineTheme } from '@mantine/core';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,11 +15,13 @@ function CharStatisticBox({
   statistic,
   sx,
   index,
+  all,
 }: {
   char: CharacterType;
   statistic: CharStatistic;
   sx?: Sx;
   index: number;
+  all: number;
 }) {
   const { t } = useTranslation();
 
@@ -36,23 +38,41 @@ function CharStatisticBox({
         flexFlow: 'row wrap',
         flex: '0 1 45px',
         position: 'relative',
+        boxSizing: 'border-box',
         ...sx,
       }}
     >
-      <Box sx={{ position: 'absolute', fontSize: '16px', transform: 'scale(0.6)', top: '0', left: '0' }}>
+      <Box
+        sx={{
+          position: 'absolute',
+          width: '100%',
+          fontSize: '16px',
+          transform: 'scale(0.5)',
+          top: '0',
+          left: '0',
+          zIndex: 1,
+        }}
+      >
         {'#' + (index + 1)}
       </Box>
-      <Box sx={{ position: 'absolute', fontSize: '16px', transform: 'scale(0.6)', top: '0', right: '0' }}>
-        {statistic?.count}
-      </Box>
+      <Box
+        sx={{
+          borderRadius: '10px 10px 0 0',
+          position: 'absolute',
+          width: '100%',
+          height: 100 - ((statistic?.count ?? 0) / all) * 100 + '%',
+          backgroundColor: '#fff',
+          top: 0,
+        }}
+      />
       <Box sx={{ margin: '0 auto', marginTop: '10px' }}>
         <CharListItem character={char} />
       </Box>
-      {statistic?.count ? (
-        <Box sx={{ fontSize: '14px', width: '100%', lineHeight: '16px' }}>{statistic?.avgValue?.toFixed(2)}</Box>
-      ) : (
-        <Box sx={{ fontSize: '12px', width: '100%', lineHeight: '16px' }}>{t('no-ratings-yet')}</Box>
-      )}
+      <Box sx={{ fontSize: '14px', width: '100%', lineHeight: '16px' }}>
+        <Tooltip position="bottom" label={statistic?.count + ' 评价'} sx={{ cursor: 'pointer' }}>
+          {statistic?.count ? statistic?.avgValue?.toFixed(2) : t('no-ratings-yet')}
+        </Tooltip>
+      </Box>
     </Box>
   );
 }
@@ -171,50 +191,44 @@ export default function Index() {
           key={index}
           char={item.char}
           index={index}
+          all={parseInt(statisticData?.validCount ?? '0', 10)}
           sx={{ background: tierColor[flag] }}
           statistic={item.statistic}
         />,
       );
     });
     return charSortList;
-  }, [statisticData?.charStatistics, theme.colors]);
+  }, [statisticData, theme.colors]);
 
   return (
     <>
-      <Box sx={{ width: '100%', margin: '8px', marginBottom: '20px' }}>
-        <Group spacing="xs">
-          <Box
-            sx={{
-              boxShadow: '0 0 5px 2px #ccc',
-              height: '100px',
-              borderRadius: '10px',
-              width: '140px',
-              textAlign: 'center',
-            }}
-          >
-            <Box sx={{ fontSize: '20px', fontWeight: 600, padding: '15px', paddingBottom: '10px' }}>
-              {t('statistics.count')}
-            </Box>
-            <Box sx={{ fontSize: '25px' }}>{statisticData?.count}</Box>
-          </Box>
+      <Group spacing="xs" position="center" sx={{ width: '100%', marginBottom: '20px' }}>
+        <Box
+          sx={{
+            boxShadow: '0 0 5px 2px #ccc',
+            padding: '10px',
+            borderRadius: '10px',
+            width: '140px',
+            textAlign: 'center',
+          }}
+        >
+          <Box sx={{ fontSize: '20px', fontWeight: 600 }}>{statisticData?.count}</Box>
+          <Box sx={{ fontSize: '14px' }}>{t('statistics.count')}</Box>
+        </Box>
 
-          <Box
-            sx={{
-              boxShadow: '0 0 5px 2px #ccc',
-              height: '100px',
-              margin: '8px',
-              borderRadius: '10px',
-              width: '140px',
-              textAlign: 'center',
-            }}
-          >
-            <Box sx={{ fontSize: '20px', fontWeight: 600, padding: '15px', paddingBottom: '10px' }}>
-              {t('statistics.validCount')}
-            </Box>
-            <Box sx={{ fontSize: '25px' }}>{statisticData?.validCount}</Box>
-          </Box>
-        </Group>
-      </Box>
+        <Box
+          sx={{
+            boxShadow: '0 0 5px 2px #ccc',
+            padding: '10px',
+            borderRadius: '10px',
+            width: '140px',
+            textAlign: 'center',
+          }}
+        >
+          <Box sx={{ fontSize: '20px', fontWeight: 600 }}>{statisticData?.validCount}</Box>
+          <Box sx={{ fontSize: '14px' }}>{t('statistics.validCount')}</Box>
+        </Box>
+      </Group>
       {statistic.map((item, index) => (
         <React.Fragment key={index}>
           <Box sx={{ display: 'flex', justifyContent: 'center', flexFlow: 'row wrap' }}>

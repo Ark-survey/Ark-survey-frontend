@@ -13,7 +13,6 @@ import TierBox from './components/TierBox';
 import UploadPopover from './components/UploadPopover';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { capture } from 'src/utils/CaptureUtils';
-// import html2canvas from "html2canvas";
 import { format } from 'date-fns';
 import { successNotice } from '../components/Notice';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +34,7 @@ export default function Index() {
       value: it.id,
       label: it.name,
     }));
-
+    setType1Select(list[0].value);
     return list;
   }, [listTypeCollection]);
 

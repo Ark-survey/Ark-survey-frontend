@@ -14,7 +14,8 @@ export default function useVersionDialog() {
   };
 
   useEffect(() => {
-    fetchVersionAnnouncements();
+    const timeout = setTimeout(() => fetchVersionAnnouncements(), 100);
+    return () => clearTimeout(timeout);
   }, []);
 
   const dialogContext = useMemo(() => {
