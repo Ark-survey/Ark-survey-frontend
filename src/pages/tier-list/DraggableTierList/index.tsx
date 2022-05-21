@@ -1,4 +1,4 @@
-import { Box, Button } from '@mantine/core';
+import { Box, Button, Select } from '@mantine/core';
 import Header from 'src/components/Header';
 
 import { delCharacterByTier, addCharacterByTier } from 'src/store/slice/tierSlice';
@@ -11,20 +11,58 @@ import AddTierPopover from './components/AddTierPopover';
 import ResetAllCharacterPopover from './components/ResetAllCharacterPopover';
 import TierBox from './components/TierBox';
 import UploadPopover from './components/UploadPopover';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { capture } from 'src/utils/CaptureUtils';
 // import html2canvas from "html2canvas";
 import { format } from 'date-fns';
 import { successNotice } from '../components/Notice';
 import { useTranslation } from 'react-i18next';
+import { treeToArray } from 'src/utils/TreeUtils';
 
 export default function Index() {
   const tiers = useSelector((state: RootState) => state.userTierList.tierList);
+  const listTypeCollection = useSelector((state: RootState) => state.tierListType.collection);
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
   const { t } = useTranslation();
   const [makingImg, setMakingImg] = useState(false);
+  const [type1Select, setType1Select] = useState('');
+  const [type2Select, setType2Select] = useState('');
+
+  const type1List = useMemo(() => {
+    const list = listTypeCollection.map((it) => ({
+      value: it.id,
+      label: it.name,
+    }));
+
+    return list;
+  }, [listTypeCollection]);
+
+  const type2List = useMemo(() => {
+    let list = [];
+    if (type1Select === 'AE') {
+      list = treeToArray(listTypeCollection[0].children).map((it) => ({
+        value: it.id,
+        label: it.name,
+      }));
+    } else {
+      list = treeToArray(listTypeCollection[1].children, [1, 2], (node, road, level) => {
+        if (level === 0) {
+          return node.id;
+        } else if (level === 1) {
+          return road + '#' + node.id + ' ' + node.name;
+        } else {
+          return road + ' ' + node.name;
+        }
+      }).map((it) => ({
+        value: it.id,
+        label: it.road,
+      }));
+    }
+    setType2Select(list[0].value);
+    return list;
+  }, [listTypeCollection, type1Select]);
 
   const handleDropCharacterOnTier = useCallback(
     ({ character, type, fromTierValue }: CharDragItem, toTierValue: number) => {
@@ -63,6 +101,14 @@ export default function Index() {
     });
   }, [t]);
 
+  const handleType1Change = (value: string) => {
+    setType1Select(value);
+  };
+
+  const handleType2Change = (value: string) => {
+    setType2Select(value);
+  };
+
   return (
     <Box
       sx={{
@@ -76,7 +122,20 @@ export default function Index() {
         minWidth: '326px',
       }}
     >
-      <Header title={t('tier-list-edit')}>
+      <Header
+        title={
+          <Box sx={{ display: 'flex' }}>
+            <Select sx={{ width: '75px' }} value={type1Select} onChange={handleType1Change} data={type1List} />
+            <Select
+              sx={{ width: '220px' }}
+              value={type2Select}
+              onChange={handleType2Change}
+              searchable
+              data={type2List}
+            />
+          </Box>
+        }
+      >
         <ResetAllCharacterPopover />
         <Box sx={{ width: '10px' }} />
         <AddTierPopover />

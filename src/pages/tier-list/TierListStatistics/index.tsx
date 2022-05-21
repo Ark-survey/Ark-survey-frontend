@@ -27,31 +27,31 @@ function CharStatisticBox({
     <Box
       sx={{
         borderRadius: '10px',
-        margin: '5px',
-        padding: '5px',
-        boxShadow: '0 0 5px 2px #ccc',
+        margin: '3px',
+        padding: '5px 0',
+        boxShadow: '0 1px 1px 1px #ccc',
         textAlign: 'center',
-        minHeight: '90px',
-        flex: '1',
+        minHeight: '70px',
         display: 'flex',
         flexFlow: 'row wrap',
+        flex: '0 1 45px',
         position: 'relative',
         ...sx,
       }}
     >
-      <Box sx={{ position: 'absolute', fontSize: '18px', transform: 'scale(0.5)', top: '0', left: '0' }}>
+      <Box sx={{ position: 'absolute', fontSize: '16px', transform: 'scale(0.6)', top: '0', left: '0' }}>
         {'#' + (index + 1)}
       </Box>
-      <Box sx={{ position: 'absolute', fontSize: '18px', transform: 'scale(0.5)', top: '0', right: '0' }}>
+      <Box sx={{ position: 'absolute', fontSize: '16px', transform: 'scale(0.6)', top: '0', right: '0' }}>
         {statistic?.count}
       </Box>
       <Box sx={{ margin: '0 auto', marginTop: '10px' }}>
         <CharListItem character={char} />
       </Box>
       {statistic?.count ? (
-        <Box sx={{ fontSize: '18px', width: '100%', lineHeight: '20px' }}>{statistic?.avgValue?.toFixed(2)}</Box>
+        <Box sx={{ fontSize: '14px', width: '100%', lineHeight: '16px' }}>{statistic?.avgValue?.toFixed(2)}</Box>
       ) : (
-        <Box sx={{ fontSize: '12px', width: '100%', lineHeight: '20px' }}>{t('no-ratings-yet')}</Box>
+        <Box sx={{ fontSize: '12px', width: '100%', lineHeight: '16px' }}>{t('no-ratings-yet')}</Box>
       )}
     </Box>
   );
@@ -97,12 +97,12 @@ export default function Index() {
       theme.colors.grape[3],
       theme.colors.grape[2],
       theme.colors.grape[1],
-      theme.colors.red[3],
-      theme.colors.red[2],
-      theme.colors.red[1],
       theme.colors.pink[3],
       theme.colors.pink[2],
       theme.colors.pink[1],
+      theme.colors.red[3],
+      theme.colors.red[2],
+      theme.colors.red[1],
       theme.colors.orange[3],
       theme.colors.orange[2],
       theme.colors.orange[1],
@@ -131,9 +131,7 @@ export default function Index() {
       theme.colors.gray[2],
       theme.colors.gray[1],
     ];
-    const charSortList: Array<any[]> = new Array(12).fill([]).map((item) => {
-      return [];
-    });
+    const charSortList: Array<any[]> = [[]];
     console.log(charSortList);
 
     let flag = 0;
@@ -150,11 +148,13 @@ export default function Index() {
           0.05
       ) {
         ++flag;
+        if (flag % 3 === 0) charSortList.push([]);
         if (
           (flag + 1) % 3 === 0 &&
           (sortableCharList[index - 1].statistic?.avgValue ?? 0) - (sortableCharList[index].statistic?.avgValue ?? 0) >
             0.2
         ) {
+          charSortList.push([]);
           ++flag;
         }
         if (
@@ -162,11 +162,10 @@ export default function Index() {
           (sortableCharList[index - 1].statistic?.avgValue ?? 0) - (sortableCharList[index].statistic?.avgValue ?? 0) >
             0.2
         ) {
+          charSortList.push([]);
           flag += 2;
         }
       }
-      console.log(Math.floor(flag / 3));
-
       charSortList[Math.floor(flag / 3)].push(
         <CharStatisticBox
           key={index}
@@ -189,7 +188,7 @@ export default function Index() {
               boxShadow: '0 0 5px 2px #ccc',
               height: '100px',
               borderRadius: '10px',
-              width: '155px',
+              width: '140px',
               textAlign: 'center',
             }}
           >
@@ -205,7 +204,7 @@ export default function Index() {
               height: '100px',
               margin: '8px',
               borderRadius: '10px',
-              width: '155px',
+              width: '140px',
               textAlign: 'center',
             }}
           >
@@ -218,15 +217,13 @@ export default function Index() {
       </Box>
       {statistic.map((item, index) => (
         <React.Fragment key={index}>
-          <Box sx={{ display: 'flex', flexFlow: 'row wrap' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', flexFlow: 'row wrap' }}>
             {item}
-            {new Array(20).fill(0).map((item, key) => {
-              return (
-                <Box key={key} sx={{ flex: '1', minWidth: '50px', margin: '0 5px', padding: '0 5px', height: '1px' }} />
-              );
-            })}
+            {/* {new Array(20).fill(0).map((item, key) => {
+              return <Box key={key} sx={{ flex: '1', minWidth: '50px', margin: '0 3px', height: '1px' }} />;
+            })} */}
           </Box>
-          <Space h={10} />
+          <Space h={5} />
         </React.Fragment>
       ))}
     </>

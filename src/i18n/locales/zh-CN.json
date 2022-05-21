@@ -65,18 +65,18 @@
   "no-qualified": "没有符合条件的干员",
   "footer": {
     "contributors": "贡献者",
-    "maintain": "maintain",
-    "frontend": "frontend",
-    "backend": "backend",
-    "design": "design",
+    "maintain": "Maintainer",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "design": "Designer",
     "gitHub": "GitHub",
     "join-us": "加入我们",
     "report": "建议反馈",
     "clean-cache": "清除缓存"
   },
   "statistics": {
-    "count": "总样本数量",
-    "validCount": "有效样本数量"
+    "count": "总表单数",
+    "validCount": "有效样本数"
   },
   "header": {
     "title": "Arksurvey",
@@ -86,5 +86,8 @@
   },
   "network": {
     "error": "网络出状况啦"
+  },
+  "versionDialog": {
+    "title": "更新日志"
   }
 }

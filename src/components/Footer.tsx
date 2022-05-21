@@ -171,8 +171,8 @@ export default function Index({ children }: HeaderProps) {
                   text={t('footer.design')}
                   src={[
                     {
-                      imgUrl: '',
-                      to: '',
+                      imgUrl: 'https://avatars.githubusercontent.com/u/105902873?v=4',
+                      to: 'https://github.com/Sheenaghbu',
                     },
                   ]}
                 />
@@ -199,7 +199,7 @@ export default function Index({ children }: HeaderProps) {
             fullWidth
             size="xs"
             color="teal"
-            onClick={() => window.open('https://github.com/Ark-survey')}
+            onClick={() => window.open('https://github.com/Ark-survey/Ark-survey-frontend/issues/new')}
           >
             {isSM ? <Notes /> : t('footer.report')}
           </Button>

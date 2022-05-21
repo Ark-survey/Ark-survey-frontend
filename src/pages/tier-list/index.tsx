@@ -66,7 +66,7 @@ export default function Index() {
         });
         dispatch(loadUserTierList(res.data));
         dispatch(updateNewTierListStatus(false));
-        successNotice(t('no-corresponding-data-for-this-ID'));
+        successNotice(t('grade-table-data-loaded-successfully'));
       }
     }
   };

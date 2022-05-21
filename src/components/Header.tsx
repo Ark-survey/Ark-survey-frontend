@@ -1,7 +1,8 @@
 import { Box } from '@mantine/core';
+import { ReactNode } from 'react';
 
 interface HeaderProps {
-  title: string;
+  title: ReactNode;
   children?: any;
 }
 
@@ -13,6 +14,7 @@ export default function Index({ title, children }: HeaderProps) {
         borderBottom: '2px #eee solid',
         padding: '15px',
         flexFlow: 'row wrap',
+        justifyContent: 'center',
       }}
     >
       <Box
@@ -21,9 +23,8 @@ export default function Index({ title, children }: HeaderProps) {
           lineHeight: '30px',
           paddingLeft: 5,
           fontWeight: 900,
-          marginRight: '20px',
-          height: '30px',
           marginTop: '6px',
+          marginBottom: '6px',
           whiteSpace: 'nowrap',
         }}
       >
@@ -36,7 +37,8 @@ export default function Index({ title, children }: HeaderProps) {
           display: 'flex',
           justifyContent: 'flex-end',
           alignItems: 'center',
-          marginTop: '6px',
+          margin: '6px 0',
+          marginLeft: '10px',
         }}
       >
         {children}

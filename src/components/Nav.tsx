@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { updateViewPageId } from 'src/store/slice/userSlice';
 import { MoonStars, Sun } from 'tabler-icons-react';
+import useVersionDialog from './useVersionDialog';
 
 export default function Index() {
   const user = useSelector((state: RootState) => state.user);
@@ -15,6 +16,8 @@ export default function Index() {
   };
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
+
+  const { dialogContext, setOpened } = useVersionDialog();
 
   return (
     <Box
@@ -36,6 +39,7 @@ export default function Index() {
           height: '90px',
           boxSizing: 'border-box',
           alignItems: 'center',
+          userSelect: 'none',
         }}
       >
         <Box
@@ -62,12 +66,15 @@ export default function Index() {
           <Box
             sx={{
               fontSize: '10px',
-              paddingBottom: '10px',
               textAlign: 'right',
+              cursor: 'pointer',
+              height: '15px',
             }}
+            onClick={() => setOpened((opened) => !opened)}
           >
             {'v' + user.version}
           </Box>
+          {dialogContext}
         </Box>
         <Box
           sx={{
@@ -78,7 +85,7 @@ export default function Index() {
           }}
         >
           <SegmentedControl
-            disabled={user.newTierList || !userTierList?.id}
+            // disabled={user.newTierList || !userTierList?.id}
             orientation="vertical"
             value={user.viewPageId}
             onChange={handlePageControlChange}
