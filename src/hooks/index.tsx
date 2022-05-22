@@ -61,8 +61,11 @@ export function useWindowSize() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isXS = windowSize.innerWidth <= theme.breakpoints.xs;
-  const isSM = windowSize.innerWidth <= theme.breakpoints.sm;
+  const downXS = windowSize.innerWidth <= theme.breakpoints.xs;
+  const downSM = windowSize.innerWidth <= theme.breakpoints.sm;
+  const downMD = windowSize.innerWidth <= theme.breakpoints.md;
+  const downLG = windowSize.innerWidth <= theme.breakpoints.lg;
+  const downXL = windowSize.innerWidth <= theme.breakpoints.xl;
 
-  return { isXS, isSM };
+  return { downXS, downSM, downMD, downLG, downXL };
 }

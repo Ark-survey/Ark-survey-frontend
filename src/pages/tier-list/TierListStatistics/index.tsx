@@ -55,16 +55,6 @@ function CharStatisticBox({
       >
         {'#' + (index + 1)}
       </Box>
-      <Box
-        sx={{
-          borderRadius: '10px 10px 0 0',
-          position: 'absolute',
-          width: '100%',
-          height: 100 - ((statistic?.count ?? 0) / all) * 100 + '%',
-          backgroundColor: '#fff',
-          top: 0,
-        }}
-      />
       <Box sx={{ margin: '0 auto', marginTop: '10px' }}>
         <CharListItem character={char} />
       </Box>
@@ -231,12 +221,7 @@ export default function Index() {
       </Group>
       {statistic.map((item, index) => (
         <React.Fragment key={index}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', flexFlow: 'row wrap' }}>
-            {item}
-            {/* {new Array(20).fill(0).map((item, key) => {
-              return <Box key={key} sx={{ flex: '1', minWidth: '50px', margin: '0 3px', height: '1px' }} />;
-            })} */}
-          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', flexFlow: 'row wrap' }}>{item}</Box>
           <Space h={5} />
         </React.Fragment>
       ))}

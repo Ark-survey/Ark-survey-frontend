@@ -12,20 +12,25 @@ export default function Index({ title, children }: HeaderProps) {
       sx={{
         display: 'flex',
         borderBottom: '2px #eee solid',
-        padding: '15px',
+        padding: '5px 15px',
         flexFlow: 'row wrap',
         justifyContent: 'center',
+        boxSizing: 'border-box',
+        alignItems: 'center',
+        minHeight: '70px',
       }}
     >
       <Box
         sx={{
           fontSize: '20px',
-          lineHeight: '30px',
-          paddingLeft: 5,
+          lineHeight: '45px',
+          height: '45px',
+          padding: 5,
           fontWeight: 900,
-          marginTop: '6px',
-          marginBottom: '6px',
           whiteSpace: 'nowrap',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
         {title}
@@ -37,7 +42,7 @@ export default function Index({ title, children }: HeaderProps) {
           display: 'flex',
           justifyContent: 'flex-end',
           alignItems: 'center',
-          margin: '6px 0',
+          padding: 5,
           marginLeft: '10px',
         }}
       >

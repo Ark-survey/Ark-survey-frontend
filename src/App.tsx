@@ -25,7 +25,7 @@ function App() {
     <Provider store={store}>
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
         <MantineProvider theme={{ ...customTheme, colorScheme }}>
-          <NotificationsProvider position="top-right">
+          <NotificationsProvider position="bottom-center">
             <PersistGate loading={null} persistor={persistor}>
               <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
                 <PageContainer />

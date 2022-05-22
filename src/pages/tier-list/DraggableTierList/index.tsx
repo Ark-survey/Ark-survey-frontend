@@ -123,7 +123,7 @@ export default function Index() {
     >
       <Header
         title={
-          <Box sx={{ display: 'flex' }}>
+          <>
             <Select sx={{ width: '75px' }} value={type1Select} onChange={handleType1Change} data={type1List} />
             <Select
               sx={{ width: '220px' }}
@@ -132,7 +132,7 @@ export default function Index() {
               searchable
               data={type2List}
             />
-          </Box>
+          </>
         }
       >
         <ResetAllCharacterPopover />

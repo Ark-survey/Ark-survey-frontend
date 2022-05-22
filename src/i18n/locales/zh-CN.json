@@ -8,11 +8,11 @@
   "statistics-updated-successfully": "统计数据更新成功",
   "no-ratings-yet": "暂无评分",
   "can-not-be-empty": "基础数据更新成功",
-  "new-form": "新建表单",
-  "load-form": "加载表单",
-  "ID-check": "调查表单 ID",
-  "ID-check-placeholder": "您上次提交的调查表单的ID",
-  "ID-check-warning": "如果您尚未提交过表单，请点击「新建表单」按钮。切勿重复创建同一类型的表单！",
+  "new-form": "新建",
+  "load-form": "恢复数据",
+  "ID-check": "填写您的用户 ID 以恢复数据",
+  "ID-check-placeholder": "您的用户ID",
+  "ID-check-warning": "如果您尚未创建过用户，请点击「新建」按钮。",
   "Operator-installation-time": "干员实装时间",
   "time-format": "yyyy-MM-dd",
   "to": "至",
@@ -81,13 +81,20 @@
   "header": {
     "title": "Arksurvey",
     "ark-survey": "明日方舟调查大数据",
-    "sample-submission": "样本提交",
-    "statistics": "实时统计"
+    "sample-submission": "提交",
+    "statistics": "统计"
   },
   "network": {
     "error": "网络出状况啦"
   },
   "versionDialog": {
     "title": "更新日志"
+  },
+  "nav": {
+    "strong": "强度多维评价",
+    "practice": "干员养成进度",
+    "skin": "干员皮肤持有",
+    "copy": "复制 ID",
+    "setting": "设置"
   }
 }

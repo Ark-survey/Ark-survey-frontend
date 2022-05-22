@@ -22,6 +22,7 @@ interface HeaderProps {
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   container: {
+    position: 'relative',
     maxWidth: theme.breakpoints.lg,
     padding: theme.spacing.lg,
     boxSizing: 'border-box',
@@ -34,7 +35,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
   contributorsBox: {
     flex: '1',
-    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       textAlign: 'center',
       width: '100%',
     },
@@ -45,14 +46,14 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
   buttonBox: {
     maxWidth: '250px',
-    padding: '0 20px',
-    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
+    padding: '0 10px',
+    [`@media (max-width: ${theme.breakpoints.md}px)`]: {
       maxWidth: '',
     },
   },
   buttonGrid: {
     width: 100,
-    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+    [`@media (max-width: ${theme.breakpoints.md}px)`]: {
       width: 30,
     },
     [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
@@ -75,7 +76,7 @@ const CustomAvatar: FC<{ letter: string; text: string; src: { imgUrl: string; to
   src,
   text,
 }) => {
-  const { isSM } = useWindowSize();
+  const { downSM, downXS } = useWindowSize();
   const { classes } = useStyles();
   return (
     <Box
@@ -85,14 +86,19 @@ const CustomAvatar: FC<{ letter: string; text: string; src: { imgUrl: string; to
         position: 'relative',
       }}
     >
-      {!isSM ? <Box className={classes.bigLetter}>{letter}</Box> : <Box className={classes.text}>{text}</Box>}
-      <AvatarsGroup size="md" radius="xl" limit={2} sx={{ marginLeft: isSM ? '' : '12px', padding: isSM ? '0' : '' }}>
+      {!downSM ? <Box className={classes.bigLetter}>{letter}</Box> : <Box className={classes.text}>{text}</Box>}
+      <AvatarsGroup
+        size="md"
+        radius="xl"
+        limit={2}
+        sx={{ marginLeft: downSM ? '' : '12px', padding: downSM ? '0' : '' }}
+      >
         {src.map((it, index) => {
           return (
             <Avatar
               key={index}
               src={it.imgUrl}
-              sx={{ margin: isSM ? '0 auto' : '' }}
+              sx={{ margin: downSM ? '0 auto' : '' }}
               component={it.to ? 'a' : 'div'}
               href={it.to ?? undefined}
             />
@@ -105,19 +111,19 @@ const CustomAvatar: FC<{ letter: string; text: string; src: { imgUrl: string; to
 
 export default function Index({ children }: HeaderProps) {
   const { t } = useTranslation();
-  const { isSM, isXS } = useWindowSize();
+  const { downXS, downSM, downMD } = useWindowSize();
   const { classes } = useStyles();
 
   return (
     <Box className={classes.container}>
       <Box className={classes.contributorsBox}>
         <Box sx={{ maxWidth: '550px', minWidth: '340px' }}>
-          <Center sx={{ justifyContent: isSM ? undefined : 'left', fontWeight: 600 }}>
+          <Center sx={{ justifyContent: downSM ? undefined : 'left', fontWeight: 600 }}>
             {t('footer.contributors')}
           </Center>
           <Space h={10} />
           <Grid gutter="xs">
-            <Grid.Col span={isSM ? 3 : 3}>
+            <Grid.Col span={downSM ? 3 : 3}>
               <Center>
                 <CustomAvatar
                   letter="M"
@@ -131,7 +137,7 @@ export default function Index({ children }: HeaderProps) {
                 />
               </Center>
             </Grid.Col>
-            <Grid.Col span={isSM ? 3 : 3}>
+            <Grid.Col span={downSM ? 3 : 3}>
               <Center>
                 <CustomAvatar
                   letter="F"
@@ -145,7 +151,7 @@ export default function Index({ children }: HeaderProps) {
                 />
               </Center>
             </Grid.Col>
-            <Grid.Col span={isSM ? 3 : 3}>
+            <Grid.Col span={downSM ? 3 : 3}>
               <Center>
                 <CustomAvatar
                   letter="B"
@@ -164,7 +170,7 @@ export default function Index({ children }: HeaderProps) {
                 />
               </Center>
             </Grid.Col>
-            <Grid.Col span={isSM ? 3 : 3}>
+            <Grid.Col span={downSM ? 3 : 3}>
               <Center>
                 <CustomAvatar
                   letter="D"
@@ -182,7 +188,7 @@ export default function Index({ children }: HeaderProps) {
         </Box>
       </Box>
       <Grid gutter="sm" className={classes.buttonBox}>
-        <Grid.Col span={isXS ? 3 : 6} className={classes.buttonGrid}>
+        <Grid.Col span={downXS ? 3 : 6} className={classes.buttonGrid}>
           <Button
             variant="filled"
             fullWidth
@@ -190,10 +196,10 @@ export default function Index({ children }: HeaderProps) {
             color="dark"
             onClick={() => window.open('https://github.com/Ark-survey')}
           >
-            {isSM ? <BrandGithub /> : t('footer.gitHub')}
+            {downMD ? <BrandGithub /> : t('footer.gitHub')}
           </Button>
         </Grid.Col>
-        <Grid.Col span={isXS ? 3 : 6} className={classes.buttonGrid}>
+        <Grid.Col span={downXS ? 3 : 6} className={classes.buttonGrid}>
           <Button
             variant="filled"
             fullWidth
@@ -201,10 +207,10 @@ export default function Index({ children }: HeaderProps) {
             color="teal"
             onClick={() => window.open('https://github.com/Ark-survey/Ark-survey-frontend/issues/new')}
           >
-            {isSM ? <Notes /> : t('footer.report')}
+            {downMD ? <Notes /> : t('footer.report')}
           </Button>
         </Grid.Col>
-        <Grid.Col span={isXS ? 3 : 6} className={classes.buttonGrid}>
+        <Grid.Col span={downXS ? 3 : 6} className={classes.buttonGrid}>
           <Button
             variant="filled"
             fullWidth
@@ -215,10 +221,10 @@ export default function Index({ children }: HeaderProps) {
               );
             }}
           >
-            {isSM ? <Tent /> : t('footer.join-us')}
+            {downMD ? <Tent /> : t('footer.join-us')}
           </Button>
         </Grid.Col>
-        <Grid.Col span={isXS ? 3 : 6} className={classes.buttonGrid}>
+        <Grid.Col span={downXS ? 3 : 6} className={classes.buttonGrid}>
           <Button
             variant="filled"
             fullWidth
@@ -229,7 +235,7 @@ export default function Index({ children }: HeaderProps) {
               location.reload();
             }}
           >
-            {isSM ? <Trash /> : t('footer.clean-cache')}
+            {downMD ? <Trash /> : t('footer.clean-cache')}
           </Button>
         </Grid.Col>
       </Grid>

@@ -1,44 +1,128 @@
-import { Box, createStyles } from '@mantine/core';
+import {
+  Image,
+  Box,
+  createStyles,
+  Header,
+  ScrollArea,
+  Space,
+  useMantineColorScheme,
+  Transition,
+  Overlay,
+} from '@mantine/core';
 import Footer from 'src/components/Footer';
-import Nav from 'src/components/Nav';
+import CustomNavbar from 'src/components/CustomNavbar';
+import useVersionDialog from 'src/components/useVersionDialog';
+import { RootState } from 'src/store';
+import { BoxMultiple5 } from 'tabler-icons-react';
 import TierList from './tier-list';
+import { Brand } from 'src/components/Brand';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateMenuOpen } from 'src/store/slice/userSlice';
+import { useWindowSize } from 'src/hooks';
+import { useEffect } from 'react';
 
-const useStyles = createStyles((theme, _params, getRef) => ({
-  container: { minWidth: '360px' },
+const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getRef) => ({
+  container: {
+    width: 'calc(100vw - 250px)',
+    maxHeight: '100vh',
+    overflow: 'auto',
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      position: 'fixed',
+      width: '100vw',
+    },
+  },
   page: {
-    width: '100%',
     position: 'relative',
-    zIndex: 1,
-    minHeight: '100vh',
+    width: '100%',
     background: theme.white,
+    zIndex: 200,
     boxShadow: `0 0 5px 5px rgb(0 0 0 / 15%)`,
+    minHeight: '100vh',
   },
   footerPlaceholder: {
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.gray[9] : theme.colors.gray[1],
+    position: 'relative',
     height: '140px',
+    zIndex: -200,
     [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
       height: '200px',
     },
   },
   footer: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.gray[9] : theme.colors.gray[1],
     position: 'fixed',
     bottom: 0,
+    left: 0,
+    boxSizing: 'border-box',
+    paddingLeft: 250,
     width: '100vw',
+    height: '140px',
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      paddingLeft: 0,
+    },
+    [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
+      paddingLeft: 0,
+      height: '200px',
+    },
+  },
+  scrollArea: {
+    width: '250px',
+    height: '100%',
+    background: '#fff',
+    boxSizing: 'border-box',
+    zIndex: 200,
+    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+      position: 'fixed',
+    },
   },
 }));
 
+const scaleY = {
+  in: { opacity: 1, transform: 'scaleX(1)' },
+  out: { opacity: 0, transform: 'scaleX(0)' },
+  common: { transformOrigin: 'top' },
+  transitionProperty: 'transform, opacity',
+};
+
 export default function PageContainer() {
-  const { classes, cx } = useStyles();
+  const { downSM } = useWindowSize();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+  const { classes, cx } = useStyles({ menuOpen: user.menuOpen });
+
+  useEffect(() => {
+    dispatch(updateMenuOpen(false));
+  }, [dispatch, downSM]);
 
   return (
-    <Box className={classes.container}>
-      <Box className={classes.page}>
-        <Nav />
-        <TierList />
-      </Box>
-      <Box className={classes.footerPlaceholder} />
-      <Box className={cx(classes.footer, classes.footerPlaceholder)}>
-        <Footer />
+    <Box sx={{ height: '90vh' }}>
+      <Header height={60} p="xs" sx={{ position: 'fixed', zIndex: 200 }}>
+        <Brand />
+      </Header>
+      <Box
+        sx={{
+          display: 'flex',
+          position: 'relative',
+          overflow: 'auto',
+          height: '100vh',
+          zIndex: 100,
+        }}
+      >
+        {(user.menuOpen || !downSM) && (
+          <ScrollArea className={classes.scrollArea}>
+            <CustomNavbar />
+          </ScrollArea>
+        )}
+        {user.menuOpen && downSM && <Overlay zIndex={9} onClick={() => dispatch(updateMenuOpen(false))} />}
+        <Box className={classes.container}>
+          <Box className={classes.page}>
+            <Space h={60} />
+            <TierList />
+          </Box>
+          <Box className={classes.footerPlaceholder} />
+          <Box className={classes.footer}>
+            <Footer />
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

@@ -7,6 +7,7 @@ export function successNotice(message: string, title?: string) {
     icon: <Check />,
     title,
     message,
+    autoClose: 2000,
   });
 }
 
@@ -16,5 +17,6 @@ export function errorNotice(message: string, title?: string) {
     icon: <X />,
     title,
     message,
+    autoClose: 2000,
   });
 }
