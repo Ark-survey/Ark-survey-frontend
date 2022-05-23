@@ -12,6 +12,7 @@ import './i18n';
 import { useState } from 'react';
 import PageContainer from './pages';
 import customTheme from './theme';
+import { BrowserRouter } from 'react-router-dom';
 
 let persistor = persistStore(store);
 
@@ -28,7 +29,9 @@ function App() {
           <NotificationsProvider position="bottom-center">
             <PersistGate loading={null} persistor={persistor}>
               <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-                <PageContainer />
+                <BrowserRouter>
+                  <PageContainer />
+                </BrowserRouter>
               </DndProvider>
             </PersistGate>
           </NotificationsProvider>

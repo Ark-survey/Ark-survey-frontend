@@ -1,25 +1,13 @@
-import {
-  Image,
-  Box,
-  createStyles,
-  Header,
-  ScrollArea,
-  Space,
-  useMantineColorScheme,
-  Transition,
-  Overlay,
-} from '@mantine/core';
+import { Box, createStyles, Header, ScrollArea, Space, Overlay } from '@mantine/core';
 import Footer from 'src/components/Footer';
 import CustomNavbar from 'src/components/CustomNavbar';
-import useVersionDialog from 'src/components/useVersionDialog';
 import { RootState } from 'src/store';
-import { BoxMultiple5 } from 'tabler-icons-react';
-import TierList from './tier-list';
 import { Brand } from 'src/components/Brand';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMenuOpen } from 'src/store/slice/userSlice';
 import { useWindowSize } from 'src/hooks';
 import { useEffect } from 'react';
+import { RootRouter } from './route';
 
 const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getRef) => ({
   container: {
@@ -116,7 +104,7 @@ export default function PageContainer() {
         <Box className={classes.container}>
           <Box className={classes.page}>
             <Space h={60} />
-            <TierList />
+            <RootRouter />
           </Box>
           <Box className={classes.footerPlaceholder} />
           <Box className={classes.footer}>

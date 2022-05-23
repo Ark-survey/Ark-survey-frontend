@@ -8,7 +8,7 @@ import { RootState } from 'src/store';
 import { updateAllCharacterPicked, updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { loadUserTierList, resetUserTierList } from 'src/store/slice/tierSlice';
 import { updateNewTierListStatus } from 'src/store/slice/userSlice';
-import { successNotice } from '../components/Notice';
+import { successNotice } from '../../tier-list/components/Notice';
 
 export default function Index() {
   const userTierList = useSelector((state: RootState) => state.userTierList);
@@ -64,7 +64,7 @@ export default function Index() {
   };
 
   return (
-    <Center style={{ width: '100%', maxHeight: '100%', height: '500px' }}>
+    <Center style={{ width: '100%', maxHeight: '100%', height: '300px' }}>
       <Paper shadow="xs" p="md" radius="lg">
         <form onSubmit={form.onSubmit(handleConfirm)}>
           <InputWrapper label={t('ID-check')} description={t('ID-check-warning')}>

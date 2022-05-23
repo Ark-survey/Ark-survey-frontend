@@ -55,7 +55,7 @@ export default function UploadPopover() {
       onClose={() => setOpened(false)}
       target={
         <Button size="xs" radius="xl" variant="outline" color="green" onClick={() => setOpened((o) => !o)}>
-          {t('confirm-add')}
+          {t('add-tier')}
         </Button>
       }
       width={200}

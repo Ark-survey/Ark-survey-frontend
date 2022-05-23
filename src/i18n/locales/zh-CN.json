@@ -95,6 +95,8 @@
     "practice": "干员养成进度",
     "skin": "干员皮肤持有",
     "copy": "复制 ID",
-    "setting": "设置"
-  }
+    "setting": "设置",
+    "mainPage": "首页"
+  },
+  "mainPage": {}
 }

@@ -8,7 +8,7 @@ import { changeFold, changeNameDisplay, changeMini } from 'src/store/slice/filte
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { FoldDown, FoldUp } from 'tabler-icons-react';
-import LoadDataPaper from './LoadDataPaper';
+import LoadDataPaper from '../main-page/LoadDataPaper';
 import { useCallback, useEffect } from 'react';
 import { TierListServer } from 'src/api';
 import { updateAllCharacterPicked, updateCharacterPicked, updateCharacterUrl } from 'src/store/slice/characterSlice';
@@ -77,7 +77,7 @@ export default function Index() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return newTierList || (!newTierList && userTierList?.id) ? (
+  return (
     <Container size={1500} p="xl">
       {user.viewPageId === 'tier-list-real-time' ? (
         <TierListStatistics />
@@ -142,7 +142,5 @@ export default function Index() {
         </Stack>
       )}
     </Container>
-  ) : (
-    <LoadDataPaper />
   );
 }

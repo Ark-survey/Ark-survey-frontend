@@ -1,11 +1,9 @@
 # ArkSurvey
 
-product env: https://arksurvey.fun/
-test env: https://test.arksurvey.fun/
+- product env: https://arksurvey.fun/
+- test env: https://test.arksurvey.fun/
 
 ## v0.3 🔥 DEVELOPING
-
-## What?
 
 Survey something of Arknights.
 
