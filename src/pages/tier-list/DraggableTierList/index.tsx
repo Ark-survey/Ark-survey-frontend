@@ -1,7 +1,6 @@
 import { Box, Button, Select } from '@mantine/core';
 import Header from 'src/components/Header';
 
-import { delCharacterByTier, addCharacterByTier } from 'src/store/slice/tierSlice';
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
@@ -17,10 +16,12 @@ import { format } from 'date-fns';
 import { successNotice } from '../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { treeToArray } from 'src/utils/TreeUtils';
+import { editingTierList } from 'src/store/slice/TierListSlice';
+import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 export default function Index() {
-  const tiers = useSelector((state: RootState) => state.userTierList.tierList);
   const listTypeCollection = useSelector((state: RootState) => state.tierListType.collection);
+  const tierList = useSelector(editingTierList);
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
@@ -28,6 +29,7 @@ export default function Index() {
   const [makingImg, setMakingImg] = useState(false);
   const [type1Select, setType1Select] = useState('');
   const [type2Select, setType2Select] = useState('');
+  const { addTierChars, delTierOneChar } = useOperateEditingTierList();
 
   const type1List = useMemo(() => {
     const list = listTypeCollection.map((it) => ({
@@ -70,23 +72,12 @@ export default function Index() {
         dispatch(updateCharacterSelecting({ key: character?.key ?? '', selecting: false }));
 
         if (type === CharListItemType.TIER) {
-          dispatch(
-            delCharacterByTier({
-              tierValue: fromTierValue ?? 0,
-              key: character?.key ?? '',
-            }),
-          );
+          delTierOneChar(fromTierValue ?? 0, character?.key ?? '');
         }
-
-        dispatch(
-          addCharacterByTier({
-            tierValue: toTierValue,
-            key: character?.key ?? '',
-          }),
-        );
+        addTierChars(toTierValue, [character?.key ?? '']);
       }
     },
-    [dispatch],
+    [addTierChars, delTierOneChar, dispatch],
   );
 
   const makeTierImg = useCallback(() => {
@@ -166,11 +157,11 @@ export default function Index() {
               margin: '15px',
             }}
           >
-            {tiers.map((tier) => (
+            {tierList.tiers.map((tier) => (
               <TierBox
                 key={tier.value}
                 tier={tier}
-                onDropCharacter={(item) => handleDropCharacterOnTier(item, tier.value)}
+                onDropCharacter={(item) => handleDropCharacterOnTier(item, tier.value ?? 0)}
                 operationDisplay={!makingImg}
               />
             ))}

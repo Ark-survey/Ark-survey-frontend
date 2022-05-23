@@ -3,47 +3,38 @@ import { post } from '.';
 
 export interface Tier {
   name?: string;
-  value: number;
+  value?: number;
   characterKeys: string[];
 }
 
-export interface UserTierList {
+export interface TierList {
   id?: string;
   name?: string;
-  tierList: Tier[];
+  tiers: Tier[];
   updatedDate?: string;
-  // todo enum
-  type: string;
+  key?: string;
+  value?: string;
 }
 
-export interface CharStatistic {
-  avgValue?: number;
-  count?: number;
-}
-
-export interface TierListStatisticType {
-  count: string;
-  validCount: string;
-  charStatistics: {
-    [key: string]: { statistic: CharStatistic; char: CharacterType } & CharStatistic;
-  };
+export interface TierLists {
+  [key: string]: TierList;
 }
 
 export class TierListServer {
-  public serviceName = 'userTierList';
-  public createOne(params: UserTierList) {
-    return post<UserTierList>(this.serviceName, 'createOne', params);
+  public serviceName = 'tierList';
+  public getAllByUserId(params: { userId: string }) {
+    return post<TierLists>(this.serviceName, 'getAllByUserId', params);
   }
-  public updateOne(params: UserTierList) {
-    return post<UserTierList>(this.serviceName, 'updateOne', params);
+  public getById(params: { id: string }) {
+    return post<TierList>(this.serviceName, 'getById', params);
   }
-  public findById(params: { id: string }) {
-    return post<UserTierList>(this.serviceName, 'findById', params);
+  public createOne(params: { tierList: TierList; userId: string }) {
+    return post<TierList>(this.serviceName, 'createOne', params);
   }
   public deleteById(params: { id: string }) {
-    return post<UserTierList>(this.serviceName, 'deleteById', params);
+    return post<undefined>(this.serviceName, 'deleteById', params);
   }
-  public averageAll() {
-    return post<TierListStatisticType>(this.serviceName, 'averageAll');
+  public updateOne(params: { tierList: TierList; userId: string }) {
+    return post<TierList>(this.serviceName, 'updateOne', params);
   }
 }

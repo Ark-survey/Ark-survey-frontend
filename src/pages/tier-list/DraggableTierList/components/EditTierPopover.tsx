@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Popover, Button, Box, NumberInput, ActionIcon, InputWrapper, TextInput, Space } from '@mantine/core';
 import { Edit } from 'tabler-icons-react';
-import { updateTierName, updateTierValue } from 'src/store/slice/tierSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'src/store';
+import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
 import { Tier } from 'src/api/TierListServer';
 import { successNotice } from '../../components/Notice';
 import { useTranslation } from 'react-i18next';
+import { editingTierList } from 'src/store/slice/TierListSlice';
+import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 export default function EditTierPopover({ tier }: { tier: Tier }) {
   const [opened, setOpened] = useState(false);
   const { t } = useTranslation();
-  const tiers = useSelector((state: RootState) => state.userTierList.tierList);
-  const dispatch = useDispatch();
+  const { tiers } = useSelector(editingTierList);
+  const { findTierIndexByValue, updateOneTier } = useOperateEditingTierList();
 
   const form = useForm({
     initialValues: {
@@ -32,19 +32,12 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
     },
   });
 
-  const handleConfirm = ({ value, name }: { value: number; name?: string }) => {
-    dispatch(
-      updateTierValue({
-        tierValue: tier.value,
-        value,
-      }),
-    );
-    dispatch(
-      updateTierName({
-        tierValue: tier.value,
-        value: name ?? '',
-      }),
-    );
+  const handleConfirm = ({ value, name }: { value?: number; name?: string }) => {
+    updateOneTier(tier.value ?? 0, {
+      ...tiers[findTierIndexByValue(value ?? 0)],
+      value,
+      name,
+    });
     successNotice(t('modified-successfully'));
     setOpened(false);
   };

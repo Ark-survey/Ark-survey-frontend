@@ -2,9 +2,10 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import characterReducer from './slice/characterSlice';
 import filterReducer from './slice/filterSlice';
-import tiersReducer from './slice/tierSlice';
 import tierListTypeReducer from './slice/tierListTypeSlice';
+import TierListReducer from './slice/TierListSlice';
 import userReducer from './slice/userSlice';
+import TierListStatisticsReducer from './slice/TierListStatisticsSlice';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
@@ -12,8 +13,9 @@ import thunk from 'redux-thunk';
 const reducers = combineReducers({
   characters: characterReducer,
   filters: filterReducer,
-  userTierList: tiersReducer,
   tierListType: tierListTypeReducer,
+  tierList: TierListReducer,
+  tierListStatistics: TierListStatisticsReducer,
   user: userReducer,
 });
 

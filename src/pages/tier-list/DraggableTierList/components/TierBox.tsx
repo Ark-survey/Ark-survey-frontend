@@ -87,11 +87,11 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
               display: filter.mini ? 'flex' : '',
             }}
           >
-            <AddCharactersToTierPopover tierValue={tier.value} />
+            <AddCharactersToTierPopover tierValue={tier.value ?? 0} />
             <Box sx={{ width: '6px', height: '4px' }} />
             <EditTierPopover tier={tier} />
             <Box sx={{ width: '6px', height: '4px' }} />
-            <DeleteTier tierValue={tier.value} />
+            <DeleteTier tierValue={tier.value ?? 0} />
           </Box>
           <Box
             sx={{

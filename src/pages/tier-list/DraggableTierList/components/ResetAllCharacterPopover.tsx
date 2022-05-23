@@ -1,23 +1,20 @@
 import { useState } from 'react';
 import { Popover, Button, Box, Text } from '@mantine/core';
 
-import { delAllCharacterByTier } from 'src/store/slice/tierSlice';
 import { updateAllCharacterPicked } from 'src/store/slice/characterSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'src/store';
+import { useDispatch } from 'react-redux';
 import { successNotice } from '../../components/Notice';
 import { useTranslation } from 'react-i18next';
+import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 export default function ResetAllCharacterPopover() {
   const [opened, setOpened] = useState(false);
   const { t } = useTranslation();
-  const tiers = useSelector((state: RootState) => state.userTierList.tierList);
   const dispatch = useDispatch();
+  const { delAllTierChar } = useOperateEditingTierList();
 
   const handleConfirm = () => {
-    tiers.forEach((tier) => {
-      dispatch(delAllCharacterByTier({ tierValue: tier.value }));
-    });
+    delAllTierChar();
 
     dispatch(updateAllCharacterPicked(false));
     successNotice(t('reset-successfully'));

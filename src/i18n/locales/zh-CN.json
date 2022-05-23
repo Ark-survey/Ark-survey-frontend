@@ -7,7 +7,7 @@
   "grade-table-data-loaded-successfully": "等级表数据加载成功",
   "statistics-updated-successfully": "统计数据更新成功",
   "no-ratings-yet": "暂无评分",
-  "can-not-be-empty": "基础数据更新成功",
+  "can-not-be-empty": "不能为空",
   "new-form": "新建",
   "load-form": "恢复数据",
   "ID-check": "填写您的用户 ID 以恢复数据",
@@ -74,10 +74,6 @@
     "report": "建议反馈",
     "clean-cache": "清除缓存"
   },
-  "statistics": {
-    "count": "总表单数",
-    "validCount": "有效样本数"
-  },
   "header": {
     "title": "Arksurvey",
     "ark-survey": "明日方舟调查大数据",
@@ -98,5 +94,21 @@
     "setting": "设置",
     "mainPage": "首页"
   },
-  "mainPage": {}
+  "mainPage": {},
+  "loadUserPage": {
+    "createSuccess": "用户创建成功",
+    "loadSuccess": "用户加载成功",
+    "networkError": "网络出错啦"
+  },
+  "dataLoad": {
+    "tierListLoadingSuccess": "用户等级表加载成功",
+    "loadSuccess": "用户加载成功",
+    "networkError": "网络出错啦"
+  },
+  "statistics": {
+    "count": "总表单数",
+    "validCount": "有效样本数",
+    "updated-successfully": "统计数据更新成功",
+    "key-not-found": "未找到对应统计数据"
+  }
 }

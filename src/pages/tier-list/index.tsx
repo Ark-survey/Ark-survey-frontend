@@ -8,22 +8,12 @@ import { changeFold, changeNameDisplay, changeMini } from 'src/store/slice/filte
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { FoldDown, FoldUp } from 'tabler-icons-react';
-import LoadDataPaper from '../main-page/LoadDataPaper';
-import { useCallback, useEffect } from 'react';
-import { TierListServer } from 'src/api';
-import { updateAllCharacterPicked, updateCharacterPicked, updateCharacterUrl } from 'src/store/slice/characterSlice';
-import { resetUserTierList, loadUserTierList } from 'src/store/slice/tierSlice';
-import { updateNewTierListStatus, updateVersion } from 'src/store/slice/userSlice';
-import { errorNotice, successNotice } from './components/Notice';
 import TierListStatistics from './TierListStatistics';
-import { MetaDataServer } from 'src/api/MetaDataServer.';
 import { useTranslation } from 'react-i18next';
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
-  const userTierList = useSelector((state: RootState) => state.userTierList);
   const user = useSelector((state: RootState) => state.user);
-  const newTierList = useSelector((state: RootState) => state.user.newTierList);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -38,44 +28,6 @@ export default function Index() {
   const handleFoldStatusChange = () => {
     dispatch(changeFold(!filters.fold));
   };
-
-  const fetchFindTierList = useCallback(async ({ id }: { id: string }) => {
-    return await new TierListServer().findById({ id });
-  }, []);
-
-  const fetchLatestMetaData = useCallback(async () => {
-    return await new MetaDataServer().latest();
-  }, []);
-
-  const handleLoadData = async () => {
-    const { data } = await fetchLatestMetaData();
-    dispatch(updateVersion(data.version ?? ''));
-    dispatch(updateCharacterUrl(data.imgUrlOrigin ?? ''));
-    successNotice(t('basic-data-updated-successfully'));
-    if (!newTierList && userTierList?.id) {
-      const res = await fetchFindTierList({ id: userTierList.id });
-      if (!res?.data?.id) {
-        errorNotice(t('no-corresponding-data-for-this-ID'));
-        dispatch(resetUserTierList());
-        dispatch(updateAllCharacterPicked(false));
-      } else {
-        res.data.tierList.forEach((item) => {
-          item.characterKeys.forEach((key) => {
-            dispatch(updateCharacterPicked({ key, picked: true }));
-          });
-        });
-        dispatch(loadUserTierList(res.data));
-        dispatch(updateNewTierListStatus(false));
-        successNotice(t('grade-table-data-loaded-successfully'));
-      }
-    }
-  };
-
-  useEffect(() => {
-    const timeout = setTimeout(() => handleLoadData(), 100);
-    return () => clearTimeout(timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Container size={1500} p="xl">

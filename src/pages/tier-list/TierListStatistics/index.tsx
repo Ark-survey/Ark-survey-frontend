@@ -1,14 +1,13 @@
-import { Box, Group, Image, Space, Sx, Tooltip, useMantineTheme } from '@mantine/core';
+import { Box, Group, Space, Sx, Tooltip, useMantineTheme } from '@mantine/core';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { TierListServer } from 'src/api';
-import { CharStatistic, TierListStatisticType } from 'src/api/TierListServer';
+import { useSelector } from 'react-redux';
+import { TierListStatistic, TierListStatisticsServer } from 'src/api/TierListStatisticServer';
 import { RootState } from 'src/store';
 import { CharacterType } from 'src/store/slice/characterSlice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import CharListItem from '../CharListBox/components/CharListItem';
-import { successNotice, errorNotice } from '../components/Notice';
+import { errorNotice, successNotice } from '../components/Notice';
 
 function CharStatisticBox({
   char,
@@ -18,7 +17,10 @@ function CharStatisticBox({
   all,
 }: {
   char: CharacterType;
-  statistic: CharStatistic;
+  statistic: {
+    avgValue?: number; // 均分
+    count?: number; // 被评价的次数
+  };
   sx?: Sx;
   index: number;
   all: number;
@@ -68,28 +70,34 @@ function CharStatisticBox({
 }
 
 export default function Index() {
-  const [statisticData, setStatisticData] = useState<TierListStatisticType>();
+  const [statisticData, setStatisticData] = useState<TierListStatistic>();
   const charMap = useSelector((state: RootState) => state.characters.charMap);
-  const dispatch = useDispatch();
+  const currentKey = useSelector((state: RootState) => state.tierListStatistics.currentKey);
   const { t } = useTranslation();
   const theme = useMantineTheme();
 
   const fetchStatisticData = useCallback(async () => {
-    return await new TierListServer().averageAll();
-  }, []);
+    return await new TierListStatisticsServer().getLatest({ keys: [currentKey] });
+  }, [currentKey]);
 
   const handleLoadData = useCallback(async () => {
     const { data } = await fetchStatisticData();
-
-    Object.keys(charMap).forEach((key) => {
-      data.charStatistics[key] = {
-        char: charMap[key],
-        statistic: data.charStatistics[key],
-      };
-    });
-    setStatisticData(data);
-    successNotice(t('statistics-updated-successfully'));
-  }, [charMap, fetchStatisticData, t]);
+    if (data[currentKey]) {
+      Object.keys(charMap).forEach((key) => {
+        data[currentKey].charStatistics[key] = {
+          char: charMap[key],
+          statistic: {
+            count: data[currentKey].charStatistics[key].count,
+            avgValue: data[currentKey].charStatistics[key].avgValue,
+          },
+        };
+      });
+      setStatisticData(data[currentKey]);
+      successNotice(t('statistics.updated-successfully'));
+    } else {
+      errorNotice(t('statistics.key-not-found'));
+    }
+  }, [charMap, currentKey, fetchStatisticData, t]);
 
   useEffect(() => {
     const timeout = setTimeout(() => handleLoadData(), 100);
@@ -181,7 +189,7 @@ export default function Index() {
           key={index}
           char={item.char}
           index={index}
-          all={parseInt(statisticData?.validCount ?? '0', 10)}
+          all={Math.floor(statisticData?.validCount ?? 0)}
           sx={{ background: tierColor[flag] }}
           statistic={item.statistic}
         />,

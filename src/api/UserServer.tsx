@@ -5,7 +5,7 @@ export interface User {
   password?: string;
 }
 
-export class TierListServer {
+export class UserServer {
   public serviceName = 'user';
   public createOne(params: User) {
     return post<User>(this.serviceName, 'createOne', params);
@@ -14,6 +14,6 @@ export class TierListServer {
     return post<User>(this.serviceName, 'updateOne', params);
   }
   public getById(params: { id: string }) {
-    return post<User>(this.serviceName, 'findById', params);
+    return post<User>(this.serviceName, 'getById', params);
   }
 }

@@ -1,15 +1,24 @@
 import { Navbar, Space, Text } from '@mantine/core';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { successNotice } from 'src/pages/tier-list/components/Notice';
 import { RootState } from 'src/store';
 import { BoxMultiple5, CheckupList, Copy, Hanger, Home, Settings } from 'tabler-icons-react';
 import NavItem from './NavItem';
 
 export default function Index() {
   const { t } = useTranslation();
-  const user = useSelector((state: RootState) => state.user);
+  const userData = useSelector((state: RootState) => state.user.userData);
   const location = useLocation();
+
+  const handleCopyText = useCallback(async () => {
+    if (userData.id) {
+      navigator.clipboard.writeText(userData.id);
+      successNotice(t('copied'));
+    }
+  }, [t, userData.id]);
 
   return (
     <Navbar sx={{ height: '100vh' }}>
@@ -21,7 +30,7 @@ export default function Index() {
           sx={{ height: '55px' }}
           title={t('nav.mainPage')}
           leftIcon={<Home />}
-          disabled={!user.userData.id}
+          disabled={!userData.id}
           selecting={location.pathname === '/'}
           to="/"
         />
@@ -38,7 +47,7 @@ export default function Index() {
           title={t('nav.strong')}
           leftIcon={<BoxMultiple5 />}
           selecting={location.pathname === '/tierList'}
-          disabled={!user.userData.id}
+          disabled={!userData.id}
           operations
         />
         <NavItem title={t('nav.practice')} leftIcon={<CheckupList />} disabled />
@@ -50,7 +59,13 @@ export default function Index() {
           borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`,
         })}
       >
-        <NavItem sx={{ height: '55px' }} title={t('nav.copy')} leftIcon={<Copy />} disabled={!user.userData.id} />
+        <NavItem
+          sx={{ height: '55px' }}
+          title={t('nav.copy')}
+          leftIcon={<Copy />}
+          disabled={!userData.id}
+          onClick={handleCopyText}
+        />
         <NavItem sx={{ height: '55px' }} title={t('nav.setting')} leftIcon={<Settings />} disabled />
       </Navbar.Section>
     </Navbar>

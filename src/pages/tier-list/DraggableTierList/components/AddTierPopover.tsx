@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Popover, Button, Box, NumberInput, InputWrapper, Space, TextInput } from '@mantine/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { addTier } from 'src/store/slice/tierSlice';
-import { RootState } from 'src/store';
+import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
 import { successNotice } from '../../components/Notice';
 import { useTranslation } from 'react-i18next';
+import { editingTierList } from 'src/store/slice/TierListSlice';
+import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
-  const tiers = useSelector((state: RootState) => state.userTierList.tierList);
-  const dispatch = useDispatch();
+  const { tiers } = useSelector(editingTierList);
   const { t } = useTranslation();
+  const { addTier } = useOperateEditingTierList();
 
   const form = useForm({
     initialValues: {
@@ -32,13 +32,11 @@ export default function UploadPopover() {
       return;
     }
 
-    dispatch(
-      addTier({
-        value,
-        name,
-        characterKeys: [],
-      }),
-    );
+    addTier({
+      value,
+      name,
+      characterKeys: [],
+    });
 
     successNotice(t('level-added-successfully'));
     setOpened(false);

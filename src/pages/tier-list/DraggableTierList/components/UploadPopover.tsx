@@ -4,45 +4,36 @@ import { CloudUpload } from 'tabler-icons-react';
 import { TierListServer } from 'src/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { loadUserTierList } from 'src/store/slice/tierSlice';
-import { updateNewTierListStatus } from 'src/store/slice/userSlice';
 import { successNotice } from '../../components/Notice';
 import { useTranslation } from 'react-i18next';
+import { editingTierList, updateEditingTierList } from 'src/store/slice/TierListSlice';
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
-  const useTierList = useSelector((state: RootState) => state.userTierList);
+  const tierList = useSelector(editingTierList);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const fetchCreateTierList = useCallback(async () => {
-    return await new TierListServer().createOne(useTierList);
-  }, [useTierList]);
+    return await new TierListServer().createOne({ tierList, userId: user.userData.id ?? '' });
+  }, [tierList, user.userData.id]);
 
   const fetchUpdateTierList = useCallback(async () => {
-    return await new TierListServer().updateOne(useTierList);
-  }, [useTierList]);
-
-  const handleCopyText = useCallback(async () => {
-    if (useTierList.id) {
-      navigator.clipboard.writeText(useTierList.id);
-      successNotice(t('copied'));
-    }
-  }, [t, useTierList.id]);
+    return await new TierListServer().updateOne({ tierList, userId: user.userData.id ?? '' });
+  }, [tierList, user.userData.id]);
 
   const handleTierListSubmit = useCallback(async () => {
     setOpened(false);
     setLoading(true);
     try {
       if (user.newTierList) {
-        const res = await fetchCreateTierList();
-        dispatch(loadUserTierList(res.data));
-        dispatch(updateNewTierListStatus(false));
+        const { data } = await fetchCreateTierList();
+        dispatch(updateEditingTierList({ tierList: data }));
       } else {
-        const res = await fetchUpdateTierList();
-        dispatch(loadUserTierList(res.data));
+        const { data } = await fetchUpdateTierList();
+        dispatch(updateEditingTierList({ tierList: data }));
       }
       successNotice(t('upload-success'));
       // todo
@@ -70,22 +61,9 @@ export default function UploadPopover() {
       position="left"
       withArrow
     >
-      {user.newTierList ? (
-        <Text size="sm" sx={{ marginBottom: '15px' }}>
-          {t('upload-confirm')}
-        </Text>
-      ) : (
-        <Text
-          size="sm"
-          align="center"
-          sx={{ marginBottom: '15px', fontSize: '10px', cursor: 'pointer' }}
-          onClick={handleCopyText}
-        >
-          {t('copy-note')}
-          <br />
-          {useTierList.id}
-        </Text>
-      )}
+      <Text size="sm" sx={{ marginBottom: '15px' }}>
+        {t('upload-confirm')}
+      </Text>
       <Box sx={{ width: '100%', textAlign: 'center' }}>
         <Button radius="xl" onClick={handleTierListSubmit}>
           {user.newTierList ? t('continue-upload') : t('continue-update')}

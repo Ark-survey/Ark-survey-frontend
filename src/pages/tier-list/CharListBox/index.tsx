@@ -4,31 +4,26 @@ import CharacterList from './components/CharList';
 import { ItemTypes } from 'src/common';
 import { CharDragItem } from './components/CharListItem';
 
-import { delCharacterByTier } from 'src/store/slice/tierSlice';
 import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { filterHeightState } from 'src/store/slice/filterSlice';
 import { useChangeSize } from 'src/hooks';
 import { useTranslation } from 'react-i18next';
+import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 export default function CharListItemType() {
   const filters = useSelector((state: RootState) => state.filters);
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { delTierOneChar } = useOperateEditingTierList();
 
   const size = useChangeSize();
 
   const handleCharacterReturn = ({ fromTierValue, character }: CharDragItem) => {
     dispatch(updateCharacterPicked({ key: character?.key ?? '', picked: false }));
-
-    dispatch(
-      delCharacterByTier({
-        tierValue: fromTierValue ?? 0,
-        key: character?.key ?? '',
-      }),
-    );
+    delTierOneChar(fromTierValue ?? 0, character?.key ?? '');
   };
 
   const [{ isOver }, drop] = useDrop(

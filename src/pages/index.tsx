@@ -8,6 +8,9 @@ import { updateMenuOpen } from 'src/store/slice/userSlice';
 import { useWindowSize } from 'src/hooks';
 import { useEffect } from 'react';
 import { RootRouter } from './route';
+import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
+import { useLoadUserTierLists } from 'src/hooks/useLoadUserTierLists';
+import { useCreateLocalTierList } from 'src/hooks/useCreateLocalTierList';
 
 const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getRef) => ({
   container: {
@@ -76,6 +79,10 @@ export default function PageContainer() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
   const { classes, cx } = useStyles({ menuOpen: user.menuOpen });
+
+  useLoadingGlobalData();
+  useLoadUserTierLists();
+  useCreateLocalTierList();
 
   useEffect(() => {
     dispatch(updateMenuOpen(false));

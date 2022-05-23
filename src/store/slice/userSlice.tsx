@@ -1,14 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from 'src/api/UserServer';
 
 export interface UserType {
   menuOpen: boolean;
   newTierList: boolean;
   viewPageId: string;
   version: string;
-  userData: {
-    id: string;
-    password?: string;
-  };
+  userData: User;
 }
 
 const initialState: UserType = {
@@ -37,12 +35,13 @@ export const userSlice = createSlice({
     updateVersion: (state, action: PayloadAction<string>) => {
       state.version = action.payload;
     },
-    updateUserData: (state, action: PayloadAction<string>) => {
-      state.version = action.payload;
+    updateUserData: (state, action: PayloadAction<User>) => {
+      state.userData = action.payload;
     },
   },
 });
 
-export const { updateNewTierListStatus, updateViewPageId, updateVersion, updateMenuOpen } = userSlice.actions;
+export const { updateNewTierListStatus, updateViewPageId, updateVersion, updateMenuOpen, updateUserData } =
+  userSlice.actions;
 
 export default userSlice.reducer;
