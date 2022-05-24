@@ -1,4 +1,4 @@
-import { Navbar, Space, Text } from '@mantine/core';
+import { Navbar, Space } from '@mantine/core';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ export default function Index() {
   }, [t, userData?.id]);
 
   return (
-    <Navbar sx={{ height: '100vh' }}>
+    <Navbar sx={{ height: '-webkit-fill-available' }}>
       <Navbar.Section mx="xs">
         <Space h={60} />
       </Navbar.Section>

@@ -8,7 +8,7 @@ export default function Index() {
   return (
     <Container size={1200}>
       <Box p="lg">
-        <Title order={1}>欢迎来到 ArkSurvey ！</Title>
+        <Title order={2}>欢迎来到 ArkSurvey ！</Title>
         <Text py="md">
           聪明的你肯定发现了，这个网站是用来调查、统计、展现明日方舟玩家的各种数据，包括主观的强度评价、客观的练度等。
         </Text>

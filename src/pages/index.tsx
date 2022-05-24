@@ -15,7 +15,7 @@ import { useCreateLocalTierList } from 'src/hooks/useCreateLocalTierList';
 const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getRef) => ({
   container: {
     width: 'calc(100vw - 250px)',
-    maxHeight: '100vh',
+    maxHeight: '-webkit-fill-available',
     overflow: 'auto',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       position: 'fixed',
@@ -60,6 +60,7 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
     height: '100%',
     background: '#fff',
     boxSizing: 'border-box',
+    position: 'relative',
     zIndex: 200,
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       position: 'fixed',
@@ -89,7 +90,7 @@ export default function PageContainer() {
   }, [dispatch, downSM]);
 
   return (
-    <Box sx={{ height: '90vh' }}>
+    <Box>
       <Header height={60} p="xs" sx={{ position: 'fixed', zIndex: 200 }}>
         <Brand />
       </Header>
@@ -103,9 +104,9 @@ export default function PageContainer() {
         }}
       >
         {(user.menuOpen || !downSM) && (
-          <ScrollArea className={classes.scrollArea}>
+          <Box className={classes.scrollArea}>
             <CustomNavbar />
-          </ScrollArea>
+          </Box>
         )}
         {user.menuOpen && downSM && <Overlay zIndex={9} onClick={() => dispatch(updateMenuOpen(false))} />}
         <Box className={classes.container}>
