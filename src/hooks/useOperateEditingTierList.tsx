@@ -20,6 +20,8 @@ export function useOperateEditingTierList() {
           ...tiers[tierIndex],
           characterKeys,
         };
+        console.log(tiers);
+
         dispatch(
           updateEditingTierList({
             tierList: {
@@ -89,6 +91,28 @@ export function useOperateEditingTierList() {
     [tierList, updateChar],
   );
 
+  const moveTierChars = useCallback(
+    (fromTierIndex: number, toTierIndex: number, charKeys: string) => {
+      const newTiers = [...(tierList?.tiers ?? [])];
+      const fromCharacterKeys = [...(newTiers[fromTierIndex]?.characterKeys ?? [])];
+      fromCharacterKeys.splice(fromCharacterKeys.indexOf(charKeys), 1);
+      const toCharacterKeys = [...(newTiers[toTierIndex]?.characterKeys ?? []), charKeys];
+
+      newTiers[fromTierIndex] = { ...newTiers[fromTierIndex], characterKeys: fromCharacterKeys };
+      newTiers[toTierIndex] = { ...newTiers[toTierIndex], characterKeys: toCharacterKeys };
+
+      dispatch(
+        updateEditingTierList({
+          tierList: {
+            ...tierList,
+            tiers: newTiers,
+          },
+        }),
+      );
+    },
+    [dispatch, tierList],
+  );
+
   const delTierOneChar = useCallback(
     (tierIndex: number, charKey: string) => {
       const characterKeys = [...((tierList?.tiers ?? [])[tierIndex]?.characterKeys ?? [])];
@@ -123,6 +147,7 @@ export function useOperateEditingTierList() {
     findTierIndexByValue,
     addTierChars,
     updateOneTier,
+    moveTierChars,
     delTierOneChar,
     addTier,
     delOneTier,

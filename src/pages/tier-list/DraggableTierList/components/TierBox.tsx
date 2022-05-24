@@ -10,6 +10,7 @@ import { RootState } from 'src/store';
 import AddCharactersToTierPopover from './AddCharactersToTierPopover';
 import { Tier } from 'src/api/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
+import { editingTierList } from 'src/store/slice/TierListSlice';
 
 /**
  * @param value tier value
@@ -21,16 +22,20 @@ interface TierBoxProps {
 }
 
 export default function TierBox({ tier, operationDisplay = false, onDropCharacter }: TierBoxProps) {
+  const tierList = useSelector(editingTierList);
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const filter = useSelector((state: RootState) => state.filters);
 
-  const [{ isOver }, drop] = useDrop({
-    accept: ItemTypes.OPERATOR,
-    drop: onDropCharacter,
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
+  const [{ isOver }, drop] = useDrop(
+    () => ({
+      accept: ItemTypes.OPERATOR,
+      drop: onDropCharacter,
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
     }),
-  });
+    [onDropCharacter, tierList.tiers],
+  );
 
   const characterIMgList = useMemo(() => {
     const characterList = mapToArray(charMap).filter(

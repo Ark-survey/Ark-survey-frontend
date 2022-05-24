@@ -28,7 +28,7 @@ export default function Index() {
 
   const { t } = useTranslation();
   const [makingImg, setMakingImg] = useState(false);
-  const { addTierChars, delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
+  const { addTierChars, delTierOneChar, findTierIndexByValue, moveTierChars } = useOperateEditingTierList();
 
   const type1List = useMemo(() => {
     const list = listTypeCollection.map((it) => ({
@@ -72,12 +72,18 @@ export default function Index() {
         dispatch(updateCharacterPicked({ key: character?.key ?? '', picked: true }));
         dispatch(updateCharacterSelecting({ key: character?.key ?? '', selecting: false }));
         if (type === CharListItemType.TIER) {
-          delTierOneChar(findTierIndexByValue(fromTierValue ?? 0) ?? 0, character?.key ?? '');
+          moveTierChars(
+            findTierIndexByValue(fromTierValue ?? 0) ?? 0,
+            findTierIndexByValue(toTierValue) ?? 0,
+            character?.key ?? '',
+          );
+        } else {
+          addTierChars(findTierIndexByValue(toTierValue) ?? 0, [character?.key ?? '']);
         }
-        addTierChars(findTierIndexByValue(toTierValue) ?? 0, [character?.key ?? '']);
+        console.log(fromTierValue, toTierValue);
       }
     },
-    [addTierChars, delTierOneChar, dispatch, findTierIndexByValue],
+    [addTierChars, dispatch, findTierIndexByValue, moveTierChars],
   );
 
   const makeTierImg = useCallback(() => {
