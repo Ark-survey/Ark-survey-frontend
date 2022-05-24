@@ -13,7 +13,7 @@ export function RootRouter() {
     <Routes>
       <Route path="/">
         <Route index element={<MainPage />} />
-        {user.userData.id ? (
+        {user?.userData?.id ? (
           <Route path="tierList" element={<TierList />} />
         ) : (
           <Route path="*" element={<NotFound />} />

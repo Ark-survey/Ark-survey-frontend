@@ -14,11 +14,11 @@ export default function Index() {
   const location = useLocation();
 
   const handleCopyText = useCallback(async () => {
-    if (userData.id) {
-      navigator.clipboard.writeText(userData.id);
+    if (userData?.id) {
+      navigator.clipboard.writeText(userData?.id);
       successNotice(t('copied'));
     }
-  }, [t, userData.id]);
+  }, [t, userData?.id]);
 
   return (
     <Navbar sx={{ height: '100vh' }}>
@@ -30,7 +30,7 @@ export default function Index() {
           sx={{ height: '55px' }}
           title={t('nav.mainPage')}
           leftIcon={<Home />}
-          disabled={!userData.id}
+          disabled={!userData?.id}
           selecting={location.pathname === '/'}
           to="/"
         />
@@ -47,7 +47,7 @@ export default function Index() {
           title={t('nav.strong')}
           leftIcon={<BoxMultiple5 />}
           selecting={location.pathname === '/tierList'}
-          disabled={!userData.id}
+          disabled={!userData?.id}
           operations
         />
         <NavItem title={t('nav.practice')} leftIcon={<CheckupList />} disabled />
@@ -63,7 +63,7 @@ export default function Index() {
           sx={{ height: '55px' }}
           title={t('nav.copy')}
           leftIcon={<Copy />}
-          disabled={!userData.id}
+          disabled={!userData?.id}
           onClick={handleCopyText}
         />
         <NavItem sx={{ height: '55px' }} title={t('nav.setting')} leftIcon={<Settings />} disabled />

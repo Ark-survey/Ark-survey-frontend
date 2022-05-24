@@ -6,7 +6,7 @@ export interface UserType {
   newTierList: boolean;
   viewPageId: string;
   version: string;
-  userData: User;
+  userData?: User;
 }
 
 const initialState: UserType = {

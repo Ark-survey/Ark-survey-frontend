@@ -24,7 +24,7 @@ export function useLoadUserTierLists() {
     }
   };
 
-  // 当 userData.id 改变并不为空时加载
+  // 当 userData?.id 改变并不为空时加载
   useEffect(() => {
     const timeout = setTimeout(() => handleLoadData(), 100);
     return () => clearTimeout(timeout);

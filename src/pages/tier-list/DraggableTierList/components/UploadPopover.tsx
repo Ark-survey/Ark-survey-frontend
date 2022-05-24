@@ -18,17 +18,17 @@ export default function UploadPopover() {
 
   const fetchCreateTierList = useCallback(async () => {
     return await new TierListServer().createOne({
-      tierList: { ...tierList, userId: user.userData.id },
-      userId: user.userData.id ?? '',
+      tierList: { ...tierList, userId: user?.userData?.id },
+      userId: user?.userData?.id ?? '',
     });
-  }, [tierList, user.userData.id]);
+  }, [tierList, user?.userData?.id]);
 
   const fetchUpdateTierList = useCallback(async () => {
     return await new TierListServer().updateOne({
-      tierList: { ...tierList, userId: user.userData.id },
-      userId: user.userData.id ?? '',
+      tierList: { ...tierList, userId: user?.userData?.id },
+      userId: user?.userData?.id ?? '',
     });
-  }, [tierList, user.userData.id]);
+  }, [tierList, user?.userData?.id]);
 
   const handleTierListSubmit = useCallback(async () => {
     setOpened(false);

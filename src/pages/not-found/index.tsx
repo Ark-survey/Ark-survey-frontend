@@ -13,7 +13,7 @@ export default function Index() {
       navigate(`/`);
     }, 2000);
     return () => clearTimeout(timeout);
-  }, [navigate, user.userData.id]);
+  }, [navigate, user?.userData?.id]);
 
   return (
     <Center sx={{ height: '80vh' }}>
