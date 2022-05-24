@@ -23,7 +23,7 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
 
     validate: {
       value: (value) =>
-        tier.value !== value && tiers.filter((v) => v.value === value).length > 0
+        tier.value !== value && (tiers ?? []).filter((v) => v.value === value).length > 0
           ? t('this-level-already-exists')
           : null,
       name: (value) => {
@@ -33,8 +33,8 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
   });
 
   const handleConfirm = ({ value, name }: { value?: number; name?: string }) => {
-    updateOneTier(tier.value ?? 0, {
-      ...tiers[findTierIndexByValue(value ?? 0)],
+    updateOneTier(findTierIndexByValue(tier.value ?? 0) ?? 0, {
+      ...tier,
       value,
       name,
     });

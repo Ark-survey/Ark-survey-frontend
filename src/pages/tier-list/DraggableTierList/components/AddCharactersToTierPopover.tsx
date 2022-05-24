@@ -13,14 +13,14 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { addTierChars } = useOperateEditingTierList();
+  const { addTierChars, findTierIndexByValue } = useOperateEditingTierList();
 
   const handleConfirm = () => {
     Object.keys(charMap).forEach((key) => {
       if (charMap[key].selecting) {
         dispatch(updateCharacterPicked({ key, picked: true }));
         dispatch(updateCharacterSelecting({ key, selecting: false }));
-        addTierChars(tierValue, [key]);
+        addTierChars(findTierIndexByValue(tierValue) ?? 0, [key]);
       }
     });
     successNotice(t('bulk-added-successfully'));

@@ -9,11 +9,12 @@ export interface Tier {
 
 export interface TierList {
   id?: string;
+  userId?: string;
   name?: string;
-  tiers: Tier[];
+  tiers?: Tier[];
   updatedDate?: string;
   key?: string;
-  value?: string;
+  value?: number;
 }
 
 export interface TierLists {

@@ -5,11 +5,17 @@ import { RootState } from '..';
 export interface TierListStateType {
   tierLists: TierLists;
   currentEditKey: string;
+  key1Select: string;
+  key2Select: string;
+  road: string;
 }
 
 let initialState: TierListStateType = {
   tierLists: {},
-  currentEditKey: 'NORMAL',
+  currentEditKey: 'AE-CII',
+  key1Select: 'AE',
+  key2Select: 'CII',
+  road: 'CII',
 };
 
 export const TierListSlice = createSlice({
@@ -20,28 +26,33 @@ export const TierListSlice = createSlice({
     addTierList: (state, action: PayloadAction<string>) => {
       const initialTierList: TierList = {
         id: '',
-        name: '',
-        key: '',
-        value: '1',
+        name: 'tierList',
+        key: action.payload,
+        value: 1,
         tiers: [
           {
             value: 0,
+            name: 'T 0',
             characterKeys: [],
           },
           {
             value: 1,
+            name: 'T 1',
             characterKeys: [],
           },
           {
             value: 2,
+            name: 'T 2',
             characterKeys: [],
           },
           {
             value: 3,
+            name: 'T 3',
             characterKeys: [],
           },
           {
             value: 4,
+            name: 'T 4',
             characterKeys: [],
           },
         ],
@@ -64,17 +75,29 @@ export const TierListSlice = createSlice({
     resetTierLists: (state) => {
       state.tierLists = {};
     },
-    updateCurrentEditKey: (state, action: PayloadAction<string>) => {
-      state.currentEditKey = action.payload;
+    updateEditKey1: (state, action: PayloadAction<string>) => {
+      state.key1Select = action.payload;
+    },
+    updateEditKey2: (state, action: PayloadAction<{ key: string; road: string }>) => {
+      state.currentEditKey = state.key1Select + '-' + action.payload.road;
+      state.key2Select = action.payload.key;
+      state.road = action.payload.road;
     },
   },
 });
 
-export const { addTierList, updateTierList, updateEditingTierList, updateTierLists, resetTierLists } =
-  TierListSlice.actions;
+export const {
+  addTierList,
+  updateTierList,
+  updateEditingTierList,
+  updateTierLists,
+  resetTierLists,
+  updateEditKey1,
+  updateEditKey2,
+} = TierListSlice.actions;
 
 export default TierListSlice.reducer;
 
-export const editingTierList = (state: RootState) => {
-  return state.tierList.tierLists[state.tierList.currentEditKey];
-};
+export function editingTierList(state: RootState) {
+  return state.tierList.tierLists[state.tierList.currentEditKey] ?? { tiers: [] };
+}

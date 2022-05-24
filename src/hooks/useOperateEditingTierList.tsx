@@ -5,37 +5,36 @@ import { editingTierList, updateEditingTierList } from 'src/store/slice/TierList
 
 export function useOperateEditingTierList() {
   const tierList = useSelector(editingTierList);
+
   const dispatch = useDispatch();
   const findTierIndexByValue = useCallback(
-    (tierValue: number) => tierList.tiers.findIndex((it) => it.value === tierValue),
-    [tierList.tiers],
-  );
-  const findTierByValue = useCallback(
-    (tierValue: number) => tierList.tiers.find((it) => it.value === tierValue),
-    [tierList.tiers],
+    (tierValue: number) => tierList?.tiers?.findIndex((it) => it.value === tierValue),
+    [tierList?.tiers],
   );
 
   const updateChar = useCallback(
-    (characterKeys: string[], tier?: Tier) =>
-      dispatch(
-        updateEditingTierList({
-          tierList: {
-            ...tierList,
-            tiers: [
-              ...tierList.tiers,
-              {
-                ...tier,
-                characterKeys,
-              },
-            ],
-          },
-        }),
-      ),
+    (characterKeys: string[], tierIndex: number) => {
+      if (tierList) {
+        const tiers = [...(tierList?.tiers ?? [])];
+        tiers[tierIndex] = {
+          ...tiers[tierIndex],
+          characterKeys,
+        };
+        dispatch(
+          updateEditingTierList({
+            tierList: {
+              ...tierList,
+              tiers,
+            },
+          }),
+        );
+      }
+    },
     [dispatch, tierList],
   );
 
   const updateTier = useCallback(
-    (tiers: Tier[]) =>
+    (tiers: Tier[]) => {
       dispatch(
         updateEditingTierList({
           tierList: {
@@ -43,7 +42,8 @@ export function useOperateEditingTierList() {
             tiers: sortTiersUp(tiers),
           },
         }),
-      ),
+      );
+    },
     [dispatch, tierList],
   );
 
@@ -52,26 +52,27 @@ export function useOperateEditingTierList() {
   // 批量添加 tier
   const addTier = useCallback(
     (tier: Tier) => {
-      const newTiers = [...tierList.tiers, tier];
-      updateTier(newTiers);
-    },
-    [tierList.tiers, updateTier],
-  );
-
-  // 删除当前正在编辑的 tier list 的
-  const updateOneTier = useCallback(
-    (tierIndex: number, newTier: Tier) => {
-      const newTiers = [...tierList.tiers].splice(tierIndex, 1);
-      newTiers.push(newTier);
+      const newTiers = [...(tierList?.tiers ?? []), tier];
       updateTier(newTiers);
     },
     [tierList, updateTier],
   );
 
   // 删除当前正在编辑的 tier list 的
+  const updateOneTier = useCallback(
+    (tierIndex: number, newTier: Tier) => {
+      const newTiers = [...(tierList?.tiers ?? [])];
+      newTiers[tierIndex] = newTier;
+      updateTier(newTiers);
+    },
+    [tierList, updateTier],
+  );
+
+  // 删除当前正在编辑的指定 tier
   const delOneTier = useCallback(
     (tierIndex: number) => {
-      const newTiers = [...tierList.tiers].splice(tierIndex, 1);
+      const newTiers = [...(tierList?.tiers ?? [])];
+      newTiers.splice(tierIndex, 1);
       updateTier(newTiers);
     },
     [tierList, updateTier],
@@ -79,29 +80,27 @@ export function useOperateEditingTierList() {
 
   // 批量添加 char
   const addTierChars = useCallback(
-    (tierValue: number, charKeys: string[]) => {
-      const tier = findTierByValue(tierValue);
-      const characterKeys = [...(tier?.characterKeys ?? []), ...charKeys];
-      updateChar(characterKeys, tier);
+    (tierIndex: number, charKeys: string[]) => {
+      const characterKeys = [...((tierList?.tiers ?? [])[tierIndex]?.characterKeys ?? []), ...charKeys];
+      updateChar(characterKeys, tierIndex);
     },
-    [findTierByValue, updateChar],
+    [tierList, updateChar],
   );
 
   const delTierOneChar = useCallback(
-    (tierValue: number, charKey: string) => {
-      const tier = findTierByValue(tierValue);
-      const characterKeys = tier?.characterKeys.splice(tier.characterKeys.indexOf(charKey), 1) ?? [];
-      updateChar(characterKeys, tier);
+    (tierIndex: number, charKey: string) => {
+      const characterKeys = [...((tierList?.tiers ?? [])[tierIndex]?.characterKeys ?? [])];
+      characterKeys.splice(characterKeys.indexOf(charKey), 1);
+      updateChar(characterKeys, tierIndex);
     },
-    [findTierByValue, updateChar],
+    [tierList, updateChar],
   );
 
   const delTierAllChar = useCallback(
-    (tierValue: number) => {
-      const tier = findTierByValue(tierValue);
-      updateChar([], tier);
+    (tierIndex: number) => {
+      updateChar([], tierIndex);
     },
-    [findTierByValue, updateChar],
+    [updateChar],
   );
 
   const delAllTierChar = useCallback(() => {
@@ -109,7 +108,7 @@ export function useOperateEditingTierList() {
       updateEditingTierList({
         tierList: {
           ...tierList,
-          tiers: tierList.tiers.map((it) => ({
+          tiers: (tierList?.tiers ?? []).map((it) => ({
             ...it,
             characterKeys: [],
           })),

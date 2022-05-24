@@ -17,25 +17,23 @@ export default function CharListItemType() {
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { delTierOneChar } = useOperateEditingTierList();
+  const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
 
   const size = useChangeSize();
 
   const handleCharacterReturn = ({ fromTierValue, character }: CharDragItem) => {
     dispatch(updateCharacterPicked({ key: character?.key ?? '', picked: false }));
-    delTierOneChar(fromTierValue ?? 0, character?.key ?? '');
+    if (fromTierValue !== undefined) delTierOneChar(findTierIndexByValue(fromTierValue) ?? 0, character?.key ?? '');
   };
 
-  const [{ isOver }, drop] = useDrop(
-    () => ({
-      accept: ItemTypes.OPERATOR,
-      drop: handleCharacterReturn,
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
+  const [{ isOver }, drop] = useDrop({
+    accept: ItemTypes.OPERATOR,
+    drop: handleCharacterReturn,
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
     }),
-    [],
-  );
+  });
+
   return (
     <Box
       ref={drop}

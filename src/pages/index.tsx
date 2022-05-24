@@ -80,9 +80,9 @@ export default function PageContainer() {
   const user = useSelector((state: RootState) => state.user);
   const { classes, cx } = useStyles({ menuOpen: user.menuOpen });
 
+  useCreateLocalTierList();
   useLoadingGlobalData();
   useLoadUserTierLists();
-  useCreateLocalTierList();
 
   useEffect(() => {
     dispatch(updateMenuOpen(false));

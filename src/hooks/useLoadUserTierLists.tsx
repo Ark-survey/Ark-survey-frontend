@@ -16,8 +16,8 @@ export function useLoadUserTierLists() {
   };
 
   const handleLoadData = async () => {
-    if (userData.id) {
-      const { data } = await fetchUserTierLists({ userId: userData.id });
+    if (userData?.id) {
+      const { data } = await fetchUserTierLists({ userId: userData?.id });
       dispatch(updateTierLists(data));
       successNotice(t('dataLoad.tierListLoadingSuccess'));
     }
@@ -28,5 +28,5 @@ export function useLoadUserTierLists() {
     const timeout = setTimeout(() => handleLoadData(), 100);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData.id]);
+  }, [userData?.id]);
 }

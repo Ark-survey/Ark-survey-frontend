@@ -58,7 +58,7 @@
   "upload-success": "上传成功",
   "submit": "提交",
   "update": "更新",
-  "upload-confirm": "注意：提交之后页面会显示您的唯一 ID，下次进入本页面时输入您的 ID 即可获取之前提交的数据。",
+  "upload-confirm": "注意：这个操作只会提交当前正在编辑的表单，如果需要提交其他表单请切换类型。未保存的草稿在关闭页面后失效。",
   "copy-note": "点击复制您的表单 ID 至剪贴板",
   "continue-upload": "了解，继续提交",
   "continue-update": "确认更新数据",
@@ -109,6 +109,6 @@
     "count": "总表单数",
     "validCount": "有效样本数",
     "updated-successfully": "统计数据更新成功",
-    "key-not-found": "未找到对应统计数据"
+    "key-not-found": "暂无样本"
   }
 }

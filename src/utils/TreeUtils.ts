@@ -29,11 +29,12 @@ export function treeToArray<T>(
           (!levelLimit ||
             (levelLimit?.[0] && levelLimit[0] <= nodeInfo.level && levelLimit?.[1] && levelLimit[1] >= nodeInfo.level))
         ) {
-          arr.push({ ...e, road: roadC });
+          arr.push({ ...e, road: roadC, roadId: nodeInfo.level === 0 ? e.id : nodeInfo.roadId + '-' + e.id });
         }
+
         expanded(e.children, {
           road: roadRule ? roadC ?? '' : nodeInfo.level === 0 ? e.name : nodeInfo.road + ' ' + e.name,
-          roadId: nodeInfo.level === 0 ? e.name : nodeInfo.road + '-' + e.id,
+          roadId: nodeInfo.level === 0 ? e.id : nodeInfo.roadId + '-' + e.id,
           level: nodeInfo.level + 1,
         });
       });

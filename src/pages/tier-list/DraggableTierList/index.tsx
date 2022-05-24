@@ -16,36 +16,36 @@ import { format } from 'date-fns';
 import { successNotice } from '../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { treeToArray } from 'src/utils/TreeUtils';
-import { editingTierList } from 'src/store/slice/TierListSlice';
+import { editingTierList, updateEditKey1, updateEditKey2 } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 export default function Index() {
   const listTypeCollection = useSelector((state: RootState) => state.tierListType.collection);
+  const tierListType = useSelector((state: RootState) => state.tierList);
   const tierList = useSelector(editingTierList);
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
   const { t } = useTranslation();
   const [makingImg, setMakingImg] = useState(false);
-  const [type1Select, setType1Select] = useState('');
-  const [type2Select, setType2Select] = useState('');
-  const { addTierChars, delTierOneChar } = useOperateEditingTierList();
+  const { addTierChars, delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
 
   const type1List = useMemo(() => {
     const list = listTypeCollection.map((it) => ({
       value: it.id,
       label: it.name,
     }));
-    setType1Select(list[0].value);
+    dispatch(updateEditKey1(list[0].value));
     return list;
-  }, [listTypeCollection]);
+  }, [dispatch, listTypeCollection]);
 
   const type2List = useMemo(() => {
     let list = [];
-    if (type1Select === 'AE') {
+    if (tierListType.key1Select === 'AE') {
       list = treeToArray(listTypeCollection[0].children).map((it) => ({
         value: it.id,
         label: it.name,
+        road: it.roadId,
       }));
     } else {
       list = treeToArray(listTypeCollection[1].children, [1, 2], (node, road, level) => {
@@ -59,25 +59,25 @@ export default function Index() {
       }).map((it) => ({
         value: it.id,
         label: it.road,
+        road: it.roadId,
       }));
     }
-    setType2Select(list[0].value);
+    dispatch(updateEditKey2({ key: list[0].value, road: list[0].road ?? '' }));
     return list;
-  }, [listTypeCollection, type1Select]);
+  }, [dispatch, listTypeCollection, tierListType.key1Select]);
 
   const handleDropCharacterOnTier = useCallback(
     ({ character, type, fromTierValue }: CharDragItem, toTierValue: number) => {
       if (type === CharListItemType.NORMAL || (type === CharListItemType.TIER && fromTierValue !== toTierValue)) {
         dispatch(updateCharacterPicked({ key: character?.key ?? '', picked: true }));
         dispatch(updateCharacterSelecting({ key: character?.key ?? '', selecting: false }));
-
         if (type === CharListItemType.TIER) {
-          delTierOneChar(fromTierValue ?? 0, character?.key ?? '');
+          delTierOneChar(findTierIndexByValue(fromTierValue ?? 0) ?? 0, character?.key ?? '');
         }
-        addTierChars(toTierValue, [character?.key ?? '']);
+        addTierChars(findTierIndexByValue(toTierValue) ?? 0, [character?.key ?? '']);
       }
     },
-    [addTierChars, delTierOneChar, dispatch],
+    [addTierChars, delTierOneChar, dispatch, findTierIndexByValue],
   );
 
   const makeTierImg = useCallback(() => {
@@ -92,11 +92,12 @@ export default function Index() {
   }, [t]);
 
   const handleType1Change = (value: string) => {
-    setType1Select(value);
+    dispatch(updateEditKey1(value));
   };
 
   const handleType2Change = (value: string) => {
-    setType2Select(value);
+    const typeItem = type2List.find((it) => it.value === value);
+    dispatch(updateEditKey2({ key: value, road: typeItem?.road ?? '' }));
   };
 
   return (
@@ -115,10 +116,15 @@ export default function Index() {
       <Header
         title={
           <>
-            <Select sx={{ width: '75px' }} value={type1Select} onChange={handleType1Change} data={type1List} />
+            <Select
+              sx={{ width: '75px' }}
+              value={tierListType.key1Select}
+              onChange={handleType1Change}
+              data={type1List}
+            />
             <Select
               sx={{ width: '220px' }}
-              value={type2Select}
+              value={tierListType.key2Select}
               onChange={handleType2Change}
               searchable
               data={type2List}
@@ -157,7 +163,7 @@ export default function Index() {
               margin: '15px',
             }}
           >
-            {tierList.tiers.map((tier) => (
+            {tierList?.tiers?.map((tier) => (
               <TierBox
                 key={tier.value}
                 tier={tier}

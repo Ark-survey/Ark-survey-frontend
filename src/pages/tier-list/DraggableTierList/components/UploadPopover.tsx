@@ -17,18 +17,24 @@ export default function UploadPopover() {
   const { t } = useTranslation();
 
   const fetchCreateTierList = useCallback(async () => {
-    return await new TierListServer().createOne({ tierList, userId: user.userData.id ?? '' });
+    return await new TierListServer().createOne({
+      tierList: { ...tierList, userId: user.userData.id },
+      userId: user.userData.id ?? '',
+    });
   }, [tierList, user.userData.id]);
 
   const fetchUpdateTierList = useCallback(async () => {
-    return await new TierListServer().updateOne({ tierList, userId: user.userData.id ?? '' });
+    return await new TierListServer().updateOne({
+      tierList: { ...tierList, userId: user.userData.id },
+      userId: user.userData.id ?? '',
+    });
   }, [tierList, user.userData.id]);
 
   const handleTierListSubmit = useCallback(async () => {
     setOpened(false);
     setLoading(true);
     try {
-      if (user.newTierList) {
+      if (!tierList.id) {
         const { data } = await fetchCreateTierList();
         dispatch(updateEditingTierList({ tierList: data }));
       } else {
@@ -40,7 +46,7 @@ export default function UploadPopover() {
     } finally {
       setLoading(false);
     }
-  }, [dispatch, fetchCreateTierList, fetchUpdateTierList, t, user.newTierList]);
+  }, [dispatch, fetchCreateTierList, fetchUpdateTierList, t, tierList.id]);
 
   return (
     <Popover
@@ -51,10 +57,11 @@ export default function UploadPopover() {
           radius="xl"
           size="xs"
           loading={loading}
+          color={tierList.id ? 'green' : 'blue'}
           leftIcon={<CloudUpload size={14} />}
           onClick={() => setOpened((o) => !o)}
         >
-          {user.newTierList ? t('submit') : t('update')}
+          {!tierList.id ? t('submit') : t('update')}
         </Button>
       }
       width={user.newTierList ? 220 : 300}
@@ -66,7 +73,7 @@ export default function UploadPopover() {
       </Text>
       <Box sx={{ width: '100%', textAlign: 'center' }}>
         <Button radius="xl" onClick={handleTierListSubmit}>
-          {user.newTierList ? t('continue-upload') : t('continue-update')}
+          {!tierList.id ? t('continue-upload') : t('continue-update')}
         </Button>
       </Box>
     </Popover>

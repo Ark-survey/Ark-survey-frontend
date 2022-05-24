@@ -11,7 +11,7 @@ export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
   const { tiers } = useSelector(editingTierList);
   const { t } = useTranslation();
-  const { addTier } = useOperateEditingTierList();
+  const { addTier, addTierChars } = useOperateEditingTierList();
 
   const form = useForm({
     initialValues: {
@@ -20,7 +20,8 @@ export default function UploadPopover() {
     },
 
     validate: {
-      value: (value) => (tiers.filter((v) => v.value === value).length > 0 ? t('this-level-already-exists') : null),
+      value: (value) =>
+        ((tiers?.filter((v) => v.value === value).length ?? 0) > 0 ? t('this-level-already-exists') : null) ?? 0,
       name: (value) => {
         return value.length > 6 ? t('name-cannot-be-longer-than-6-characters') : null;
       },
@@ -28,15 +29,16 @@ export default function UploadPopover() {
   });
 
   const handleConfirm = ({ value, name }: { value: number; name?: string }) => {
-    if (tiers.filter((v) => v.value === value).length > 0) {
+    if ((tiers?.filter((v) => v.value === value).length ?? 0) > 0) {
       return;
     }
 
-    addTier({
-      value,
-      name,
-      characterKeys: [],
-    });
+    addTierChars(0, ['123123123']);
+    // addTier({
+    //   value,
+    //   name,
+    //   characterKeys: [],
+    // });
 
     successNotice(t('level-added-successfully'));
     setOpened(false);

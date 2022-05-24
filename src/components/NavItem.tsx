@@ -40,8 +40,6 @@ export default function Index({
   return (
     <UnstyledButton
       onClick={() => {
-        console.log(to);
-
         to && navigate(to);
         onClick?.();
       }}

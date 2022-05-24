@@ -12,7 +12,7 @@ export default function Index() {
         <Text py="md">
           聪明的你肯定发现了，这个网站是用来调查、统计、展现明日方舟玩家的各种数据，包括主观的强度评价、客观的练度等。
         </Text>
-        {!user?.userData.id ? <LoadDataPaper /> : <Title order={3}>您可以随意使用啦</Title>}
+        {!user?.userData.id ? <LoadDataPaper /> : <Title order={3}>可以随意使用啦</Title>}
         <Box py="md">
           <Text>Q：应该怎么用呢？</Text>
           <Text>

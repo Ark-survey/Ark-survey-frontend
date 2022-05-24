@@ -15,14 +15,14 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
   const { tiers } = useSelector(editingTierList);
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const dispatch = useDispatch();
-  const { delOneTier } = useOperateEditingTierList();
+  const { delOneTier, findTierIndexByValue } = useOperateEditingTierList();
 
   const handleConfirm = () => {
-    delOneTier(tierValue);
+    delOneTier(findTierIndexByValue(tierValue) ?? 0);
 
-    const tierIndex = tiers.findIndex((item) => item.value === tierValue);
+    const tierIndex = tiers?.findIndex((item) => item.value === tierValue) ?? 0;
     Object.keys(charMap).forEach((key) => {
-      if (tiers[tierIndex].characterKeys.includes(key)) {
+      if (tiers?.[tierIndex].characterKeys.includes(key)) {
         dispatch(updateCharacterPicked({ key, picked: false }));
       }
     });

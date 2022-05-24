@@ -24,16 +24,14 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const filter = useSelector((state: RootState) => state.filters);
 
-  const [{ isOver }, drop] = useDrop(
-    () => ({
-      accept: ItemTypes.OPERATOR,
-      drop: onDropCharacter,
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
+  const [{ isOver }, drop] = useDrop({
+    accept: ItemTypes.OPERATOR,
+    drop: onDropCharacter,
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
     }),
-    [],
-  );
+  });
+
   const characterIMgList = useMemo(() => {
     const characterList = mapToArray(charMap).filter(
       (character) => tier.characterKeys.indexOf(character?.key ?? '') > -1,
