@@ -32,27 +32,27 @@ export const TierListSlice = createSlice({
         tiers: [
           {
             value: 0,
-            name: 'T 0',
+            name: '',
             characterKeys: [],
           },
           {
             value: 1,
-            name: 'T 1',
+            name: '',
             characterKeys: [],
           },
           {
             value: 2,
-            name: 'T 2',
+            name: '',
             characterKeys: [],
           },
           {
             value: 3,
-            name: 'T 3',
+            name: '',
             characterKeys: [],
           },
           {
             value: 4,
-            name: 'T 4',
+            name: '',
             characterKeys: [],
           },
         ],

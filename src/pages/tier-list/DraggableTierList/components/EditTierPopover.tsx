@@ -36,7 +36,7 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
     updateOneTier(findTierIndexByValue(tier.value ?? 0) ?? 0, {
       ...tier,
       value,
-      name,
+      name: name ?? '',
     });
     successNotice(t('modified-successfully'));
     setOpened(false);

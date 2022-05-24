@@ -83,6 +83,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
               left: filter.mini ? '' : '-10px',
               right: filter.mini ? '20px' : '',
               display: filter.mini ? 'flex' : '',
+              zIndex: 1,
             }}
           >
             <AddCharactersToTierPopover tierValue={tier.value ?? 0} />

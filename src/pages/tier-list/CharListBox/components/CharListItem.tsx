@@ -121,6 +121,7 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
           ? null
           : dragger
       }
+      onClick={handleCharacterSelect}
       sx={{
         margin: empty ? '0 5px' : '5px',
         width: filters.mini ? 40 : 80,
@@ -143,7 +144,7 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
     >
       {overlay}
       {name}
-      <Image src={character?.imgUrl} width="80" height="80" alt={character?.name} onClick={handleCharacterSelect} />
+      <Image sx={{ pointerEvents: 'none' }} src={character?.imgUrl} width="80" height="80" alt={character?.name} />
     </Box>
   );
 }

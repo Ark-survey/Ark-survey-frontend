@@ -7,6 +7,7 @@ import { RootState } from 'src/store';
 import { updateTierLists } from 'src/store/slice/TierListSlice';
 
 export function useLoadUserTierLists() {
+  const tierList = useSelector((state: RootState) => state.tierList);
   const userData = useSelector((state: RootState) => state.user.userData);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ export function useLoadUserTierLists() {
   const handleLoadData = async () => {
     if (userData?.id) {
       const { data } = await fetchUserTierLists({ userId: userData?.id });
-      dispatch(updateTierLists(data));
+      dispatch(updateTierLists({ ...tierList.tierLists, ...data }));
       successNotice(t('dataLoad.tierListLoadingSuccess'));
     }
   };

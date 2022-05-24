@@ -44,7 +44,7 @@ function CharStatisticBox({
         position: 'relative',
         boxSizing: 'border-box',
         ...sx,
-        background: statistic?.count ? '#fff' : '',
+        backgroundColor: statistic?.count ? undefined : '#fff',
       }}
     >
       <Box

@@ -16,13 +16,15 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
   const { addTierChars, findTierIndexByValue } = useOperateEditingTierList();
 
   const handleConfirm = () => {
+    const keys: string[] = [];
     Object.keys(charMap).forEach((key) => {
       if (charMap[key].selecting) {
         dispatch(updateCharacterPicked({ key, picked: true }));
         dispatch(updateCharacterSelecting({ key, selecting: false }));
-        addTierChars(findTierIndexByValue(tierValue) ?? 0, [key]);
+        keys.push(key);
       }
     });
+    addTierChars(findTierIndexByValue(tierValue) ?? 0, keys);
     successNotice(t('bulk-added-successfully'));
     setOpened(false);
   };

@@ -58,10 +58,10 @@
   "upload-success": "上传成功",
   "submit": "提交",
   "update": "更新",
-  "upload-confirm": "注意：这个操作只会提交当前正在编辑的表单，如果需要提交其他表单请切换类型。未保存的草稿在关闭页面后失效。",
+  "upload-confirm": "注意：未提交过的草稿会暂存在本地，提交过但未保存更新的草稿在关闭页面后失效。",
   "copy-note": "点击复制您的表单 ID 至剪贴板",
-  "continue-upload": "了解，继续提交",
-  "continue-update": "确认更新数据",
+  "continue-upload": "提交当前表单",
+  "continue-update": "更新当前表单",
   "no-qualified": "没有符合条件的干员",
   "footer": {
     "contributors": "贡献者",

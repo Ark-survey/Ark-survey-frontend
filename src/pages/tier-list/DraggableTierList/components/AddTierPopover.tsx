@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Popover, Button, Box, NumberInput, InputWrapper, Space, TextInput } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
@@ -11,7 +11,7 @@ export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
   const { tiers } = useSelector(editingTierList);
   const { t } = useTranslation();
-  const { addTier, addTierChars } = useOperateEditingTierList();
+  const { addTier } = useOperateEditingTierList();
 
   const form = useForm({
     initialValues: {
@@ -21,28 +21,28 @@ export default function UploadPopover() {
 
     validate: {
       value: (value) =>
-        ((tiers?.filter((v) => v.value === value).length ?? 0) > 0 ? t('this-level-already-exists') : null) ?? 0,
+        (tiers?.filter((v) => v.value === value).length ?? 0) > 0 ? t('this-level-already-exists') : null,
       name: (value) => {
         return value.length > 6 ? t('name-cannot-be-longer-than-6-characters') : null;
       },
     },
   });
 
-  const handleConfirm = ({ value, name }: { value: number; name?: string }) => {
-    if ((tiers?.filter((v) => v.value === value).length ?? 0) > 0) {
-      return;
-    }
+  const handleConfirm = useCallback(
+    ({ value, name }: { value: number; name?: string }) => {
+      console.log(111111);
 
-    addTierChars(0, ['123123123']);
-    // addTier({
-    //   value,
-    //   name,
-    //   characterKeys: [],
-    // });
+      addTier({
+        value,
+        name,
+        characterKeys: [],
+      });
 
-    successNotice(t('level-added-successfully'));
-    setOpened(false);
-  };
+      successNotice(t('level-added-successfully'));
+      setOpened(false);
+    },
+    [addTier, t],
+  );
 
   useEffect(() => {
     form.reset();

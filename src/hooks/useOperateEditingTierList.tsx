@@ -52,6 +52,8 @@ export function useOperateEditingTierList() {
   // 批量添加 tier
   const addTier = useCallback(
     (tier: Tier) => {
+      console.log(1111);
+
       const newTiers = [...(tierList?.tiers ?? []), tier];
       updateTier(newTiers);
     },
