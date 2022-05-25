@@ -1,4 +1,4 @@
-import { Box, Button, Select } from '@mantine/core';
+import { Text, Box, Button, Group, Select } from '@mantine/core';
 import Header from 'src/components/Header';
 
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
@@ -10,7 +10,7 @@ import AddTierPopover from './components/AddTierPopover';
 import ResetAllCharacterPopover from './components/ResetAllCharacterPopover';
 import TierBox from './components/TierBox';
 import UploadPopover from './components/UploadPopover';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 import { capture } from 'src/utils/CaptureUtils';
 import { format } from 'date-fns';
 import { successNotice } from '../components/Notice';
@@ -46,6 +46,7 @@ export default function Index() {
         value: it.id,
         label: it.name,
         road: it.roadId,
+        description: it.description,
       }));
     } else {
       list = treeToArray(listTypeCollection[1].children, [1, 2], (node, road, level) => {
@@ -60,6 +61,7 @@ export default function Index() {
         value: it.id,
         label: it.road,
         road: it.roadId,
+        description: it.description,
       }));
     }
     dispatch(updateEditKey2({ key: list[0].value, road: list[0].road ?? '' }));
@@ -132,6 +134,7 @@ export default function Index() {
               sx={{ width: '220px' }}
               value={tierListType.key2Select}
               onChange={handleType2Change}
+              itemComponent={SelectItem}
               searchable
               data={type2List}
             />
@@ -184,3 +187,21 @@ export default function Index() {
     </Box>
   );
 }
+interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
+  image: string;
+  label: string;
+  description: string;
+}
+
+const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ image, label, description, ...others }: ItemProps, ref) => (
+  <div ref={ref} {...others}>
+    <Group noWrap>
+      <div>
+        <Text size="sm">{label}</Text>
+        <Text size="xs" color="dimmed">
+          {description}
+        </Text>
+      </div>
+    </Group>
+  </div>
+));

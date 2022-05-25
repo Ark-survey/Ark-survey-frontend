@@ -3,6 +3,7 @@ import { TreeNode } from 'src/utils/TreeUtils';
 
 export interface TierListKeyGroup {
   key?: string;
+  description?: string;
 }
 
 let initialState: { collection: TreeNode<TierListKeyGroup>[] } = {
@@ -14,26 +15,27 @@ let initialState: { collection: TreeNode<TierListKeyGroup>[] } = {
         {
           id: 'CII',
           name: '综合评价',
+          description: '干员整体强度的评价',
         },
         {
           id: 'SCC',
           name: '单核能力',
+          description: '干员挑大梁、solo的能力',
         },
         {
           id: 'SA',
           name: '体系能力',
-        },
-        {
-          id: 'EA',
-          name: '极限能力',
+          description: '干员作为体系组件在体系中的重要程度',
         },
         {
           id: 'MB',
           name: '心智负担',
+          description: '干员的使用难度及解手度，越简单越强',
         },
         {
           id: 'IRP',
           name: '不可替代概率',
+          description: '干员的某些独特特性的发挥概率',
         },
       ],
     },

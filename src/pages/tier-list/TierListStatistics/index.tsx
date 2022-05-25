@@ -1,5 +1,5 @@
-import { Box, Button, Center, Group, List, Popover, Select, Space, Sx, Tooltip, useMantineTheme } from '@mantine/core';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Box, Text, Center, Group, List, Popover, Select, Space, Sx, Tooltip, useMantineTheme } from '@mantine/core';
+import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { TierListStatistic, TierListStatisticsServer } from 'src/api/TierListStatisticServer';
@@ -130,6 +130,7 @@ export default function Index() {
         value: it.id,
         label: it.name,
         road: it.roadId,
+        description: it.description,
       }));
     } else {
       list = treeToArray(listTypeCollection[1].children, [1, 2], (node, road, level) => {
@@ -144,6 +145,7 @@ export default function Index() {
         value: it.id,
         label: it.road,
         road: it.roadId,
+        description: it.description,
       }));
     }
     dispatch(updateKey2({ key: list[0].value, road: list[0].road ?? '' }));
@@ -261,7 +263,14 @@ export default function Index() {
       <Center>
         <Box sx={{ margin: '20px', display: 'flex' }}>
           <Select sx={{ width: '75px' }} value={key1Select} onChange={handleType1Change} data={type1List} />
-          <Select sx={{ width: '220px' }} value={key2Select} onChange={handleType2Change} searchable data={type2List} />
+          <Select
+            sx={{ width: '220px' }}
+            value={key2Select}
+            itemComponent={SelectItem}
+            onChange={handleType2Change}
+            searchable
+            data={type2List}
+          />
         </Box>
       </Center>
       <Group spacing="xs" position="center" sx={{ width: '100%', marginBottom: '20px' }}>
@@ -324,3 +333,21 @@ export default function Index() {
     </>
   );
 }
+interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {
+  image: string;
+  label: string;
+  description: string;
+}
+
+const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ image, label, description, ...others }: ItemProps, ref) => (
+  <div ref={ref} {...others}>
+    <Group noWrap>
+      <div>
+        <Text size="sm">{label}</Text>
+        <Text size="xs" color="dimmed">
+          {description}
+        </Text>
+      </div>
+    </Group>
+  </div>
+));
