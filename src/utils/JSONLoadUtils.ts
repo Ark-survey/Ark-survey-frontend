@@ -25,3 +25,11 @@ export function getCharacterImgUrl(character: any, origin: string) {
   });
   return c;
 }
+
+export async function getImgPositionJSON(origin: string) {
+  const skillJsonUrl = origin + 'skill_0.5.json';
+  const avatarJsonUrl = origin + 'avatar_0.5.json';
+  const skillImgPosition: { [key: string]: [number, number] } = await (await fetch(skillJsonUrl)).json();
+  const avatarImgPosition: { [key: string]: [number, number] } = await (await fetch(avatarJsonUrl)).json();
+  return { skillImgPosition, avatarImgPosition };
+}

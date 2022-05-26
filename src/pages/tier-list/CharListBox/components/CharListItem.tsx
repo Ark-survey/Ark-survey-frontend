@@ -5,8 +5,9 @@ import { RootState } from 'src/store';
 import { CharacterType, updateCharacterSelecting } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useIsMobile } from 'src/hooks';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import CharAvatar from 'src/components/image-container/CharAvatar';
 
 export enum CharListItemType {
   NORMAL,
@@ -29,6 +30,7 @@ export interface CharDragItem {
 export default function Index({ character, type, fromTierValue, empty }: CharListItemProps) {
   const filters = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
+  const parent = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   const { t } = useTranslation();
 
@@ -144,7 +146,15 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
     >
       {overlay}
       {name}
-      <Image sx={{ pointerEvents: 'none' }} src={character?.imgUrl} width="80" height="80" alt={character?.name} />
+      {character?.key && (
+        <Box ref={parent}>
+          <CharAvatar
+            imgKey={character.key}
+            width={filters.mini ? 40 : 80}
+            flowWidthRef={parent.current ?? undefined}
+          />
+        </Box>
+      )}
     </Box>
   );
 }

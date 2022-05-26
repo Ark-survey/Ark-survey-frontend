@@ -7,6 +7,14 @@ export interface UserType {
   viewPageId: string;
   version: string;
   userData?: User;
+  imgPosition: {
+    skillImgPosition: {
+      [key: string]: [number, number];
+    };
+    avatarImgPosition: {
+      [key: string]: [number, number];
+    };
+  };
 }
 
 const initialState: UserType = {
@@ -17,6 +25,7 @@ const initialState: UserType = {
   userData: {
     id: '',
   },
+  imgPosition: { skillImgPosition: {}, avatarImgPosition: {} },
 };
 
 export const userSlice = createSlice({
@@ -38,10 +47,19 @@ export const userSlice = createSlice({
     updateUserData: (state, action: PayloadAction<User>) => {
       state.userData = action.payload;
     },
+    updateImgPosition: (state, action: PayloadAction<any>) => {
+      state.imgPosition = action.payload;
+    },
   },
 });
 
-export const { updateNewTierListStatus, updateViewPageId, updateVersion, updateMenuOpen, updateUserData } =
-  userSlice.actions;
+export const {
+  updateNewTierListStatus,
+  updateViewPageId,
+  updateVersion,
+  updateMenuOpen,
+  updateUserData,
+  updateImgPosition,
+} = userSlice.actions;
 
 export default userSlice.reducer;

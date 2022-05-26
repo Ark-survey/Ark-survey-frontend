@@ -11,6 +11,7 @@ import { RootRouter } from './route';
 import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
 import { useLoadUserTierLists } from 'src/hooks/useLoadUserTierLists';
 import { useCreateLocalTierList } from 'src/hooks/useCreateLocalTierList';
+import { useLoadStaticFile } from 'src/hooks/useLoadStaticFile';
 
 const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getRef) => ({
   container: {
@@ -84,6 +85,7 @@ export default function PageContainer() {
   useCreateLocalTierList();
   useLoadingGlobalData();
   useLoadUserTierLists();
+  useLoadStaticFile();
 
   useEffect(() => {
     dispatch(updateMenuOpen(false));
