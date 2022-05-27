@@ -110,5 +110,8 @@
     "validCount": "有效样本数",
     "updated-successfully": "统计数据更新成功",
     "key-not-found": "暂无样本"
+  },
+  "versionUpdate": {
+    "notion": "有更新啦，点击按钮更新版本"
   }
 }

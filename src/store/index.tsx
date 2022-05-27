@@ -6,7 +6,7 @@ import tierListTypeReducer from './slice/tierListTypeSlice';
 import TierListReducer from './slice/TierListSlice';
 import userReducer from './slice/userSlice';
 import TierListStatisticsReducer from './slice/TierListStatisticsSlice';
-import { persistReducer } from 'redux-persist';
+import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 
@@ -31,6 +31,8 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
   middleware: [thunk],
 });
+
+export const persistor = persistStore(store);
 
 export default store;
 

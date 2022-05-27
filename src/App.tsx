@@ -2,10 +2,9 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { Provider } from 'react-redux';
-import store from './store';
+import store, { persistor } from './store';
 import { useIsMobile } from './hooks';
 import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import './i18n';
@@ -13,8 +12,6 @@ import { useState } from 'react';
 import PageContainer from './pages';
 import customTheme from './theme';
 import { BrowserRouter } from 'react-router-dom';
-
-let persistor = persistStore(store);
 
 function App() {
   const isMobile = useIsMobile();

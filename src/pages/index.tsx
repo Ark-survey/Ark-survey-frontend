@@ -12,6 +12,7 @@ import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
 import { useLoadUserTierLists } from 'src/hooks/useLoadUserTierLists';
 import { useCreateLocalTierList } from 'src/hooks/useCreateLocalTierList';
 import { useLoadStaticFile } from 'src/hooks/useLoadStaticFile';
+import { UpdateVersionNotion } from 'src/registrationStatus';
 
 const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getRef) => ({
   container: {
@@ -93,6 +94,7 @@ export default function PageContainer() {
 
   return (
     <Box>
+      <UpdateVersionNotion />
       <Header height={60} p="xs" sx={{ position: 'fixed', zIndex: 200 }}>
         <Brand />
       </Header>
