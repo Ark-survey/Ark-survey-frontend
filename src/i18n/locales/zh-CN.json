@@ -113,5 +113,9 @@
   },
   "versionUpdate": {
     "notion": "有更新啦，点击按钮更新版本"
+  },
+  "charContainer": {
+    "loading": "加载中",
+    "delete": "删除"
   }
 }

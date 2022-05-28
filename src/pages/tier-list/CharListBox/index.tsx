@@ -1,8 +1,7 @@
 import { Box, Overlay } from '@mantine/core';
 import { useDrop } from 'react-dnd';
 import CharacterList from './components/CharList';
-import { ItemTypes } from 'src/common';
-import { CharDragItem } from './components/CharListItem';
+import { CharDragItem, ItemTypes } from './components/CharListItem';
 
 import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';

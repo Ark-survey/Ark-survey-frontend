@@ -1,5 +1,4 @@
 import { Box, Image, Overlay } from '@mantine/core';
-import { ItemTypes } from 'src/common';
 import { useDrag } from 'react-dnd';
 import { RootState } from 'src/store';
 import { CharacterType, updateCharacterSelecting } from 'src/store/slice/characterSlice';
@@ -8,6 +7,10 @@ import { useIsMobile } from 'src/hooks';
 import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import CharAvatar from 'src/components/image-container/CharAvatar';
+
+export const ItemTypes = {
+  OPERATOR: 'Operator',
+};
 
 export enum CharListItemType {
   NORMAL,
@@ -48,7 +51,7 @@ export default function Index({ character, type, fromTierValue, empty }: CharLis
   );
 
   const handleCharacterSelect = () => {
-    if (type === CharListItemType.NORMAL)
+    if (type === CharListItemType.NORMAL && !character?.picked)
       dispatch(
         updateCharacterSelecting({
           key: character?.key ?? '',

@@ -3,7 +3,6 @@ import { ReactNode, useMemo } from 'react';
 import DeleteTier from './DeleteTierPopover';
 import EditTierPopover from './EditTierPopover';
 import { useDrop } from 'react-dnd';
-import { ItemTypes } from 'src/common';
 import CharListItem, { CharDragItem, CharListItemType } from 'src/pages/tier-list/CharListBox/components/CharListItem';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -11,6 +10,7 @@ import AddCharactersToTierPopover from './AddCharactersToTierPopover';
 import { Tier } from 'src/api/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { editingTierList } from 'src/store/slice/TierListSlice';
+import { ItemTypes } from 'src/components/char-container';
 
 /**
  * @param value tier value
@@ -65,7 +65,11 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
         marginTop: '5px',
       }}
     >
-      <Box sx={{ padding: '10px', display: 'flex', flexFlow: 'row wrap' }}>{characterIMgList}</Box>
+      <Box sx={{ padding: '10px', display: 'flex', flexFlow: 'row wrap' }}>
+        {characterIMgList}
+
+        <Box>1111</Box>
+      </Box>
       <Box
         sx={{
           position: 'absolute',
