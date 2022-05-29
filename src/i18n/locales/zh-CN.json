@@ -87,9 +87,12 @@
     "title": "更新日志"
   },
   "nav": {
-    "strong": "强度多维评价",
-    "practice": "干员养成进度",
-    "skin": "干员皮肤持有",
+    "basic": "博士数据",
+    "char": "干员数据",
+    "strong": "强度评价",
+    "love": "人气评价",
+    "note": "干员笔记",
+    "static": "干员排行",
     "copy": "复制 ID",
     "setting": "设置",
     "mainPage": "首页"

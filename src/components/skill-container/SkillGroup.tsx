@@ -1,5 +1,5 @@
-import { ActionIcon, Box, Group, createStyles, Slider, Button } from '@mantine/core';
-import { JSXElementConstructor, Key, ReactElement, ReactFragment, useCallback, useMemo, useState } from 'react';
+import { Box, Group, createStyles, Button, SegmentedControl, Divider } from '@mantine/core';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Check, FoldDown, FoldUp } from 'tabler-icons-react';
 import SkillContainer from '.';
 
@@ -19,7 +19,7 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
     overflow: 'hidden',
     position: 'relative',
     width: '100%',
-    height: fold ? 60 : 240,
+    height: fold ? 60 : 290,
     boxShadow: '0px 1px 5px 1px ' + theme.colors.gray[4],
     borderRadius: '0 10px 10px 10px',
     zIndex: 200,
@@ -36,6 +36,7 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
   skillName: {
     transition: 'all 0.5s',
     opacity: fold ? 1 : 0,
+    display: fold ? '' : 'none',
     flex: 1,
     textAlign: 'center',
     fontSize: theme.fontSizes.xs,
@@ -49,7 +50,7 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
     transition: 'all 0.5s',
     position: 'absolute',
     top: fold ? 0 : 42,
-    right: 0,
+    left: 85,
     marginRight: '10px',
     zIndex: 300,
     fontWeight: 700,
@@ -62,13 +63,20 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
     position: 'absolute',
   },
   detailBar: {
-    padding: '10px',
+    padding: '14px',
     paddingTop: '0',
   },
   detailBarSlider: {
-    margin: '35px 10px',
-    marginTop: '15px',
+    padding: '5px 0',
+    margin: '25px 6px',
+    textAlign: 'right',
+    marginBottom: '0',
     position: 'relative',
+  },
+  detailBarSliderNoInfo: {
+    height: 30.5,
+    color: '#ccc',
+    textAlign: 'right',
   },
   detailSkillName: {
     transition: 'all 0.5s',
@@ -82,136 +90,130 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
 }));
 
 interface SkillGroupProps {
-  skill1: {
-    key: string;
-    name: string;
-    level: number;
+  skills: {
+    [key: string]: {
+      key: string;
+      name: string;
+      level: number;
+    };
   };
-  skill2: {
-    key: string;
-    name: string;
-    level: number;
-  };
-  skill3: {
-    key: string;
-    name: string;
-    level: number;
-  };
+  elite?: number;
   skillChoose?: string;
   fold?: boolean;
   onClickFoldButton?: (value: boolean) => void;
   onSelectSkillChange?: (key: string) => void;
-  onSkillDetailChange?: (skills: any, index: number) => void;
+  onSkillDetailChange?: (skills: any) => void;
 }
 
 export default function Index({
-  skill1,
-  skill2,
-  skill3,
+  skills,
+  elite,
   skillChoose,
   fold = false,
   onClickFoldButton,
   onSelectSkillChange,
   onSkillDetailChange,
 }: SkillGroupProps) {
-  const { classes } = useStyles({ fold });
-  const [clickKey, setClickKey] = useState('skill_icon_skchr_aglina_1');
+  const { classes, cx } = useStyles({ fold });
 
-  const skills = useMemo(() => [skill1, skill2, skill3], [skill1, skill2, skill3]);
+  const data = useMemo(() => {
+    const result = [
+      { label: '1', value: '1' },
+      { label: '2', value: '2' },
+      { label: '3', value: '3' },
+      { label: '4', value: '4' },
+    ];
+    if (elite) {
+      if (elite > 0) {
+        result.push({ label: '5', value: '5' }, { label: '6', value: '6' }, { label: '7', value: '7' });
+      }
+      if (elite > 1) {
+        result.push({ label: '专精一', value: '8' }, { label: '专精二', value: '9' }, { label: '专精三', value: '10' });
+      }
+    }
+    return result;
+  }, [elite]);
 
-  const handleSliderChange = useCallback(
-    (value: number, key: string) => {
-      console.log(key);
-
-      let newSkills = skills;
-      if ((value / 100) * 9 + 1 >= 7) {
-        const changeSkillIndex = skills.findIndex((it: any) => it.key === key);
-        onSkillDetailChange?.(
-          {
-            ...newSkills[changeSkillIndex],
-            level: parseInt(((value / 100) * 9 + 1).toFixed(0), 10),
-          },
-          changeSkillIndex,
-        );
-      } else {
-        newSkills = [];
-        skills.forEach((it: any, index) => {
-          onSkillDetailChange?.(
-            {
-              ...it,
-              level: parseInt(((value / 100) * 9 + 1).toFixed(0), 10),
-            },
-            index,
-          );
+  const onSkillLevelChange = useCallback(
+    (v: string, changeKey: string) => {
+      const syncNumber = parseInt(v, 10);
+      if ((syncNumber <= 7 && skills[changeKey].level <= 7) || (syncNumber < 7 && skills[changeKey].level >= 7)) {
+        onSkillDetailChange?.((s: any) => {
+          const newSkills = { ...s };
+          Object.keys(newSkills).forEach((key) => {
+            if (key !== changeKey) newSkills[key].level = syncNumber;
+          });
+          return newSkills;
+        });
+      } else if (syncNumber > 7 && skills[changeKey].level < 7) {
+        onSkillDetailChange?.((s: any) => {
+          const newSkills = { ...s };
+          Object.keys(newSkills).forEach((key) => {
+            if (key !== changeKey) newSkills[key].level = 7;
+          });
+          return newSkills;
         });
       }
+      onSkillDetailChange?.((s: any) => {
+        const newSkills = { ...s };
+        Object.keys(newSkills).forEach((key) => {
+          if (key === changeKey) newSkills[key].level = syncNumber;
+        });
+        return newSkills;
+      });
     },
     [onSkillDetailChange, skills],
   );
 
-  return (
-    <Box m="xl" sx={{ position: 'relative', width: '355px', userSelect: 'none' }}>
-      <Box className={classes.rankBox}>
-        <Box
-          sx={(theme) => ({
-            padding: '10px',
-          })}
-        >
-          {'Rank ' + (skills[0].level > 6 ? 7 : skills[0].level)}
-        </Box>
-      </Box>
-      <Box className={classes.bottomBox}>
-        <Box className={classes.folderButton}>
-          <Button variant="subtle" sx={{ width: '100%', height: '100%' }} onClick={() => onClickFoldButton?.(!fold)}>
-            {fold ? <FoldDown size={30} /> : <FoldUp size={30} />}
-          </Button>
-        </Box>
-        <Box className={classes.detailBar}>
-          {skills.map((it, index: number) => {
-            const a = skills;
-            console.log(a[2].level);
-            return (
-              <Box key={it.key} className={classes.detailBarSlider} onClick={() => setClickKey(it.key)}>
-                <Box className={classes.detailSkillName}>{it.name}</Box>
-                <Slider
-                  label={null}
-                  step={100 / 9}
-                  styles={(theme) => ({
-                    markLabel: { fontSize: theme.fontSizes.xs, marginBottom: 5, marginTop: 3 },
-                  })}
-                  value={((it.level - 1) * 100) / 9}
-                  onChange={(value) => {
-                    console.log(a[2].level);
-                    handleSliderChange(value, it.key);
-                  }}
-                  marks={[
-                    { value: 600 / 9, label: '7级' },
-                    { value: 700 / 9, label: '专一' },
-                    { value: 800 / 9, label: '专二' },
-                    { value: 100, label: '专三' },
-                  ]}
-                />
-              </Box>
-            );
-          })}
-        </Box>
-      </Box>
-      <Group spacing="xs" className={classes.skillIconGroup}>
-        {skills.map((it, index: number) => {
-          return (
-            <Box
-              key={it.key}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                flexFlow: 'wrap',
-                maxWidth: '80px',
-                position: 'relative',
-                userSelect: 'none',
-                cursor: 'pointer',
-              }}
-              onClick={() => onSelectSkillChange?.(it.key)}
-            >
+  const skillChooseGroup = useMemo(() => {
+    const node: ReactNode[] = [];
+    Object.keys(skills).forEach((key, index) => {
+      if (index <= (elite ?? 0)) {
+        node.push(
+          <Box key={skills[key].key} className={classes.detailBarSlider}>
+            <Box className={classes.detailSkillName}>{skills[key].name}</Box>
+
+            <SegmentedControl
+              value={skills[key].level.toString()}
+              onChange={(v) => onSkillLevelChange(v, key)}
+              size="xs"
+              sx={{ height: 22.5 }}
+              data={data}
+            />
+          </Box>,
+        );
+      }
+    });
+    new Array(3 - node.length).fill(0).forEach((v, index) => {
+      node.push(
+        <Box key={index} className={cx(classes.detailBarSlider, classes.detailBarSliderNoInfo)}>
+          NO INFO
+        </Box>,
+      );
+    });
+    return node;
+  }, [classes, cx, data, onSkillLevelChange, elite, skills]);
+
+  const skillIconGroup = useMemo(() => {
+    const node: ReactNode[] = [];
+    Object.keys(skills).forEach((key, index) => {
+      if (index <= (elite ?? 0)) {
+        const it = skills[key];
+        node.push(
+          <Box
+            key={it.key}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexFlow: 'wrap',
+              maxWidth: '80px',
+              position: 'relative',
+              userSelect: 'none',
+              cursor: 'pointer',
+            }}
+            onClick={() => onSelectSkillChange?.(it.key)}
+          >
+            {it.level >= 7 && (
               <Box
                 sx={{
                   position: 'absolute',
@@ -239,53 +241,123 @@ export default function Index({
                   sx={{ bottom: 2, left: 1.5, background: it.level > 8 ? '#fff' : '#777' }}
                 />
               </Box>
-              {skillChoose === it.key && (
-                <>
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      fontSize: '12px',
-                      textAlign: 'center',
-                      color: '#fff',
-                      right: '5px',
-                      top: '5px',
-                      width: 0,
-                      height: 0,
-                      zIndex: 300,
-                      border: '14px solid transparent',
-                      borderTop: '14px solid rgba(14,140,226,0.9)',
-                      borderRight: '14px solid rgba(14,140,226,0.9)',
-                    }}
-                  />
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      color: '#fff',
-                      right: '2px',
-                      top: '2px',
-                      zIndex: 300,
-                      transform: 'scale(0.65)',
-                    }}
-                  >
-                    <Check />
-                  </Box>
-                </>
-              )}
-              <SkillContainer skillKey={it.key} />
-              <Box
-                className={classes.skillName}
-                sx={{
-                  transform:
-                    'scale( ' +
-                    (it.name.length < 5 ? 1.1 : it.name.length < 6 ? 1 : it.name.length < 8 ? 0.9 : 0.8) +
-                    ')',
-                }}
-              >
-                {it.name}
-              </Box>
+            )}
+            {skillChoose === it.key && (
+              <>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    fontSize: '12px',
+                    textAlign: 'center',
+                    color: '#fff',
+                    right: '5px',
+                    top: '5px',
+                    width: 0,
+                    height: 0,
+                    zIndex: 300,
+                    border: '14px solid transparent',
+                    borderTop: '14px solid rgba(14,140,226,0.9)',
+                    borderRight: '14px solid rgba(14,140,226,0.9)',
+                  }}
+                />
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    color: '#fff',
+                    right: '2px',
+                    top: '2px',
+                    zIndex: 300,
+                    transform: 'scale(0.65)',
+                  }}
+                >
+                  <Check />
+                </Box>
+              </>
+            )}
+            <SkillContainer skillKey={it.key} />
+            <Box
+              className={classes.skillName}
+              sx={{
+                transform:
+                  'scale( ' +
+                  (it.name.length < 5 ? 1.1 : it.name.length < 6 ? 1 : it.name.length < 8 ? 0.9 : 0.8) +
+                  ')',
+              }}
+            >
+              {it.name}
             </Box>
-          );
-        })}
+          </Box>,
+        );
+      }
+    });
+    new Array(3 - node.length).fill(0).forEach((v, index) => {
+      node.push(
+        <Box
+          key={index}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            flexFlow: 'wrap',
+            maxWidth: '80px',
+            position: 'relative',
+            userSelect: 'none',
+            fontSize: '40px',
+            textAlign: 'center',
+            fontWeight: 100,
+            color: '#ccc',
+          }}
+        >
+          <Box
+            sx={{
+              border: '1px solid #ccc',
+              margin: '9px',
+              lineHeight: '60px',
+              width: '60px',
+              height: '60px',
+            }}
+          >
+            /
+          </Box>
+        </Box>,
+      );
+    });
+    return node;
+  }, [classes, onSelectSkillChange, skillChoose, elite, skills]);
+
+  return (
+    <Box my="xl" sx={{ position: 'relative', width: '335px', userSelect: 'none' }}>
+      <Box className={classes.rankBox}>
+        <Box
+          sx={(theme) => ({
+            padding: '10px',
+          })}
+        >
+          {'Rank ' + (skills?.[skillChoose ?? '']?.level > 6 ? 7 : skills?.[skillChoose ?? '']?.level ?? 1)}
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          transition: 'all 0.5s',
+          position: 'absolute',
+          top: 10,
+          right: 16,
+          fontWeight: 700,
+          opacity: fold ? 0 : 1,
+        }}
+      >
+        技能养成
+      </Box>
+      <Box className={classes.bottomBox}>
+        <Box className={classes.folderButton}>
+          <Button variant="subtle" sx={{ width: '100%', height: '100%' }} onClick={() => onClickFoldButton?.(!fold)}>
+            {fold ? <FoldDown size={30} /> : <FoldUp size={30} />}
+          </Button>
+        </Box>
+        <Divider />
+        <Box className={classes.detailBar}>{skillChooseGroup}</Box>
+      </Box>
+      <Group spacing={0} className={classes.skillIconGroup}>
+        {skillIconGroup}
       </Group>
     </Box>
   );

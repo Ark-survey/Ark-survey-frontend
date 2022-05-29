@@ -56,7 +56,7 @@ export default function Index({
             ? theme.colors.gray[5]
             : theme.colors.gray[1]
           : undefined,
-        height: '75px',
+        height: '50px',
         '&:hover': {
           backgroundColor:
             !selecting && !disabled
@@ -76,28 +76,6 @@ export default function Index({
           <Text size="md" weight={600}>
             {title}
           </Text>
-          {selecting && operations && (
-            <Box
-              sx={{
-                flex: 1,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-              }}
-            >
-              <SegmentedControl
-                disabled={disabled}
-                size="xs"
-                orientation="vertical"
-                value={user.viewPageId}
-                onChange={handlePageControlChange}
-                data={[
-                  { label: t('header.sample-submission'), value: 'tier-list-commit' },
-                  { label: t('header.statistics'), value: 'tier-list-real-time' },
-                ]}
-              />
-            </Box>
-          )}
         </Group>
       )}
     </UnstyledButton>

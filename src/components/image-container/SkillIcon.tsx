@@ -16,7 +16,7 @@ export default function SkillIcon({ imgKey, width = 64, flowWidthRef }: HeaderPr
       width={width}
       originWidth={64}
       flowWidthRef={flowWidthRef}
-      position={skillImgPosition[imgKey]}
+      position={skillImgPosition['skill_icon_' + imgKey]}
     />
   );
 }

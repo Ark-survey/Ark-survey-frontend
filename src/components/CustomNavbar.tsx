@@ -5,7 +5,18 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { successNotice } from 'src/pages/tier-list/components/Notice';
 import { RootState } from 'src/store';
-import { BoxMultiple5, CheckupList, Copy, Hanger, Home, Settings } from 'tabler-icons-react';
+import {
+  BoxMultiple5,
+  ChartBar,
+  CheckupList,
+  Copy,
+  Hanger,
+  Home,
+  Notebook,
+  School,
+  Settings,
+  ThumbUp,
+} from 'tabler-icons-react';
 import NavItem from './NavItem';
 
 export default function Index() {
@@ -27,7 +38,6 @@ export default function Index() {
       </Navbar.Section>
       <Navbar.Section mx="xs">
         <NavItem
-          sx={{ height: '55px' }}
           title={t('nav.mainPage')}
           leftIcon={<Home />}
           disabled={!userData?.id}
@@ -36,12 +46,13 @@ export default function Index() {
         />
       </Navbar.Section>
       <Navbar.Section
-        grow
         mx="xs"
         sx={(theme) => ({
           borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`,
         })}
       >
+        <NavItem title={t('nav.basic')} leftIcon={<School />} disabled />
+        <NavItem title={t('nav.char')} leftIcon={<CheckupList />} disabled />
         <NavItem
           to="/tierList"
           title={t('nav.strong')}
@@ -50,8 +61,17 @@ export default function Index() {
           disabled={!userData?.id}
           operations
         />
-        <NavItem title={t('nav.practice')} leftIcon={<CheckupList />} disabled />
-        <NavItem title={t('nav.skin')} leftIcon={<Hanger />} disabled />
+        <NavItem title={t('nav.love')} leftIcon={<ThumbUp />} disabled />
+      </Navbar.Section>
+      <Navbar.Section
+        grow
+        mx="xs"
+        sx={(theme) => ({
+          borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`,
+        })}
+      >
+        <NavItem title={t('nav.note')} leftIcon={<Notebook />} disabled />
+        <NavItem title={t('nav.static')} leftIcon={<ChartBar />} disabled />
       </Navbar.Section>
       <Navbar.Section
         mx="xs"
