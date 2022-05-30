@@ -16,7 +16,7 @@ import { UpdateVersionNotion } from 'src/registrationStatus';
 
 const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getRef) => ({
   container: {
-    width: 'calc(100vw - 160px)',
+    width: 'calc(100vw - 170px)',
     maxHeight: '-webkit-fill-available',
     overflow: 'auto',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
@@ -46,7 +46,7 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
     bottom: 0,
     left: 0,
     boxSizing: 'border-box',
-    paddingLeft: 160,
+    paddingLeft: 170,
     width: '100vw',
     height: '140px',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
@@ -58,7 +58,7 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
     },
   },
   scrollArea: {
-    width: '160px',
+    width: '170px',
     height: '100%',
     background: '#fff',
     boxSizing: 'border-box',

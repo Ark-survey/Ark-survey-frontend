@@ -37,7 +37,7 @@ export default function CharListItemType() {
     <Box
       ref={drop}
       sx={{
-        maxHeight: width < 720 ? (filters.mini ? '160px' : '600px') : '',
+        maxHeight: width < 720 ? (filters.mini ? '170px' : '600px') : '',
         height: filters.fold
           ? 'calc(100% - 85px - ' + filterHeight + 'px)'
           : 'calc(100% -  85px - ' + filterHeight + 'px)',
