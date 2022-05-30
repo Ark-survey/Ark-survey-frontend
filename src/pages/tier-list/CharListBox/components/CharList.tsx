@@ -1,7 +1,7 @@
 import { Box } from '@mantine/core';
 import React, { useMemo } from 'react';
 import { timeMarks } from 'src/contexts';
-import CharListItem, { CharListItemType } from './CharListItem';
+import CharListItem from './CharListItem';
 
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -54,11 +54,9 @@ export default function CharacterList() {
   const list = useMemo(() => {
     return orderlyList.map((character, index) => (
       <React.Fragment key={character?.key ?? ''}>
-        <CharListItem character={character} type={CharListItemType.NORMAL} />
+        <CharListItem character={character} type="default" />
         {index === orderlyList.length - 1 &&
-          new Array(15)
-            .fill(0)
-            .map((i, index) => <CharListItem key={'e-' + index} empty type={CharListItemType.NORMAL} />)}
+          new Array(15).fill(0).map((i, index) => <CharListItem key={'e-' + index} hidden type="default" />)}
       </React.Fragment>
     ));
   }, [orderlyList]);
@@ -69,6 +67,7 @@ export default function CharacterList() {
         paddingTop: '5px',
         display: 'flex',
         flexFlow: 'row wrap',
+        justifyContent: 'center',
       }}
     >
       {orderlyList.length > 0 ? (

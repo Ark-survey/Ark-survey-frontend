@@ -5,7 +5,7 @@ import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 
-import { CharDragItem, CharListItemType } from '../CharListBox/components/CharListItem';
+import { CharDragItem } from '../CharListBox/components/CharListItem';
 import AddTierPopover from './components/AddTierPopover';
 import ResetAllCharacterPopover from './components/ResetAllCharacterPopover';
 import TierBox from './components/TierBox';
@@ -69,18 +69,20 @@ export default function Index() {
   }, [dispatch, listTypeCollection, tierListType.key1Select]);
 
   const handleDropCharacterOnTier = useCallback(
-    ({ character, type, fromTierValue }: CharDragItem, toTierValue: number) => {
-      if (type === CharListItemType.NORMAL || (type === CharListItemType.TIER && fromTierValue !== toTierValue)) {
-        dispatch(updateCharacterPicked({ key: character?.key ?? '', picked: true }));
-        dispatch(updateCharacterSelecting({ key: character?.key ?? '', selecting: false }));
-        if (type === CharListItemType.TIER) {
+    ({ charKey, type, fromTierValue }: CharDragItem, toTierValue: number) => {
+      console.log({ charKey, type, fromTierValue });
+
+      if (type === 'default' || (type === 'tier-list' && fromTierValue !== toTierValue)) {
+        dispatch(updateCharacterPicked({ key: charKey ?? '', picked: true }));
+        dispatch(updateCharacterSelecting({ key: charKey ?? '', selecting: false }));
+        if (type === 'tier-list') {
           moveTierChars(
             findTierIndexByValue(fromTierValue ?? 0) ?? 0,
             findTierIndexByValue(toTierValue) ?? 0,
-            character?.key ?? '',
+            charKey ?? '',
           );
         } else {
-          addTierChars(findTierIndexByValue(toTierValue) ?? 0, [character?.key ?? '']);
+          addTierChars(findTierIndexByValue(toTierValue) ?? 0, [charKey ?? '']);
         }
         console.log(fromTierValue, toTierValue);
       }

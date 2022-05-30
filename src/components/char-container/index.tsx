@@ -1,4 +1,4 @@
-import { Box, createStyles, Overlay } from '@mantine/core';
+import { Box, createStyles, Overlay, Sx } from '@mantine/core';
 import { ReactNode, useMemo } from 'react';
 import { useDrag } from 'react-dnd';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,6 @@ const useStyles = createStyles((theme, { mini, readonly, type, selecting }: Char
     userSelect: 'none',
     width: mini ? 40 : 80,
     minWidth: mini ? 40 : 80,
-    height: mini ? 40 : 80,
     // flex: type === CharListItemType.NORMAL ? 'auto' : '',
     borderRadius: mini ? '50%' : '20%',
     overflow: 'hidden',
@@ -35,7 +34,6 @@ const useStyles = createStyles((theme, { mini, readonly, type, selecting }: Char
     boxShadow: selecting
       ? 'inset 0px 0px 10px 4px ' + (type !== 'tier-list' ? 'green' : 'red')
       : 'inset 0px 0px 10px 4px ' + theme.colors.gray[5],
-    margin: theme.spacing.xs,
   },
   nameBox: {
     position: 'absolute',
@@ -63,9 +61,11 @@ export interface CharDragItem {
 }
 
 interface CharContainerProps {
+  sx?: Sx;
   type?: CharContainerType;
   charKey?: string;
   charName?: string;
+  hidden?: boolean;
   nameDisplay?: boolean;
   readonly?: boolean;
   mini?: boolean;
@@ -80,12 +80,14 @@ interface CharContainerProps {
 }
 
 export default function CharContainer({
+  sx,
   charKey,
   type = 'default',
   charStatus = 'default',
   readonly = !charKey || charStatus === 'picked',
   metaInfo,
   charName,
+  hidden,
   nameDisplay,
   mini,
   selecting,
@@ -93,7 +95,10 @@ export default function CharContainer({
   onSelectChange,
   children,
 }: CharContainerProps) {
-  const parent = useClickOutside(() => selecting && onSelectChange?.(!selecting), ['mouseup', 'touchend']);
+  const parent = useClickOutside(
+    () => type === 'tier-list' && selecting && onSelectChange?.(!selecting),
+    ['mouseup', 'touchend'],
+  );
   const { classes } = useStyles({ readonly, mini, type, selecting });
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -143,26 +148,32 @@ export default function CharContainer({
   const handleClick = () => {
     if (selecting && type === 'tier-list') {
       onDelete?.();
-    } else {
+    } else if (charStatus !== 'picked') {
       onSelectChange?.(!selecting);
     }
   };
 
   return (
-    <Box ref={parent} className={classes.avatarBox} onClick={handleClick}>
-      {children ?? (
-        <Box
-          ref={dragger}
-          sx={{
-            cursor: readonly ? '' : 'pointer',
-          }}
-        >
-          {(!(selecting || charStatus === 'default') || isDragging) && overlay}
-          {selecting && type === 'tier-list' && overlay}
-          {nameDisplay && name}
-          <CharAvatar imgKey={charKey ?? ''} width={mini ? 40 : 80} flowWidthRef={parent.current ?? undefined} />
-        </Box>
-      )}
+    <Box
+      ref={parent}
+      className={classes.avatarBox}
+      sx={{ ...sx, height: !hidden ? (mini ? 40 : 80) : 0 }}
+      onClick={handleClick}
+    >
+      {children ??
+        (!hidden && (
+          <Box
+            ref={dragger}
+            sx={{
+              cursor: readonly ? '' : 'pointer',
+            }}
+          >
+            {(!(selecting || charStatus === 'default') || isDragging) && overlay}
+            {selecting && type === 'tier-list' && overlay}
+            {nameDisplay && name}
+            <CharAvatar imgKey={charKey ?? ''} width={mini ? 40 : 80} flowWidthRef={parent.current ?? undefined} />
+          </Box>
+        ))}
     </Box>
   );
 }

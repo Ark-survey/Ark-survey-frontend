@@ -20,6 +20,16 @@ import {
 } from 'tabler-icons-react';
 import NavItem from './NavItem';
 
+function copyToClip(content: string) {
+  const aux = document.createElement('input');
+  aux.style.position = 'absolute';
+  aux.setAttribute('value', content);
+  document.body.appendChild(aux);
+  aux.select();
+  document.execCommand('copy');
+  document.body.removeChild(aux);
+}
+
 export default function Index() {
   const { t } = useTranslation();
   const userData = useSelector((state: RootState) => state.user.userData);
@@ -28,6 +38,11 @@ export default function Index() {
 
   const handleCopyText = useCallback(async () => {
     if (userData?.id) {
+      if (!navigator.clipboard) {
+        copyToClip(userData?.id);
+        successNotice(t('copied-old'));
+        return;
+      }
       navigator.clipboard.writeText(userData?.id);
       successNotice(t('copied'));
     }

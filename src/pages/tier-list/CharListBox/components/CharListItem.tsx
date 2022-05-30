@@ -1,163 +1,72 @@
-import { Box, Image, Overlay } from '@mantine/core';
-import { useDrag } from 'react-dnd';
 import { RootState } from 'src/store';
-import { CharacterType, updateCharacterSelecting } from 'src/store/slice/characterSlice';
+import { CharacterType, updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useIsMobile } from 'src/hooks';
-import { useMemo, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import CharAvatar from 'src/components/image-container/CharAvatar';
+import { useState } from 'react';
+import CharContainer, { CharContainerType } from 'src/components/char-container';
+import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 export const ItemTypes = {
   OPERATOR: 'Operator',
 };
 
-export enum CharListItemType {
-  NORMAL,
-  TIER,
-}
-
 interface CharListItemProps {
   character?: CharacterType;
-  type?: CharListItemType;
+  type?: CharContainerType;
   fromTierValue?: number;
-  empty?: boolean;
+  hidden?: boolean;
 }
 
 export interface CharDragItem {
-  type?: CharListItemType;
-  character?: CharacterType;
+  type?: CharContainerType;
+  charKey?: string;
   fromTierValue?: number;
 }
 
-export default function Index({ character, type, fromTierValue, empty }: CharListItemProps) {
+export default function Index({ character, hidden, type, fromTierValue }: CharListItemProps) {
   const filters = useSelector((state: RootState) => state.filters);
   const dispatch = useDispatch();
-  const parent = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
-  const { t } = useTranslation();
-
-  const charDragItem: CharDragItem = { type, character, fromTierValue };
-  const [{ isDragging }, dragger] = useDrag(
-    () => ({
-      type: ItemTypes.OPERATOR,
-      item: charDragItem,
-      collect: (monitor) => ({
-        opacity: monitor.isDragging() ? 0 : 1,
-        isDragging: !!monitor.isDragging(),
-      }),
-    }),
-    [],
-  );
+  const [listPicking, setListPicking] = useState(false);
+  const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
 
   const handleCharacterSelect = () => {
-    if (type === CharListItemType.NORMAL && !character?.picked)
+    if (type === 'default')
       dispatch(
         updateCharacterSelecting({
           key: character?.key ?? '',
           selecting: !character?.selecting,
         }),
       );
+    else if (type === 'tier-list') {
+      setListPicking((listPicking) => !listPicking);
+    }
   };
 
-  const overlay = useMemo(() => {
-    return (
-      (isDragging || (character?.picked && type === CharListItemType.NORMAL)) && (
-        <Overlay
-          opacity={0.6}
-          color="#000"
-          zIndex={5}
-          sx={{
-            color: '#fff',
-            display: 'flex',
-            fontWeight: 600,
-            fontSize: filters.mini ? '10px' : '',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          {isDragging ? t('dragging') : t('picked')}
-        </Overlay>
-      )
+  const handleCharacterDelete = () => {
+    dispatch(
+      updateCharacterPicked({
+        key: character?.key ?? '',
+        picked: false,
+      }),
     );
-  }, [isDragging, character?.picked, type, filters.mini, t]);
-
-  const name = useMemo(() => {
-    return (
-      filters.nameDisplay && (
-        <Box
-          sx={{
-            position: 'absolute',
-            zIndex: 4,
-            bottom: filters.mini ? '' : '0',
-            top: filters.mini ? '3px' : '',
-            left: filters.mini ? '-10px' : '0px',
-            width: filters.mini ? '150%' : '100%',
-            display: 'flex',
-            alignItems: 'end',
-            justifyContent: 'center',
-            height: filters.mini ? '8px' : '14px',
-            backgroundColor: '#fff',
-            background:
-              'linear-gradient(to top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.7) 90%, rgba(255,249,242,0) 100%)',
-          }}
-        >
-          <Box
-            sx={{
-              textAlign: 'center',
-              fontSize: '10px',
-              fontWeight: 700,
-              height: filters.mini ? '10px' : '15px',
-              transform: filters.mini ? 'scale(0.5)' : '',
-            }}
-          >
-            {character?.name}
-          </Box>
-        </Box>
-      )
-    );
-  }, [filters.nameDisplay, filters.mini, character]);
+    delTierOneChar(findTierIndexByValue(fromTierValue ?? 0) ?? 0, character?.key ?? '');
+  };
 
   return (
-    <Box
-      key={character?.id}
-      ref={
-        (character?.picked && type === CharListItemType.NORMAL) || (isMobile && type === CharListItemType.NORMAL)
-          ? null
-          : dragger
-      }
-      onClick={handleCharacterSelect}
+    <CharContainer
       sx={{
-        margin: empty ? '0 5px' : '5px',
-        width: filters.mini ? 40 : 80,
-        minHeight: !empty ? (filters.mini ? 40 : 80) : 0,
-        boxSizing: 'border-box',
-        backgroundColor: '#fff',
-        boxShadow:
-          character?.selecting && type === CharListItemType.NORMAL && !empty
-            ? 'inset 0px 0px 10px 4px green'
-            : 'inset 0px 0px 10px 4px #ccc',
-        backgroundRepeat: 'no-repeat',
-        borderRadius: filters.mini ? '50%' : '20px',
-        overflow: 'hidden',
-        position: 'relative',
-        zIndex: 1,
-        flex: type === CharListItemType.NORMAL ? 'auto' : '',
-        height: empty ? '0' : 'auto',
-        fontSize: 10,
+        margin: '5px',
       }}
-    >
-      {overlay}
-      {name}
-      {character?.key && (
-        <Box ref={parent}>
-          <CharAvatar
-            imgKey={character.key}
-            width={filters.mini ? 40 : 80}
-            flowWidthRef={parent.current ?? undefined}
-          />
-        </Box>
-      )}
-    </Box>
+      charKey={character?.key ?? ''}
+      mini={filters.mini}
+      charStatus={character?.picked && type === 'default' ? 'picked' : 'default'}
+      type={type}
+      hidden={hidden}
+      selecting={character?.selecting || (type === 'tier-list' && listPicking)}
+      onSelectChange={handleCharacterSelect}
+      onDelete={handleCharacterDelete}
+      metaInfo={{
+        fromTierValue,
+      }}
+    />
   );
 }

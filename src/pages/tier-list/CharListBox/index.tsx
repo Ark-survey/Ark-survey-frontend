@@ -20,9 +20,9 @@ export default function CharListItemType() {
 
   const { width } = useChangeSize();
 
-  const handleCharacterReturn = ({ fromTierValue, character }: CharDragItem) => {
-    dispatch(updateCharacterPicked({ key: character?.key ?? '', picked: false }));
-    if (fromTierValue !== undefined) delTierOneChar(findTierIndexByValue(fromTierValue) ?? 0, character?.key ?? '');
+  const handleCharacterReturn = ({ fromTierValue, charKey }: CharDragItem) => {
+    dispatch(updateCharacterPicked({ key: charKey ?? '', picked: false }));
+    if (fromTierValue !== undefined) delTierOneChar(findTierIndexByValue(fromTierValue) ?? 0, charKey ?? '');
   };
 
   const [{ isOver }, drop] = useDrop({
@@ -53,7 +53,7 @@ export default function CharListItemType() {
         <Overlay
           opacity={0.6}
           color="#000"
-          zIndex={6}
+          zIndex={600}
           sx={{
             color: '#fff',
             display: 'flex',

@@ -16,13 +16,13 @@ import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 're
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { TierListStatistic, TierListStatisticsServer } from 'src/api/TierListStatisticServer';
+import CharContainer from 'src/components/char-container';
 import { RootState } from 'src/store';
 import { CharacterType } from 'src/store/slice/characterSlice';
 import { updateKey1, updateKey2 } from 'src/store/slice/TierListStatisticsSlice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { treeToArray } from 'src/utils/TreeUtils';
 import { InfoCircle } from 'tabler-icons-react';
-import CharListItem from '../CharListBox/components/CharListItem';
 import { errorNotice, successNotice } from '../components/Notice';
 
 function CharStatisticBox({
@@ -57,6 +57,7 @@ function CharStatisticBox({
         flex: '0 1 45px',
         position: 'relative',
         boxSizing: 'border-box',
+        userSelect: 'none',
         ...sx,
         backgroundColor: statistic?.count ? undefined : '#fff',
       }}
@@ -74,8 +75,8 @@ function CharStatisticBox({
       >
         {statistic?.count ? '#' + (index + 1) : '-'}
       </Box>
-      <Box sx={{ margin: '0 auto', marginTop: '10px' }}>
-        <CharListItem character={char} />
+      <Box sx={{ margin: '0 auto', marginTop: '10px', padding: '5px' }}>
+        <CharContainer mini readonly charKey={char.key} />
       </Box>
       <Box
         sx={{
