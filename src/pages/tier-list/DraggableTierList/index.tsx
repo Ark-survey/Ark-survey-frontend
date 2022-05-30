@@ -70,8 +70,6 @@ export default function Index() {
 
   const handleDropCharacterOnTier = useCallback(
     ({ charKey, type, fromTierValue }: CharDragItem, toTierValue: number) => {
-      console.log({ charKey, type, fromTierValue });
-
       if (type === 'default' || (type === 'tier-list' && fromTierValue !== toTierValue)) {
         dispatch(updateCharacterPicked({ key: charKey ?? '', picked: true }));
         dispatch(updateCharacterSelecting({ key: charKey ?? '', selecting: false }));
@@ -84,7 +82,6 @@ export default function Index() {
         } else {
           addTierChars(findTierIndexByValue(toTierValue) ?? 0, [charKey ?? '']);
         }
-        console.log(fromTierValue, toTierValue);
       }
     },
     [addTierChars, dispatch, findTierIndexByValue, moveTierChars],

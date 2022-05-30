@@ -30,8 +30,6 @@ export default function UploadPopover() {
 
   const handleConfirm = useCallback(
     ({ value, name }: { value: number; name?: string }) => {
-      console.log(111111);
-
       addTier({
         value,
         name,
