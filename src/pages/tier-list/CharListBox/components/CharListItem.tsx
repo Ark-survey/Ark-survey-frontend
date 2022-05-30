@@ -56,7 +56,9 @@ export default function Index({ character, hidden, type, fromTierValue }: CharLi
       sx={{
         margin: '5px',
       }}
+      nameDisplay={filters.nameDisplay}
       charKey={character?.key ?? ''}
+      charName={character?.name ?? ''}
       mini={filters.mini}
       charStatus={character?.picked && type === 'default' ? 'picked' : 'default'}
       type={type}
