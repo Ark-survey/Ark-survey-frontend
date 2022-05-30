@@ -18,7 +18,7 @@ export default function CharListItemType() {
   const { t } = useTranslation();
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
 
-  const size = useChangeSize();
+  const { width } = useChangeSize();
 
   const handleCharacterReturn = ({ fromTierValue, character }: CharDragItem) => {
     dispatch(updateCharacterPicked({ key: character?.key ?? '', picked: false }));
@@ -37,7 +37,7 @@ export default function CharListItemType() {
     <Box
       ref={drop}
       sx={{
-        maxHeight: size.width < 720 ? (filters.mini ? '160px' : '600px') : '',
+        maxHeight: width < 720 ? (filters.mini ? '160px' : '600px') : '',
         height: filters.fold
           ? 'calc(100% - 85px - ' + filterHeight + 'px)'
           : 'calc(100% -  85px - ' + filterHeight + 'px)',

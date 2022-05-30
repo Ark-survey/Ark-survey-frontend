@@ -13,7 +13,6 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
-import { channel1Broadcast } from './registrationStatus';
 
 // eslint-disable-next-line no-undef
 declare const self: ServiceWorkerGlobalScope;
@@ -73,13 +72,11 @@ registerRoute(
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
-self.addEventListener('message', (event) => {});
-
-channel1Broadcast.onmessage = (event) => {
+self.addEventListener('message', async (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-};
+});
 
 // Any other custom service worker logic can go here.
 const CACHE_NAME = 'Cache'; // 可以为Cache版本号，但这样可能会导致缓存冗余累积
@@ -97,6 +94,7 @@ self.addEventListener('install', async (installEvent) => {
       return cache.addAll(cacheList);
     }),
   );
+  self.skipWaiting();
   // 预缓存其他静态内容
 });
 

@@ -5,7 +5,7 @@ import { RootState } from 'src/store';
 import { Brand } from 'src/components/Brand';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMenuOpen } from 'src/store/slice/userSlice';
-import { useWindowSize } from 'src/hooks';
+import { useChangeSize, useWindowSize } from 'src/hooks';
 import { useEffect } from 'react';
 import { RootRouter } from './route';
 import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
@@ -46,7 +46,7 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
     bottom: 0,
     left: 0,
     boxSizing: 'border-box',
-    paddingLeft: 250,
+    paddingLeft: 160,
     width: '100vw',
     height: '140px',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
@@ -64,6 +64,7 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
     boxSizing: 'border-box',
     position: 'relative',
     zIndex: 200,
+    overflow: 'auto',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       position: 'fixed',
     },
@@ -89,8 +90,13 @@ export default function PageContainer() {
   useLoadStaticFile();
 
   useEffect(() => {
-    dispatch(updateMenuOpen(false));
+    if (downSM) dispatch(updateMenuOpen(false));
+    else {
+      dispatch(updateMenuOpen(true));
+    }
   }, [dispatch, downSM]);
+
+  const { height } = useChangeSize();
 
   return (
     <Box>
@@ -103,7 +109,7 @@ export default function PageContainer() {
           display: 'flex',
           position: 'relative',
           overflow: 'auto',
-          height: '100vh',
+          height,
           zIndex: 100,
         }}
       >

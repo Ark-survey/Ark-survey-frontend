@@ -19,6 +19,7 @@ export function RootRouter() {
         ) : (
           <Route path="*" element={<NotFound />} />
         )}
+        <Route path="static" element={<TierListStatistics />} />
         <Route path="demo" element={<Demo />} />
         <Route path="*" element={<NotFound />} />
       </Route>

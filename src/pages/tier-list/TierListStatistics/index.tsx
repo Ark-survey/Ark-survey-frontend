@@ -1,4 +1,17 @@
-import { Box, Text, Center, Group, List, Popover, Select, Space, Sx, Tooltip, useMantineTheme } from '@mantine/core';
+import {
+  Box,
+  Text,
+  Center,
+  Group,
+  List,
+  Popover,
+  Select,
+  Space,
+  Sx,
+  Tooltip,
+  useMantineTheme,
+  Container,
+} from '@mantine/core';
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -259,7 +272,7 @@ export default function Index() {
   }, [statisticData, theme.colors]);
 
   return (
-    <>
+    <Container size={1500} p="xl">
       <Center>
         <Box sx={{ margin: '20px', display: 'flex' }}>
           <Select sx={{ width: '75px' }} value={key1Select} onChange={handleType1Change} data={type1List} />
@@ -330,7 +343,7 @@ export default function Index() {
           <Space h={5} />
         </React.Fragment>
       ))}
-    </>
+    </Container>
   );
 }
 interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {

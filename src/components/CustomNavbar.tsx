@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { useChangeSize } from 'src/hooks';
 import { successNotice } from 'src/pages/tier-list/components/Notice';
 import { RootState } from 'src/store';
 import {
@@ -23,6 +24,7 @@ export default function Index() {
   const { t } = useTranslation();
   const userData = useSelector((state: RootState) => state.user.userData);
   const location = useLocation();
+  const { height } = useChangeSize();
 
   const handleCopyText = useCallback(async () => {
     if (userData?.id) {
@@ -32,18 +34,12 @@ export default function Index() {
   }, [t, userData?.id]);
 
   return (
-    <Navbar sx={{ height: '-webkit-fill-available' }}>
+    <Navbar sx={{ height }}>
       <Navbar.Section mx="xs">
         <Space h={60} />
       </Navbar.Section>
       <Navbar.Section mx="xs">
-        <NavItem
-          title={t('nav.mainPage')}
-          leftIcon={<Home />}
-          disabled={!userData?.id}
-          selecting={location.pathname === '/'}
-          to="/"
-        />
+        <NavItem title={t('nav.mainPage')} leftIcon={<Home />} selecting={location.pathname === '/'} to="/" />
       </Navbar.Section>
       <Navbar.Section
         mx="xs"
@@ -59,7 +55,6 @@ export default function Index() {
           leftIcon={<BoxMultiple5 />}
           selecting={location.pathname === '/tierList'}
           disabled={!userData?.id}
-          operations
         />
         <NavItem title={t('nav.love')} leftIcon={<ThumbUp />} disabled />
       </Navbar.Section>
@@ -71,7 +66,12 @@ export default function Index() {
         })}
       >
         <NavItem title={t('nav.note')} leftIcon={<Notebook />} disabled />
-        <NavItem title={t('nav.static')} leftIcon={<ChartBar />} disabled />
+        <NavItem
+          title={t('nav.static')}
+          leftIcon={<ChartBar />}
+          selecting={location.pathname === '/static'}
+          to="/static"
+        />
       </Navbar.Section>
       <Navbar.Section
         mx="xs"
@@ -79,13 +79,15 @@ export default function Index() {
           borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`,
         })}
       >
-        <NavItem
-          sx={{ height: '55px' }}
-          title={t('nav.copy')}
-          leftIcon={<Copy />}
-          disabled={!userData?.id}
-          onClick={handleCopyText}
-        />
+        {userData?.id && (
+          <NavItem
+            sx={{ height: '55px' }}
+            title={t('nav.copy')}
+            leftIcon={<Copy />}
+            disabled={!userData?.id}
+            onClick={handleCopyText}
+          />
+        )}
         <NavItem sx={{ height: '55px' }} title={t('nav.setting')} leftIcon={<Settings />} disabled />
       </Navbar.Section>
     </Navbar>

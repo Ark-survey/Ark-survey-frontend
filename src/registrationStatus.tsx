@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Modal, Text } from '@mantine/core';
+import { keyframes, Box, Group, Modal, Text, Transition } from '@mantine/core';
 import { t } from 'i18next';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,7 +6,10 @@ import { Refresh } from 'tabler-icons-react';
 import { persistor, RootState } from './store';
 import { updateUserData } from './store/slice/userSlice';
 
-const channel1Broadcast = new BroadcastChannel('channel1');
+const a1 = keyframes({
+  '0%': { transform: 'rotate(0deg)' },
+  '100%': { transform: 'rotate(360deg)' },
+});
 
 let current = 'Unchanged';
 const subscriptions = new Set();
@@ -54,7 +57,7 @@ function UpdateVersionNotion() {
     await persistor.flush();
     dispatch(updateUserData({ id }));
     setOpened(false);
-    channel1Broadcast.postMessage({ type: 'SKIP_WAITING' });
+    navigator.serviceWorker.controller?.postMessage({ type: 'SKIP_WAITING' });
   };
 
   useEffect(() => {
@@ -69,14 +72,14 @@ function UpdateVersionNotion() {
       withCloseButton={false}
       onClose={() => setOpened(false)}
     >
-      <Group position="apart">
+      <Group position="apart" sx={{ userSelect: 'none' }}>
         <Text>{t('versionUpdate.notion')}</Text>
-        <ActionIcon onClick={handleUpdate}>
+        <Box sx={{ height: '24px', animationName: a1, animationDuration: '3s', animationIterationCount: 'infinite' }}>
           <Refresh />
-        </ActionIcon>
+        </Box>
       </Group>
     </Modal>
   );
 }
 
-export { channel1Broadcast, UpdateVersionNotion, onUpdate, onSuccess };
+export { UpdateVersionNotion, onUpdate, onSuccess };

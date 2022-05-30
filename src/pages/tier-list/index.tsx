@@ -8,7 +8,6 @@ import { changeFold, changeNameDisplay, changeMini } from 'src/store/slice/filte
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { FoldDown, FoldUp } from 'tabler-icons-react';
-import TierListStatistics from './TierListStatistics';
 import { useTranslation } from 'react-i18next';
 
 export default function Index() {
@@ -31,68 +30,64 @@ export default function Index() {
 
   return (
     <Container size={1500} p="xl">
-      {user.viewPageId === 'tier-list-real-time' ? (
-        <TierListStatistics />
-      ) : (
-        <Stack
-          spacing={20}
+      <Stack
+        spacing={20}
+        sx={{
+          flexFlow: 'row wrap',
+          alignItems: 'stretch',
+        }}
+      >
+        <Box
           sx={{
-            flexFlow: 'row wrap',
-            alignItems: 'stretch',
+            flex: '1',
+            minWidth: '326px',
+            maxWidth: '726px',
+            boxShadow: '0 0 5px 5px #eee',
+            borderRadius: '20px',
+            userSelect: 'none',
+            maxHeight: '890px',
+            overflow: 'hidden',
           }}
         >
           <Box
             sx={{
-              flex: '1',
-              minWidth: '326px',
-              maxWidth: '726px',
-              boxShadow: '0 0 5px 5px #eee',
-              borderRadius: '20px',
-              userSelect: 'none',
-              maxHeight: '890px',
-              overflow: 'hidden',
+              overflow: 'auto',
+              height: '100%',
+              '::-webkit-scrollbar': { width: '0 !important' },
             }}
           >
-            <Box
-              sx={{
-                overflow: 'auto',
-                height: '100%',
-                '::-webkit-scrollbar': { width: '0 !important' },
-              }}
-            >
-              <Header title={t('charTitle')}>
-                <Button
-                  size="xs"
-                  variant={!filters.mini ? 'outline' : 'filled'}
-                  color={!filters.mini ? 'blue' : 'green'}
-                  radius="xl"
-                  onClick={handleMiniStatusChange}
-                >
-                  {t('MINI')}
-                </Button>
-                <Box sx={{ width: '15px' }} />
-                <Button
-                  size="xs"
-                  variant={!filters.nameDisplay ? 'outline' : 'filled'}
-                  color={!filters.nameDisplay ? 'blue' : 'green'}
-                  radius="xl"
-                  onClick={handleNameStatusChange}
-                >
-                  {t('name')}
-                </Button>
-                <Box sx={{ width: '15px' }} />
-                <Button size="xs" variant="outline" radius="xl" onClick={handleFoldStatusChange}>
-                  {filters.fold ? <FoldDown /> : <FoldUp />}
-                </Button>
-              </Header>
-              <FilterBox />
-              <CharListBox />
-              <Box sx={{ width: '100%', height: '15px' }} />
-            </Box>
+            <Header title={t('charTitle')}>
+              <Button
+                size="xs"
+                variant={!filters.mini ? 'outline' : 'filled'}
+                color={!filters.mini ? 'blue' : 'green'}
+                radius="xl"
+                onClick={handleMiniStatusChange}
+              >
+                {t('MINI')}
+              </Button>
+              <Box sx={{ width: '15px' }} />
+              <Button
+                size="xs"
+                variant={!filters.nameDisplay ? 'outline' : 'filled'}
+                color={!filters.nameDisplay ? 'blue' : 'green'}
+                radius="xl"
+                onClick={handleNameStatusChange}
+              >
+                {t('name')}
+              </Button>
+              <Box sx={{ width: '15px' }} />
+              <Button size="xs" variant="outline" radius="xl" onClick={handleFoldStatusChange}>
+                {filters.fold ? <FoldDown /> : <FoldUp />}
+              </Button>
+            </Header>
+            <FilterBox />
+            <CharListBox />
+            <Box sx={{ width: '100%', height: '15px' }} />
           </Box>
-          <DraggableTierList />
-        </Stack>
-      )}
+        </Box>
+        <DraggableTierList />
+      </Stack>
     </Container>
   );
 }

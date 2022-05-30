@@ -65,11 +65,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
         marginTop: '5px',
       }}
     >
-      <Box sx={{ padding: '10px', display: 'flex', flexFlow: 'row wrap' }}>
-        {characterIMgList}
-
-        <Box>1111</Box>
-      </Box>
+      <Box sx={{ padding: '10px', display: 'flex', flexFlow: 'row wrap' }}>{characterIMgList}</Box>
       <Box
         sx={{
           position: 'absolute',

@@ -1,16 +1,13 @@
-import { Box, Group, SegmentedControl, Sx, Text, UnstyledButton } from '@mantine/core';
+import { Group, Sx, Text, UnstyledButton } from '@mantine/core';
 import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'src/store';
-import { updateViewPageId } from 'src/store/slice/userSlice';
 
 interface NavItemProps {
   sx?: Sx;
   selecting?: boolean;
   disabled?: boolean;
-  operations?: boolean;
   leftIcon?: ReactNode;
   title?: ReactNode;
   children?: ReactNode;
@@ -18,24 +15,10 @@ interface NavItemProps {
   onClick?: () => void;
 }
 
-export default function Index({
-  sx,
-  selecting,
-  leftIcon,
-  operations,
-  title,
-  disabled,
-  children,
-  to,
-  onClick,
-}: NavItemProps) {
+export default function Index({ sx, selecting, leftIcon, title, disabled, children, to, onClick }: NavItemProps) {
   const user = useSelector((state: RootState) => state.user);
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const { t } = useTranslation();
-  const handlePageControlChange = (value: string) => {
-    dispatch(updateViewPageId(value));
-  };
 
   return (
     <UnstyledButton
@@ -45,6 +28,7 @@ export default function Index({
       }}
       disabled={disabled}
       sx={(theme) => ({
+        userSelect: 'none',
         display: 'block',
         width: '100%',
         margin: '10px 0',

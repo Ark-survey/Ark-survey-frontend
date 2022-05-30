@@ -115,7 +115,7 @@
     "key-not-found": "暂无样本"
   },
   "versionUpdate": {
-    "notion": "有更新啦，点击按钮更新版本"
+    "notion": "检测到新版本，版本自动更新中..."
   },
   "charContainer": {
     "loading": "加载中",

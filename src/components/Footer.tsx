@@ -158,9 +158,8 @@ export default function Index({ children }: HeaderProps) {
                   text={t('footer.backend')}
                   src={[
                     {
-                      imgUrl:
-                        'https://portrait.gitee.com/uploads/avatars/user/3225/9676698_yamasakura_1652758812.png!avatar200',
-                      to: 'https://gitee.com/yamasakura',
+                      imgUrl: 'https://avatars.githubusercontent.com/u/84258011',
+                      to: 'https://github.com/yamasakura',
                     },
                     {
                       imgUrl: 'https://avatars.githubusercontent.com/u/17798738',
