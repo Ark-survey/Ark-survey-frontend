@@ -1,12 +1,12 @@
 import { Box, createStyles, Header, ScrollArea, Space, Overlay } from '@mantine/core';
 import Footer from 'src/components/Footer';
 import CustomNavbar from 'src/components/CustomNavbar';
-import { RootState } from 'src/store';
+import { persistor, RootState } from 'src/store';
 import { Brand } from 'src/components/Brand';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateMenuOpen } from 'src/store/slice/userSlice';
+import { updateMenuOpen, updateUserData } from 'src/store/slice/userSlice';
 import { useChangeSize, useWindowSize } from 'src/hooks';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { RootRouter } from './route';
 import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
 import { useLoadUserTierLists } from 'src/hooks/useLoadUserTierLists';
@@ -58,7 +58,7 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
     },
   },
   scrollArea: {
-    width: '170px',
+    width: 170,
     height: '100%',
     background: '#fff',
     boxSizing: 'border-box',
@@ -70,13 +70,6 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
     },
   },
 }));
-
-const scaleY = {
-  in: { opacity: 1, transform: 'scaleX(1)' },
-  out: { opacity: 0, transform: 'scaleX(0)' },
-  common: { transformOrigin: 'top' },
-  transitionProperty: 'transform, opacity',
-};
 
 export default function PageContainer() {
   const { downSM } = useWindowSize();
@@ -95,6 +88,20 @@ export default function PageContainer() {
       dispatch(updateMenuOpen(true));
     }
   }, [dispatch, downSM]);
+
+  const refreshing = useRef(false);
+  useEffect(() => {
+    navigator.serviceWorker.addEventListener('controllerchange', async () => {
+      if (refreshing.current) {
+        return;
+      }
+      refreshing.current = true;
+      const id = user.userData?.id ?? '';
+      await persistor.flush();
+      dispatch(updateUserData({ id }));
+      window.location.reload();
+    });
+  }, [dispatch, user.userData?.id]);
 
   const { height } = useChangeSize();
 
