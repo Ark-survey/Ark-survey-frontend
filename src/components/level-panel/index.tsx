@@ -9,7 +9,8 @@ import {
   SegmentedControl,
   Text,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { CharLevelDataType } from 'src/pages/demo/CharDataUnit';
 import { FoldDown, FoldUp } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
@@ -60,6 +61,11 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
 }));
 
 interface LevelPanelProps {
+  charLevelData: CharLevelDataType;
+  onCharLevelDataChange?: (charLevelData: CharLevelDataType) => void;
+  verifyRule: { [key: string]: [number, number] };
+  maxEliteVerifyRule: number[];
+  maxLevelVerifyRule: number[][];
   fold?: boolean;
   onClickFoldButton?: (value: boolean) => void;
   position?: [number, number];
@@ -67,14 +73,26 @@ interface LevelPanelProps {
 
 // 等比缩放
 // 使用 flowWidthRef 的时候会忽略 width，跟随指定元素的宽度
-export default function Index({ onClickFoldButton, fold = false }: LevelPanelProps) {
+export default function Index({
+  onClickFoldButton,
+  charLevelData,
+  verifyRule,
+  maxEliteVerifyRule,
+  maxLevelVerifyRule,
+  fold = false,
+  onCharLevelDataChange,
+}: LevelPanelProps) {
   const { classes, cx } = useStyles({ fold });
 
-  const [eliteData] = useState([
-    { value: '0', label: '未精英' },
-    { value: '1', label: '精一' },
-    { value: '2', label: '精二' },
-  ]);
+  const eliteData = useMemo(() => {
+    const result = [
+      { value: '0', label: '未精英' },
+      { value: '1', label: '精一' },
+      { value: '2', label: '精二' },
+    ];
+    return result.filter((it, index) => index <= maxEliteVerifyRule[charLevelData.rarity]);
+  }, [charLevelData.rarity, maxEliteVerifyRule]);
+
   return (
     <Box className={classes.container}>
       <Box className={classes.ringContainer}>
@@ -87,11 +105,17 @@ export default function Index({ onClickFoldButton, fold = false }: LevelPanelPro
                 LV
               </Text>
               <Text sx={{ fontSize: '36px' }} align="center" weight={700}>
-                80
+                {charLevelData?.level ?? 1}
               </Text>
             </Box>
           }
-          sections={[{ value: (80 / 9) * 10, color: 'yellow' }]}
+          sections={[
+            {
+              value:
+                ((charLevelData?.level ?? 1) * 100) / maxLevelVerifyRule[charLevelData.elite][charLevelData.rarity],
+              color: 'yellow',
+            },
+          ]}
         />
         <RingProgress
           size={70}
@@ -102,11 +126,13 @@ export default function Index({ onClickFoldButton, fold = false }: LevelPanelPro
                 精英
               </Text>
               <Text size="xl" align="center">
-                2
+                {charLevelData?.elite ?? 0}
               </Text>
             </Box>
           }
-          sections={[{ value: 600 / 6, color: 'green' }]}
+          sections={[
+            { value: ((charLevelData?.elite ?? 0) * 100) / maxEliteVerifyRule[charLevelData.rarity], color: 'green' },
+          ]}
         />
         <RingProgress
           size={70}
@@ -117,11 +143,13 @@ export default function Index({ onClickFoldButton, fold = false }: LevelPanelPro
                 潜能
               </Text>
               <Text size="xl" align="center">
-                6
+                {charLevelData?.potentialLevel ?? 0}
               </Text>
             </Box>
           }
-          sections={[{ value: 600 / 6, color: 'blue' }]}
+          sections={[
+            { value: ((charLevelData?.potentialLevel ?? 0) * 100) / verifyRule['potentialLevel'][1], color: 'blue' },
+          ]}
         />
         <RingProgress
           size={70}
@@ -132,11 +160,11 @@ export default function Index({ onClickFoldButton, fold = false }: LevelPanelPro
                 信赖
               </Text>
               <Text size="xl" align="center">
-                150
+                {charLevelData?.trust ?? 0}
               </Text>
             </Box>
           }
-          sections={[{ value: 150 / 2, color: 'orange' }]}
+          sections={[{ value: ((charLevelData?.trust ?? 0) * 100) / verifyRule['trust'][1], color: 'orange' }]}
         />
       </Box>
       <Box
@@ -161,16 +189,42 @@ export default function Index({ onClickFoldButton, fold = false }: LevelPanelPro
         <Grid gutter="sm" sx={{ margin: '5px 10px' }}>
           <Grid.Col span={6} className={classes.detailBarSlider}>
             <Box className={classes.detailName}>精英阶段</Box>
-            <SegmentedControl defaultValue="2" size="xs" data={eliteData} />
+            <SegmentedControl
+              value={charLevelData.elite.toString()}
+              onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, elite: parseInt(value ?? '0', 10) })}
+              size="xs"
+              data={eliteData}
+            />
           </Grid.Col>
           <Grid.Col span={6} className={classes.numberInput}>
-            <NumberInput defaultValue={60} label="等级" size="xs" min={1} max={90} />
+            <NumberInput
+              value={charLevelData?.level ?? 1}
+              onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, level: value ?? 1 })}
+              label="等级"
+              size="xs"
+              min={1}
+              max={maxLevelVerifyRule[charLevelData.elite][charLevelData.rarity]}
+            />
           </Grid.Col>
           <Grid.Col span={6} className={classes.numberInput}>
-            <NumberInput defaultValue={0} label="潜能" size="xs" min={0} max={6} />
+            <NumberInput
+              value={charLevelData?.potentialLevel ?? 0}
+              onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, potentialLevel: value ?? 0 })}
+              label="潜能"
+              size="xs"
+              min={verifyRule['potentialLevel'][0]}
+              max={verifyRule['potentialLevel'][1]}
+            />
           </Grid.Col>
           <Grid.Col span={6} className={classes.numberInput}>
-            <NumberInput defaultValue={200} label="信赖" size="xs" min={0} max={200} />
+            <NumberInput
+              value={charLevelData?.trust ?? 0}
+              onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, trust: value ?? 0 })}
+              label="信赖"
+              size="xs"
+              min={verifyRule['trust'][0]}
+              max={verifyRule['trust'][1]}
+            />
           </Grid.Col>
         </Grid>
       </Box>

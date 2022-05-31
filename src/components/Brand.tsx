@@ -42,7 +42,7 @@ function Logo() {
         userSelect: 'none',
       }}
     >
-      <Image src={process.env.PUBLIC_URL + '/logo192.png'} alt="logo" width="40px" />
+      <Image src={process.env.PUBLIC_URL + '/favicon.ico'} alt="logo" width="40px" />
       <Space w={10} />
       <Box className={classes.logoTitle}>
         <Box>{t('header.title')}</Box>

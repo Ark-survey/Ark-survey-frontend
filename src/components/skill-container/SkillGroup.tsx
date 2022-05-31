@@ -97,12 +97,12 @@ interface SkillGroupProps {
       level: number;
     };
   };
-  elite?: number;
+  elite: number;
   skillChoose?: string;
   fold?: boolean;
   onClickFoldButton?: (value: boolean) => void;
   onSelectSkillChange?: (key: string) => void;
-  onSkillDetailChange?: (skills: any) => void;
+  onSkillLevelChange?: (v: string, skills: any) => void;
 }
 
 export default function Index({
@@ -112,7 +112,7 @@ export default function Index({
   fold = false,
   onClickFoldButton,
   onSelectSkillChange,
-  onSkillDetailChange,
+  onSkillLevelChange,
 }: SkillGroupProps) {
   const { classes, cx } = useStyles({ fold });
 
@@ -132,50 +132,20 @@ export default function Index({
       }
     }
     return result;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elite]);
-
-  const onSkillLevelChange = useCallback(
-    (v: string, changeKey: string) => {
-      const syncNumber = parseInt(v, 10);
-      if ((syncNumber <= 7 && skills[changeKey].level <= 7) || (syncNumber < 7 && skills[changeKey].level >= 7)) {
-        onSkillDetailChange?.((s: any) => {
-          const newSkills = { ...s };
-          Object.keys(newSkills).forEach((key) => {
-            if (key !== changeKey) newSkills[key].level = syncNumber;
-          });
-          return newSkills;
-        });
-      } else if (syncNumber > 7 && skills[changeKey].level < 7) {
-        onSkillDetailChange?.((s: any) => {
-          const newSkills = { ...s };
-          Object.keys(newSkills).forEach((key) => {
-            if (key !== changeKey) newSkills[key].level = 7;
-          });
-          return newSkills;
-        });
-      }
-      onSkillDetailChange?.((s: any) => {
-        const newSkills = { ...s };
-        Object.keys(newSkills).forEach((key) => {
-          if (key === changeKey) newSkills[key].level = syncNumber;
-        });
-        return newSkills;
-      });
-    },
-    [onSkillDetailChange, skills],
-  );
 
   const skillChooseGroup = useMemo(() => {
     const node: ReactNode[] = [];
     Object.keys(skills).forEach((key, index) => {
-      if (index <= (elite ?? 0)) {
+      if (index <= elite) {
         node.push(
           <Box key={skills[key].key} className={classes.detailBarSlider}>
             <Box className={classes.detailSkillName}>{skills[key].name}</Box>
 
             <SegmentedControl
               value={skills[key].level.toString()}
-              onChange={(v) => onSkillLevelChange(v, key)}
+              onChange={(v) => onSkillLevelChange?.(v, key)}
               size="xs"
               sx={{ height: 22.5 }}
               data={data}
@@ -192,12 +162,12 @@ export default function Index({
       );
     });
     return node;
-  }, [classes, cx, data, onSkillLevelChange, elite, skills]);
+  }, [classes, cx, data, elite, onSkillLevelChange, skills]);
 
   const skillIconGroup = useMemo(() => {
     const node: ReactNode[] = [];
     Object.keys(skills).forEach((key, index) => {
-      if (index <= (elite ?? 0)) {
+      if (index <= elite) {
         const it = skills[key];
         node.push(
           <Box
