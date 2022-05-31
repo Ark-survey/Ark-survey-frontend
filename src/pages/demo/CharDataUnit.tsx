@@ -111,21 +111,26 @@ export default function Index() {
       });
       // 校验
       const newValue = { ...value };
-
-      if (newValue.level > maxLevelVerifyRule[newValue.elite][newValue.rarity]) {
-        newValue.level = maxLevelVerifyRule[newValue.elite][newValue.rarity];
-      } else if (newValue.level < 1) {
-        newValue.level = 1;
-      } else {
-        newValue.level = Math.floor(newValue.level);
+      if (isNaN(newValue.level)) newValue.level = 1;
+      else {
+        if (newValue.level > maxLevelVerifyRule[newValue.elite][newValue.rarity]) {
+          newValue.level = maxLevelVerifyRule[newValue.elite][newValue.rarity];
+        } else if (newValue.level < 1) {
+          newValue.level = 1;
+        } else {
+          newValue.level = Math.floor(newValue.level);
+        }
       }
       Object.keys(commonVerifyRule).forEach((key) => {
-        if (newValue[key] < commonVerifyRule[key][0]) {
-          newValue[key] = commonVerifyRule[key][0];
-        } else if (newValue[key] > commonVerifyRule[key][1]) {
-          newValue[key] = commonVerifyRule[key][1];
-        } else {
-          newValue[key] = Math.floor(newValue[key]);
+        if (isNaN(newValue[key])) newValue[key] = commonVerifyRule[key][0];
+        else {
+          if (newValue[key] < commonVerifyRule[key][0]) {
+            newValue[key] = commonVerifyRule[key][0];
+          } else if (newValue[key] > commonVerifyRule[key][1]) {
+            newValue[key] = commonVerifyRule[key][1];
+          } else {
+            newValue[key] = Math.floor(newValue[key]);
+          }
         }
       });
       setCharLevelData(newValue);
