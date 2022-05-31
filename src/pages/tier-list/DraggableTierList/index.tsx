@@ -144,7 +144,7 @@ export default function Index() {
         <Box sx={{ width: '10px' }} />
         <AddTierPopover />
         <Box sx={{ width: '10px' }} />
-        <Button size="xs" variant="outline" color="blue" radius="xl" onClick={makeTierImg}>
+        <Button disabled size="xs" variant="outline" color="blue" radius="xl" onClick={makeTierImg}>
           {t('screenshot')}
         </Button>
         <Box sx={{ width: '10px' }} />
