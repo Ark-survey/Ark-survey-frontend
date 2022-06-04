@@ -2,15 +2,14 @@ import { Button, Stack, ScrollArea, Group, Divider, Paper, createStyles } from '
 import Header from 'src/components/Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import { ChevronsDown, ChevronsUp, Exchange, FoldDown, FoldUp } from 'tabler-icons-react';
+import { ChevronsDown, ChevronsUp, Exchange } from 'tabler-icons-react';
 import { useTranslation } from 'react-i18next';
 import CharList from './CharList';
-import useCharFilterDrawer from 'src/components/CharFilterDawer/useCharFilterDrawer';
 import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
 
 const useStyles = createStyles((theme) => ({
   root: {
-    maxWidth: 690,
+    maxWidth: 686,
   },
 }));
 

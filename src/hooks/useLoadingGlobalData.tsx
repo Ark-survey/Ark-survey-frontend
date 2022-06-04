@@ -1,9 +1,8 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { MetaDataServer } from 'src/api/MetaDataServer.';
 import { successNotice } from 'src/pages/tier-list/components/Notice';
-import { updateCharacterUrl } from 'src/store/slice/characterSlice';
 import { updateVersion } from 'src/store/slice/userSlice';
 
 export function useLoadingGlobalData() {
@@ -17,7 +16,6 @@ export function useLoadingGlobalData() {
   const handleLoadData = async () => {
     const { data } = await fetchLatestMetaData();
     dispatch(updateVersion(data.version ?? ''));
-    dispatch(updateCharacterUrl(data.imgUrlOrigin ?? ''));
     successNotice(t('basic-data-updated-successfully'));
   };
 

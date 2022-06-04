@@ -13,6 +13,21 @@ export interface ImgPosition {
   };
 }
 
+export interface CharacterType {
+  key: string;
+  id?: string;
+  name?: string;
+  profession?: string;
+  sex?: string;
+  rarity?: number;
+  deployment?: string;
+  accessChannel?: string;
+  ts?: number;
+  imgUrl?: string;
+  picked?: boolean;
+  selecting?: boolean;
+}
+
 export interface UserType {
   menuOpen: boolean;
   newTierList: boolean;
@@ -20,6 +35,7 @@ export interface UserType {
   version: string;
   userData?: User;
   imgPosition: ImgPosition;
+  charData: { [key: string]: CharacterType };
 }
 
 const initialState: UserType = {
@@ -31,6 +47,7 @@ const initialState: UserType = {
     id: '',
   },
   imgPosition: { skillImgPosition: {}, avatarImgPosition: {}, uniEquipImgPosition: {} },
+  charData: {},
 };
 
 export const userSlice = createSlice({
@@ -55,6 +72,9 @@ export const userSlice = createSlice({
     updateImgPosition: (state, action: PayloadAction<any>) => {
       state.imgPosition = action.payload;
     },
+    updateCharData: (state, action: PayloadAction<{ [key: string]: CharacterType }>) => {
+      state.charData = action.payload;
+    },
   },
 });
 
@@ -65,6 +85,7 @@ export const {
   updateMenuOpen,
   updateUserData,
   updateImgPosition,
+  updateCharData,
 } = userSlice.actions;
 
 export default userSlice.reducer;

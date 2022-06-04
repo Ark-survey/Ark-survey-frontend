@@ -1,14 +1,15 @@
-import character_table_new from 'src/assets/character_table_new.json';
-
 export function isValidKey(key: string | number | symbol, object: object): key is keyof typeof object {
   return key in object;
 }
 
-export function characterDataLoad() {
+export async function characterDataLoad(origin: string) {
   let characters = {} as any;
-  Object.getOwnPropertyNames(character_table_new).forEach((key) => {
-    if (isValidKey(key, character_table_new)) {
-      characters[key] = character_table_new[key];
+  const characterJsonUrl = origin + 'character_table.json';
+  const characterTable: { [key: string]: [number, number] } = await (await fetch(characterJsonUrl)).json();
+
+  Object.getOwnPropertyNames(characterTable).forEach((key) => {
+    if (isValidKey(key, characterTable)) {
+      characters[key] = characterTable[key];
       characters[key].key = key;
     }
   });

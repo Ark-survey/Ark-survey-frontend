@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { filterOpenState } from 'src/store/slice/filterSlice';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { CharacterType } from 'src/store/slice/characterSlice';
+import { CharacterType } from 'src/store/slice/userSlice';
 import { useTranslation } from 'react-i18next';
 
 export default function CharacterList() {

@@ -5,6 +5,7 @@ import {
   Divider,
   Grid,
   NumberInput,
+  Paper,
   RingProgress,
   SegmentedControl,
   Text,
@@ -17,7 +18,6 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
   container: {
     position: 'relative',
     background: theme.white,
-    boxShadow: '0px 1px 5px 1px ' + theme.colors.gray[4],
     borderRadius: '10px',
     width: 335,
   },
@@ -94,7 +94,7 @@ export default function Index({
   }, [charLevelData.rarity, maxEliteVerifyRule]);
 
   return (
-    <Box className={classes.container}>
+    <Paper shadow="md" withBorder className={classes.container}>
       <Box className={classes.ringContainer}>
         <RingProgress
           size={110}
@@ -248,6 +248,6 @@ export default function Index({
           </Grid.Col>
         </Grid>
       </Box>
-    </Box>
+    </Paper>
   );
 }

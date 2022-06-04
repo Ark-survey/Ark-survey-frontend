@@ -162,7 +162,7 @@ export default function Index() {
           }
       });
       // 控制模组
-      if (uniEquipData) {
+      if (uniEquipData && value.elite !== charLevelData.elite) {
         const newUniEquipData = { ...uniEquipData };
         Object.keys(newUniEquipData).forEach((key, index) => {
           newUniEquipData[key].level = 1;

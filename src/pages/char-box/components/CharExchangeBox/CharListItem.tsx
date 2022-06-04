@@ -1,9 +1,10 @@
 import { RootState } from 'src/store';
-import { CharacterType, updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
+import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import CharContainer, { CharContainerType } from 'src/components/char-container';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
+import { CharacterType } from 'src/store/slice/userSlice';
 
 export const ItemTypes = {
   OPERATOR: 'Operator',

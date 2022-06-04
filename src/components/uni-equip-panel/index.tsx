@@ -1,4 +1,4 @@
-import { Box, Button, Center, createStyles, SegmentedControl, Space, Stack } from '@mantine/core';
+import { Box, Button, Center, createStyles, Paper, SegmentedControl, Space, Stack } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
 import { UniEquipDataType } from 'src/components/CharDataUnit';
 import { ChevronsDown, ChevronsUp } from 'tabler-icons-react';
@@ -8,7 +8,6 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
   container: {
     position: 'relative',
     background: theme.white,
-    boxShadow: '0px 1px 5px 1px ' + theme.colors.gray[4],
     borderRadius: '10px',
     width: 335,
     display: 'flex',
@@ -103,19 +102,11 @@ export default function Index({
       >
         模组
       </Box>
-      <Box className={classes.container}>
+      <Paper withBorder shadow="md" className={classes.container}>
         {uniEquipData && elite === 2 ? (
           <>
             {/* <UniEquipImg imgKey="default" width={128} /> */}
-            <Stack
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                flexWrap: 'wrap',
-                width: '40px',
-              }}
-              spacing={0}
-            >
+            <Stack sx={{ width: '40px' }} spacing={0}>
               <Button
                 variant="subtle"
                 radius={0}
@@ -217,7 +208,7 @@ export default function Index({
         ) : (
           <Center sx={{ width: '100%', fontWeight: 500, color: '#ccc' }}>NO INFO</Center>
         )}
-      </Box>
+      </Paper>
     </Box>
   );
 }

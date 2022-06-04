@@ -1,33 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { characterDataLoad, getCharacterImgUrl } from 'src/utils/JSONLoadUtils';
 import { setAllMapAttr, setMapAttr } from 'src/utils/ObjectUtils';
-
-export interface CharacterType {
-  key: string;
-  id?: string;
-  name?: string;
-  profession?: string;
-  sex?: string;
-  rarity?: number;
-  deployment?: string;
-  accessChannel?: string;
-  ts?: number;
-  imgUrl?: string;
-  picked?: boolean;
-  selecting?: boolean;
-}
+import { CharacterType } from './userSlice';
 
 let initialState: { charMap: { [key: string]: CharacterType } } = {
-  charMap: characterDataLoad(),
+  charMap: {},
 };
 
 export const characterSlice = createSlice({
   name: 'characters',
   initialState,
   reducers: {
-    updateCharacterUrl: (state, action: PayloadAction<string>) => {
-      state.charMap = getCharacterImgUrl(state.charMap, action.payload);
-    },
     updateCharacter: (state, action: PayloadAction<{ [key: string]: CharacterType }>) => {
       state.charMap = action.payload;
     },
@@ -43,16 +25,19 @@ export const characterSlice = createSlice({
     updateAllCharacterPicked: (state, action: PayloadAction<boolean>) => {
       state.charMap = setAllMapAttr(state.charMap, { picked: action.payload });
     },
+    updateCharMap: (state, action: PayloadAction<{ [key: string]: CharacterType }>) => {
+      state.charMap = action.payload;
+    },
   },
 });
 
 export const {
   updateCharacterPicked,
-  updateCharacterUrl,
   updateCharacter,
   updateAllCharacterPicked,
   updateAllCharacterSelecting,
   updateCharacterSelecting,
+  updateCharMap,
 } = characterSlice.actions;
 
 export default characterSlice.reducer;

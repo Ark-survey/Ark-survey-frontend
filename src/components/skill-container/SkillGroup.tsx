@@ -1,4 +1,4 @@
-import { Box, Group, createStyles, Button, SegmentedControl, Divider } from '@mantine/core';
+import { Box, Group, createStyles, Button, SegmentedControl, Divider, Paper } from '@mantine/core';
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Check, FoldDown, FoldUp } from 'tabler-icons-react';
 import SkillContainer from '.';
@@ -20,7 +20,6 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
     position: 'relative',
     width: '100%',
     height: fold ? 60 : 290,
-    boxShadow: '0px 1px 5px 1px ' + theme.colors.gray[4],
     borderRadius: '0 10px 10px 10px',
     zIndex: 200,
   },
@@ -317,7 +316,7 @@ export default function Index({
       >
         技能
       </Box>
-      <Box className={classes.bottomBox}>
+      <Paper withBorder shadow="md" className={classes.bottomBox}>
         <Box className={classes.folderButton}>
           <Button variant="subtle" sx={{ width: '100%', height: '100%' }} onClick={() => onClickFoldButton?.(!fold)}>
             {fold ? <FoldDown size={30} /> : <FoldUp size={30} />}
@@ -325,7 +324,7 @@ export default function Index({
         </Box>
         <Divider />
         <Box className={classes.detailBar}>{skillChooseGroup}</Box>
-      </Box>
+      </Paper>
       <Group spacing={0} className={classes.skillIconGroup}>
         {skillIconGroup}
       </Group>

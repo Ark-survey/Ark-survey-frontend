@@ -1,4 +1,4 @@
-import { CharacterType } from 'src/store/slice/characterSlice';
+import { CharacterType } from 'src/store/slice/userSlice';
 import { post } from '.';
 
 export interface Tier {

@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TierListStatistic, TierListStatisticsServer } from 'src/api/TierListStatisticServer';
 import CharContainer from 'src/components/char-container';
 import { RootState } from 'src/store';
-import { CharacterType } from 'src/store/slice/characterSlice';
+import { CharacterType } from 'src/store/slice/userSlice';
 import { updateKey1, updateKey2 } from 'src/store/slice/TierListStatisticsSlice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { treeToArray } from 'src/utils/TreeUtils';

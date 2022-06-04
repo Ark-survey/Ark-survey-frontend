@@ -83,10 +83,11 @@ const CACHE_NAME = 'Cache'; // 可以为Cache版本号，但这样可能会导�
 let cacheList = [
   'https://img.yituliu.site/static/char_0.5.webp',
   'https://img.yituliu.site/static/skill_0.5.webp',
+  'https://img.yituliu.site/static/uniequip_0.5.webp',
   'https://img.yituliu.site/static/char_0.5.json',
   'https://img.yituliu.site/static/skill_0.5.json',
   'https://img.yituliu.site/static/uniequip_0.5.json',
-  'https://img.yituliu.site/static/uniequip_0.5.json',
+  'https://img.yituliu.site/static/charTable.json',
 ];
 
 self.addEventListener('install', async (installEvent) => {
