@@ -1,6 +1,7 @@
 import { Box, RangeSlider } from '@mantine/core';
 import { format } from 'date-fns';
 import { timeMarks } from 'src/contexts';
+import { FilterItemBox } from './FilterItemBox';
 
 interface DateSelectProps {
   disabled?: boolean;
@@ -12,31 +13,7 @@ interface DateSelectProps {
 
 export function DateSelect({ value, classNames, onChange, label, disabled }: DateSelectProps) {
   return (
-    <Box
-      sx={{
-        margin: '20px 0',
-        border: '2px #eee solid',
-        padding: '10px',
-        borderRadius: '20px',
-        position: 'relative',
-      }}
-    >
-      {label && (
-        <Box
-          sx={{
-            position: 'absolute',
-            background: '#fff',
-            fontWeight: 600,
-            fontSize: '12px',
-            padding: '2px 5px',
-            top: '-12px',
-            left: '20px',
-          }}
-        >
-          {label}
-        </Box>
-      )}
-
+    <FilterItemBox label={label}>
       <Box sx={{ padding: '15px 8px', paddingTop: '10px' }}>
         <RangeSlider
           disabled={disabled}
@@ -66,6 +43,6 @@ export function DateSelect({ value, classNames, onChange, label, disabled }: Dat
             .filter((item) => item.label)}
         />
       </Box>
-    </Box>
+    </FilterItemBox>
   );
 }

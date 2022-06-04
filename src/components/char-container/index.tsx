@@ -76,6 +76,7 @@ interface CharContainerProps {
   metaInfo?: {
     fromTierValue?: number;
   };
+  dragDisabled?: boolean;
   children?: ReactNode;
 }
 
@@ -85,12 +86,13 @@ export default function CharContainer({
   type = 'default',
   charStatus = 'default',
   readonly = !charKey || charStatus === 'picked',
+  selecting,
+  dragDisabled = readonly || charStatus !== 'default' || selecting,
   metaInfo,
   charName,
   hidden,
   nameDisplay,
   mini,
-  selecting,
   onDelete,
   onSelectChange,
   children,
@@ -109,7 +111,7 @@ export default function CharContainer({
     () => ({
       type: ItemTypes.OPERATOR,
       item: charDragItem,
-      canDrag: charStatus === 'default' && !readonly && !isMobile && !selecting,
+      canDrag: !dragDisabled && !isMobile,
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0 : 1,
         isDragging: !!monitor.isDragging(),
@@ -146,10 +148,12 @@ export default function CharContainer({
   }, [charName, classes.nameBox]);
 
   const handleClick = () => {
-    if (selecting && type === 'tier-list') {
-      onDelete?.();
-    } else if (charStatus !== 'picked') {
-      onSelectChange?.(!selecting);
+    if (!readonly) {
+      if (selecting && type === 'tier-list') {
+        onDelete?.();
+      } else if (charStatus !== 'picked') {
+        onSelectChange?.(!selecting);
+      }
     }
   };
 

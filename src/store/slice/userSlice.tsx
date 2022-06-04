@@ -1,20 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from 'src/api/UserServer';
 
+export interface ImgPosition {
+  skillImgPosition: {
+    [key: string]: [number, number];
+  };
+  avatarImgPosition: {
+    [key: string]: [number, number];
+  };
+  uniEquipImgPosition: {
+    [key: string]: [number, number];
+  };
+}
+
 export interface UserType {
   menuOpen: boolean;
   newTierList: boolean;
   viewPageId: string;
   version: string;
   userData?: User;
-  imgPosition: {
-    skillImgPosition: {
-      [key: string]: [number, number];
-    };
-    avatarImgPosition: {
-      [key: string]: [number, number];
-    };
-  };
+  imgPosition: ImgPosition;
 }
 
 const initialState: UserType = {
@@ -25,7 +30,7 @@ const initialState: UserType = {
   userData: {
     id: '',
   },
-  imgPosition: { skillImgPosition: {}, avatarImgPosition: {} },
+  imgPosition: { skillImgPosition: {}, avatarImgPosition: {}, uniEquipImgPosition: {} },
 };
 
 export const userSlice = createSlice({

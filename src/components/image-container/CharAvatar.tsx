@@ -13,7 +13,7 @@ export default function CharAvatar({ imgKey, width = 90, flowWidthRef }: HeaderP
   const { avatarImgPosition } = useSelector((state: RootState) => state.user.imgPosition);
   return (
     <ImageContainer
-      url="https://arksurvey-1258424659.cos.ap-shanghai.myqcloud.com/static/avatar_0.5.webp"
+      url="https://img.yituliu.site/static/char_0.5.webp"
       width={width}
       originWidth={90}
       flowWidthRef={flowWidthRef}

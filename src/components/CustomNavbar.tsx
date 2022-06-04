@@ -11,7 +11,6 @@ import {
   ChartBar,
   CheckupList,
   Copy,
-  Hanger,
   Home,
   Notebook,
   School,
@@ -63,7 +62,12 @@ export default function Index() {
         })}
       >
         <NavItem title={t('nav.basic')} leftIcon={<School />} disabled />
-        <NavItem title={t('nav.char')} leftIcon={<CheckupList />} disabled />
+        <NavItem
+          title={t('nav.char')}
+          to="/charBox"
+          leftIcon={<CheckupList />}
+          selecting={location.pathname === '/charBox'}
+        />
         <NavItem
           to="/tierList"
           title={t('nav.strong')}
@@ -82,10 +86,10 @@ export default function Index() {
       >
         <NavItem title={t('nav.note')} leftIcon={<Notebook />} disabled />
         <NavItem
-          title={t('nav.static')}
+          title={t('nav.statistics')}
           leftIcon={<ChartBar />}
-          selecting={location.pathname === '/static'}
-          to="/static"
+          selecting={location.pathname === '/statistics'}
+          to="/statistics"
         />
       </Navbar.Section>
       <Navbar.Section

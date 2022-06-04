@@ -12,7 +12,7 @@ export default function SkillIcon({ imgKey, width = 64, flowWidthRef }: HeaderPr
   const { skillImgPosition } = useSelector((state: RootState) => state.user.imgPosition);
   return (
     <ImageContainer
-      url="https://arksurvey-1258424659.cos.ap-shanghai.myqcloud.com/static/skill_0.5.webp"
+      url="https://img.yituliu.site/static/skill_0.5.webp"
       width={width}
       originWidth={64}
       flowWidthRef={flowWidthRef}

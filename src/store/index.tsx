@@ -5,6 +5,7 @@ import filterReducer from './slice/filterSlice';
 import tierListTypeReducer from './slice/tierListTypeSlice';
 import TierListReducer from './slice/TierListSlice';
 import userReducer from './slice/userSlice';
+import settingReducer from './slice/settingSlice';
 import TierListStatisticsReducer from './slice/TierListStatisticsSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   tierList: TierListReducer,
   tierListStatistics: TierListStatisticsReducer,
   user: userReducer,
+  setting: settingReducer,
 });
 
 const persistConfig = {

@@ -1,5 +1,5 @@
 import { Box } from '@mantine/core';
-import CharDataUnit from './CharDataUnit';
+import CharDataUnit from '../../components/CharDataUnit';
 export default function Demo() {
   return (
     <Box p="lg">

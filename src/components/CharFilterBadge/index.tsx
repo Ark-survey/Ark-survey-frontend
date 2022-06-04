@@ -4,8 +4,6 @@ import { rarity, profession, accessChannel, sex, position } from 'src/contexts';
 import { filterHeightState, changeChipGroup, changeDateRange, reset } from 'src/store/slice/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import { ChipGroups } from '../components/ChipGroups';
-import { DateSelect } from '../components/DateSelect';
 import TimeBadgeBox from './TimeBadgeBox';
 import BadgeBox from './BadgeBox';
 import { useTranslation } from 'react-i18next';
@@ -43,46 +41,6 @@ export default function Index() {
     handleResetFilter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const chipGroupList = useMemo(() => {
-    return (
-      <>
-        <ChipGroups
-          disabled
-          label={t('rarity')}
-          tags={rarity}
-          values={filters.chipGroup['rarity']}
-          onChange={(values) => handleChipsChange(values, 'rarity')}
-        />
-        <ChipGroups
-          label={t('profession')}
-          tags={profession}
-          values={filters.chipGroup['profession']}
-          onChange={(values) => handleChipsChange(values, 'profession')}
-        />
-        <ChipGroups
-          disabled
-          label={t('accessChannel')}
-          tags={accessChannel}
-          values={filters.chipGroup['accessChannel']}
-          onChange={(values) => handleChipsChange(values, 'accessChannel')}
-        />
-        <ChipGroups
-          disabled
-          label={t('gender')}
-          tags={sex}
-          values={filters.chipGroup['sex']}
-          onChange={(values) => handleChipsChange(values, 'sex')}
-        />
-        <ChipGroups
-          label={t('position')}
-          tags={position}
-          values={filters.chipGroup['position']}
-          onChange={(values) => handleChipsChange(values, 'position')}
-        />
-      </>
-    );
-  }, [filters.chipGroup, handleChipsChange, t]);
 
   const filterBlock = useMemo(() => {
     if (
@@ -126,20 +84,6 @@ export default function Index() {
         position: 'relative',
       }}
     >
-      <Box
-        sx={{
-          transition: 'all 1s',
-          marginTop: filters.fold ? '-532px' : '0',
-        }}
-      >
-        <DateSelect
-          disabled
-          value={filters['dateRange']}
-          label={t('Operator-installation-time')}
-          onChange={handleDateSelectChange}
-        />
-        {chipGroupList}
-      </Box>
       <Box
         sx={{
           width: 'calc(114px + 100%)',

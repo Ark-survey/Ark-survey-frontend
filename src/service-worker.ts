@@ -81,10 +81,12 @@ self.addEventListener('message', async (event) => {
 // Any other custom service worker logic can go here.
 const CACHE_NAME = 'Cache'; // 可以为Cache版本号，但这样可能会导致缓存冗余累积
 let cacheList = [
-  'https://arksurvey-1258424659.cos.ap-shanghai.myqcloud.com/static/avatar_0.5.webp',
-  'https://arksurvey-1258424659.cos.ap-shanghai.myqcloud.com/static/skill_0.5.webp',
-  'https://arksurvey-1258424659.cos.ap-shanghai.myqcloud.com/static/avatar_0.5.json',
-  'https://arksurvey-1258424659.cos.ap-shanghai.myqcloud.com/static/skill_0.5.json',
+  'https://img.yituliu.site/static/char_0.5.webp',
+  'https://img.yituliu.site/static/skill_0.5.webp',
+  'https://img.yituliu.site/static/char_0.5.json',
+  'https://img.yituliu.site/static/skill_0.5.json',
+  'https://img.yituliu.site/static/uniequip_0.5.json',
+  'https://img.yituliu.site/static/uniequip_0.5.json',
 ];
 
 self.addEventListener('install', async (installEvent) => {
@@ -101,7 +103,7 @@ self.addEventListener('install', async (installEvent) => {
 self.addEventListener('fetch', async (event) => {
   if (/\.webp$/.test(event.request.url) || /\.json$/.test(event.request.url)) {
     const domain = event.request.url.split('/')[2];
-    event.request.url.replace(domain, 'arksurvey-1258424659.cos.ap-shanghai.myqcloud.com');
+    event.request.url.replace(domain, 'img.yituliu.site');
     // 匹配不到，返回 读取值
     event.respondWith(
       caches.open('Cache').then(async (cache) => {

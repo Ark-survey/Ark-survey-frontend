@@ -42,10 +42,10 @@
     "workbox-streams": "^6.5.3"
   },
   "scripts": {
-    "start --localBE": "REACT_APP_ORIGIN_ENV=http://localhost:3333/ react-scripts start",
-    "start": "REACT_APP_ORIGIN_ENV=https://arksurvey.yituliu.site/ react-scripts start",
-    "start:prov": "set NODE_ENV=production&&REACT_APP_ORIGIN_ENV=https://arksurvey.yituliu.site/ react-scripts start",
-    "build": "REACT_APP_ORIGIN_ENV=https://arksurvey.yituliu.site/ react-scripts build",
+    "start --localBE": "set REACT_APP_ORIGIN_ENV=http://localhost:3333/&&react-scripts start",
+    "start": "set REACT_APP_ORIGIN_ENV=https://arksurvey.yituliu.site/&&react-scripts start",
+    "start:prov": "set NODE_ENV=production&&REACT_APP_ORIGIN_ENV=https://arksurvey.yituliu.site/&&react-scripts start",
+    "build": "set REACT_APP_ORIGIN_ENV=https://arksurvey.yituliu.site/ react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

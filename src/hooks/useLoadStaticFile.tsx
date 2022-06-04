@@ -6,7 +6,7 @@ import { getImgPositionJSON } from 'src/utils/JSONLoadUtils';
 export function useLoadStaticFile() {
   const dispatch = useDispatch();
   const handleLoadImg = async () => {
-    const result = await getImgPositionJSON('https://arksurvey-1258424659.cos.ap-shanghai.myqcloud.com/static/');
+    const result = await getImgPositionJSON('https://img.yituliu.site/static/');
     dispatch(updateImgPosition(result));
   };
 

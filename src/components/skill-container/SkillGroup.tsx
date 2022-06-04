@@ -295,7 +295,7 @@ export default function Index({
   }, [classes, onSelectSkillChange, skillChoose, elite, skills]);
 
   return (
-    <Box my="xl" sx={{ position: 'relative', width: '335px', userSelect: 'none' }}>
+    <Box sx={{ position: 'relative', width: '335px', userSelect: 'none' }}>
       <Box className={classes.rankBox}>
         <Box
           sx={(theme) => ({
@@ -309,13 +309,13 @@ export default function Index({
         sx={{
           transition: 'all 0.5s',
           position: 'absolute',
-          top: 10,
+          top: 9,
           right: 16,
           fontWeight: 700,
           opacity: fold ? 0 : 1,
         }}
       >
-        技能养成
+        技能
       </Box>
       <Box className={classes.bottomBox}>
         <Box className={classes.folderButton}>

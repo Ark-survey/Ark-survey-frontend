@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { RootState } from 'src/store';
+import CharBox from './char-box';
 import Demo from './demo';
 import MainPage from './main-page';
 import NotFound from './not-found';
@@ -19,7 +20,8 @@ export function RootRouter() {
         ) : (
           <Route path="*" element={<NotFound />} />
         )}
-        <Route path="static" element={<TierListStatistics />} />
+        <Route path="charBox" element={<CharBox />} />
+        <Route path="statistics" element={<TierListStatistics />} />
         <Route path="demo" element={<Demo />} />
         <Route path="*" element={<NotFound />} />
       </Route>

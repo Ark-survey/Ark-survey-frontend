@@ -1,4 +1,5 @@
-import { Box, Chip, Chips, createStyles } from '@mantine/core';
+import { Chip, Chips, createStyles } from '@mantine/core';
+import { FilterItemBox } from './FilterItemBox';
 
 interface ChipGroupsProps {
   disabled?: boolean;
@@ -27,30 +28,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 export function ChipGroups({ tags, classNames, disabled, onChange, label, values }: ChipGroupsProps) {
   const { classes } = useStyles();
   return (
-    <Box
-      sx={{
-        margin: '20px 0',
-        border: '2px #eee solid',
-        padding: '10px',
-        borderRadius: '20px',
-        position: 'relative',
-      }}
-    >
-      {label && (
-        <Box
-          sx={{
-            position: 'absolute',
-            background: '#fff',
-            fontWeight: 600,
-            fontSize: '12px',
-            padding: '2px 5px',
-            top: '-12px',
-            left: '20px',
-          }}
-        >
-          {label}
-        </Box>
-      )}
+    <FilterItemBox label={label}>
       <Chips multiple size="xs" value={values} classNames={classes} onChange={onChange}>
         {tags.map((item) => (
           <Chip disabled={disabled} value={item.value} key={item.value}>
@@ -58,6 +36,6 @@ export function ChipGroups({ tags, classNames, disabled, onChange, label, values
           </Chip>
         ))}
       </Chips>
-    </Box>
+    </FilterItemBox>
   );
 }

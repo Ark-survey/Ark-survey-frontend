@@ -10,7 +10,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
-import { CharLevelDataType } from 'src/pages/demo/CharDataUnit';
+import { CharLevelDataType } from 'src/components/CharDataUnit';
 import { FoldDown, FoldUp } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
@@ -52,7 +52,7 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
   },
   numberInput: {},
   detailName: {
-    fontWeight: 500,
+    fontWeight: 700,
     marginTop: 4,
     fontSize: theme.fontSizes.xs,
     marginBottom: 4,
@@ -101,7 +101,10 @@ export default function Index({
           thickness={5}
           label={
             <Box sx={{ position: 'relative' }}>
-              <Text sx={{ fontSize: '12px', position: 'absolute', left: '37px', top: -5 }} align="center">
+              <Text
+                sx={{ fontSize: '12px', position: 'absolute', left: '37px', top: -5, fontWeight: 700 }}
+                align="center"
+              >
                 LV
               </Text>
               <Text sx={{ fontSize: '36px' }} align="center" weight={700}>
@@ -122,7 +125,10 @@ export default function Index({
           thickness={4}
           label={
             <Box sx={{ position: 'relative' }}>
-              <Text sx={{ fontSize: '12px', position: 'absolute', left: '15px', bottom: -35 }} align="center">
+              <Text
+                sx={{ fontSize: '12px', position: 'absolute', left: '15px', bottom: -35, fontWeight: 700 }}
+                align="center"
+              >
                 精英
               </Text>
               <Text size="xl" align="center">
@@ -139,7 +145,10 @@ export default function Index({
           thickness={4}
           label={
             <Box sx={{ position: 'relative' }}>
-              <Text sx={{ fontSize: '12px', position: 'absolute', left: '15px', bottom: -35 }} align="center">
+              <Text
+                sx={{ fontSize: '12px', position: 'absolute', left: '15px', bottom: -35, fontWeight: 700 }}
+                align="center"
+              >
                 潜能
               </Text>
               <Text size="xl" align="center">
@@ -156,7 +165,10 @@ export default function Index({
           thickness={4}
           label={
             <Box sx={{ position: 'relative' }}>
-              <Text sx={{ fontSize: '12px', position: 'absolute', left: '15px', bottom: -35 }} align="center">
+              <Text
+                sx={{ fontSize: '12px', position: 'absolute', left: '15px', bottom: -35, fontWeight: 700 }}
+                align="center"
+              >
                 信赖
               </Text>
               <Text size="xl" align="center">
@@ -174,10 +186,9 @@ export default function Index({
           top: 9,
           right: 16,
           fontWeight: 700,
-          opacity: fold ? 0 : 1,
         }}
       >
-        数值养成
+        数值
       </Box>
       <Box className={classes.bottomBox}>
         <Box className={classes.folderButton}>
@@ -201,6 +212,9 @@ export default function Index({
               value={charLevelData?.level ?? 1}
               onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, level: value ?? 1 })}
               label="等级"
+              labelProps={{
+                style: { fontWeight: 700 },
+              }}
               size="xs"
               min={1}
               max={maxLevelVerifyRule[charLevelData.elite][charLevelData.rarity]}
@@ -211,6 +225,9 @@ export default function Index({
               value={charLevelData?.potentialLevel ?? 0}
               onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, potentialLevel: value ?? 0 })}
               label="潜能"
+              labelProps={{
+                style: { fontWeight: 700 },
+              }}
               size="xs"
               min={verifyRule['potentialLevel'][0]}
               max={verifyRule['potentialLevel'][1]}
@@ -221,6 +238,9 @@ export default function Index({
               value={charLevelData?.trust ?? 0}
               onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, trust: value ?? 0 })}
               label="信赖"
+              labelProps={{
+                style: { fontWeight: 700 },
+              }}
               size="xs"
               min={verifyRule['trust'][0]}
               max={verifyRule['trust'][1]}
