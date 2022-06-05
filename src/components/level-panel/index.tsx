@@ -11,7 +11,10 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Character } from 'src/api/CharBoxServer';
 import { CharLevelDataType } from 'src/components/CharDataUnit';
+import { RootState } from 'src/store';
 import { FoldDown, FoldUp } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
@@ -61,8 +64,8 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
 }));
 
 interface LevelPanelProps {
-  charLevelData: CharLevelDataType;
-  onCharLevelDataChange?: (charLevelData: CharLevelDataType) => void;
+  data: Character;
+  onCharBasicDataChange?: (charBasicData: Character) => void;
   verifyRule: { [key: string]: [number, number] };
   maxEliteVerifyRule: number[];
   maxLevelVerifyRule: number[][];
@@ -75,14 +78,17 @@ interface LevelPanelProps {
 // 使用 flowWidthRef 的时候会忽略 width，跟随指定元素的宽度
 export default function Index({
   onClickFoldButton,
-  charLevelData,
+  data,
   verifyRule,
   maxEliteVerifyRule,
   maxLevelVerifyRule,
   fold = false,
-  onCharLevelDataChange,
+  onCharBasicDataChange,
 }: LevelPanelProps) {
   const { classes, cx } = useStyles({ fold });
+  const { charData } = useSelector((state: RootState) => state.user);
+
+  const rarity = charData[data.key].rarity;
 
   const eliteData = useMemo(() => {
     const result = [
@@ -90,8 +96,8 @@ export default function Index({
       { value: '1', label: '精一' },
       { value: '2', label: '精二' },
     ];
-    return result.filter((it, index) => index <= maxEliteVerifyRule[charLevelData.rarity]);
-  }, [charLevelData.rarity, maxEliteVerifyRule]);
+    return result.filter((it, index) => index <= maxEliteVerifyRule[rarity]);
+  }, [maxEliteVerifyRule, rarity]);
 
   return (
     <Paper shadow="md" withBorder className={classes.container}>
@@ -108,14 +114,13 @@ export default function Index({
                 LV
               </Text>
               <Text sx={{ fontSize: '36px' }} align="center" weight={700}>
-                {charLevelData?.level ?? 1}
+                {data?.level ?? 1}
               </Text>
             </Box>
           }
           sections={[
             {
-              value:
-                ((charLevelData?.level ?? 1) * 100) / maxLevelVerifyRule[charLevelData.elite][charLevelData.rarity],
+              value: ((data?.level ?? 1) * 100) / maxLevelVerifyRule[data.elite][rarity],
               color: 'yellow',
             },
           ]}
@@ -132,13 +137,11 @@ export default function Index({
                 精英
               </Text>
               <Text size="xl" align="center">
-                {charLevelData?.elite ?? 0}
+                {data?.elite ?? 0}
               </Text>
             </Box>
           }
-          sections={[
-            { value: ((charLevelData?.elite ?? 0) * 100) / maxEliteVerifyRule[charLevelData.rarity], color: 'green' },
-          ]}
+          sections={[{ value: ((data?.elite ?? 0) * 100) / maxEliteVerifyRule[rarity], color: 'green' }]}
         />
         <RingProgress
           size={70}
@@ -152,13 +155,11 @@ export default function Index({
                 潜能
               </Text>
               <Text size="xl" align="center">
-                {charLevelData?.potentialLevel ?? 0}
+                {data?.potentialLevel ?? 0}
               </Text>
             </Box>
           }
-          sections={[
-            { value: ((charLevelData?.potentialLevel ?? 0) * 100) / verifyRule['potentialLevel'][1], color: 'blue' },
-          ]}
+          sections={[{ value: ((data?.potentialLevel ?? 0) * 100) / verifyRule['potentialLevel'][1], color: 'blue' }]}
         />
         <RingProgress
           size={70}
@@ -172,11 +173,11 @@ export default function Index({
                 信赖
               </Text>
               <Text size="xl" align="center">
-                {charLevelData?.trust ?? 0}
+                {data?.trust ?? 0}
               </Text>
             </Box>
           }
-          sections={[{ value: ((charLevelData?.trust ?? 0) * 100) / verifyRule['trust'][1], color: 'orange' }]}
+          sections={[{ value: ((data?.trust ?? 0) * 100) / verifyRule['trust'][1], color: 'orange' }]}
         />
       </Box>
       <Box
@@ -201,29 +202,29 @@ export default function Index({
           <Grid.Col span={6} className={classes.detailBarSlider}>
             <Box className={classes.detailName}>精英阶段</Box>
             <SegmentedControl
-              value={charLevelData.elite.toString()}
-              onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, elite: parseInt(value ?? '0', 10) })}
+              value={data.elite.toString()}
+              onChange={(value) => onCharBasicDataChange?.({ ...data, elite: parseInt(value ?? '0', 10) })}
               size="xs"
               data={eliteData}
             />
           </Grid.Col>
           <Grid.Col span={6} className={classes.numberInput}>
             <NumberInput
-              value={charLevelData?.level ?? 1}
-              onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, level: value ?? 1 })}
+              value={data?.level ?? 1}
+              onChange={(value) => onCharBasicDataChange?.({ ...data, level: value ?? 1 })}
               label="等级"
               labelProps={{
                 style: { fontWeight: 700 },
               }}
               size="xs"
               min={1}
-              max={maxLevelVerifyRule[charLevelData.elite][charLevelData.rarity]}
+              max={maxLevelVerifyRule[data.elite][rarity]}
             />
           </Grid.Col>
           <Grid.Col span={6} className={classes.numberInput}>
             <NumberInput
-              value={charLevelData?.potentialLevel ?? 0}
-              onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, potentialLevel: value ?? 0 })}
+              value={data?.potentialLevel ?? 0}
+              onChange={(value) => onCharBasicDataChange?.({ ...data, potentialLevel: value ?? 0 })}
               label="潜能"
               labelProps={{
                 style: { fontWeight: 700 },
@@ -235,8 +236,8 @@ export default function Index({
           </Grid.Col>
           <Grid.Col span={6} className={classes.numberInput}>
             <NumberInput
-              value={charLevelData?.trust ?? 0}
-              onChange={(value) => onCharLevelDataChange?.({ ...charLevelData, trust: value ?? 0 })}
+              value={data?.trust ?? 0}
+              onChange={(value) => onCharBasicDataChange?.({ ...data, trust: value ?? 0 })}
               label="信赖"
               labelProps={{
                 style: { fontWeight: 700 },

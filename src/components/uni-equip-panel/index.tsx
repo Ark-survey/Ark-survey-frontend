@@ -1,6 +1,8 @@
 import { Box, Button, Center, createStyles, Paper, SegmentedControl, Space, Stack } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
-import { UniEquipDataType } from 'src/components/CharDataUnit';
+import { useSelector } from 'react-redux';
+import { Character, Module } from 'src/api/CharBoxServer';
+import { RootState } from 'src/store';
 import { ChevronsDown, ChevronsUp } from 'tabler-icons-react';
 import UniEquipImg from '../image-container/UniEquipImg';
 
@@ -19,24 +21,20 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
 
 interface UniEquipPanelProps {
   fold?: boolean;
-  uniEquipData: { [key: string]: UniEquipDataType } | null;
-  selectUniEquip: string;
-  elite: number;
+  data: Character;
   onClickFoldButton?: (value: boolean) => void;
   onSelectUniEquipChange?: (key: string) => void;
-  onUniEquipLevelChange?: (level: number) => void;
+  onUniEquipLevelChange?: (level: number, char: Character) => void;
 }
 
 // 等比缩放
 // 使用 flowWidthRef 的时候会忽略 width，跟随指定元素的宽度
 export default function Index({
-  uniEquipData,
+  data,
   fold = false,
-  selectUniEquip,
   onClickFoldButton,
   onSelectUniEquipChange,
   onUniEquipLevelChange,
-  elite,
 }: UniEquipPanelProps) {
   const segmentedControlData = useMemo(
     () => [
@@ -46,14 +44,29 @@ export default function Index({
     ],
     [],
   );
+  const { charData } = useSelector((state: RootState) => state.user);
   const { classes, cx } = useStyles({ fold });
+  const equips = useMemo(() => {
+    const result: { [key: string]: any } = {};
+    Object.keys(charData[data.key].equips).forEach((it, index) => {
+      if (index === 0) {
+        result['default'] = { ...charData[data.key].equips[it] };
+        return;
+      }
+      result[it] = {
+        ...charData[data.key].equips[it],
+      };
+    });
+
+    return result;
+  }, [charData, data.key]);
 
   const findCurrentAroundNode = useMemo(() => {
     let frontKey = '';
     let backKey = '';
-    if (uniEquipData) {
-      const keys = Object.keys(uniEquipData);
-      const currentKeyIndex = keys.findIndex((value) => value === selectUniEquip);
+    const keys = Object.keys(equips);
+    if (keys.length > 0) {
+      const currentKeyIndex = keys.findIndex((value) => value === data.moduleUse);
       if (currentKeyIndex > 0) {
         frontKey = keys[currentKeyIndex - 1];
       }
@@ -62,7 +75,7 @@ export default function Index({
       }
     }
     return { frontKey, backKey };
-  }, [selectUniEquip, uniEquipData]);
+  }, [data.moduleUse, equips]);
 
   const handleDisplayChange = useCallback(
     (action: 'up' | 'down') => {
@@ -89,7 +102,7 @@ export default function Index({
           fontWeight: 700,
         }}
       >
-        {elite === 2 && uniEquipData?.[selectUniEquip].name}
+        {data.elite === 2 && equips?.[data.moduleUse]?.name}
       </Box>
       <Box
         sx={{
@@ -103,7 +116,7 @@ export default function Index({
         模组
       </Box>
       <Paper withBorder shadow="md" className={classes.container}>
-        {uniEquipData && elite === 2 ? (
+        {Object.keys(equips).length > 0 && data.elite === 2 ? (
           <>
             {/* <UniEquipImg imgKey="default" width={128} /> */}
             <Stack sx={{ width: '40px' }} spacing={0}>
@@ -127,7 +140,7 @@ export default function Index({
               </Button>
             </Stack>
             <Box sx={{ flex: '1', display: 'flex', flexDirection: 'row-reverse' }}>
-              {selectUniEquip && selectUniEquip !== 'default' ? (
+              {data.moduleUse !== 'default' ? (
                 <>
                   <Box
                     sx={{
@@ -144,8 +157,8 @@ export default function Index({
                     <Box sx={{ fontSize: '12px', fontWeight: 700, textAlign: 'center', minWidth: 44 }}>等级</Box>
                     <Space h={5} />
                     <SegmentedControl
-                      value={uniEquipData?.[selectUniEquip].level.toString()}
-                      onChange={(value) => onUniEquipLevelChange?.(parseInt(value, 10))}
+                      value={data.module?.[data.moduleUse]?.level.toString()}
+                      onChange={(value) => onUniEquipLevelChange?.(parseInt(value, 10), data)}
                       data={segmentedControlData}
                       size="xs"
                       orientation="vertical"
@@ -194,14 +207,14 @@ export default function Index({
                       />
                     </Box>
                     <Box sx={{ width: '18px', height: '40px', position: 'absolute', background: '#fff', zIndex: 100 }}>
-                      {uniEquipData?.[selectUniEquip].level}
+                      {data.module?.[data.moduleUse]?.level}
                     </Box>
                   </Center>
                 </>
               ) : (
                 <Center sx={{ flex: '1', fontWeight: 500, color: '#ccc' }}>NO INFO</Center>
               )}
-              <UniEquipImg imgKey={selectUniEquip} width={150} />
+              <UniEquipImg imgKey={data.moduleUse} width={150} />
               <Box sx={{ borderLeft: '1px solid #ccc' }} />
             </Box>
           </>

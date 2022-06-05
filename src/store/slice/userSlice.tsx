@@ -15,17 +15,23 @@ export interface ImgPosition {
 
 export interface CharacterType {
   key: string;
-  id?: string;
-  name?: string;
-  profession?: string;
-  sex?: string;
-  rarity?: number;
-  deployment?: string;
-  accessChannel?: string;
+  equips: { [key: string]: { name: string } };
+  isNotObtainable: false;
+  isSpChar: false;
+  maxPotentialLevel: number;
+  name: string;
+  nationId: string;
+  position: string;
+  profession: string;
+  rarity: 4;
+  skills: { [key: string]: { index: number; name: string } };
+  skins: { [key: string]: { name: string } };
+  subProfessionId: string;
+  tagList: string[];
   ts?: number;
-  imgUrl?: string;
-  picked?: boolean;
+  accessChannel?: string;
   selecting?: boolean;
+  picked?: boolean;
 }
 
 export interface UserType {

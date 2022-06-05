@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { useDrag } from 'react-dnd';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from 'src/hooks';
-import CharAvatar from '../image-container/CharAvatar';
 import { useClickOutside } from '@mantine/hooks';
 import SkillIcon from '../image-container/SkillIcon';
 
@@ -11,23 +10,23 @@ export const ItemTypes = {
   OPERATOR: 'Operator',
 };
 
-export type CharContainerType = 'default' | 'tier-list';
+export type SkillContainerType = 'default' | 'tier-list';
 
-export type CharContainerStatus = 'default' | 'picked';
+export type SkillContainerStatus = 'default' | 'picked';
 
-interface CharContainerStyleProps {
+interface SkillContainerStyleProps {
   mini?: boolean;
   selecting?: boolean;
-  type?: CharContainerType;
+  type?: SkillContainerType;
 }
 
-const useStyles = createStyles((theme, { mini, type, selecting }: CharContainerStyleProps) => ({
+const useStyles = createStyles((theme, { mini, type, selecting }: SkillContainerStyleProps) => ({
   avatarBox: {
     userSelect: 'none',
     width: mini ? 30 : 60,
     minWidth: mini ? 30 : 60,
     height: mini ? 30 : 60,
-    // flex: type === CharListItemType.NORMAL ? 'auto' : '',
+    // flex: type === SkillListItemType.NORMAL ? 'auto' : '',
     overflow: 'hidden',
     position: 'relative',
     zIndex: 100,
@@ -53,41 +52,41 @@ const useStyles = createStyles((theme, { mini, type, selecting }: CharContainerS
   },
 }));
 
-export interface CharDragItem {
-  type?: CharContainerType;
+export interface SkillDragItem {
+  type?: SkillContainerType;
   skillKey?: string;
   fromTierValue?: number;
 }
 
-interface CharContainerProps {
-  type?: CharContainerType;
+interface SkillContainerProps {
+  type?: SkillContainerType;
   skillKey?: string;
-  charName?: string;
+  skillName?: string;
   nameDisplay?: boolean;
   readonly?: boolean;
   mini?: boolean;
   selecting?: boolean;
   onSelectChange?: (value: boolean) => void;
   onDelete?: () => void;
-  charStatus?: CharContainerStatus;
+  skillStatus?: SkillContainerStatus;
   metaInfo?: {
     fromTierValue?: number;
   };
 }
 
-export default function CharContainer({
+export default function SkillContainer({
   skillKey,
   type = 'default',
   readonly = !skillKey,
   metaInfo,
-  charStatus = 'default',
-  charName,
+  skillStatus = 'default',
+  skillName,
   nameDisplay,
   mini,
   selecting,
   onDelete,
   onSelectChange,
-}: CharContainerProps) {
+}: SkillContainerProps) {
   const parent = useClickOutside(() => selecting && onSelectChange?.(!selecting), ['mouseup', 'touchend']);
   const { classes } = useStyles({ mini, type, selecting });
   const { t } = useTranslation();
@@ -109,12 +108,12 @@ export default function CharContainer({
         }}
       >
         <Box>
-          {charStatus === 'picked' && t('picked')}
-          {selecting && type === 'tier-list' && t('charContainer.delete')}
+          {skillStatus === 'picked' && t('picked')}
+          {selecting && type === 'tier-list' && t('skillContainer.delete')}
         </Box>
       </Overlay>
     );
-  }, [mini, t, charStatus, selecting, type]);
+  }, [mini, t, skillStatus, selecting, type]);
 
   const handleClick = () => {
     if (selecting && type === 'tier-list') {

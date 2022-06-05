@@ -1,38 +1,42 @@
 import { Box, createStyles, Group } from '@mantine/core';
 import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { Character } from 'src/api/CharBoxServer';
 import { CharSkinType } from 'src/components/CharDataUnit';
+import { RootState } from 'src/store';
 import CharContainer from '../char-container';
 import PanelContainer from '../PanelContainer';
 
 const useStyles = createStyles((theme) => ({}));
 
 interface LevelPanelProps {
-  skins: { [key: string]: CharSkinType };
+  data: Character;
   selectedSkinKey: string;
   onSelectChange?: (key: string) => void;
 }
 
-export default function Index({ skins, selectedSkinKey, onSelectChange }: LevelPanelProps) {
+export default function Index({ data, selectedSkinKey, onSelectChange }: LevelPanelProps) {
+  const { charData } = useSelector((state: RootState) => state.user);
+
   const skinList = useMemo(() => {
-    return Object.keys(skins).map((key) => {
+    const charAllSkins = charData[data?.key]?.skins ?? [];
+    // const skins = Object.values(charData).filter((it) => it.key);
+    return Object.keys(charAllSkins).map((key) => {
       return (
         <CharContainer
           key={key}
           charKey={key}
-          onSelectChange={() => {
-            console.log(key);
-          }}
+          onSelectChange={() => onSelectChange?.(key)}
+          sx={{ background: data.skinUse === key ? 'yellow' : undefined }}
           dragDisabled
         />
       );
     });
-  }, [skins]);
+  }, [charData, data.key, data.skinUse, onSelectChange]);
 
   return (
     <PanelContainer>
-      <Box sx={{ width: 500 }}>
-        <Group>{skinList}</Group>
-      </Box>
+      <Group sx={{ marginRight: '20px' }}>{skinList}</Group>
     </PanelContainer>
   );
 }

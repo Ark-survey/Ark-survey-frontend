@@ -1,9 +1,9 @@
 import { Affix, Box, Paper, Divider, Title, ActionIcon, Stack } from '@mantine/core';
-import CharacterList from './CharExchangeBox/CharList';
 import { Exchange, Filter } from 'tabler-icons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
 import { RootState } from 'src/store';
+import CharBoxList from './CharExchangeBox/CharBoxList';
 
 export default function Index({ onClickFilter }: { onClickFilter: () => void }) {
   const { charBoxEditing } = useSelector((state: RootState) => state.setting);
@@ -19,12 +19,12 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
           <ActionIcon color="blue" onClick={onClickFilter}>
             <Filter />
           </ActionIcon>
-          <Title order={5} px={5}>
+          {/* <Title order={5} px={5}>
             干员盒
-          </Title>
+          </Title> */}
         </Stack>
-        <Box sx={{ height: '100%', overflow: 'auto' }}>
-          <CharacterList />
+        <Box sx={{ height: '100%', overflow: 'auto', flex: 1 }}>
+          <CharBoxList />
         </Box>
       </Paper>
     </Affix>

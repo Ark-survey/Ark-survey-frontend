@@ -6,6 +6,7 @@ import { ChevronsDown, ChevronsUp, Exchange } from 'tabler-icons-react';
 import { useTranslation } from 'react-i18next';
 import CharList from './CharList';
 import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
+import CharBoxList from './CharBoxList';
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -43,7 +44,7 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
           </Group>
         </Header>
         <Divider />
-        {!charBoxEditing && (
+        {!charBoxEditing ? (
           <>
             <ScrollArea sx={{ height: '370px' }}>
               <CharList />
@@ -58,11 +59,15 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
               </Button>
             </Group>
             <Divider />
+            <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '' }}>
+              <CharList />
+            </ScrollArea>
           </>
+        ) : (
+          <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '' }}>
+            <CharBoxList />
+          </ScrollArea>
         )}
-        <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '' }}>
-          <CharList />
-        </ScrollArea>
         <Divider />
         <Group position="center">
           <Button

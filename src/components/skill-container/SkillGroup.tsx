@@ -1,5 +1,8 @@
 import { Box, Group, createStyles, Button, SegmentedControl, Divider, Paper } from '@mantine/core';
 import { ReactNode, useCallback, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Character } from 'src/api/CharBoxServer';
+import { RootState } from 'src/store';
 import { Check, FoldDown, FoldUp } from 'tabler-icons-react';
 import SkillContainer from '.';
 
@@ -89,33 +92,24 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
 }));
 
 interface SkillGroupProps {
-  skills: {
-    [key: string]: {
-      key: string;
-      name: string;
-      level: number;
-    };
-  };
-  elite: number;
-  skillChoose?: string;
+  data: Character;
   fold?: boolean;
   onClickFoldButton?: (value: boolean) => void;
   onSelectSkillChange?: (key: string) => void;
-  onSkillLevelChange?: (v: string, skills: any) => void;
+  onSkillLevelChange?: (v: string, char: Character, skills: any) => void;
 }
 
 export default function Index({
-  skills,
-  elite,
-  skillChoose,
+  data,
   fold = false,
   onClickFoldButton,
   onSelectSkillChange,
   onSkillLevelChange,
 }: SkillGroupProps) {
   const { classes, cx } = useStyles({ fold });
-
-  const data = useMemo(() => {
+  const { elite, skill, skillUse } = data;
+  const { charData } = useSelector((state: RootState) => state.user);
+  const segmentedControlData = useMemo(() => {
     const result = [
       { label: '1', value: '1' },
       { label: '2', value: '2' },
@@ -134,131 +128,112 @@ export default function Index({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elite]);
 
-  const skillChooseGroup = useMemo(() => {
-    const node: ReactNode[] = [];
-    Object.keys(skills).forEach((key, index) => {
-      if (index <= elite) {
-        node.push(
-          <Box key={skills[key].key} className={classes.detailBarSlider}>
-            <Box className={classes.detailSkillName}>{skills[key].name}</Box>
-
-            <SegmentedControl
-              value={skills[key].level.toString()}
-              onChange={(v) => onSkillLevelChange?.(v, key)}
-              size="xs"
-              sx={{ height: 22.5 }}
-              data={data}
-            />
-          </Box>,
-        );
-      }
-    });
-    new Array(3 - node.length).fill(0).forEach((v, index) => {
-      node.push(
-        <Box key={index} className={cx(classes.detailBarSlider, classes.detailBarSliderNoInfo)}>
-          NO INFO
-        </Box>,
-      );
-    });
-    return node;
-  }, [classes, cx, data, elite, onSkillLevelChange, skills]);
+  const skillData = charData[data.key].skills;
 
   const skillIconGroup = useMemo(() => {
     const node: ReactNode[] = [];
-    Object.keys(skills).forEach((key, index) => {
-      if (index <= elite) {
-        const it = skills[key];
-        node.push(
-          <Box
-            key={it.key}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              flexFlow: 'wrap',
-              maxWidth: '80px',
-              position: 'relative',
-              userSelect: 'none',
-              cursor: 'pointer',
-            }}
-            onClick={() => onSelectSkillChange?.(it.key)}
-          >
-            {it.level >= 7 && (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  fontSize: '12px',
-                  textAlign: 'center',
-                  color: '#fff',
-                  left: '5px',
-                  top: '5px',
-                  width: '16px',
-                  height: '16px',
-                  zIndex: 400,
-                  background: 'rgba(0,0,0,0.8)',
-                }}
-              >
-                <Box
-                  className={classes.skillELevel}
-                  sx={{ top: 2, left: 5, background: it.level > 7 ? '#fff' : '#777' }}
-                />
-                <Box
-                  className={classes.skillELevel}
-                  sx={{ bottom: 2, left: 8.5, background: it.level > 9 ? '#fff' : '#777' }}
-                />
-                <Box
-                  className={classes.skillELevel}
-                  sx={{ bottom: 2, left: 1.5, background: it.level > 8 ? '#fff' : '#777' }}
-                />
-              </Box>
-            )}
-            {skillChoose === it.key && (
-              <>
+    Object.keys(skillData)
+      .sort((a, b) => skillData[a].index - skillData[b].index)
+      .forEach((key, index) => {
+        if (index <= elite) {
+          const it = skill[key];
+          node.push(
+            <Box
+              key={it.key}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                flexFlow: 'wrap',
+                maxWidth: '80px',
+                position: 'relative',
+                userSelect: 'none',
+                cursor: 'pointer',
+              }}
+              onClick={() => onSelectSkillChange?.(it.key)}
+            >
+              {it.level >= 7 && (
                 <Box
                   sx={{
                     position: 'absolute',
                     fontSize: '12px',
                     textAlign: 'center',
                     color: '#fff',
-                    right: '5px',
+                    left: '5px',
                     top: '5px',
-                    width: 0,
-                    height: 0,
-                    zIndex: 300,
-                    border: '14px solid transparent',
-                    borderTop: '14px solid rgba(14,140,226,0.9)',
-                    borderRight: '14px solid rgba(14,140,226,0.9)',
-                  }}
-                />
-                <Box
-                  sx={{
-                    position: 'absolute',
-                    color: '#fff',
-                    right: '2px',
-                    top: '2px',
-                    zIndex: 300,
-                    transform: 'scale(0.65)',
+                    width: '16px',
+                    height: '16px',
+                    zIndex: 400,
+                    background: 'rgba(0,0,0,0.8)',
                   }}
                 >
-                  <Check />
+                  <Box
+                    className={classes.skillELevel}
+                    sx={{ top: 2, left: 5, background: it.level > 7 ? '#fff' : '#777' }}
+                  />
+                  <Box
+                    className={classes.skillELevel}
+                    sx={{ bottom: 2, left: 8.5, background: it.level > 9 ? '#fff' : '#777' }}
+                  />
+                  <Box
+                    className={classes.skillELevel}
+                    sx={{ bottom: 2, left: 1.5, background: it.level > 8 ? '#fff' : '#777' }}
+                  />
                 </Box>
-              </>
-            )}
-            <SkillContainer skillKey={it.key} />
-            <Box
-              className={classes.skillName}
-              sx={{
-                transform:
-                  'scale( ' +
-                  (it.name.length < 5 ? 1.1 : it.name.length < 6 ? 1 : it.name.length < 8 ? 0.9 : 0.8) +
-                  ')',
-              }}
-            >
-              {it.name}
-            </Box>
-          </Box>,
-        );
-      }
-    });
+              )}
+              {skillUse === it.key && (
+                <>
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      fontSize: '12px',
+                      textAlign: 'center',
+                      color: '#fff',
+                      right: '5px',
+                      top: '5px',
+                      width: 0,
+                      height: 0,
+                      zIndex: 300,
+                      border: '14px solid transparent',
+                      borderTop: '14px solid rgba(14,140,226,0.9)',
+                      borderRight: '14px solid rgba(14,140,226,0.9)',
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      color: '#fff',
+                      right: '2px',
+                      top: '2px',
+                      zIndex: 300,
+                      transform: 'scale(0.65)',
+                    }}
+                  >
+                    <Check />
+                  </Box>
+                </>
+              )}
+              <SkillContainer skillKey={it.key} />
+              <Box
+                className={classes.skillName}
+                sx={{
+                  transform:
+                    'scale( ' +
+                    (skillData[it.key].name.length < 5
+                      ? 1.1
+                      : skillData[it.key].name.length < 6
+                      ? 1
+                      : skillData[it.key].name.length < 8
+                      ? 0.9
+                      : 0.8) +
+                    ')',
+                }}
+              >
+                {skillData[it.key].name}
+              </Box>
+            </Box>,
+          );
+        }
+      });
     new Array(3 - node.length).fill(0).forEach((v, index) => {
       node.push(
         <Box
@@ -291,7 +266,7 @@ export default function Index({
       );
     });
     return node;
-  }, [classes, onSelectSkillChange, skillChoose, elite, skills]);
+  }, [skill, elite, classes.skillELevel, classes.skillName, skillUse, skillData, onSelectSkillChange]);
 
   return (
     <Box sx={{ position: 'relative', width: '335px', userSelect: 'none' }}>
@@ -301,7 +276,7 @@ export default function Index({
             padding: '10px',
           })}
         >
-          {'Rank ' + (skills?.[skillChoose ?? '']?.level > 6 ? 7 : skills?.[skillChoose ?? '']?.level ?? 1)}
+          {'Rank ' + (skill[skillUse]?.level > 6 ? 7 : skill[skillUse]?.level ?? 1)}
         </Box>
       </Box>
       <Box
@@ -323,7 +298,32 @@ export default function Index({
           </Button>
         </Box>
         <Divider />
-        <Box className={classes.detailBar}>{skillChooseGroup}</Box>
+        <Box className={classes.detailBar}>
+          {Object.keys(skillData)
+            .sort((a, b) => skillData[a].index - skillData[b].index)
+            .map((key, index) => {
+              if (index <= elite) {
+                return (
+                  <Box key={key} className={classes.detailBarSlider}>
+                    <Box className={classes.detailSkillName}>{skillData[key]?.name}</Box>
+                    <SegmentedControl
+                      value={skill[key].level.toString()}
+                      onChange={(v) => onSkillLevelChange?.(v, data, key)}
+                      size="xs"
+                      sx={{ height: 22.5 }}
+                      data={segmentedControlData}
+                    />
+                  </Box>
+                );
+              } else {
+                return (
+                  <Box key={index} className={cx(classes.detailBarSlider, classes.detailBarSliderNoInfo)}>
+                    NO INFO
+                  </Box>
+                );
+              }
+            })}
+        </Box>
       </Paper>
       <Group spacing={0} className={classes.skillIconGroup}>
         {skillIconGroup}
