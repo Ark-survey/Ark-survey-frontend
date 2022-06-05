@@ -23,13 +23,13 @@ export default function CharacterList() {
       })
       .map((character) => (
         <CharContainer
-          key={character?.key}
+          key={charInBox[character.key].skinUse}
           selecting={editingCharKey === character?.key}
           onSelectChange={() => dispatch(updateEditingCharKey(character?.key))}
-          charKey={character?.key ?? ''}
+          charKey={charInBox[character.key].skinUse ?? ''}
           charName={character?.name ?? ''}
           nameDisplay
-          mini
+          mini={false}
           dragDisabled
         />
       ));
