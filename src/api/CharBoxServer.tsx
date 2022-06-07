@@ -10,6 +10,7 @@ export interface Module {
 export interface Skill {
   key: string; // 技能key
   level: number; // 技能等级 1 到 10
+  iconId?: string | null; // 技能图标id
 }
 
 // 干员

@@ -23,8 +23,8 @@ export interface CharacterType {
   nationId: string;
   position: string;
   profession: string;
-  rarity: 4;
-  skills: { [key: string]: { index: number; name: string } };
+  rarity: number;
+  skills: { [key: string]: { index: number; name: string; iconId: string } };
   skins: { [key: string]: { name: string } };
   subProfessionId: string;
   tagList: string[];

@@ -3,6 +3,8 @@ import { Character } from 'src/api/CharBoxServer';
 
 export interface CharBoxType {
   charInBox: { [key: string]: Character };
+  charSelectInBox: string[];
+  charSelectOutBox: string[];
   editingCharKey: string;
 }
 
@@ -70,6 +72,8 @@ const initialState: CharBoxType = {
       favorite: false,
     },
   },
+  charSelectInBox: [],
+  charSelectOutBox: [],
   editingCharKey: 'char_291_aglina',
 };
 
@@ -115,6 +119,20 @@ export const charBoxSlice = createSlice({
      */
     updateEditingCharKey: (state, action: PayloadAction<string>) => {
       state.editingCharKey = action.payload;
+    },
+    /**
+     * @ description: 更新选择的 box 中干员
+     * @ param key: string 干员 key
+     */
+    updateCharSelectInBox: (state, action: PayloadAction<string[]>) => {
+      state.charSelectInBox = action.payload;
+    },
+    /**
+     * @ description: 更新选择的 box 外干员
+     * @ param key: string 干员 key
+     */
+    updateCharSelectOutBox: (state, action: PayloadAction<string[]>) => {
+      state.charSelectOutBox = action.payload;
     },
   },
 });

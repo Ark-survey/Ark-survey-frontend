@@ -212,7 +212,7 @@ export default function Index({
                   </Box>
                 </>
               )}
-              <SkillContainer skillKey={it.key} />
+              <SkillContainer skillKey={it.iconId ?? it.key} />
               <Box
                 className={classes.skillName}
                 sx={{
