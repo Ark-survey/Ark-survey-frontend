@@ -1,4 +1,4 @@
-import { Center, Group, Text } from '@mantine/core';
+import { Center, Group, ScrollArea, Text } from '@mantine/core';
 import { useMemo } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';

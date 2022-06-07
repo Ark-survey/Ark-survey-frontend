@@ -1,5 +1,5 @@
 import { Group, Stack } from '@mantine/core';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Character } from 'src/api/CharBoxServer';
 import LevelPanel from 'src/components/level-panel';
@@ -45,10 +45,17 @@ export default function Index() {
     [0, 0, 0, 70, 80, 90],
   ]);
 
-  const [commonVerifyRule] = useState<{ [key: string]: any }>({
-    potentialLevel: [0, 6],
+  const [commonVerifyRule, setCommonVerifyRule] = useState<{ [key: string]: any }>({
+    potentialLevel: [0, 0],
     trust: [0, 200],
   });
+
+  useEffect(() => {
+    setCommonVerifyRule((rules) => ({
+      ...rules,
+      potentialLevel: [0, charData[editingChar.key]?.maxPotentialLevel ?? 0],
+    }));
+  }, [charData, editingChar?.key]);
 
   const onSkillLevelChange = useCallback(
     (v: string, char: Character, changeKey: string) => {

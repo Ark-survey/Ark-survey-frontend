@@ -151,7 +151,7 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
             </ScrollArea>
           </>
         ) : (
-          <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '' }}>
+          <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '370px' }}>
             <CharBoxList />
           </ScrollArea>
         )}
