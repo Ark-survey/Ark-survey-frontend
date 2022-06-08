@@ -20,8 +20,8 @@ export type Character = {
   elite: number; // 精英 0 - 2
   level: number; // 等级 1 - 90
   trust: number; // 信赖 0 - 200
-  skill: { [key: string]: Skill }; // 技能
-  module: { [key: string]: Module }; // 模组
+  skills: { [key: string]: Skill }; // 技能
+  modules: { [key: string]: Module }; // 模组
   moduleUse: string; // 生效模组 key
   skillUse: string; // 生效技能 key
   skinUse: string; // 生效皮肤 key
@@ -37,12 +37,12 @@ export type Character = {
 
 // 干员盒
 export interface CharBox {
-  id: string;
+  id?: string;
   userId: string; // 创建的时候保存，不可更改，永远不返回
   characterKeys: { [key: string]: Character }; // 持有的干员 keys
   // 默认有一个 { name:'默认分组', value:'0' }，value不可重复
   // groups: Group[];
-  updatedDate: string; // 更新日期
+  updatedDate?: string; // 更新日期
 }
 
 export class CharBoxServer {

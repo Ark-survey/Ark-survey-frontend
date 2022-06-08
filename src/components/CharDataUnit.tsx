@@ -6,7 +6,7 @@ import LevelPanel from 'src/components/level-panel';
 import SkillGroup from 'src/components/skill-container/SkillGroup';
 import UnitEquipPanel from 'src/components/uni-equip-panel';
 import { RootState } from 'src/store';
-import { updateEditingChar } from 'src/store/slice/charBoxSlice';
+import { updateEditingChar, updateEditingCharKey } from 'src/store/slice/charBoxSlice';
 import SkinUsePanel from './skin-use-panel';
 
 export type CharLevelDataType = {
@@ -33,10 +33,18 @@ export default function Index() {
   const [fold, setFold] = useState(false);
   const [fold2, setFold2] = useState(false);
   const [fold3, setFold3] = useState(false);
-  const editingChar = useSelector((state: RootState) => state.charBox.charInBox[state.charBox.editingCharKey]);
+  const charBox = useSelector((state: RootState) => state.charBox);
+  const editingChar = useSelector((state: RootState) => state.charBox.charInBox[state.charBox.editingCharKey]) as
+    | Character
+    | undefined;
   const { charData } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-  const rarity = charData[editingChar.key].rarity;
+  const rarity = editingChar?.key ? charData[editingChar.key].rarity : 0;
+  const maxPotentialLevel = (editingChar?.key && charData[editingChar.key].maxPotentialLevel) ?? 0;
+
+  useEffect(() => {
+    if (!editingChar) dispatch(updateEditingCharKey(Object.keys(charBox)[0]));
+  }, [charBox, editingChar, dispatch]);
 
   const [maxEliteVerifyRule] = useState<Array<number>>([0, 0, 1, 2, 2, 2]);
   const [maxLevelVerifyRule] = useState<Array<number>[]>([
@@ -53,20 +61,20 @@ export default function Index() {
   useEffect(() => {
     setCommonVerifyRule((rules) => ({
       ...rules,
-      potentialLevel: [0, charData[editingChar.key]?.maxPotentialLevel ?? 0],
+      potentialLevel: [0, maxPotentialLevel],
     }));
-  }, [charData, editingChar?.key]);
+  }, [charData, maxPotentialLevel]);
 
   const onSkillLevelChange = useCallback(
     (v: string, char: Character, changeKey: string) => {
       const level = parseInt(v, 10);
-      const newSkills = { ...char.skill };
-      console.log(level, char.skill[changeKey].level);
-      if ((level <= 7 && char.skill[changeKey].level <= 7) || (level < 7 && char.skill[changeKey].level >= 7)) {
+      const newSkills = { ...char.skills };
+      console.log(level, char.skills[changeKey].level);
+      if ((level <= 7 && char.skills[changeKey].level <= 7) || (level < 7 && char.skills[changeKey].level >= 7)) {
         Object.keys(newSkills).forEach((key) => {
           if (key !== changeKey) newSkills[key] = { ...newSkills[key], level };
         });
-      } else if (level > 7 && char.skill[changeKey].level < 7) {
+      } else if (level > 7 && char.skills[changeKey].level < 7) {
         Object.keys(newSkills).forEach((key) => {
           if (key !== changeKey) newSkills[key] = { ...newSkills[key], level: 7 };
         });
@@ -77,7 +85,7 @@ export default function Index() {
       dispatch(
         updateEditingChar({
           ...char,
-          skill: newSkills,
+          skills: newSkills,
         }),
       );
     },
@@ -90,9 +98,9 @@ export default function Index() {
       let maxIndex = 0;
       let maxKey = '';
       let hasSelectedIndex = -1;
-      Object.keys(editingChar.skill).forEach((key, index) => {
+      Object.keys(editingChar?.skills ?? {}).forEach((key, index) => {
         // 找到当前的 index 位置
-        if (key === editingChar.skillUse) hasSelectedIndex = index;
+        if (key === editingChar?.skillUse) hasSelectedIndex = index;
         // 找到最大位置
         if (value.elite >= index) {
           maxIndex = index;
@@ -100,9 +108,9 @@ export default function Index() {
         }
       });
       // 控制模组
-      const newUniEquipData = { ...editingChar.module };
+      const newUniEquipData = { ...editingChar?.modules };
       let equipResetFlag = false;
-      if (editingChar.module && value.elite !== editingChar.elite) {
+      if (editingChar?.modules && value.elite !== editingChar?.elite) {
         equipResetFlag = true;
         Object.keys(newUniEquipData).forEach((key, index) => {
           newUniEquipData[key] = {
@@ -138,75 +146,81 @@ export default function Index() {
         }
       });
       // 当前的 index 位置比最大位置大的时候，设置为最大Index
-      const newChar = {
-        ...editingChar,
-        ...newValue,
-        skillUse: hasSelectedIndex > maxIndex ? maxKey : editingChar.skillUse,
-        module: newUniEquipData,
-        moduleUse: equipResetFlag ? 'default' : editingChar.moduleUse,
-      };
-      dispatch(updateEditingChar(newChar));
-      // 提交技能更改
-      Object.keys(editingChar.skill).forEach((key, index) => {
-        if (value.elite !== editingChar.elite)
-          if (maxIndex < 1) {
-            onSkillLevelChange?.('4', newChar, key);
-          } else {
-            onSkillLevelChange?.('7', newChar, key);
-          }
-      });
+      if (editingChar) {
+        const newChar = {
+          ...editingChar,
+          ...newValue,
+          skillUse: hasSelectedIndex > maxIndex ? maxKey : editingChar?.skillUse,
+          modules: newUniEquipData,
+          moduleUse: equipResetFlag ? 'default' : editingChar?.moduleUse,
+        };
+        dispatch(updateEditingChar(newChar));
+        // 提交技能更改
+        Object.keys(editingChar?.skills).forEach((key, index) => {
+          if (value.elite !== editingChar?.elite)
+            if (maxIndex < 1) {
+              onSkillLevelChange?.('4', newChar, key);
+            } else {
+              onSkillLevelChange?.('7', newChar, key);
+            }
+        });
+      }
     },
     [commonVerifyRule, dispatch, editingChar, maxLevelVerifyRule, onSkillLevelChange, rarity],
   );
 
   const handleUniEquipLevelChange = useCallback(
     (level: number, editingChar: Character) => {
-      const obj = { ...editingChar.module };
+      const obj = { ...editingChar.modules };
       obj[editingChar.moduleUse] = {
         ...obj[editingChar.moduleUse],
         level,
       };
-      dispatch(updateEditingChar({ ...editingChar, module: obj }));
+      dispatch(updateEditingChar({ ...editingChar, modules: obj }));
     },
     [dispatch],
   );
 
   return (
     <Group position="center" sx={{ alignItems: 'flex-start' }}>
-      <Stack>
-        <SkinUsePanel
-          data={editingChar}
-          selectedSkinKey={editingChar.skinUse}
-          onSelectChange={(key) => dispatch(updateEditingChar({ ...editingChar, skinUse: key }))}
-        />
-        <LevelPanel
-          fold={fold2}
-          verifyRule={commonVerifyRule}
-          maxEliteVerifyRule={maxEliteVerifyRule}
-          maxLevelVerifyRule={maxLevelVerifyRule}
-          onClickFoldButton={setFold2}
-          data={editingChar}
-          onCharBasicDataChange={handleCharLevelDataChange}
-        />
-      </Stack>
-      <Stack>
-        <SkillGroup
-          fold={fold}
-          onClickFoldButton={setFold}
-          data={editingChar}
-          onSelectSkillChange={(key) => dispatch(updateEditingChar({ ...editingChar, skillUse: key }))}
-          onSkillLevelChange={onSkillLevelChange}
-        />
-        {Object.keys(charData[editingChar.key].equips).length > 0 && (
-          <UnitEquipPanel
-            fold={fold3}
-            onClickFoldButton={setFold3}
-            data={editingChar}
-            onSelectUniEquipChange={(key) => dispatch(updateEditingChar({ ...editingChar, moduleUse: key }))}
-            onUniEquipLevelChange={handleUniEquipLevelChange}
-          />
-        )}
-      </Stack>
+      {editingChar && (
+        <>
+          <Stack>
+            <SkinUsePanel
+              data={editingChar}
+              selectedSkinKey={editingChar?.skinUse}
+              onSelectChange={(key) => dispatch(updateEditingChar({ ...editingChar, skinUse: key }))}
+            />
+            <LevelPanel
+              fold={fold2}
+              verifyRule={commonVerifyRule}
+              maxEliteVerifyRule={maxEliteVerifyRule}
+              maxLevelVerifyRule={maxLevelVerifyRule}
+              onClickFoldButton={setFold2}
+              data={editingChar}
+              onCharBasicDataChange={handleCharLevelDataChange}
+            />
+          </Stack>
+          <Stack>
+            <SkillGroup
+              fold={fold}
+              onClickFoldButton={setFold}
+              data={editingChar}
+              onSelectSkillChange={(key) => dispatch(updateEditingChar({ ...editingChar, skillUse: key }))}
+              onSkillLevelChange={onSkillLevelChange}
+            />
+            {Object.keys(charData[editingChar?.key]?.equips).length > 0 && (
+              <UnitEquipPanel
+                fold={fold3}
+                onClickFoldButton={setFold3}
+                data={editingChar}
+                onSelectUniEquipChange={(key) => dispatch(updateEditingChar({ ...editingChar, moduleUse: key }))}
+                onUniEquipLevelChange={handleUniEquipLevelChange}
+              />
+            )}
+          </Stack>
+        </>
+      )}
     </Group>
   );
 }

@@ -157,7 +157,7 @@ export default function Index({
                     <Box sx={{ fontSize: '12px', fontWeight: 700, textAlign: 'center', minWidth: 44 }}>等级</Box>
                     <Space h={5} />
                     <SegmentedControl
-                      value={data.module?.[data.moduleUse]?.level.toString()}
+                      value={data.modules?.[data.moduleUse]?.level.toString()}
                       onChange={(value) => onUniEquipLevelChange?.(parseInt(value, 10), data)}
                       data={segmentedControlData}
                       size="xs"
@@ -207,7 +207,7 @@ export default function Index({
                       />
                     </Box>
                     <Box sx={{ width: '18px', height: '40px', position: 'absolute', background: '#fff', zIndex: 100 }}>
-                      {data.module?.[data.moduleUse]?.level}
+                      {data.modules?.[data.moduleUse]?.level}
                     </Box>
                   </Center>
                 </>

@@ -107,7 +107,7 @@ export default function Index({
   onSkillLevelChange,
 }: SkillGroupProps) {
   const { classes, cx } = useStyles({ fold });
-  const { elite, skill, skillUse } = data;
+  const { elite, skills, skillUse } = data;
   const { charData } = useSelector((state: RootState) => state.user);
   const segmentedControlData = useMemo(() => {
     const result = [
@@ -136,10 +136,10 @@ export default function Index({
       .sort((a, b) => skillData[a].index - skillData[b].index)
       .forEach((key, index) => {
         if (index <= elite) {
-          const it = skill[key];
+          const it = skills[key];
           node.push(
             <Box
-              key={it.key}
+              key={it?.key}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -149,9 +149,9 @@ export default function Index({
                 userSelect: 'none',
                 cursor: 'pointer',
               }}
-              onClick={() => onSelectSkillChange?.(it.key)}
+              onClick={() => onSelectSkillChange?.(it?.key)}
             >
-              {it.level >= 7 && (
+              {it?.level >= 7 && (
                 <Box
                   sx={{
                     position: 'absolute',
@@ -180,7 +180,7 @@ export default function Index({
                   />
                 </Box>
               )}
-              {skillUse === it.key && (
+              {skillUse === it?.key && (
                 <>
                   <Box
                     sx={{
@@ -212,23 +212,23 @@ export default function Index({
                   </Box>
                 </>
               )}
-              <SkillContainer skillKey={it.iconId ?? it.key} />
+              <SkillContainer skillKey={it?.iconId ?? it?.key} />
               <Box
                 className={classes.skillName}
                 sx={{
                   transform:
                     'scale( ' +
-                    (skillData[it.key].name.length < 5
+                    (skillData[it?.key]?.name.length < 5
                       ? 1.1
-                      : skillData[it.key].name.length < 6
+                      : skillData[it?.key]?.name.length < 6
                       ? 1
-                      : skillData[it.key].name.length < 8
+                      : skillData[it?.key]?.name.length < 8
                       ? 0.9
                       : 0.8) +
                     ')',
                 }}
               >
-                {skillData[it.key].name}
+                {skillData[it?.key]?.name}
               </Box>
             </Box>,
           );
@@ -266,7 +266,7 @@ export default function Index({
       );
     });
     return node;
-  }, [skill, elite, classes.skillELevel, classes.skillName, skillUse, skillData, onSelectSkillChange]);
+  }, [skills, elite, classes.skillELevel, classes.skillName, skillUse, skillData, onSelectSkillChange]);
 
   return (
     <Box sx={{ position: 'relative', width: '335px', userSelect: 'none' }}>
@@ -276,7 +276,7 @@ export default function Index({
             padding: '10px',
           })}
         >
-          {'Rank ' + (skill[skillUse]?.level > 6 ? 7 : skill[skillUse]?.level ?? 1)}
+          {'Rank ' + (skills[skillUse]?.level > 6 ? 7 : skills[skillUse]?.level ?? 1)}
         </Box>
       </Box>
       <Box
@@ -307,7 +307,7 @@ export default function Index({
                   <Box key={key} className={classes.detailBarSlider}>
                     <Box className={classes.detailSkillName}>{skillData[key]?.name}</Box>
                     <SegmentedControl
-                      value={skill[key].level.toString()}
+                      value={skills[key]?.level.toString()}
                       onChange={(v) => onSkillLevelChange?.(v, data, key)}
                       size="xs"
                       sx={{ height: 22.5 }}

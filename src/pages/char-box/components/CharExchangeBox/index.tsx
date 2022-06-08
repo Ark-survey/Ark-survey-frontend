@@ -1,16 +1,27 @@
-import { Button, Stack, ScrollArea, Group, Divider, Paper, createStyles } from '@mantine/core';
+import { Button, Stack, ScrollArea, Group, Divider, Paper, createStyles, ActionIcon } from '@mantine/core';
 import Header from 'src/components/Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import { ChevronsDown, ChevronsUp, Exchange } from 'tabler-icons-react';
+import {
+  ChevronsDown,
+  ChevronsUp,
+  DeviceFloppy,
+  Exchange,
+  Filter,
+  Square,
+  SquareCheck,
+  SquareDot,
+} from 'tabler-icons-react';
 import { useTranslation } from 'react-i18next';
 import CharList from './CharList';
 import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
 import CharBoxList from './CharBoxList';
 import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { addCharToBox, delCharFromBox } from 'src/store/slice/charBoxSlice';
-import { Character, Module, Skill } from 'src/api/CharBoxServer';
+import { addCharToBox, delCharFromBox, updateCharInBox } from 'src/store/slice/charBoxSlice';
+import { Character, CharBoxServer, Module, Skill } from 'src/api/CharBoxServer';
+import CharBox from '../..';
+import { errorNotice, successNotice } from 'src/pages/tier-list/components/Notice';
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -20,8 +31,10 @@ const useStyles = createStyles((theme) => ({
 
 export default function Index({ onClickFilter }: { onClickFilter: () => void }) {
   const filters = useSelector((state: RootState) => state.filters);
+  const userId = useSelector((state: RootState) => state.user.userData?.id);
   const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
-  const charInBox = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
+  const { charInBox, charBoxId } = useSelector((state: RootState) => state.charBox);
+  const charInBoxArray = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
   const { charBoxEditing } = useSelector((state: RootState) => state.setting);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -33,9 +46,9 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
   const charTypeInBox = useMemo(
     () =>
       charData.filter((it) => {
-        return charInBox.findIndex((i) => i.key === it.key) > -1;
+        return charInBoxArray.findIndex((i) => i.key === it.key) > -1;
       }),
-    [charData, charInBox],
+    [charData, charInBoxArray],
   );
 
   const charTypeOutBox = useMemo(
@@ -59,6 +72,26 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
     setCharSelectInBox([]);
   };
 
+  const handleSaveCharBox = async () => {
+    try {
+      const characterKeys: { [key: string]: Character } = {};
+      charTypeInBox.forEach((it) => {
+        characterKeys[it.key] = charInBox[it.key];
+      });
+      const { data } = await new CharBoxServer().updateOne({
+        charBox: {
+          id: charBoxId,
+          userId: userId ?? '',
+          characterKeys,
+        },
+      });
+      // dispatch(updateCharInBox(data.characterKeys));
+      successNotice('保存成功');
+    } catch {
+      errorNotice('保存失败');
+    }
+  };
+
   const handleCharIn = () => {
     const c = [...charTypeOutBox].filter((it) => charSelectOutBox.findIndex((i) => i === it.key) > -1);
     const obj: { [key: string]: Character } = {};
@@ -66,7 +99,6 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
       const newSkills: { [key: string]: Skill } = {};
       Object.keys({ ...it.skills }).forEach((key) => {
         newSkills[key] = {
-          ...it.skills[key],
           level: 1,
           key,
         };
@@ -74,15 +106,12 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
       const newModule: { [key: string]: Module } = {};
       Object.keys({ ...it.equips }).forEach((key) => {
         newModule[key] = {
-          ...it.equips[key],
           level: 1,
           key,
         };
       });
       obj[it.key] = {
         key: it.key,
-        name: it.name,
-        isNotObtainable: it.isNotObtainable,
         moduleUse: '',
         skillUse: Object.keys(it.skills).find((i) => it.skills[i].index === 0) ?? '',
         skinUse: Object.keys(it.skins)[0],
@@ -91,8 +120,8 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
         elite: 0,
         trust: 200,
         potentialLevel: 0,
-        skill: newSkills,
-        module: newModule,
+        skills: newSkills,
+        modules: newModule,
       };
     });
     dispatch(addCharToBox(obj));
@@ -105,19 +134,16 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
         <Header title={charBoxEditing ? '干员盒' : '持有编辑'}>
           <Group position="right" spacing={10}>
             {!charBoxEditing && (
-              <Button
-                size="xs"
-                variant="outline"
-                color={selectMax ? 'red' : 'green'}
-                radius="xl"
-                onClick={handleChangeAllCharOutBoxSelect}
-              >
-                {selectMax ? '取消全选' : '全选'}
-              </Button>
+              <ActionIcon size="lg" radius="md" onClick={handleChangeAllCharOutBoxSelect}>
+                {selectMax ? <SquareCheck /> : charSelectOutBox.length !== 0 ? <SquareDot /> : <Square />}
+              </ActionIcon>
             )}
-            <Button size="xs" variant="outline" radius="xl" onClick={onClickFilter}>
-              筛选器
-            </Button>
+            <ActionIcon size="lg" radius="md" onClick={onClickFilter}>
+              <Filter />
+            </ActionIcon>
+            <ActionIcon size="lg" color="blue" radius="md" onClick={handleSaveCharBox}>
+              <DeviceFloppy />
+            </ActionIcon>
           </Group>
         </Header>
         <Divider />

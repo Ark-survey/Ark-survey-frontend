@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Drawer, ScrollArea, Title } from '@mantine/core';
+import { Button, Drawer, Paper, ScrollArea, Title } from '@mantine/core';
 import CharFilterBox from '.';
 
 export default function useCharFilterDrawer() {
