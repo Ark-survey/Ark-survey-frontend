@@ -1,4 +1,4 @@
-import { Box } from '@mantine/core';
+import { Text, Center, Group } from '@mantine/core';
 import React, { useMemo } from 'react';
 import { timeMarks } from 'src/contexts';
 import CharListItem from './CharListItem';
@@ -55,36 +55,19 @@ export default function CharacterList() {
     return orderlyList.map((character, index) => (
       <React.Fragment key={character?.key ?? ''}>
         <CharListItem character={character} type="default" />
-        {index === orderlyList.length - 1 &&
-          new Array(15).fill(0).map((i, index) => <CharListItem key={'e-' + index} hidden type="default" />)}
       </React.Fragment>
     ));
   }, [orderlyList]);
 
   return (
-    <Box
-      sx={{
-        paddingTop: '5px',
-        display: 'flex',
-        flexFlow: 'row wrap',
-        justifyContent: 'center',
-      }}
-    >
+    <Group spacing={10} position="center">
       {orderlyList.length > 0 ? (
         list
       ) : (
-        <Box
-          key="none"
-          sx={{
-            width: '100%',
-            textAlign: 'center',
-            marginTop: '10px',
-            color: '#ccc',
-          }}
-        >
-          {t('no-qualified')}
-        </Box>
+        <Center key="none">
+          <Text color="#ccc">{t('no-qualified')}</Text>
+        </Center>
       )}
-    </Box>
+    </Group>
   );
 }

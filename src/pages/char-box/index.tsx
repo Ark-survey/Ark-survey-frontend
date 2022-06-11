@@ -2,7 +2,7 @@ import { Box, Container, Stack, Space } from '@mantine/core';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CharBoxServer } from 'src/api/CharBoxServer';
-import useCharFilterDrawer from 'src/components/CharFilterDawer/useCharFilterDrawer';
+import useCharFilterDrawer from 'src/components/CharFilterDrawer/useCharFilterDrawer';
 import { useWindowSize } from 'src/hooks';
 import { RootState } from 'src/store';
 import { updateCharBoxId, updateCharInBox } from 'src/store/slice/charBoxSlice';

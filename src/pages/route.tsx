@@ -6,6 +6,7 @@ import CharBox from './char-box';
 import Demo from './demo';
 import MainPage from './main-page';
 import NotFound from './not-found';
+import Setting from './setting';
 import TierList from './tier-list';
 import TierListStatistics from './tier-list/TierListStatistics';
 
@@ -23,6 +24,7 @@ export function RootRouter() {
         <Route path="charBox" element={<CharBox />} />
         <Route path="statistics" element={<TierListStatistics />} />
         <Route path="demo" element={<Demo />} />
+        <Route path="setting" element={<Setting />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

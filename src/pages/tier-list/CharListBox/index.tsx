@@ -1,4 +1,4 @@
-import { Box, Overlay } from '@mantine/core';
+import { Box, Overlay, ScrollArea } from '@mantine/core';
 import { useDrop } from 'react-dnd';
 import CharacterList from './components/CharList';
 import { CharDragItem, ItemTypes } from './components/CharListItem';
@@ -13,6 +13,7 @@ import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 export default function CharListItemType() {
   const filters = useSelector((state: RootState) => state.filters);
+  const setting = useSelector((state: RootState) => state.setting);
   const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -34,21 +35,7 @@ export default function CharListItemType() {
   });
 
   return (
-    <Box
-      ref={drop}
-      sx={{
-        maxHeight: width < 720 ? (filters.mini ? '170px' : '600px') : '',
-        height: filters.fold
-          ? 'calc(100% - 85px - ' + filterHeight + 'px)'
-          : 'calc(100% -  85px - ' + filterHeight + 'px)',
-        margin: '0 13px',
-        overflow: 'hidden',
-        transition: 'all 1s',
-        // border: '2px #ccc solid',
-        borderRadius: '0 0 20px 20px',
-        position: 'relative',
-      }}
-    >
+    <ScrollArea ref={drop} sx={{ height: '370px' }}>
       {isOver && (
         <Overlay
           opacity={0.6}
@@ -66,15 +53,7 @@ export default function CharListItemType() {
           {t('drag-it-here-and-put-it-back')}
         </Overlay>
       )}
-      <Box
-        sx={{
-          height: '100%',
-          '::-webkit-scrollbar': { width: '0 !important' },
-          overflow: 'auto',
-        }}
-      >
-        <CharacterList />
-      </Box>
-    </Box>
+      <CharacterList />
+    </ScrollArea>
   );
 }

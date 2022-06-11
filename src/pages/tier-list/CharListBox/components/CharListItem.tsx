@@ -24,7 +24,7 @@ export interface CharDragItem {
 }
 
 export default function Index({ character, hidden, type, fromTierValue }: CharListItemProps) {
-  const filters = useSelector((state: RootState) => state.filters);
+  const setting = useSelector((state: RootState) => state.setting);
   const dispatch = useDispatch();
   const [listPicking, setListPicking] = useState(false);
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
@@ -54,13 +54,10 @@ export default function Index({ character, hidden, type, fromTierValue }: CharLi
 
   return (
     <CharContainer
-      sx={{
-        margin: '5px',
-      }}
-      nameDisplay={filters.nameDisplay}
+      nameDisplay={setting.nameDisplay}
       charKey={character?.key ?? ''}
       charName={character?.name ?? ''}
-      mini={filters.mini}
+      mini={setting.mini}
       charStatus={character?.picked && type === 'default' ? 'picked' : 'default'}
       type={type}
       hidden={hidden}

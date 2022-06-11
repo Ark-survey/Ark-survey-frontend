@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { Popover, Text, Button, Box } from '@mantine/core';
-import { CloudUpload } from 'tabler-icons-react';
+import { Popover, Text, Button, Box, ActionIcon } from '@mantine/core';
+import { CloudUpload, Refresh } from 'tabler-icons-react';
 import { TierListServer } from 'src/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -53,16 +53,9 @@ export default function UploadPopover() {
       opened={opened}
       onClose={() => setOpened(false)}
       target={
-        <Button
-          radius="xl"
-          size="xs"
-          loading={loading}
-          color={tierList.id ? 'green' : 'blue'}
-          leftIcon={<CloudUpload size={14} />}
-          onClick={() => setOpened((o) => !o)}
-        >
-          {!tierList.id ? t('submit') : t('update')}
-        </Button>
+        <ActionIcon size="lg" color="blue" loading={loading} radius="md" onClick={() => setOpened((o) => !o)}>
+          {tierList.id ? <Refresh /> : <CloudUpload />}
+        </ActionIcon>
       }
       width={user.newTierList ? 220 : 300}
       position="left"

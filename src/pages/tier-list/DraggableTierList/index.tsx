@@ -1,4 +1,16 @@
-import { Text, Box, Button, Group, Select } from '@mantine/core';
+import {
+  Text,
+  Box,
+  Button,
+  Group,
+  Select,
+  Divider,
+  Paper,
+  Stack,
+  createStyles,
+  ActionIcon,
+  ScrollArea,
+} from '@mantine/core';
 import Header from 'src/components/Header';
 
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
@@ -18,11 +30,20 @@ import { useTranslation } from 'react-i18next';
 import { treeToArray } from 'src/utils/TreeUtils';
 import { editingTierList, updateEditKey1, updateEditKey2 } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
+import { Aperture } from 'tabler-icons-react';
+
+const useStyles = createStyles((theme) => ({
+  root: {
+    maxWidth: 686,
+    width: '100%',
+  },
+}));
 
 export default function Index() {
   const listTypeCollection = useSelector((state: RootState) => state.tierListType.collection);
   const tierListType = useSelector((state: RootState) => state.tierList);
   const tierList = useSelector(editingTierList);
+  const { classes } = useStyles();
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
@@ -108,69 +129,40 @@ export default function Index() {
   };
 
   return (
-    <Box
-      sx={{
-        flex: '1.5',
-        width: '100%',
-        boxShadow: '0 0 5px 5px #eee',
-        borderRadius: '20px',
-        maxHeight: '890px',
-        overflow: 'hidden',
-        userSelect: 'none',
-        minWidth: '326px',
-      }}
-    >
-      <Header
-        title={
-          <>
-            <Select
-              sx={{ width: '75px' }}
-              value={tierListType.key1Select}
-              onChange={handleType1Change}
-              data={type1List}
-            />
-            <Select
-              sx={{ width: '220px' }}
-              value={tierListType.key2Select}
-              onChange={handleType2Change}
-              itemComponent={SelectItem}
-              searchable
-              data={type2List}
-            />
-          </>
-        }
-      >
-        <ResetAllCharacterPopover />
-        <Box sx={{ width: '10px' }} />
-        <AddTierPopover />
-        <Box sx={{ width: '10px' }} />
-        <Button disabled size="xs" variant="outline" color="blue" radius="xl" onClick={makeTierImg}>
-          {t('screenshot')}
-        </Button>
-        <Box sx={{ width: '10px' }} />
-        <UploadPopover />
-      </Header>
-      <Box
-        sx={{
-          overflow: 'auto',
-          height: 'calc(100% - 100px)',
-          '::-webkit-scrollbar': { width: '0 !important' },
-        }}
-      >
-        <Box
-          ref={tiersBox}
-          id="tierList"
-          sx={{
-            overflow: 'auto',
-            marginTop: '2px',
-            background: '#fff',
-          }}
+    <Paper shadow="md" radius="lg" p="lg" withBorder className={classes.root}>
+      <Stack>
+        <Header
+          title={
+            <>
+              <Select
+                sx={{ width: '75px' }}
+                value={tierListType.key1Select}
+                onChange={handleType1Change}
+                data={type1List}
+              />
+              <Select
+                sx={{ width: '220px' }}
+                value={tierListType.key2Select}
+                onChange={handleType2Change}
+                itemComponent={SelectItem}
+                searchable
+                data={type2List}
+              />
+            </>
+          }
         >
-          <Box
-            sx={{
-              margin: '15px',
-            }}
-          >
+          <Group>
+            <ResetAllCharacterPopover />
+            <AddTierPopover />
+            <ActionIcon disabled size="lg" radius="md" onClick={makeTierImg}>
+              <Aperture />
+            </ActionIcon>
+            <UploadPopover />
+          </Group>
+        </Header>
+        <Divider />
+        <ScrollArea ref={tiersBox} id="tierList">
+          <Stack>
             {tierList?.tiers?.map((tier) => (
               <TierBox
                 key={tier.value}
@@ -179,11 +171,10 @@ export default function Index() {
                 operationDisplay={!makingImg}
               />
             ))}
-          </Box>
-        </Box>
-      </Box>
-      <Box sx={{ width: '100%', height: '15px' }} />
-    </Box>
+          </Stack>
+        </ScrollArea>
+      </Stack>
+    </Paper>
   );
 }
 interface ItemProps extends React.ComponentPropsWithoutRef<'div'> {

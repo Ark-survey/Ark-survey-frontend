@@ -29,6 +29,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
   const tierList = useSelector(editingTierList);
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const filter = useSelector((state: RootState) => state.filters);
+  const setting = useSelector((state: RootState) => state.setting);
   const dispatch = useDispatch();
   const { addTierChars, findTierIndexByValue } = useOperateEditingTierList();
 
@@ -64,7 +65,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
     if (addList.length > 0) {
       return (
         <CharContainer
-          mini={filter.mini}
+          mini={setting.mini}
           sx={{
             margin: '5px',
           }}
@@ -85,21 +86,18 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
         </CharContainer>
       );
     }
-  }, [addTierChars, charMap, dispatch, filter.mini, findTierIndexByValue, tier.value]);
+  }, [addTierChars, charMap, dispatch, setting.mini, findTierIndexByValue, tier.value]);
 
   return (
     <Box
       ref={drop}
       sx={{
         boxSizing: 'border-box',
-        width: 'calc(100% - 20px)',
         border: isOver ? '2px #aaa solid' : '2px #ccc dashed',
         borderRadius: '20px',
-        minHeight: filter.mini ? '75px' : '115px',
+        minHeight: setting.mini ? '75px' : '115px',
         position: 'relative',
-        margin: '0 10px',
-        marginBottom: '20px',
-        marginTop: '5px',
+        margin: '5px',
       }}
     >
       <Box sx={{ padding: '10px', display: 'flex', flexFlow: 'row wrap' }}>
@@ -124,10 +122,10 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
           <Box
             sx={{
               position: 'absolute',
-              top: filter.mini ? '-10px' : '12px',
-              left: filter.mini ? '' : '-10px',
-              right: filter.mini ? '20px' : '',
-              display: filter.mini ? 'flex' : '',
+              top: setting.mini ? '-10px' : '12px',
+              left: setting.mini ? '' : '-10px',
+              right: setting.mini ? '20px' : '',
+              display: setting.mini ? 'flex' : '',
               zIndex: 1,
             }}
           >
@@ -142,7 +140,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
               position: 'absolute',
               fontSize: '40px',
               right: '20px',
-              lineHeight: filter.mini ? '75px' : '110px',
+              lineHeight: setting.mini ? '75px' : '110px',
               fontWeight: 900,
               color: '#eee',
               top: 0,

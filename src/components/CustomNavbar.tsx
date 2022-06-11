@@ -107,7 +107,13 @@ export default function Index() {
             onClick={handleCopyText}
           />
         )}
-        <NavItem sx={{ height: '55px' }} title={t('nav.setting')} leftIcon={<Settings />} disabled />
+        <NavItem
+          sx={{ height: '55px' }}
+          title={t('nav.setting')}
+          selecting={location.pathname === '/setting'}
+          leftIcon={<Settings />}
+          to="/setting"
+        />
       </Navbar.Section>
     </Navbar>
   );

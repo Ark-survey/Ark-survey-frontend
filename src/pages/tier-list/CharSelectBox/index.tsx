@@ -1,25 +1,37 @@
-import { Box, Button } from '@mantine/core';
+import { ActionIcon, createStyles, Divider, Group, Paper, Stack } from '@mantine/core';
 import Header from 'src/components/Header';
 
-import { changeFold, changeNameDisplay, changeMini } from 'src/store/slice/filterSlice';
+import { changeFold } from 'src/store/slice/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import { FoldDown, FoldUp } from 'tabler-icons-react';
+import { Filter } from 'tabler-icons-react';
 import { useTranslation } from 'react-i18next';
 import CharListBox from '../CharListBox';
-// import FilterBox from '../../../components/CharFilterDawer/FilterBox';
+import { changeMini, changeNameDisplay } from 'src/store/slice/settingSlice';
+import useCharFilterDrawer from 'src/components/CharFilterDrawer/useCharFilterDrawer';
+// import FilterBox from '../../../components/CharFilterDrawer/FilterBox';
+
+const useStyles = createStyles((theme) => ({
+  root: {
+    maxWidth: 686,
+    width: '100%',
+  },
+}));
 
 export default function Index() {
+  const { setOpened, drawerContext } = useCharFilterDrawer();
   const filters = useSelector((state: RootState) => state.filters);
+  const setting = useSelector((state: RootState) => state.setting);
   const dispatch = useDispatch();
+  const { classes } = useStyles();
   const { t } = useTranslation();
 
   const handleMiniStatusChange = () => {
-    dispatch(changeMini(!filters.mini));
+    dispatch(changeMini(!setting.mini));
   };
 
   const handleNameStatusChange = () => {
-    dispatch(changeNameDisplay(!filters.nameDisplay));
+    dispatch(changeNameDisplay(!setting.nameDisplay));
   };
 
   const handleFoldStatusChange = () => {
@@ -27,54 +39,19 @@ export default function Index() {
   };
 
   return (
-    <Box
-      sx={{
-        flex: '1',
-        minWidth: '326px',
-        maxWidth: '726px',
-        boxShadow: '0 0 5px 5px #eee',
-        borderRadius: '20px',
-        userSelect: 'none',
-        maxHeight: '890px',
-        overflow: 'hidden',
-      }}
-    >
-      <Box
-        sx={{
-          overflow: 'auto',
-          height: '100%',
-          '::-webkit-scrollbar': { width: '0 !important' },
-        }}
-      >
+    <Paper shadow="md" radius="lg" p="lg" withBorder className={classes.root}>
+      <Stack>
         <Header title={t('charTitle')}>
-          <Button
-            size="xs"
-            variant={!filters.mini ? 'outline' : 'filled'}
-            color={!filters.mini ? 'blue' : 'green'}
-            radius="xl"
-            onClick={handleMiniStatusChange}
-          >
-            {t('MINI')}
-          </Button>
-          <Box sx={{ width: '15px' }} />
-          <Button
-            size="xs"
-            variant={!filters.nameDisplay ? 'outline' : 'filled'}
-            color={!filters.nameDisplay ? 'blue' : 'green'}
-            radius="xl"
-            onClick={handleNameStatusChange}
-          >
-            {t('name')}
-          </Button>
-          <Box sx={{ width: '15px' }} />
-          <Button size="xs" variant="outline" radius="xl" onClick={handleFoldStatusChange}>
-            {filters.fold ? <FoldDown /> : <FoldUp />}
-          </Button>
+          <Group position="right" spacing={10}>
+            <ActionIcon size="lg" radius="md" onClick={() => setOpened(true)}>
+              <Filter />
+            </ActionIcon>
+          </Group>
         </Header>
-        {/* <FilterBox /> */}
+        <Divider />
         <CharListBox />
-        <Box sx={{ width: '100%', height: '15px' }} />
-      </Box>
-    </Box>
+      </Stack>
+      {drawerContext}
+    </Paper>
   );
 }

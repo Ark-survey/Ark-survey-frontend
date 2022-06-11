@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Popover, Button, Box, NumberInput, InputWrapper, Space, TextInput } from '@mantine/core';
+import { Popover, Button, Box, NumberInput, InputWrapper, Space, TextInput, ActionIcon } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
 import { successNotice } from '../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { editingTierList } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
+import { Plus } from 'tabler-icons-react';
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
@@ -52,9 +53,9 @@ export default function UploadPopover() {
       opened={opened}
       onClose={() => setOpened(false)}
       target={
-        <Button size="xs" radius="xl" variant="outline" color="green" onClick={() => setOpened((o) => !o)}>
-          {t('add-tier')}
-        </Button>
+        <ActionIcon size="lg" color="green" radius="md" onClick={() => setOpened((o) => !o)}>
+          <Plus />
+        </ActionIcon>
       }
       width={200}
       position="bottom"

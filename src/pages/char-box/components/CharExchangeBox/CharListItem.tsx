@@ -15,7 +15,7 @@ interface CharListItemProps {
 }
 
 export default function Index({ character, selecting, onSelect, onSelectCancel }: CharListItemProps) {
-  const filters = useSelector((state: RootState) => state.filters);
+  const setting = useSelector((state: RootState) => state.setting);
 
   const handleCharacterSelect = (value: boolean) => {
     if (value) onSelect?.(character?.key ?? '');
@@ -24,10 +24,10 @@ export default function Index({ character, selecting, onSelect, onSelectCancel }
 
   return (
     <CharContainer
-      nameDisplay={filters.nameDisplay}
+      nameDisplay={setting.nameDisplay}
       charKey={character?.key ?? ''}
       charName={character?.name ?? ''}
-      mini={filters.mini}
+      mini={setting.mini}
       selecting={selecting}
       dragDisabled
       sx={{ zIndex: 0 }}

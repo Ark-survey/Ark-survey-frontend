@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Popover, Button, Box, Text } from '@mantine/core';
+import { Popover, Button, Box, Text, ActionIcon } from '@mantine/core';
 
 import { updateAllCharacterPicked } from 'src/store/slice/characterSlice';
 import { useDispatch } from 'react-redux';
 import { successNotice } from '../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
+import { ClearAll } from 'tabler-icons-react';
 
 export default function ResetAllCharacterPopover() {
   const [opened, setOpened] = useState(false);
@@ -26,9 +27,9 @@ export default function ResetAllCharacterPopover() {
       opened={opened}
       onClose={() => setOpened(false)}
       target={
-        <Button size="xs" variant="outline" color="red" radius="xl" onClick={() => setOpened((o) => !o)}>
-          {t('reset')}
-        </Button>
+        <ActionIcon size="lg" color="red" radius="md" onClick={() => setOpened((o) => !o)}>
+          <ClearAll />
+        </ActionIcon>
       }
       width={160}
       position="bottom"
