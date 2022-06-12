@@ -69,7 +69,6 @@ export default function Index() {
     (v: string, char: Character, changeKey: string) => {
       const level = parseInt(v, 10);
       const newSkills = { ...char.skills };
-      console.log(level, char.skills[changeKey].level);
       if ((level <= 7 && char.skills[changeKey].level <= 7) || (level < 7 && char.skills[changeKey].level >= 7)) {
         Object.keys(newSkills).forEach((key) => {
           if (key !== changeKey) newSkills[key] = { ...newSkills[key], level };

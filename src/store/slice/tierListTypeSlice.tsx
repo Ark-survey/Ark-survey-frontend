@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { ReactNode } from 'react';
 import { TreeNode } from 'src/utils/TreeUtils';
+import { ChartRadar, Map2 } from 'tabler-icons-react';
 
 export interface TierListKeyGroup {
   key?: string;
@@ -74,16 +76,6 @@ let initialState: { collection: TreeNode<TierListKeyGroup>[] } = {
             {
               id: '9',
               name: '渊默行动',
-              children: [
-                {
-                  id: 'guaranteed',
-                  name: '保底',
-                },
-                {
-                  id: 'high',
-                  name: '高层',
-                },
-              ],
             },
           ],
         },
@@ -104,6 +96,16 @@ let initialState: { collection: TreeNode<TierListKeyGroup>[] } = {
                   name: 'Boss房',
                 },
               ],
+            },
+          ],
+        },
+        {
+          id: 'LT',
+          name: '保全派驻',
+          children: [
+            {
+              id: '1',
+              name: '钢铁萝卜矿场&多伦矿场',
             },
           ],
         },

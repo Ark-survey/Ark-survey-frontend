@@ -1,21 +1,17 @@
 import { Center, Group, Text } from '@mantine/core';
 import { useMemo } from 'react';
 import CharListItem from './CharListItem';
-
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import { CharacterType } from 'src/store/slice/userSlice';
 import { useTranslation } from 'react-i18next';
 
-interface CharacterList {
+interface CharacterListProps {
   filterCharData: CharacterType[];
   selectKeys: string[];
   onSelect: (key: string) => void;
   onSelectCancel: (key: string) => void;
 }
 
-export default function CharacterList({ filterCharData, selectKeys, ...props }: CharacterList) {
-  const charMap = useSelector((state: RootState) => state.characters.charMap);
+export default function CharacterList({ filterCharData, selectKeys, ...props }: CharacterListProps) {
   const { t } = useTranslation();
 
   const charListData = useMemo(() => {

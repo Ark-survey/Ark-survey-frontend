@@ -6,7 +6,7 @@ import NameDisplaySwitch from './components/NameDisplaySwitch';
 
 export default function Index() {
   return (
-    <Container size={1500}>
+    <Container size={1200}>
       <Center py="lg">
         <Accordion sx={{ width: '100%' }} multiple initialItem={0}>
           <Accordion.Item label="显示">

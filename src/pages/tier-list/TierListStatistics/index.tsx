@@ -273,7 +273,7 @@ export default function Index() {
   }, [statisticData, theme.colors]);
 
   return (
-    <Container size={1500} p="xl">
+    <Container size={1200} p="xl">
       <Center>
         <Box sx={{ margin: '20px', display: 'flex' }}>
           <Select sx={{ width: '75px' }} value={key1Select} onChange={handleType1Change} data={type1List} />

@@ -98,6 +98,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
         minHeight: setting.mini ? '75px' : '115px',
         position: 'relative',
         margin: '5px',
+        padding: '5px',
       }}
     >
       <Box sx={{ padding: '10px', display: 'flex', flexFlow: 'row wrap' }}>

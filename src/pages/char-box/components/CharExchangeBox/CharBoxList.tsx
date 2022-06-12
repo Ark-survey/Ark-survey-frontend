@@ -14,6 +14,7 @@ export default function CharacterList() {
   const { charData } = useSelector((state: RootState) => state.user);
   const { editingCharKey, charInBox } = useSelector((state: RootState) => state.charBox);
   const dispatch = useDispatch();
+  const { mini, nameDisplay } = useSelector((state: RootState) => state.setting);
   const { t } = useTranslation();
 
   const list = useMemo(() => {
@@ -28,12 +29,12 @@ export default function CharacterList() {
           onSelectChange={() => dispatch(updateEditingCharKey(character?.key))}
           charKey={charInBox[character.key].skinUse ?? ''}
           charName={character?.name ?? ''}
-          nameDisplay
-          mini={false}
+          nameDisplay={nameDisplay}
+          mini={mini}
           dragDisabled
         />
       ));
-  }, [charData, charInBox, dispatch, editingCharKey]);
+  }, [charData, charInBox, dispatch, editingCharKey, mini, nameDisplay]);
 
   return list.length > 0 ? (
     <Group spacing={10} position="center">

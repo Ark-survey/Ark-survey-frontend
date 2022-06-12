@@ -18,43 +18,50 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
   container: {
     width: 'calc(100vw - 170px)',
     maxHeight: '-webkit-fill-available',
-    overflow: 'auto',
+    // overflow: 'auto',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       position: 'fixed',
       width: '100vw',
+    },
+    zIndex: 3,
+    '.mantine-ScrollArea-scrollbar': {
+      zIndex: 2,
     },
   },
   page: {
     position: 'relative',
     width: '100%',
     background: theme.white,
-    zIndex: 200,
     boxShadow: `0 0 5px 5px rgb(0 0 0 / 15%)`,
     minHeight: '100vh',
+    zIndex: 1,
   },
   footerPlaceholder: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.gray[9] : theme.colors.gray[1],
+    pointerEvents: 'none',
     position: 'relative',
     height: '140px',
-    zIndex: -200,
+    opacity: 0,
     [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
       height: '200px',
     },
   },
   footer: {
     position: 'fixed',
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.gray[9] : theme.colors.gray[1],
     bottom: 0,
     left: 0,
     boxSizing: 'border-box',
-    paddingLeft: 170,
-    width: '100vw',
+    marginLeft: 170,
+    width: 'calc(100vw - 170px)',
     height: '140px',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-      paddingLeft: 0,
+      marginLeft: 0,
+      width: '100vw',
     },
     [`@media (max-width: ${theme.breakpoints.xs}px)`]: {
-      paddingLeft: 0,
+      marginLeft: 0,
       height: '200px',
+      width: '100vw',
     },
   },
   scrollArea: {
@@ -63,7 +70,7 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
     background: '#fff',
     boxSizing: 'border-box',
     position: 'relative',
-    zIndex: 200,
+    zIndex: 10,
     overflow: 'auto',
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       position: 'fixed',
@@ -108,7 +115,7 @@ export default function PageContainer() {
   return (
     <Box>
       <UpdateVersionNotion />
-      <Header height={60} p="xs" sx={{ position: 'fixed', zIndex: 200 }}>
+      <Header height={60} p="xs" sx={{ position: 'fixed', zIndex: 2 }}>
         <Brand />
       </Header>
       <Box
@@ -117,7 +124,7 @@ export default function PageContainer() {
           position: 'relative',
           overflow: 'auto',
           height,
-          zIndex: 100,
+          zIndex: 1,
         }}
       >
         {(user.menuOpen || !downSM) && (
@@ -126,7 +133,7 @@ export default function PageContainer() {
           </Box>
         )}
         {user.menuOpen && downSM && <Overlay zIndex={9} onClick={() => dispatch(updateMenuOpen(false))} />}
-        <Box className={classes.container}>
+        <ScrollArea className={classes.container}>
           <Box className={classes.page}>
             <Space h={60} />
             <RootRouter />
@@ -135,7 +142,7 @@ export default function PageContainer() {
           <Box className={classes.footer}>
             <Footer />
           </Box>
-        </Box>
+        </ScrollArea>
       </Box>
     </Box>
   );

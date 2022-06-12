@@ -1,4 +1,4 @@
-import { Box, Overlay, ScrollArea } from '@mantine/core';
+import { Overlay, ScrollArea } from '@mantine/core';
 import { useDrop } from 'react-dnd';
 import CharacterList from './components/CharList';
 import { CharDragItem, ItemTypes } from './components/CharListItem';
@@ -6,20 +6,26 @@ import { CharDragItem, ItemTypes } from './components/CharListItem';
 import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import { filterHeightState } from 'src/store/slice/filterSlice';
-import { useChangeSize } from 'src/hooks';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
+import { useMemo, useState } from 'react';
+import { mapToArray } from 'src/utils/ObjectUtils';
 
 export default function CharListItemType() {
-  const filters = useSelector((state: RootState) => state.filters);
-  const setting = useSelector((state: RootState) => state.setting);
-  const filterHeight = useSelector(filterHeightState);
+  const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
+  const [charsSelect, setCharsSelect] = useState<string[]>([]);
 
-  const { width } = useChangeSize();
+  const charsFilter = useMemo(
+    () =>
+      charData.filter((it) => {
+        if (it.isNotObtainable) return false;
+        return true;
+      }),
+    [charData],
+  );
 
   const handleCharacterReturn = ({ fromTierValue, charKey }: CharDragItem) => {
     dispatch(updateCharacterPicked({ key: charKey ?? '', picked: false }));
@@ -35,7 +41,7 @@ export default function CharListItemType() {
   });
 
   return (
-    <ScrollArea ref={drop} sx={{ height: '370px' }}>
+    <ScrollArea ref={drop} sx={{ height: '600px' }}>
       {isOver && (
         <Overlay
           opacity={0.6}
@@ -53,7 +59,14 @@ export default function CharListItemType() {
           {t('drag-it-here-and-put-it-back')}
         </Overlay>
       )}
-      <CharacterList />
+      <CharacterList
+        filterCharData={charsFilter}
+        selectKeys={charsSelect}
+        onSelect={(key) => {
+          setCharsSelect([...charsSelect, key]);
+        }}
+        onSelectCancel={(key) => setCharsSelect((c) => c.filter((i) => i !== key))}
+      />
     </ScrollArea>
   );
 }

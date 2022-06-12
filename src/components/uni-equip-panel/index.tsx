@@ -206,7 +206,7 @@ export default function Index({
                         }}
                       />
                     </Box>
-                    <Box sx={{ width: '18px', height: '40px', position: 'absolute', background: '#fff', zIndex: 100 }}>
+                    <Box sx={{ width: '18px', height: '40px', position: 'absolute', background: '#fff', zIndex: 1 }}>
                       {data.modules?.[data.moduleUse]?.level}
                     </Box>
                   </Center>

@@ -30,14 +30,14 @@ const useStyles = createStyles((theme, { mini, readonly, type, selecting }: Char
     borderRadius: mini ? '50%' : '20%',
     overflow: 'hidden',
     position: 'relative',
-    zIndex: 100,
+    zIndex: 1,
     boxShadow: selecting
       ? 'inset 0px 0px 10px 4px ' + (type !== 'tier-list' ? 'green' : 'red')
       : 'inset 0px 0px 10px 4px ' + theme.colors.gray[5],
   },
   nameBox: {
     position: 'absolute',
-    zIndex: 200,
+    zIndex: 2,
     top: mini ? '1px' : '66px',
     left: mini ? '-50%' : '0px',
     width: mini ? '200%' : '100%',

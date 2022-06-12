@@ -1,7 +1,6 @@
 import { RootState } from 'src/store';
-import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
+import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
 import CharContainer, { CharContainerType } from 'src/components/char-container';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { CharacterType } from 'src/store/slice/userSlice';
@@ -15,6 +14,9 @@ interface CharListItemProps {
   type?: CharContainerType;
   fromTierValue?: number;
   hidden?: boolean;
+  selecting?: boolean;
+  onSelect?: (key: string) => void;
+  onSelectCancel?: (key: string) => void;
 }
 
 export interface CharDragItem {
@@ -23,24 +25,18 @@ export interface CharDragItem {
   fromTierValue?: number;
 }
 
-export default function Index({ character, hidden, type, fromTierValue }: CharListItemProps) {
+export default function Index({
+  character,
+  hidden,
+  type,
+  fromTierValue,
+  selecting,
+  onSelect,
+  onSelectCancel,
+}: CharListItemProps) {
   const setting = useSelector((state: RootState) => state.setting);
   const dispatch = useDispatch();
-  const [listPicking, setListPicking] = useState(false);
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
-
-  const handleCharacterSelect = () => {
-    if (type === 'default')
-      dispatch(
-        updateCharacterSelecting({
-          key: character?.key ?? '',
-          selecting: !character?.selecting,
-        }),
-      );
-    else if (type === 'tier-list') {
-      setListPicking((listPicking) => !listPicking);
-    }
-  };
 
   const handleCharacterDelete = () => {
     dispatch(
@@ -52,6 +48,11 @@ export default function Index({ character, hidden, type, fromTierValue }: CharLi
     delTierOneChar(findTierIndexByValue(fromTierValue ?? 0) ?? 0, character?.key ?? '');
   };
 
+  const handleCharacterSelect = (value: boolean) => {
+    if (value) onSelect?.(character?.key ?? '');
+    else onSelectCancel?.(character?.key ?? '');
+  };
+
   return (
     <CharContainer
       nameDisplay={setting.nameDisplay}
@@ -61,7 +62,7 @@ export default function Index({ character, hidden, type, fromTierValue }: CharLi
       charStatus={character?.picked && type === 'default' ? 'picked' : 'default'}
       type={type}
       hidden={hidden}
-      selecting={character?.selecting || (type === 'tier-list' && listPicking)}
+      selecting={selecting}
       onSelectChange={handleCharacterSelect}
       onDelete={handleCharacterDelete}
       metaInfo={{

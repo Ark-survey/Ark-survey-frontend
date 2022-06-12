@@ -38,7 +38,7 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
     position: 'relative',
     width: '100%',
     height: fold ? 40 : 195,
-    zIndex: 200,
+    zIndex: 2,
   },
   folderButton: {
     transition: 'all 0.5s',

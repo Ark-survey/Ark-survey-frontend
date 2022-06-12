@@ -31,7 +31,6 @@ export default function Index({ sx, selecting, leftIcon, title, disabled, childr
         userSelect: 'none',
         display: 'block',
         width: '100%',
-        margin: '10px 0',
         padding: theme.spacing.xs,
         borderRadius: theme.radius.sm,
         color: !disabled ? (theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black) : theme.colors.gray[5],
@@ -40,13 +39,21 @@ export default function Index({ sx, selecting, leftIcon, title, disabled, childr
             ? theme.colors.gray[5]
             : theme.colors.gray[1]
           : undefined,
-        height: '50px',
         '&:hover': {
           backgroundColor:
             !selecting && !disabled
               ? theme.colorScheme === 'dark'
                 ? theme.colors.dark[6]
                 : theme.colors.gray[0]
+              : undefined,
+          cursor: !disabled ? 'pointer' : 'not-allowed',
+        },
+        '&:active': {
+          backgroundColor:
+            !selecting && !disabled
+              ? theme.colorScheme === 'dark'
+                ? theme.colors.dark[8]
+                : theme.colors.gray[2]
               : undefined,
           cursor: !disabled ? 'pointer' : 'not-allowed',
         },

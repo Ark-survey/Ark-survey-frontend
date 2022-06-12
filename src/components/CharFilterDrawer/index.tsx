@@ -1,7 +1,7 @@
-import { Button, Box, Stack, ScrollArea, Group, Paper } from '@mantine/core';
-import { useCallback, useEffect, useMemo } from 'react';
-import { rarity, profession, accessChannel, sex, position } from 'src/contexts';
-import { filterHeightState, changeChipGroup, changeDateRange, reset } from 'src/store/slice/filterSlice';
+import { Button, Stack } from '@mantine/core';
+import { useCallback, useMemo } from 'react';
+import { rarity, profession, position } from 'src/contexts';
+import { changeChipGroup, changeDateRange, reset } from 'src/store/slice/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { ChipGroups } from './ChipGroups';

@@ -1,4 +1,4 @@
-import { Navbar, Space } from '@mantine/core';
+import { Navbar, Space, Stack } from '@mantine/core';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -53,7 +53,9 @@ export default function Index() {
         <Space h={60} />
       </Navbar.Section>
       <Navbar.Section mx="xs">
-        <NavItem title={t('nav.mainPage')} leftIcon={<Home />} selecting={location.pathname === '/'} to="/" />
+        <Stack py="xs" spacing="xs">
+          <NavItem title={t('nav.mainPage')} leftIcon={<Home />} selecting={location.pathname === '/'} to="/" />
+        </Stack>
       </Navbar.Section>
       <Navbar.Section
         mx="xs"
@@ -61,21 +63,23 @@ export default function Index() {
           borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`,
         })}
       >
-        <NavItem title={t('nav.basic')} leftIcon={<School />} disabled />
-        <NavItem
-          title={t('nav.char')}
-          to="/charBox"
-          leftIcon={<CheckupList />}
-          selecting={location.pathname === '/charBox'}
-        />
-        <NavItem
-          to="/tierList"
-          title={t('nav.strong')}
-          leftIcon={<BoxMultiple5 />}
-          selecting={location.pathname === '/tierList'}
-          disabled={!userData?.id}
-        />
-        <NavItem title={t('nav.love')} leftIcon={<ThumbUp />} disabled />
+        <Stack py="xs" spacing="xs">
+          <NavItem title={t('nav.basic')} leftIcon={<School />} disabled />
+          <NavItem
+            title={t('nav.char')}
+            to="/charBox"
+            leftIcon={<CheckupList />}
+            selecting={location.pathname === '/charBox'}
+          />
+          <NavItem
+            to="/tierList"
+            title={t('nav.strong')}
+            leftIcon={<BoxMultiple5 />}
+            selecting={location.pathname === '/tierList'}
+            disabled={!userData?.id}
+          />
+          <NavItem title={t('nav.love')} leftIcon={<ThumbUp />} disabled />
+        </Stack>
       </Navbar.Section>
       <Navbar.Section
         grow
@@ -84,13 +88,15 @@ export default function Index() {
           borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`,
         })}
       >
-        <NavItem title={t('nav.note')} leftIcon={<Notebook />} disabled />
-        <NavItem
-          title={t('nav.statistics')}
-          leftIcon={<ChartBar />}
-          selecting={location.pathname === '/statistics'}
-          to="/statistics"
-        />
+        <Stack py="xs" spacing="xs">
+          <NavItem title={t('nav.note')} leftIcon={<Notebook />} disabled />
+          <NavItem
+            title={t('nav.statistics')}
+            leftIcon={<ChartBar />}
+            selecting={location.pathname === '/statistics'}
+            to="/statistics"
+          />
+        </Stack>
       </Navbar.Section>
       <Navbar.Section
         mx="xs"
@@ -98,22 +104,24 @@ export default function Index() {
           borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`,
         })}
       >
-        {userData?.id && (
+        <Stack py="xs" spacing="xs">
+          {userData?.id && (
+            <NavItem
+              sx={{ height: '55px' }}
+              title={t('nav.copy')}
+              leftIcon={<Copy />}
+              disabled={!userData?.id}
+              onClick={handleCopyText}
+            />
+          )}
           <NavItem
             sx={{ height: '55px' }}
-            title={t('nav.copy')}
-            leftIcon={<Copy />}
-            disabled={!userData?.id}
-            onClick={handleCopyText}
+            title={t('nav.setting')}
+            selecting={location.pathname === '/setting'}
+            leftIcon={<Settings />}
+            to="/setting"
           />
-        )}
-        <NavItem
-          sx={{ height: '55px' }}
-          title={t('nav.setting')}
-          selecting={location.pathname === '/setting'}
-          leftIcon={<Settings />}
-          to="/setting"
-        />
+        </Stack>
       </Navbar.Section>
     </Navbar>
   );

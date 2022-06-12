@@ -13,7 +13,7 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
     background: theme.white,
     fontWeight: 700,
     position: 'relative',
-    zIndex: 100,
+    zIndex: 1,
     border: '1px solid' + theme.colors.gray[2],
     borderRadius: '10px 10px 0 0',
   },
@@ -24,7 +24,7 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
     width: '100%',
     height: fold ? 60 : 290,
     borderRadius: '0 10px 10px 10px',
-    zIndex: 200,
+    zIndex: 2,
   },
   folderButton: {
     transition: 'all 0.5s',
@@ -54,7 +54,7 @@ const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
     top: fold ? 0 : 42,
     left: 85,
     marginRight: '10px',
-    zIndex: 300,
+    zIndex: 3,
     fontWeight: 700,
   },
   skillELevel: {
@@ -162,7 +162,7 @@ export default function Index({
                     top: '5px',
                     width: '16px',
                     height: '16px',
-                    zIndex: 400,
+                    zIndex: 4,
                     background: 'rgba(0,0,0,0.8)',
                   }}
                 >
@@ -192,7 +192,7 @@ export default function Index({
                       top: '5px',
                       width: 0,
                       height: 0,
-                      zIndex: 300,
+                      zIndex: 3,
                       border: '14px solid transparent',
                       borderTop: '14px solid rgba(14,140,226,0.9)',
                       borderRight: '14px solid rgba(14,140,226,0.9)',
@@ -204,7 +204,7 @@ export default function Index({
                       color: '#fff',
                       right: '2px',
                       top: '2px',
-                      zIndex: 300,
+                      zIndex: 3,
                       transform: 'scale(0.65)',
                     }}
                   >
