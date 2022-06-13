@@ -22,7 +22,7 @@ import { CharacterType } from 'src/store/slice/userSlice';
 import { updateKey1, updateKey2 } from 'src/store/slice/TierListStatisticsSlice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { treeToArray } from 'src/utils/TreeUtils';
-import { InfoCircle } from 'tabler-icons-react';
+import { IconInfoCircle } from '@tabler/icons';
 import { errorNotice, successNotice } from '../components/Notice';
 
 function CharStatisticBox({
@@ -322,7 +322,7 @@ export default function Index() {
                 onClick={() => setOpened((o) => !o)}
               >
                 {t('statistics.validCount')}
-                <InfoCircle size={10} />
+                <IconInfoCircle size={10} />
               </Box>
             }
             width={310}
@@ -365,3 +365,5 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ image, label, descri
     </Group>
   </div>
 ));
+
+SelectItem.displayName = 'SelectItem';

@@ -7,7 +7,7 @@ import PageHeader from 'src/components/PageHeader';
 import { RootState } from 'src/store';
 import { updateEditKey1, updateEditKey2 } from 'src/store/slice/TierListSlice';
 import { treeToArray } from 'src/utils/TreeUtils';
-import { ArrowLeft, ChartRadar, Map2 } from 'tabler-icons-react';
+import { IconArrowLeft, IconChartRadar, IconMap2 } from '@tabler/icons';
 import Description from './Description';
 
 export default function Index({ inside, onInside }: { inside: boolean; onInside?: () => void }) {
@@ -20,12 +20,12 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
     {
       value: 'AE',
       label: '能力',
-      icon: <ChartRadar size={16} />,
+      icon: <IconChartRadar size={16} />,
     },
     {
       value: 'IAE',
       label: '环境',
-      icon: <Map2 size={16} />,
+      icon: <IconMap2 size={16} />,
     },
   ]);
   const [envList] = useState([
@@ -93,7 +93,7 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
     <>
       <PageHeader title={inside ? fitObj?.label : '强度评价'} inside={inside}>
         <ActionIcon size="md">
-          <ArrowLeft onClick={onInside} />
+          <IconArrowLeft onClick={onInside} />
         </ActionIcon>
       </PageHeader>
       {!inside && (

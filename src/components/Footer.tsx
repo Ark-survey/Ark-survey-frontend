@@ -1,20 +1,8 @@
-import {
-  Avatar,
-  AvatarsGroup,
-  Box,
-  Button,
-  Text,
-  createStyles,
-  Group,
-  Space,
-  Stack,
-  Grid,
-  Center,
-} from '@mantine/core';
+import { Avatar, AvatarsGroup, Box, Button, createStyles, Space, Grid, Center } from '@mantine/core';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'src/hooks';
-import { BrandGithub, Container, Notes, Tent, Trash } from 'tabler-icons-react';
+import { IconBrandGithub, IconNotes, IconTent, IconTrash } from '@tabler/icons';
 
 interface HeaderProps {
   children?: any;
@@ -195,7 +183,7 @@ export default function Index({ children }: HeaderProps) {
             color="dark"
             onClick={() => window.open('https://github.com/Ark-survey')}
           >
-            {downMD ? <BrandGithub /> : t('footer.gitHub')}
+            {downMD ? <IconBrandGithub /> : t('footer.gitHub')}
           </Button>
         </Grid.Col>
         <Grid.Col span={downXS ? 3 : 6} className={classes.buttonGrid}>
@@ -206,7 +194,7 @@ export default function Index({ children }: HeaderProps) {
             color="teal"
             onClick={() => window.open('https://github.com/Ark-survey/Ark-survey-frontend/issues/new')}
           >
-            {downMD ? <Notes /> : t('footer.report')}
+            {downMD ? <IconNotes /> : t('footer.report')}
           </Button>
         </Grid.Col>
         <Grid.Col span={downXS ? 3 : 6} className={classes.buttonGrid}>
@@ -220,7 +208,7 @@ export default function Index({ children }: HeaderProps) {
               );
             }}
           >
-            {downMD ? <Tent /> : t('footer.join-us')}
+            {downMD ? <IconTent /> : t('footer.join-us')}
           </Button>
         </Grid.Col>
         <Grid.Col span={downXS ? 3 : 6} className={classes.buttonGrid}>
@@ -234,7 +222,7 @@ export default function Index({ children }: HeaderProps) {
               location.reload();
             }}
           >
-            {downMD ? <Trash /> : t('footer.clean-cache')}
+            {downMD ? <IconTrash /> : t('footer.clean-cache')}
           </Button>
         </Grid.Col>
       </Grid>

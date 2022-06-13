@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Popover, Button, Box, Text, ActionIcon } from '@mantine/core';
-import { Trash } from 'tabler-icons-react';
+import { IconTrash } from '@tabler/icons';
 import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
@@ -43,7 +43,7 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
           radius="xs"
           onClick={() => setOpened((o) => !o)}
         >
-          <Trash />
+          <IconTrash />
         </ActionIcon>
       }
       width={210}

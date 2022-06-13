@@ -10,7 +10,7 @@ import { Tier } from 'src/api/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { editingTierList } from 'src/store/slice/TierListSlice';
 import CharContainer, { ItemTypes } from 'src/components/char-container';
-import { Plus } from 'tabler-icons-react';
+import { IconPlus } from '@tabler/icons';
 import { t } from 'i18next';
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
 import { successNotice } from '../../components/Notice';
@@ -81,7 +81,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
               successNotice(t('bulk-added-successfully'));
             }}
           >
-            <Plus color="grey" />
+            <IconPlus color="grey" />
           </Center>
         </CharContainer>
       );

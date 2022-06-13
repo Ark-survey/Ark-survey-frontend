@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
 import { Group, ActionIcon, useMantineColorScheme, Box, Image, Space, Burger, createStyles } from '@mantine/core';
-import { Sun, MoonStars, Language } from 'tabler-icons-react';
+import { IconSun, IconMoonStars } from '@tabler/icons';
 import { RootState } from 'src/store';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -89,7 +88,7 @@ export function Brand() {
             <Language size={16} />
           </ActionIcon> */}
           <ActionIcon variant="default" disabled onClick={() => toggleColorScheme()} size={30}>
-            {colorScheme === 'dark' ? <Sun size={16} /> : <MoonStars size={16} />}
+            {colorScheme === 'dark' ? <IconSun size={16} /> : <IconMoonStars size={16} />}
           </ActionIcon>
         </Group>
       </Group>

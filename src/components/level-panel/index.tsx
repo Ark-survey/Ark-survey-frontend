@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux';
 import { Character } from 'src/api/CharBoxServer';
 import { CharLevelDataType } from 'src/components/CharDataUnit';
 import { RootState } from 'src/store';
-import { FoldDown, FoldUp } from 'tabler-icons-react';
+import { IconFoldDown, IconFoldUp } from '@tabler/icons';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
   container: {
@@ -194,7 +194,7 @@ export default function Index({
       <Box className={classes.bottomBox}>
         <Box className={classes.folderButton}>
           <Button variant="subtle" sx={{ width: '100%', height: '100%' }} onClick={() => onClickFoldButton?.(!fold)}>
-            {fold ? <FoldDown size={30} /> : <FoldUp size={30} />}
+            {fold ? <IconFoldDown size={30} /> : <IconFoldUp size={30} />}
           </Button>
         </Box>
         <Divider />

@@ -16,7 +16,7 @@ import { successNotice } from '../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { editingTierList } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
-import { Aperture } from 'tabler-icons-react';
+import { IconAperture } from '@tabler/icons';
 import CardRoot from 'src/components/CardRoot';
 
 export default function Index() {
@@ -66,7 +66,7 @@ export default function Index() {
             <ResetAllCharacterPopover />
             <AddTierPopover />
             <ActionIcon disabled size="lg" radius="md" onClick={makeTierImg}>
-              <Aperture />
+              <IconAperture />
             </ActionIcon>
             <UploadPopover />
           </Group>

@@ -3,7 +3,7 @@ import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Character } from 'src/api/CharBoxServer';
 import { RootState } from 'src/store';
-import { Check, FoldDown, FoldUp } from 'tabler-icons-react';
+import { IconCheck, IconFoldDown, IconFoldUp } from '@tabler/icons';
 import SkillContainer from '.';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
@@ -208,7 +208,7 @@ export default function Index({
                       transform: 'scale(0.65)',
                     }}
                   >
-                    <Check />
+                    <IconCheck />
                   </Box>
                 </>
               )}
@@ -294,7 +294,7 @@ export default function Index({
       <Paper withBorder shadow="md" className={classes.bottomBox}>
         <Box className={classes.folderButton}>
           <Button variant="subtle" sx={{ width: '100%', height: '100%' }} onClick={() => onClickFoldButton?.(!fold)}>
-            {fold ? <FoldDown size={30} /> : <FoldUp size={30} />}
+            {fold ? <IconFoldDown size={30} /> : <IconFoldUp size={30} />}
           </Button>
         </Box>
         <Divider />
