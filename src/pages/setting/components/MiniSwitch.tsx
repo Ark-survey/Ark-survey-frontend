@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { changeMini } from 'src/store/slice/settingSlice';
-import { InfoCircle } from 'tabler-icons-react';
+import { IconInfoCircle } from '@tabler/icons';
 
 export default function Index() {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export default function Index() {
         <Tooltip label="开启这个选项会让除皮肤以外所有的头像变小" position="bottom" placement="end" gutter={10}>
           <Group position="center" spacing={8}>
             <Text>干员头像 MINI 模式</Text>
-            <InfoCircle size={12} />
+            <IconInfoCircle size={12} />
           </Group>
         </Tooltip>
       }

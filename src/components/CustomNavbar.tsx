@@ -7,16 +7,16 @@ import { useChangeSize } from 'src/hooks';
 import { successNotice } from 'src/pages/tier-list/components/Notice';
 import { RootState } from 'src/store';
 import {
-  BoxMultiple5,
-  ChartBar,
-  CheckupList,
-  Copy,
-  Home,
-  Notebook,
-  School,
-  Settings,
-  ThumbUp,
-} from 'tabler-icons-react';
+  IconBoxMultiple5,
+  IconChartBar,
+  IconCheckupList,
+  IconCopy,
+  IconHome,
+  IconNotebook,
+  IconSchool,
+  IconSettings,
+  IconThumbUp,
+} from '@tabler/icons';
 import NavItem from './NavItem';
 
 function copyToClip(content: string) {
@@ -54,7 +54,7 @@ export default function Index() {
       </Navbar.Section>
       <Navbar.Section mx="xs">
         <Stack py="xs" spacing="xs">
-          <NavItem title={t('nav.mainPage')} leftIcon={<Home />} selecting={location.pathname === '/'} to="/" />
+          <NavItem title={t('nav.mainPage')} leftIcon={<IconHome />} selecting={location.pathname === '/'} to="/" />
         </Stack>
       </Navbar.Section>
       <Navbar.Section
@@ -64,21 +64,21 @@ export default function Index() {
         })}
       >
         <Stack py="xs" spacing="xs">
-          <NavItem title={t('nav.basic')} leftIcon={<School />} disabled />
+          <NavItem title={t('nav.basic')} leftIcon={<IconSchool />} disabled />
           <NavItem
             title={t('nav.char')}
             to="/charBox"
-            leftIcon={<CheckupList />}
+            leftIcon={<IconCheckupList />}
             selecting={location.pathname === '/charBox'}
           />
           <NavItem
             to="/tierList"
             title={t('nav.strong')}
-            leftIcon={<BoxMultiple5 />}
+            leftIcon={<IconBoxMultiple5 />}
             selecting={location.pathname === '/tierList'}
             disabled={!userData?.id}
           />
-          <NavItem title={t('nav.love')} leftIcon={<ThumbUp />} disabled />
+          <NavItem title={t('nav.love')} leftIcon={<IconThumbUp />} disabled />
         </Stack>
       </Navbar.Section>
       <Navbar.Section
@@ -89,10 +89,10 @@ export default function Index() {
         })}
       >
         <Stack py="xs" spacing="xs">
-          <NavItem title={t('nav.note')} leftIcon={<Notebook />} disabled />
+          <NavItem title={t('nav.note')} leftIcon={<IconNotebook />} disabled />
           <NavItem
             title={t('nav.statistics')}
-            leftIcon={<ChartBar />}
+            leftIcon={<IconChartBar />}
             selecting={location.pathname === '/statistics'}
             to="/statistics"
           />
@@ -109,7 +109,7 @@ export default function Index() {
             <NavItem
               sx={{ height: '55px' }}
               title={t('nav.copy')}
-              leftIcon={<Copy />}
+              leftIcon={<IconCopy />}
               disabled={!userData?.id}
               onClick={handleCopyText}
             />
@@ -118,7 +118,7 @@ export default function Index() {
             sx={{ height: '55px' }}
             title={t('nav.setting')}
             selecting={location.pathname === '/setting'}
-            leftIcon={<Settings />}
+            leftIcon={<IconSettings />}
             to="/setting"
           />
         </Stack>

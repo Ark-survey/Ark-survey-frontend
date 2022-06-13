@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ReactNode } from 'react';
 import { TreeNode } from 'src/utils/TreeUtils';
-import { ChartRadar, Map2 } from 'tabler-icons-react';
 
 export interface TierListKeyGroup {
   key?: string;

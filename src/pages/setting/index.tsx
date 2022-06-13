@@ -1,5 +1,4 @@
 import { Accordion, Center, Container, Stack } from '@mantine/core';
-import {} from 'tabler-icons-react';
 import LangSelect from './components/LangSelect';
 import MiniSwitch from './components/MiniSwitch';
 import NameDisplaySwitch from './components/NameDisplaySwitch';

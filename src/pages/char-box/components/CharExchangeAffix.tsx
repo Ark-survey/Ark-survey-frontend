@@ -1,5 +1,5 @@
 import { Affix, Box, Paper, Divider, Title, ActionIcon, Stack } from '@mantine/core';
-import { DeviceFloppy, Exchange, Filter } from 'tabler-icons-react';
+import { IconDeviceFloppy, IconExchange, IconFilter } from '@tabler/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
 import { RootState } from 'src/store';
@@ -51,13 +51,13 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
       <Paper radius={0} p="md" sx={{ width: '100vw', height: '200px', display: 'flex' }}>
         <Stack pr={10}>
           <ActionIcon size="lg" color="blue" radius="md" onClick={handleSaveCharBox}>
-            <DeviceFloppy />
+            <IconDeviceFloppy />
           </ActionIcon>
           <ActionIcon size="lg" onClick={() => dispatch(updateCharBoxEditing(!charBoxEditing))}>
-            <Exchange />
+            <IconExchange />
           </ActionIcon>
           <ActionIcon size="lg" onClick={onClickFilter}>
-            <Filter />
+            <IconFilter />
           </ActionIcon>
           {/* <Title order={5} px={5}>
             干员盒

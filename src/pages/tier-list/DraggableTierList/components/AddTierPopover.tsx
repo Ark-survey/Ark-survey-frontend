@@ -6,7 +6,7 @@ import { successNotice } from '../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { editingTierList } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
-import { Plus } from 'tabler-icons-react';
+import { IconPlus } from '@tabler/icons';
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
@@ -54,7 +54,7 @@ export default function UploadPopover() {
       onClose={() => setOpened(false)}
       target={
         <ActionIcon size="lg" color="green" radius="md" onClick={() => setOpened((o) => !o)}>
-          <Plus />
+          <IconPlus />
         </ActionIcon>
       }
       width={200}

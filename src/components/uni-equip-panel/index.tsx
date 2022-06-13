@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Character, Module } from 'src/api/CharBoxServer';
 import { RootState } from 'src/store';
-import { ChevronsDown, ChevronsUp } from 'tabler-icons-react';
+import { IconChevronsDown, IconChevronsUp } from '@tabler/icons';
 import UniEquipImg from '../image-container/UniEquipImg';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
@@ -127,7 +127,7 @@ export default function Index({
                 sx={{ height: 75, padding: 0 }}
                 onClick={() => handleDisplayChange('up')}
               >
-                <ChevronsUp />
+                <IconChevronsUp />
               </Button>
               <Button
                 variant="subtle"
@@ -136,7 +136,7 @@ export default function Index({
                 sx={{ height: 75, padding: 0 }}
                 onClick={() => handleDisplayChange('down')}
               >
-                <ChevronsDown />
+                <IconChevronsDown />
               </Button>
             </Stack>
             <Box sx={{ flex: '1', display: 'flex', flexDirection: 'row-reverse' }}>

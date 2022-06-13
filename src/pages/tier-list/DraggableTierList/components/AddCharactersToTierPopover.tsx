@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Popover, Button, Box, Text, ActionIcon } from '@mantine/core';
-import { Plus } from 'tabler-icons-react';
+import { IconPlus } from '@tabler/icons';
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
@@ -42,7 +42,7 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
           radius="xs"
           onClick={() => setOpened((o) => !o)}
         >
-          <Plus />
+          <IconPlus />
         </ActionIcon>
       }
       width={210}

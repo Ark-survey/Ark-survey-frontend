@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Popover, Button, Box, NumberInput, ActionIcon, InputWrapper, TextInput, Space } from '@mantine/core';
-import { Edit } from 'tabler-icons-react';
+import { Edit } from '@tabler/icons';
 import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
 import { Tier } from 'src/api/TierListServer';

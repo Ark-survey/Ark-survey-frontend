@@ -2,7 +2,7 @@ import { keyframes, Box, Group, Modal, Text, Transition } from '@mantine/core';
 import { t } from 'i18next';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Refresh } from 'tabler-icons-react';
+import { IconRefresh } from '@tabler/icons';
 import { persistor, RootState } from './store';
 import { updateUserData } from './store/slice/userSlice';
 
@@ -75,7 +75,7 @@ function UpdateVersionNotion() {
       <Group position="apart" sx={{ userSelect: 'none' }}>
         <Text>{t('versionUpdate.notion')}</Text>
         <Box sx={{ height: '24px', animationName: a1, animationDuration: '3s', animationIterationCount: 'infinite' }}>
-          <Refresh />
+          <IconRefresh />
         </Box>
       </Group>
     </Modal>

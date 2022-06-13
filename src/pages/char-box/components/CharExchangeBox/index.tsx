@@ -3,15 +3,15 @@ import Header from 'src/components/Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import {
-  ChevronsDown,
-  ChevronsUp,
-  DeviceFloppy,
-  Exchange,
-  Filter,
-  Square,
-  SquareCheck,
-  SquareDot,
-} from 'tabler-icons-react';
+  IconChevronsDown,
+  IconChevronsUp,
+  IconDeviceFloppy,
+  IconExchange,
+  IconFilter,
+  IconSquare,
+  IconSquareCheck,
+  IconSquareDot,
+} from '@tabler/icons';
 import { useTranslation } from 'react-i18next';
 import CharList from './CharList';
 import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
@@ -135,14 +135,14 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
           <Group position="right" spacing={10}>
             {!charBoxEditing && (
               <ActionIcon size="lg" radius="md" onClick={handleChangeAllCharOutBoxSelect}>
-                {selectMax ? <SquareCheck /> : charSelectOutBox.length !== 0 ? <SquareDot /> : <Square />}
+                {selectMax ? <IconSquareCheck /> : charSelectOutBox.length !== 0 ? <IconSquareDot /> : <IconSquare />}
               </ActionIcon>
             )}
             <ActionIcon size="lg" radius="md" onClick={onClickFilter}>
-              <Filter />
+              <IconFilter />
             </ActionIcon>
             <ActionIcon size="lg" color="blue" radius="md" onClick={handleSaveCharBox}>
-              <DeviceFloppy />
+              <IconDeviceFloppy />
             </ActionIcon>
           </Group>
         </Header>
@@ -159,10 +159,10 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
             </ScrollArea>
             <Divider />
             <Group position="center">
-              <Button leftIcon={<ChevronsUp />} size="xs" color="red" variant="outline" onClick={handleCharOut}>
+              <Button leftIcon={<IconChevronsUp />} size="xs" color="red" variant="outline" onClick={handleCharOut}>
                 移至未持有
               </Button>
-              <Button leftIcon={<ChevronsDown />} size="xs" variant="outline" onClick={handleCharIn}>
+              <Button leftIcon={<IconChevronsDown />} size="xs" variant="outline" onClick={handleCharIn}>
                 移至已持有
               </Button>
             </Group>
@@ -186,7 +186,7 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
           <Button
             variant={charBoxEditing ? 'outline' : 'filled'}
             color="indigo"
-            leftIcon={<Exchange />}
+            leftIcon={<IconExchange />}
             onClick={() => dispatch(updateCharBoxEditing(!charBoxEditing))}
           >
             {charBoxEditing ? '练度编辑模式' : '持有编辑模式'}

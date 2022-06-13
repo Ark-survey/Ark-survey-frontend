@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { successNotice } from '../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
-import { ClearAll } from 'tabler-icons-react';
+import { IconClearAll } from '@tabler/icons';
 
 export default function ResetAllCharacterPopover() {
   const [opened, setOpened] = useState(false);
@@ -28,7 +28,7 @@ export default function ResetAllCharacterPopover() {
       onClose={() => setOpened(false)}
       target={
         <ActionIcon size="lg" color="red" radius="md" onClick={() => setOpened((o) => !o)}>
-          <ClearAll />
+          <IconClearAll />
         </ActionIcon>
       }
       width={160}

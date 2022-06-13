@@ -2,7 +2,7 @@ import { ActionIcon, Divider, Group, Stack } from '@mantine/core';
 import Header from 'src/components/Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import { Filter } from 'tabler-icons-react';
+import { IconFilter } from '@tabler/icons';
 import { useTranslation } from 'react-i18next';
 import CharListBox from '../CharListBox';
 import useCharFilterDrawer from 'src/components/CharFilterDrawer/useCharFilterDrawer';
@@ -21,7 +21,7 @@ export default function Index() {
         <Header title={t('charTitle')}>
           <Group position="right" spacing={10}>
             <ActionIcon size="lg" radius="md" onClick={() => setOpened(true)}>
-              <Filter />
+              <IconFilter />
             </ActionIcon>
           </Group>
         </Header>
