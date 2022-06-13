@@ -1,11 +1,11 @@
 # ArkSurvey
 
-- product env: https://arksurvey.fun/
-- test env: https://test.arksurvey.fun/
+Survey something of Arknights.
 
 ## v0.4 🔥 DEVELOPING 80%
 
-Survey something of Arknights.
+- product env: https://arksurvey.fun/
+- test env: https://test.arksurvey.fun/
 
 ## How?
 
@@ -28,11 +28,11 @@ Survey something of Arknights.
 ```sh
 pnpm i
 
-// Run in Mac
+# Run in Mac
 pnpm start
 pnpm build
 
-// Run in Win
+# Run in Win
 pnpm start:win
 pnpm build:win
 ```
