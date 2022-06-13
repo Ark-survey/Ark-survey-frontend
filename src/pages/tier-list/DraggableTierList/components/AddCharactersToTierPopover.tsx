@@ -4,7 +4,7 @@ import { IconPlus } from '@tabler/icons';
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import { successNotice } from '../../components/Notice';
+import { successNotice } from '../../../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 

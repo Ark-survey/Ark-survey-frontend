@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { t } from 'i18next';
-import { errorNotice } from 'src/pages/tier-list/components/Notice';
+import { errorNotice } from 'src/components/Notice';
 import { TierListServer } from './TierListServer';
 
 export const get = (server: string, resource: string, data: { [key: string]: string }) => {

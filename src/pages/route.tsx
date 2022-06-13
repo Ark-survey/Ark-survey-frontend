@@ -8,7 +8,7 @@ import MainPage from './main-page';
 import NotFound from './not-found';
 import Setting from './setting';
 import TierList from './tier-list';
-import TierListStatistics from './tier-list/TierListStatistics';
+import Statistics from './statistics';
 
 export function RootRouter() {
   const user = useSelector((state: RootState) => state.user);
@@ -22,7 +22,7 @@ export function RootRouter() {
           <Route path="*" element={<NotFound />} />
         )}
         <Route path="charBox" element={<CharBox />} />
-        <Route path="statistics" element={<TierListStatistics />} />
+        <Route path="statistics" element={<Statistics />} />
         <Route path="demo" element={<Demo />} />
         <Route path="setting" element={<Setting />} />
         <Route path="*" element={<NotFound />} />

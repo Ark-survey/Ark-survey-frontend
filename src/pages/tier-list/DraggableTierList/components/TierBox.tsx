@@ -13,7 +13,7 @@ import CharContainer, { ItemTypes } from 'src/components/char-container';
 import { IconPlus } from '@tabler/icons';
 import { t } from 'i18next';
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
-import { successNotice } from '../../components/Notice';
+import { successNotice } from '../../../../components/Notice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 /**

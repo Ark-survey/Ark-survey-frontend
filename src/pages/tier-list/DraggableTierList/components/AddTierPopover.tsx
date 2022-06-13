@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Popover, Button, Box, NumberInput, InputWrapper, Space, TextInput, ActionIcon } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
-import { successNotice } from '../../components/Notice';
+import { successNotice } from '../../../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { editingTierList } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';

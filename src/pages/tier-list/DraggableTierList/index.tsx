@@ -12,7 +12,7 @@ import UploadPopover from './components/UploadPopover';
 import { useCallback, useRef, useState } from 'react';
 import { capture } from 'src/utils/CaptureUtils';
 import { format } from 'date-fns';
-import { successNotice } from '../components/Notice';
+import { successNotice } from '../../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { editingTierList } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';

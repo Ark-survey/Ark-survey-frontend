@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { TierListServer } from 'src/api';
-import { successNotice } from 'src/pages/tier-list/components/Notice';
+import { successNotice } from 'src/components/Notice';
 import { RootState } from 'src/store';
 import { updateTierLists } from 'src/store/slice/TierListSlice';
 

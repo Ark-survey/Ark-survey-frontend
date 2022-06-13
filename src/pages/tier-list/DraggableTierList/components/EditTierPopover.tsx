@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Popover, Button, Box, NumberInput, ActionIcon, InputWrapper, TextInput, Space } from '@mantine/core';
-import { Edit } from '@tabler/icons';
+import { IconEdit } from '@tabler/icons';
 import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
 import { Tier } from 'src/api/TierListServer';
-import { successNotice } from '../../components/Notice';
+import { successNotice } from '../../../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { editingTierList } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
@@ -20,7 +20,6 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
       value: tier.value,
       name: tier.name,
     },
-
     validate: {
       value: (value) =>
         tier.value !== value && (tiers ?? []).filter((v) => v.value === value).length > 0
@@ -62,7 +61,7 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
           radius="xs"
           onClick={() => setOpened((o) => !o)}
         >
-          <Edit />
+          <IconEdit />
         </ActionIcon>
       }
       width={200}

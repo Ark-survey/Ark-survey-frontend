@@ -4,7 +4,7 @@ import { IconCloudUpload, IconRefresh } from '@tabler/icons';
 import { TierListServer } from 'src/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { successNotice } from '../../components/Notice';
+import { successNotice } from '../../../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { editingTierList, updateEditingTierList } from 'src/store/slice/TierListSlice';
 

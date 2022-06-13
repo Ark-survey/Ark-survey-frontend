@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { UserServer } from 'src/api/UserServer';
 import { updateUserData } from 'src/store/slice/userSlice';
-import { errorNotice, successNotice } from '../../tier-list/components/Notice';
+import { errorNotice, successNotice } from '../../../components/Notice';
 
 export default function Index() {
   const dispatch = useDispatch();

@@ -21,13 +21,7 @@ import { mapToArray } from 'src/utils/ObjectUtils';
 import { addCharToBox, delCharFromBox, updateCharInBox } from 'src/store/slice/charBoxSlice';
 import { Character, CharBoxServer, Module, Skill } from 'src/api/CharBoxServer';
 import CharBox from '../..';
-import { errorNotice, successNotice } from 'src/pages/tier-list/components/Notice';
-
-const useStyles = createStyles((theme) => ({
-  root: {
-    maxWidth: 686,
-  },
-}));
+import { errorNotice, successNotice } from 'src/components/Notice';
 
 export default function Index({ onClickFilter }: { onClickFilter: () => void }) {
   const filters = useSelector((state: RootState) => state.filters);
@@ -38,7 +32,6 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
   const { charBoxEditing } = useSelector((state: RootState) => state.setting);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { classes } = useStyles();
 
   const [charSelectInBox, setCharSelectInBox] = useState<string[]>([]);
   const [charSelectOutBox, setCharSelectOutBox] = useState<string[]>([]);
@@ -129,7 +122,7 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
   };
 
   return (
-    <Paper shadow="md" radius="lg" p="lg" withBorder className={classes.root}>
+    <Paper shadow="md" radius="lg" p="lg" withBorder sx={{ flex: '1' }}>
       <Stack>
         <Header title={charBoxEditing ? '干员盒' : '持有编辑'}>
           <Group position="right" spacing={10}>
@@ -177,7 +170,7 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
             </ScrollArea>
           </>
         ) : (
-          <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '370px' }}>
+          <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '850px' }}>
             <CharBoxList />
           </ScrollArea>
         )}

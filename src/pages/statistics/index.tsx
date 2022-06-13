@@ -1,7 +1,7 @@
 import { Container, Stack, Box } from '@mantine/core';
 
-import CharBoxInsidePage from './components/CharBoxInsidePage';
-import CharBoxMainPage from './components/CharBoxMainPage';
+import StatisticsMainPage from './components/StatisticsMainPage';
+import StatisticsInsidePage from './components/StatisticsInsidePage';
 import { useState } from 'react';
 
 export default function Index() {
@@ -10,10 +10,10 @@ export default function Index() {
   return (
     <Container size={1200} p="xl" sx={{ userSelect: 'none' }}>
       <Stack>
-        <CharBoxMainPage inside={inside} onInside={() => setInside((inside) => !inside)} />
+        <StatisticsMainPage inside={inside} onInside={() => setInside((inside) => !inside)} />
         {inside && (
           <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-            <CharBoxInsidePage />
+            <StatisticsInsidePage />
           </Box>
         )}
       </Stack>

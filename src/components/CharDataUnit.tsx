@@ -181,7 +181,7 @@ export default function Index() {
   );
 
   return (
-    <Group position="center" sx={{ alignItems: 'flex-start' }}>
+    <Group position="center" sx={{ alignItems: 'flex-start', flex: '1' }}>
       {editingChar && (
         <>
           <Stack>

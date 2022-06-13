@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useChangeSize } from 'src/hooks';
-import { successNotice } from 'src/pages/tier-list/components/Notice';
+import { successNotice } from 'src/components/Notice';
 import { RootState } from 'src/store';
 import {
   IconBoxMultiple5,
