@@ -27,8 +27,12 @@ Survey something of Arknights.
 
 ```sh
 pnpm i
-// Mac
-pnpm start or pnpm build
-// Win
-pnpm start:dev or pnpm build:dev
+
+// Run in Mac
+pnpm start
+pnpm build
+
+// Run in Win
+pnpm start:win
+pnpm build:win
 ```
