@@ -92,8 +92,12 @@ let initialState: { collection: TreeNode<TierListKeyGroup>[] } = {
                   name: '道中',
                 },
                 {
-                  id: 'boss',
-                  name: 'Boss房',
+                  id: 'boss-1',
+                  name: '大锁',
+                },
+                {
+                  id: 'boss-2',
+                  name: '喉舌',
                 },
               ],
             },

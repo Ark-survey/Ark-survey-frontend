@@ -128,12 +128,11 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
 
                 <Group>
                   {type2List.map((it) => (
-                    <NavItem sx={{ flex: 1 }} key={it.value}>
+                    <NavItem sx={{ flex: 1 }} key={it.value} onClick={() => handleType2Change(it.value)}>
                       <SelectItem
                         sx={{ height: '100%', minWidth: '220px' }}
                         description={it.description}
                         label={it.label}
-                        onClick={() => handleType2Change(it.value)}
                       />
                     </NavItem>
                   ))}
@@ -151,7 +150,6 @@ interface ItemProps {
   label?: string;
   description?: string;
   titleProps?: any;
-  onClick?: () => void;
   sx?: Sx;
 }
 
