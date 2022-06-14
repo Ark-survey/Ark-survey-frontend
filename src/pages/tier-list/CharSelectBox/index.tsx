@@ -20,7 +20,8 @@ export default function Index() {
   const charsFilter = useMemo(
     () =>
       charData.filter((it) => {
-        if (it.isNotObtainable || !filterCharFunc(it)) return false;
+        if (it.isNotObtainable) return false;
+        else if (!filterCharFunc(it)) return false;
         return true;
       }),
     [charData, filterCharFunc],

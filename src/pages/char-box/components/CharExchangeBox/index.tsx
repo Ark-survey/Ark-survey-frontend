@@ -40,9 +40,9 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
   const charTypeInBox = useMemo(
     () =>
       charData.filter((it) => {
-        return charInBoxArray.findIndex((i) => i.key === it.key) > -1;
+        return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterCharFunc(it);
       }),
-    [charData, charInBoxArray],
+    [charData, charInBoxArray, filterCharFunc],
   );
 
   const charTypeOutBox = useMemo(
@@ -135,7 +135,7 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
             <ActionIcon size="lg" color="blue" radius="md" onClick={handleSaveCharBox}>
               <IconDeviceFloppy />
             </ActionIcon>
-            <Indicator label={charTypeOutBox.length} size={16}>
+            <Indicator label={!charBoxEditing ? charTypeOutBox.length : charTypeInBox.length} size={16}>
               <ActionIcon size="lg" radius="md" onClick={onClickFilter}>
                 <IconFilter />
               </ActionIcon>
