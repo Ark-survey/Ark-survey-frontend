@@ -8,8 +8,12 @@ export const get = (server: string, resource: string, data: { [key: string]: str
   Object.keys(data).map((key) => params.push(key + '=' + data[key]));
   axios
     .get(
-      process.env.REACT_APP_ORIGIN_ENV ??
-        'https://arksurvey.yituliu.site/' + server + '/' + resource + '?' + params.join('&'),
+      (process.env.REACT_APP_ORIGIN_ENV ?? 'https://arksurvey.yituliu.site/') +
+        server +
+        '/' +
+        resource +
+        '?' +
+        params.join('&'),
     )
     .then((res) => res.data)
     .catch(() => {
@@ -24,7 +28,7 @@ export const post: <T>(server: string, resource: string, data?: any) => Promise<
 ) =>
   axios
     .post<any, AxiosResponse<any, any>, T>(
-      process.env.REACT_APP_ORIGIN_ENV ?? 'https://arksurvey.yituliu.site/' + server + '/' + resource,
+      (process.env.REACT_APP_ORIGIN_ENV ?? 'https://arksurvey.yituliu.site/') + server + '/' + resource,
       data,
       {
         headers: {

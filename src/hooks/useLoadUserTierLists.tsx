@@ -40,15 +40,17 @@ export function useLoadUserTierLists() {
 
   useEffect(() => {
     const timeout = setTimeout(async () => {
-      const { data } = await fetchCharData();
-      if (data) {
-        dispatch(updateCharInBox(data.characterKeys));
-        dispatch(updateCharBoxId(data.id ?? ''));
+      if (userData?.id) {
+        const { data } = await fetchCharData();
+        if (data) {
+          dispatch(updateCharInBox(data.characterKeys));
+          dispatch(updateCharBoxId(data.id ?? ''));
+        }
       }
     }, 100);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userData?.id]);
 
   // 当 userData?.id 改变并不为空时加载
   useEffect(() => {

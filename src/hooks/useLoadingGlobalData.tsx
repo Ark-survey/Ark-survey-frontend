@@ -15,7 +15,7 @@ export function useLoadingGlobalData() {
 
   const handleLoadData = async () => {
     const { data } = await fetchLatestMetaData();
-    dispatch(updateVersion(data.version ?? ''));
+    dispatch(updateVersion(data?.version ?? ''));
     successNotice(t('basic-data-updated-successfully'));
   };
 

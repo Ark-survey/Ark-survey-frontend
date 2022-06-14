@@ -34,7 +34,7 @@ export default function useVersionDialog() {
         </Text>
         <ScrollArea style={{ height: 250 }}>
           <Stack>
-            {announcements.map((it, index) => {
+            {announcements?.map((it, index) => {
               return (
                 <Box key={index}>
                   <Title order={4}>{it.version + ' ' + it.overview}</Title>
