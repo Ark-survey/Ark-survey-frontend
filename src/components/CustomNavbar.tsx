@@ -70,6 +70,7 @@ export default function Index() {
             to="/charBox"
             leftIcon={<IconCheckupList />}
             selecting={location.pathname === '/charBox'}
+            disabled={!userData?.id}
           />
           <NavItem
             to="/tierList"

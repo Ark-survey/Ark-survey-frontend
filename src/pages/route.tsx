@@ -17,11 +17,13 @@ export function RootRouter() {
       <Route path="/">
         <Route index element={<MainPage />} />
         {user?.userData?.id ? (
-          <Route path="tierList" element={<TierList />} />
+          <>
+            <Route path="tierList" element={<TierList />} />
+            <Route path="charBox" element={<CharBox />} />
+          </>
         ) : (
           <Route path="*" element={<NotFound />} />
         )}
-        <Route path="charBox" element={<CharBox />} />
         <Route path="statistics" element={<Statistics />} />
         <Route path="demo" element={<Demo />} />
         <Route path="setting" element={<Setting />} />
