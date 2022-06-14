@@ -130,7 +130,7 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
                   {type2List.map((it) => (
                     <NavItem sx={{ flex: 1 }} key={it.value} onClick={() => handleType2Change(it.value)}>
                       <SelectItem
-                        sx={{ height: '100%', minWidth: '220px' }}
+                        sx={{ height: '100%', minWidth: '195px' }}
                         description={it.description}
                         label={it.label}
                       />

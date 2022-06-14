@@ -1,4 +1,4 @@
-import { Button, Stack, ScrollArea, Group, Divider, Paper, createStyles, ActionIcon } from '@mantine/core';
+import { Button, Stack, ScrollArea, Group, Divider, Paper, createStyles, ActionIcon, Indicator } from '@mantine/core';
 import Header from 'src/components/Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
@@ -20,8 +20,8 @@ import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { addCharToBox, delCharFromBox, updateCharInBox } from 'src/store/slice/charBoxSlice';
 import { Character, CharBoxServer, Module, Skill } from 'src/api/CharBoxServer';
-import CharBox from '../..';
 import { errorNotice, successNotice } from 'src/components/Notice';
+import { filterChar } from 'src/store/slice/filterSlice';
 
 export default function Index({ onClickFilter }: { onClickFilter: () => void }) {
   const filters = useSelector((state: RootState) => state.filters);
@@ -29,6 +29,7 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
   const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
   const { charInBox, charBoxId } = useSelector((state: RootState) => state.charBox);
   const charInBoxArray = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
+  const filterCharFunc = useSelector((state: RootState) => filterChar(state));
   const { charBoxEditing } = useSelector((state: RootState) => state.setting);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -48,9 +49,9 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
     () =>
       charData.filter((it) => {
         if (it.isNotObtainable) return false;
-        return charTypeInBox.findIndex((i) => i.key === it.key) === -1;
+        return charTypeInBox.findIndex((i) => i.key === it.key) === -1 && filterCharFunc(it);
       }),
-    [charData, charTypeInBox],
+    [charData, charTypeInBox, filterCharFunc],
   );
 
   const selectMax = charTypeOutBox.length !== 0 && charTypeOutBox.length === charSelectOutBox.length;
@@ -131,12 +132,14 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
                 {selectMax ? <IconSquareCheck /> : charSelectOutBox.length !== 0 ? <IconSquareDot /> : <IconSquare />}
               </ActionIcon>
             )}
-            <ActionIcon size="lg" radius="md" onClick={onClickFilter}>
-              <IconFilter />
-            </ActionIcon>
             <ActionIcon size="lg" color="blue" radius="md" onClick={handleSaveCharBox}>
               <IconDeviceFloppy />
             </ActionIcon>
+            <Indicator label={charTypeOutBox.length} size={16}>
+              <ActionIcon size="lg" radius="md" onClick={onClickFilter}>
+                <IconFilter />
+              </ActionIcon>
+            </Indicator>
           </Group>
         </Header>
         <Divider />

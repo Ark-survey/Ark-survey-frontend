@@ -144,41 +144,49 @@ export default function Index() {
   return (
     <>
       <CardRoot>
-        <Group position="apart" sx={{ textAlign: 'center' }}>
-          <Box sx={{ flex: 1 }}>
-            <Title order={3}>{statisticData?.count ?? t('statistics.key-not-found')}</Title>
-            <Text>{t('statistics.count')}</Text>
-          </Box>
-          <Divider sx={{ height: '55px' }} orientation="vertical" />
-          <Box sx={{ flex: 1 }}>
-            <Title order={3}>{statisticData?.validCount ?? t('statistics.key-not-found')}</Title>
-            <Popover
-              opened={opened}
-              onClose={() => setOpened(false)}
-              target={
-                <Text sx={{ userSelect: 'none', cursor: 'pointer' }} onClick={() => setOpened((o) => !o)}>
-                  {t('statistics.validCount')}
-                  <IconInfoCircle size={10} />
-                </Text>
-              }
-              width={310}
-              position="bottom"
-              withArrow
-            >
-              <List sx={{ fontSize: '14px' }}>
-                <List.Item>以下情况计入有效样本：等级数大于2，干员评价数大于7，且上次保存时间在14天以内</List.Item>
-                <List.Item>分数计算规则：将有效样本的评价等比反向映射到[0,5]，求出平均值</List.Item>
-                <List.Item>分层按算法自动划分，统计数据每十分钟更新一次</List.Item>
-              </List>
-            </Popover>
-          </Box>
-          <Divider sx={{ height: '55px' }} orientation="vertical" />
-          <Box sx={{ flex: 1 }}>
-            <Title order={6}>
-              {format(new Date(parseInt(statisticData?.createdDate ?? '0', 10)), 'yyyy-MM-dd hh:mm:ss')}
-            </Title>
-            {/* <Text>更新时间</Text> */}
-          </Box>
+        <Group position="center" sx={{ textAlign: 'center' }}>
+          {statisticData?.createdDate ? (
+            <>
+              <Box sx={{ flex: 1 }}>
+                <Title order={3}>{statisticData?.count ?? t('statistics.key-not-found')}</Title>
+                <Text>{t('statistics.count')}</Text>
+              </Box>
+              <Divider sx={{ height: '55px' }} orientation="vertical" />
+              <Box sx={{ flex: 1 }}>
+                <Title order={3}>{statisticData?.validCount ?? t('statistics.key-not-found')}</Title>
+                <Popover
+                  opened={opened}
+                  onClose={() => setOpened(false)}
+                  target={
+                    <Text sx={{ userSelect: 'none', cursor: 'pointer' }} onClick={() => setOpened((o) => !o)}>
+                      {t('statistics.validCount')}
+                      {/* <IconInfoCircle size={10} /> */}
+                    </Text>
+                  }
+                  width={310}
+                  position="bottom"
+                  withArrow
+                >
+                  <List sx={{ fontSize: '14px' }}>
+                    <List.Item>以下情况计入有效样本：等级数大于2，干员评价数大于7，且上次保存时间在14天以内</List.Item>
+                    <List.Item>分数计算规则：将有效样本的评价等比反向映射到[0,5]，求出平均值</List.Item>
+                    <List.Item>分层按算法自动划分，统计数据每十分钟更新一次</List.Item>
+                  </List>
+                </Popover>
+              </Box>
+              <Divider sx={{ height: '55px' }} orientation="vertical" />
+              <Box sx={{ flex: 1 }}>
+                <Title order={6}>
+                  {statisticData?.createdDate
+                    ? format(new Date(parseInt(statisticData.createdDate, 10)), 'yyyy-MM-dd HH:mm:ss')
+                    : '-'}
+                </Title>
+                <Text>更新时间</Text>
+              </Box>
+            </>
+          ) : (
+            <Title order={3}>{t('statistics.key-not-found')}</Title>
+          )}
         </Group>
       </CardRoot>
       <Stack spacing={0} sx={{ width: '100%' }}>

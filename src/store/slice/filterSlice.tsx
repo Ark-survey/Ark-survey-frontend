@@ -1,4 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Character } from 'src/api/CharBoxServer';
+import { RootState } from '..';
+import { CharacterType } from './userSlice';
 
 export interface FilterType {
   chipGroup: { [x: string]: any[] };
@@ -37,7 +40,7 @@ export const filterSlice = createSlice({
     },
     reset: (state) => {
       state.chipGroup = {
-        opRate: [],
+        // opRate: [],
         profession: [],
         // sex: [],
         rarity: [5],
@@ -53,21 +56,13 @@ export const { changeDateRange, changeFold, changeChipGroup, reset } = filterSli
 
 export default filterSlice.reducer;
 
-export const filterHeightState = (state: any) => {
-  let sum = 0;
-  for (let i in state.filters.chipGroup) {
-    if (state.filters.chipGroup[i].length > 0) sum++;
-  }
-  if (state.filters.dateRange[0] !== 0 || state.filters.dateRange[1] !== 100) sum++;
-  if (sum <= 1) return state.filters.fold ? 40 : 590;
-  else return state.filters.fold ? 40 + (sum - 1) * 22 : 590;
-};
-
-export const filterOpenState = (state: any) => {
-  let flag = false;
-  for (let f in state.filters.chipGroup) {
-    if (state.filters.chipGroup[f].length !== 0) flag = true;
-  }
-  if (state.filters.dateRange[0] !== 0 || state.filters.dateRange[1] !== 100) flag = true;
-  return flag;
+export const filterChar = (state: RootState) => {
+  return (char: CharacterType) => {
+    const g = state.filters.chipGroup;
+    return (
+      (g.rarity.length === 0 || g.rarity.includes(char.rarity)) &&
+      (g.profession.length === 0 || g.profession.includes(char.profession)) &&
+      (g.position.length === 0 || g.position.includes(char.position))
+    );
+  };
 };

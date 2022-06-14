@@ -1,7 +1,7 @@
 import { Button, Box } from '@mantine/core';
 import { useCallback, useEffect, useMemo } from 'react';
 import { rarity, profession, accessChannel, sex, position } from 'src/contexts';
-import { filterHeightState, changeChipGroup, changeDateRange, reset } from 'src/store/slice/filterSlice';
+import { changeChipGroup, changeDateRange, reset } from 'src/store/slice/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import TimeBadgeBox from './TimeBadgeBox';
@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 
 export default function Index() {
   const filters = useSelector((state: RootState) => state.filters);
-  const filterHeight = useSelector(filterHeightState);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -78,7 +77,6 @@ export default function Index() {
         transition: 'all 1s',
         boxShadow: '0 1px 2px 2px #eee',
         borderRadius: '0 0 20px 20px',
-        height: filterHeight,
         padding: '0 10px',
         overflow: 'hidden',
         position: 'relative',
@@ -93,7 +91,6 @@ export default function Index() {
           transition: 'all 1s',
           height: '40px',
           marginRight: filters.fold ? '0' : '-100%',
-          bottom: filters.fold ? filterHeight - 47 : '0',
           right: filters.fold ? '0' : '12px',
         }}
       >

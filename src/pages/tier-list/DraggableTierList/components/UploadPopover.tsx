@@ -57,7 +57,7 @@ export default function UploadPopover() {
           {tierList.id ? <IconRefresh /> : <IconCloudUpload />}
         </ActionIcon>
       }
-      width={user.newTierList ? 220 : 300}
+      width={user.newTierList ? 200 : 300}
       position="left"
       withArrow
     >

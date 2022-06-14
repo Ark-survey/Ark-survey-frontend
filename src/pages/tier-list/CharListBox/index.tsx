@@ -9,6 +9,7 @@ import { RootState } from 'src/store';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { useMemo, useState } from 'react';
+import { filterChar } from 'src/store/slice/filterSlice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 
 export default function CharListItemType() {
@@ -16,15 +17,16 @@ export default function CharListItemType() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
+  const filterCharFunc = useSelector((state: RootState) => filterChar(state));
   const [charsSelect, setCharsSelect] = useState<string[]>([]);
 
   const charsFilter = useMemo(
     () =>
       charData.filter((it) => {
-        if (it.isNotObtainable) return false;
+        if (it.isNotObtainable || !filterCharFunc(it)) return false;
         return true;
       }),
-    [charData],
+    [charData, filterCharFunc],
   );
 
   const handleCharacterReturn = ({ fromTierValue, charKey }: CharDragItem) => {

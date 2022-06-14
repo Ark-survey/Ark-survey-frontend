@@ -3,7 +3,7 @@ import { ReactNode, useState } from 'react';
 import CardRoot from 'src/components/CardRoot';
 import NavItem from 'src/components/NavItem';
 import PageHeader from 'src/components/PageHeader';
-import { IconArrowLeft, IconPackage, IconHanger } from '@tabler/icons';
+import { IconArrowLeft, IconPackage, IconHanger, IconFileImport } from '@tabler/icons';
 import Description from './Description';
 
 export default function Index({ inside, onInside }: { inside: boolean; onInside?: () => void }) {
@@ -50,7 +50,7 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
                       topIcon={it.icon}
                       titleProps={{
                         sx: {
-                          fontSize: '20px',
+                          fontSize: '16px',
                           width: '100%',
                         },
                       }}
@@ -59,6 +59,20 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
                   </NavItem>
                 ))}
               </Group>
+              <Divider />
+              <NavItem sx={{ textAlign: 'center' }} disabled>
+                <SelectItem
+                  label="快速导入"
+                  topIcon={<IconFileImport />}
+                  titleProps={{
+                    sx: {
+                      fontSize: '16px',
+                      width: '100%',
+                    },
+                  }}
+                  groupsSx={{ alignItems: 'center', justifyContent: 'center' }}
+                />
+              </NavItem>
             </Stack>
           </CardRoot>
         </>

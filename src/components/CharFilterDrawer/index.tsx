@@ -94,6 +94,7 @@ export default function CharFilterBox() {
     <Stack sx={{ maxHeight: 'calc(100vh - 70px)' }} spacing="xl">
       <Stack sx={{ maxHeight: 'calc(100vh - 135px)', overflow: 'auto', boxSizing: 'border-box' }}>
         <DateSelect
+          disabled
           value={filters['dateRange']}
           label={t('Operator-installation-time')}
           onChange={handleDateSelectChange}

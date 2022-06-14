@@ -1,4 +1,4 @@
-import { Affix, Box, Paper, Divider, Title, ActionIcon, Stack } from '@mantine/core';
+import { Affix, Box, Paper, Divider, Title, ActionIcon, Stack, Indicator } from '@mantine/core';
 import { IconDeviceFloppy, IconExchange, IconFilter } from '@tabler/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
@@ -8,6 +8,7 @@ import { Character, CharBoxServer } from 'src/api/CharBoxServer';
 import { successNotice, errorNotice } from 'src/components/Notice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { useMemo } from 'react';
+import { filterChar } from 'src/store/slice/filterSlice';
 
 export default function Index({ onClickFilter }: { onClickFilter: () => void }) {
   const { charInBox, charBoxId } = useSelector((state: RootState) => state.charBox);
@@ -16,13 +17,14 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
   const charInBoxArray = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
   const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
   const dispatch = useDispatch();
+  const filterCharFunc = useSelector((state: RootState) => filterChar(state));
 
   const charTypeInBox = useMemo(
     () =>
       charData.filter((it) => {
-        return charInBoxArray.findIndex((i) => i.key === it.key) > -1;
+        return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterCharFunc(it);
       }),
-    [charData, charInBoxArray],
+    [charData, charInBoxArray, filterCharFunc],
   );
 
   const handleSaveCharBox = async () => {
@@ -56,9 +58,11 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
           <ActionIcon size="lg" onClick={() => dispatch(updateCharBoxEditing(!charBoxEditing))}>
             <IconExchange />
           </ActionIcon>
-          <ActionIcon size="lg" onClick={onClickFilter}>
-            <IconFilter />
-          </ActionIcon>
+          <Indicator label={charTypeInBox.length} size={16}>
+            <ActionIcon size="lg" onClick={onClickFilter}>
+              <IconFilter />
+            </ActionIcon>
+          </Indicator>
           {/* <Title order={5} px={5}>
             干员盒
           </Title> */}

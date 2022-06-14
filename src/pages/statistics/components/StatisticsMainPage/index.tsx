@@ -1,4 +1,18 @@
-import { Box, Stack, Group, List, Space, Text, Title, Tabs, Divider, Sx, BoxProps, ActionIcon } from '@mantine/core';
+import {
+  Box,
+  Stack,
+  Group,
+  List,
+  Space,
+  Text,
+  Title,
+  Tabs,
+  Divider,
+  Sx,
+  BoxProps,
+  ActionIcon,
+  ScrollArea,
+} from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CardRoot from 'src/components/CardRoot';
@@ -110,33 +124,37 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
               <Group noWrap sx={{ alignItems: 'flex-start' }}>
                 {activeTab !== 0 && (
                   <>
-                    <Group
-                      sx={{
-                        fontSize: '12px',
-                        maxWidth: '78px',
-                      }}
-                    >
-                      {envList.map((it, index) => (
-                        <NavItem key={it.value} selecting={activeEnv === index} onClick={() => setActiveEnv(index)}>
-                          <Title order={6}>{it.label}</Title>
-                        </NavItem>
-                      ))}
-                    </Group>
+                    <ScrollArea>
+                      <Group
+                        sx={{
+                          fontSize: '12px',
+                          maxWidth: '78px',
+                        }}
+                      >
+                        {envList.map((it, index) => (
+                          <NavItem key={it.value} selecting={activeEnv === index} onClick={() => setActiveEnv(index)}>
+                            <Title order={6}>{it.label}</Title>
+                          </NavItem>
+                        ))}
+                      </Group>
+                    </ScrollArea>
                     <Divider orientation="vertical" sx={{ height: '300px' }} />
                   </>
                 )}
 
-                <Group>
-                  {type2List.map((it) => (
-                    <NavItem sx={{ flex: 1 }} key={it.value} onClick={() => handleType2Change(it.value)}>
-                      <SelectItem
-                        sx={{ height: '100%', minWidth: '220px' }}
-                        description={it.description}
-                        label={it.label}
-                      />
-                    </NavItem>
-                  ))}
-                </Group>
+                <ScrollArea>
+                  <Group>
+                    {type2List.map((it) => (
+                      <NavItem sx={{ flex: 1 }} key={it.value} onClick={() => handleType2Change(it.value)}>
+                        <SelectItem
+                          sx={{ height: '100%', minWidth: '195px' }}
+                          description={it.description}
+                          label={it.label}
+                        />
+                      </NavItem>
+                    ))}
+                  </Group>
+                </ScrollArea>
               </Group>
             </Stack>
           </CardRoot>
