@@ -18,7 +18,7 @@ export function RootRouter() {
         <Route index element={<MainPage />} />
         {user?.userData?.id ? (
           <>
-            <Route path="tierList" element={<TierList />} />
+            {/* <Route path="tierList" element={<TierList />} /> */}
             <Route path="charBox" element={<CharBox />} />
           </>
         ) : (

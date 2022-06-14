@@ -77,7 +77,8 @@ export default function Index() {
             title={t('nav.strong')}
             leftIcon={<IconBoxMultiple5 />}
             selecting={location.pathname === '/tierList'}
-            disabled={!userData?.id}
+            // disabled={!userData?.id}
+            disabled
           />
           <NavItem title={t('nav.love')} leftIcon={<IconThumbUp />} disabled />
         </Stack>
