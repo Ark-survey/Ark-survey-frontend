@@ -87,7 +87,7 @@ let cacheList = [
   'https://img.yituliu.site/static/char_0.5.json',
   'https://img.yituliu.site/static/skill_0.5.json',
   'https://img.yituliu.site/static/uniequip_0.5.json',
-  'https://img.yituliu.site/static/charTable.json',
+  'https://img.yituliu.site/static/character_table.json',
 ];
 
 self.addEventListener('install', async (installEvent) => {
