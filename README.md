@@ -4,8 +4,7 @@ Survey something of Arknights.
 
 ## v0.4 🔥 DEVELOPING 80%
 
-- product env: https://arksurvey.fun/
-- test env: https://test.arksurvey.fun/
+- product env: https://ark-survey.com/
 
 ## How?
 
