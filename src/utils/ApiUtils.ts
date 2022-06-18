@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { t } from 'i18next';
 import { errorNotice } from 'src/components/Notice';
-import { TierListServer } from './TierListServer';
 
 export const get = (server: string, resource: string, data: { [key: string]: string }) => {
   let params: string[] = [];
@@ -21,7 +20,7 @@ export const get = (server: string, resource: string, data: { [key: string]: str
     });
 };
 
-export const post: <T>(server: string, resource: string, data?: any) => Promise<AxiosResponse<T>> = <T,>(
+export const post: <T>(server: string, resource: string, data?: any) => Promise<AxiosResponse<T>> = <T>(
   server: string,
   resource: string,
   data?: any,
@@ -40,5 +39,3 @@ export const post: <T>(server: string, resource: string, data?: any) => Promise<
     .catch(() => {
       errorNotice(t('network.error'));
     });
-
-export { TierListServer };

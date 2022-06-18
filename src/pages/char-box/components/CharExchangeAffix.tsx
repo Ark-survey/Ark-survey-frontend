@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
 import { RootState } from 'src/store';
 import CharBoxList from './CharExchangeBox/CharBoxList';
-import { Character, CharBoxServer } from 'src/api/CharBoxServer';
+import { Character, CharBoxServer } from 'src/service/CharBoxServer';
 import { successNotice, errorNotice } from 'src/components/Notice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { useMemo } from 'react';

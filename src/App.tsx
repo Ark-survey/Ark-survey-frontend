@@ -3,7 +3,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { Provider } from 'react-redux';
 import store, { persistor } from './store';
-import { useIsMobile } from './hooks';
+import { useIsMobile } from './hooks/useIsMobile';
 import { PersistGate } from 'redux-persist/integration/react';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';

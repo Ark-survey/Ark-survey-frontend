@@ -4,11 +4,11 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { RootState } from 'src/store';
 import CharBox from './char-box';
 import Demo from './demo';
-import MainPage from './main-page';
-import NotFound from './not-found';
-import Setting from './setting';
-import TierList from './tier-list';
-import Statistics from './statistics';
+import MainPage from './Home';
+import NotFound from './NotFound';
+import Setting from './Setting';
+import TierList from './TierList';
+import Statistics from './Statistics';
 
 export function RootRouter() {
   const user = useSelector((state: RootState) => state.user);

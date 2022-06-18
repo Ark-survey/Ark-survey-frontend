@@ -1,7 +1,7 @@
 import { Box, Group, createStyles, Button, SegmentedControl, Divider, Paper } from '@mantine/core';
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Character } from 'src/api/CharBoxServer';
+import { Character } from 'src/service/CharBoxServer';
 import { RootState } from 'src/store';
 import { IconCheck, IconFoldDown, IconFoldUp } from '@tabler/icons';
 import SkillContainer from '.';

@@ -1,7 +1,7 @@
 import { Group, Stack } from '@mantine/core';
 import { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Character } from 'src/api/CharBoxServer';
+import { Character } from 'src/service/CharBoxServer';
 import LevelPanel from 'src/components/@arksurvey/LevelPanel';
 import SkillGroup from 'src/components/@arksurvey/SkillContainer/SkillGroup';
 import UnitEquipPanel from 'src/components/@arksurvey/UniequipPanel';

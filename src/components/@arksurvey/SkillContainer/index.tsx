@@ -2,7 +2,7 @@ import { Box, createStyles, Overlay } from '@mantine/core';
 import { useMemo } from 'react';
 import { useDrag } from 'react-dnd';
 import { useTranslation } from 'react-i18next';
-import { useIsMobile } from 'src/hooks';
+import { useIsMobile } from 'src/hooks/useIsMobile';
 import { useClickOutside } from '@mantine/hooks';
 import SkillIcon from '../ImageContainer/SkillIcon';
 

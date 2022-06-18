@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Character } from 'src/api/CharBoxServer';
+import { Character } from 'src/service/CharBoxServer';
 import { RootState } from '..';
 import { CharacterType } from './userSlice';
 

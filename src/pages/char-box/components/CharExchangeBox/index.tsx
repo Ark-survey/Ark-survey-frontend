@@ -19,7 +19,7 @@ import CharBoxList from './CharBoxList';
 import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { addCharToBox, delCharFromBox, updateCharInBox } from 'src/store/slice/charBoxSlice';
-import { Character, CharBoxServer, Module, Skill } from 'src/api/CharBoxServer';
+import { Character, CharBoxServer, Module, Skill } from 'src/service/CharBoxServer';
 import { errorNotice, successNotice } from 'src/components/Notice';
 import { filterChar } from 'src/store/slice/filterSlice';
 

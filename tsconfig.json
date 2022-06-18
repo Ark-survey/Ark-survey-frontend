@@ -18,5 +18,5 @@
     "jsx": "react-jsx",
     "baseUrl": "."
   },
-  "include": ["src", "src/pages/tier-list/TierListStatistics/components/.tsx"]
+  "include": ["src"]
 }

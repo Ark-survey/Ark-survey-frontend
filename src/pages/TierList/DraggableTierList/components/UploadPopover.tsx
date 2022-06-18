@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Popover, Text, Button, Box, ActionIcon } from '@mantine/core';
 import { IconCloudUpload, IconRefresh } from '@tabler/icons';
-import { TierListServer } from 'src/api';
+import { TierListServer } from 'src/utils/ApiUtils';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { successNotice } from '../../../../components/Notice';

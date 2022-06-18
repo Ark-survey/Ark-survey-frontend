@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { TierListServer } from 'src/api';
-import { CharBoxServer } from 'src/api/CharBoxServer';
+import { CharBoxServer } from 'src/service/CharBoxServer';
 import { successNotice } from 'src/components/Notice';
 import { RootState } from 'src/store';
 import { updateCharInBox, updateCharBoxId } from 'src/store/slice/charBoxSlice';
 import { updateTierLists } from 'src/store/slice/TierListSlice';
+import { TierListServer } from 'src/service/TierListServer';
 
 export function useLoadUserTierLists() {
   const tierList = useSelector((state: RootState) => state.tierList);

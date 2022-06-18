@@ -3,7 +3,7 @@ import { ReactNode, useMemo } from 'react';
 import DeleteTier from './DeleteTierPopover';
 import EditTierPopover from './EditTierPopover';
 import { useDrop } from 'react-dnd';
-import CharListItem, { CharDragItem } from 'src/pages/tier-list/CharListBox/components/CharListItem';
+import CharListItem, { CharDragItem } from 'src/pages/TierList/CharListBox/components/CharListItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { Tier } from 'src/api/TierListServer';

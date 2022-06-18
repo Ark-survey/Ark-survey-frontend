@@ -1,7 +1,7 @@
 import { Box, Button, Center, createStyles, Paper, SegmentedControl, Space, Stack } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { Character, Module } from 'src/api/CharBoxServer';
+import { Character, Module } from 'src/service/CharBoxServer';
 import { RootState } from 'src/store';
 import { IconChevronsDown, IconChevronsUp } from '@tabler/icons';
 import UniEquipImg from '../ImageContainer/UniEquipImg';

@@ -2,7 +2,7 @@ import { Box, createStyles, Overlay, Sx } from '@mantine/core';
 import { ReactNode, useMemo } from 'react';
 import { useDrag } from 'react-dnd';
 import { useTranslation } from 'react-i18next';
-import { useIsMobile } from 'src/hooks';
+import { useIsMobile } from 'src/hooks/useIsMobile';
 import CharAvatar from '../ImageContainer/CharAvatar';
 import { useClickOutside } from '@mantine/hooks';
 

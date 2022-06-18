@@ -1,4 +1,4 @@
-import { post } from '.';
+import { post } from '../utils/ApiUtils';
 
 // 模组
 export interface Module {

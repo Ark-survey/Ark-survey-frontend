@@ -1,7 +1,7 @@
 import { Box, createStyles, Group } from '@mantine/core';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { Character } from 'src/api/CharBoxServer';
+import { Character } from 'src/service/CharBoxServer';
 import { CharSkinType } from 'src/components/@arksurvey/CharDataUnit';
 import { RootState } from 'src/store';
 import CharContainer from '../CharContainer';

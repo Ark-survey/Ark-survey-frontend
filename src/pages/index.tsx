@@ -5,7 +5,7 @@ import { persistor, RootState } from 'src/store';
 import { Brand } from 'src/components/Brand';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMenuOpen, updateUserData } from 'src/store/slice/userSlice';
-import { useChangeSize, useWindowSize } from 'src/hooks';
+import { useChangeSize, useWindowSize } from 'src/hooks/useIsMobile';
 import { useEffect, useRef } from 'react';
 import { RootRouter } from './route';
 import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
