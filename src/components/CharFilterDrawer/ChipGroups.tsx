@@ -1,4 +1,4 @@
-import { Chip, Chips, createStyles } from '@mantine/core';
+import { Chip, createStyles } from '@mantine/core';
 import { FilterItemBox } from './FilterItemBox';
 
 interface ChipGroupsProps {
@@ -29,13 +29,13 @@ export function ChipGroups({ tags, classNames, disabled, onChange, label, values
   const { classes } = useStyles();
   return (
     <FilterItemBox label={label}>
-      <Chips multiple size="xs" value={values} classNames={classes} onChange={onChange}>
+      <Chip.Group multiple value={values} onChange={onChange}>
         {tags.map((item) => (
-          <Chip disabled={disabled} value={item.value} key={item.value}>
+          <Chip classNames={classes} size="xs" disabled={disabled} value={item.value} key={item.value}>
             {item.name}
           </Chip>
         ))}
-      </Chips>
+      </Chip.Group>
     </FilterItemBox>
   );
 }

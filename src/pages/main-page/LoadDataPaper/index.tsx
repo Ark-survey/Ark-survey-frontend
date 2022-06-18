@@ -1,4 +1,4 @@
-import { Center, Paper, InputWrapper, TextInput, Button, Space, Group, LoadingOverlay } from '@mantine/core';
+import { Center, Paper, TextInput, Button, Space, Group, LoadingOverlay } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -86,9 +86,13 @@ export default function Index() {
       <Paper shadow="xs" p="md" radius="lg" sx={{ position: 'relative' }}>
         <form onSubmit={form.onSubmit(handleConfirm)}>
           <LoadingOverlay visible={loading} />
-          <InputWrapper sx={{ width: '300px' }} label={t('ID-check')} description={t('ID-check-warning')}>
-            <TextInput {...form.getInputProps('id')} placeholder={t('ID-check-placeholder')} />
-          </InputWrapper>
+          <TextInput
+            sx={{ width: '300px' }}
+            label={t('ID-check')}
+            description={t('ID-check-warning')}
+            {...form.getInputProps('id')}
+            placeholder={t('ID-check-placeholder')}
+          />
           <Space h="sm" />
           <Group spacing="sm" position="right">
             <Button size="xs" variant="outline" radius="lg" onClick={handleCreateUser}>

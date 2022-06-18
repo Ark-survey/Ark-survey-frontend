@@ -30,10 +30,8 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
   };
 
   return (
-    <Popover
-      opened={opened}
-      onClose={() => setOpened(false)}
-      target={
+    <Popover opened={opened} onClose={() => setOpened(false)} width={210} position="right" withArrow>
+      <Popover.Target>
         <ActionIcon
           sx={{
             background: '#fff',
@@ -44,18 +42,15 @@ export default function AddCharactersToTierPopover({ tierValue }: { tierValue: n
         >
           <IconPlus />
         </ActionIcon>
-      }
-      width={210}
-      position="right"
-      placement="center"
-      withArrow
-    >
-      <Text size="sm">{t('tier-add-confirm')}</Text>
-      <Box sx={{ width: '100%', textAlign: 'center' }}>
-        <Button sx={{ marginTop: '15px' }} radius="xl" color="blue" onClick={handleConfirm}>
-          {t('confirm-add')}
-        </Button>
-      </Box>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Text size="sm">{t('tier-add-confirm')}</Text>
+        <Box sx={{ width: '100%', textAlign: 'center' }}>
+          <Button sx={{ marginTop: '15px' }} radius="xl" color="blue" onClick={handleConfirm}>
+            {t('confirm-add')}
+          </Button>
+        </Box>
+      </Popover.Dropdown>
     </Popover>
   );
 }

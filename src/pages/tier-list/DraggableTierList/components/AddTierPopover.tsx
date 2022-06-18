@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Popover, Button, Box, NumberInput, InputWrapper, Space, TextInput, ActionIcon } from '@mantine/core';
+import { Popover, Button, Box, NumberInput, Space, TextInput, ActionIcon } from '@mantine/core';
 import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
 import { successNotice } from '../../../../components/Notice';
@@ -49,40 +49,39 @@ export default function UploadPopover() {
   }, [opened]);
 
   return (
-    <Popover
-      opened={opened}
-      onClose={() => setOpened(false)}
-      target={
+    <Popover opened={opened} onClose={() => setOpened(false)} width={210} position="right" withArrow>
+      <Popover.Target>
         <ActionIcon size="lg" color="green" radius="md" onClick={() => setOpened((o) => !o)}>
           <IconPlus />
         </ActionIcon>
-      }
-      width={200}
-      position="bottom"
-      withArrow
-    >
-      <form onSubmit={form.onSubmit(handleConfirm)}>
-        <InputWrapper label={t('tier-name')} description={t('optional-no-more-than-6-characters')}>
-          <TextInput {...form.getInputProps('name')} placeholder={t('displays-the-T+grade-value-by-default')} />
-        </InputWrapper>
-        <Space h="sm" />
-        <NumberInput
-          label={t('grade-value')}
-          description={t('range-[-9,9]-with-one-decimal-place')}
-          placeholder={t('please-enter')}
-          {...form.getInputProps('value')}
-          precision={1}
-          step={0.5}
-          min={-9}
-          max={9}
-        />
-        <Space h="lg" />
-        <Box sx={{ width: '100%', textAlign: 'center' }}>
-          <Button radius="xl" type="submit">
-            {t('confirm-add')}
-          </Button>
-        </Box>
-      </form>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <form onSubmit={form.onSubmit(handleConfirm)}>
+          <TextInput
+            label={t('tier-name')}
+            description={t('optional-no-more-than-6-characters')}
+            {...form.getInputProps('name')}
+            placeholder={t('displays-the-T+grade-value-by-default')}
+          />
+          <Space h="sm" />
+          <NumberInput
+            label={t('grade-value')}
+            description={t('range-[-9,9]-with-one-decimal-place')}
+            placeholder={t('please-enter')}
+            {...form.getInputProps('value')}
+            precision={1}
+            step={0.5}
+            min={-9}
+            max={9}
+          />
+          <Space h="lg" />
+          <Box sx={{ width: '100%', textAlign: 'center' }}>
+            <Button radius="xl" type="submit">
+              {t('confirm-add')}
+            </Button>
+          </Box>
+        </form>
+      </Popover.Dropdown>
     </Popover>
   );
 }

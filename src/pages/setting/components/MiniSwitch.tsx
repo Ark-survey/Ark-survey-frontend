@@ -19,7 +19,7 @@ export default function Index() {
       checked={setting.mini}
       onChange={handleMiniStatusChange}
       label={
-        <Tooltip label="开启这个选项会让除皮肤以外所有的头像变小" position="bottom" placement="end" gutter={10}>
+        <Tooltip label="开启这个选项会让除皮肤以外所有的头像变小" position="bottom" offset={10}>
           <Group position="center" spacing={8}>
             <Text>干员头像 MINI 模式</Text>
             <IconInfoCircle size={12} />

@@ -23,24 +23,20 @@ export default function ResetAllCharacterPopover() {
   };
 
   return (
-    <Popover
-      opened={opened}
-      onClose={() => setOpened(false)}
-      target={
+    <Popover opened={opened} onClose={() => setOpened(false)} width={160} position="bottom" withArrow>
+      <Popover.Target>
         <ActionIcon size="lg" color="red" radius="md" onClick={() => setOpened((o) => !o)}>
           <IconClearAll />
         </ActionIcon>
-      }
-      width={160}
-      position="bottom"
-      withArrow
-    >
-      <Text size="sm">{t('reset-confirm')}</Text>
-      <Box sx={{ width: '100%', textAlign: 'center' }}>
-        <Button sx={{ marginTop: '15px' }} radius="xl" color="red" onClick={handleConfirm}>
-          {t('confirm-reset')}
-        </Button>
-      </Box>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Text size="sm">{t('reset-confirm')}</Text>
+        <Box sx={{ width: '100%', textAlign: 'center' }}>
+          <Button sx={{ marginTop: '15px' }} radius="xl" color="red" onClick={handleConfirm}>
+            {t('confirm-reset')}
+          </Button>
+        </Box>
+      </Popover.Dropdown>
     </Popover>
   );
 }

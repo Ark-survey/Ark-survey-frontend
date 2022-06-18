@@ -1,5 +1,4 @@
-import { Modal } from '@mantine/core';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { onUpdate, onSuccess, UpdateVersionNotion } from './registrationStatus';

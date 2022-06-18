@@ -52,23 +52,27 @@ export default function UploadPopover() {
     <Popover
       opened={opened}
       onClose={() => setOpened(false)}
-      target={
-        <ActionIcon size="lg" color="blue" loading={loading} radius="md" onClick={() => setOpened((o) => !o)}>
-          {tierList.id ? <IconRefresh /> : <IconCloudUpload />}
-        </ActionIcon>
-      }
       width={user.newTierList ? 200 : 300}
       position="left"
       withArrow
     >
-      <Text size="sm" sx={{ marginBottom: '15px' }}>
-        {t('upload-confirm')}
-      </Text>
-      <Box sx={{ width: '100%', textAlign: 'center' }}>
-        <Button radius="xl" onClick={handleTierListSubmit}>
-          {!tierList.id ? t('continue-upload') : t('continue-update')}
-        </Button>
-      </Box>
+      <Popover opened={opened} onClose={() => setOpened(false)} width={160} position="bottom" withArrow>
+        <Popover.Target>
+          <ActionIcon size="lg" color="blue" loading={loading} radius="md" onClick={() => setOpened((o) => !o)}>
+            {tierList.id ? <IconRefresh /> : <IconCloudUpload />}
+          </ActionIcon>
+        </Popover.Target>
+        <Popover.Dropdown>
+          <Text size="sm" sx={{ marginBottom: '15px' }}>
+            {t('upload-confirm')}
+          </Text>
+          <Box sx={{ width: '100%', textAlign: 'center' }}>
+            <Button radius="xl" onClick={handleTierListSubmit}>
+              {!tierList.id ? t('continue-upload') : t('continue-update')}
+            </Button>
+          </Box>
+        </Popover.Dropdown>
+      </Popover>
     </Popover>
   );
 }

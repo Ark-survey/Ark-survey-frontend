@@ -1,18 +1,4 @@
-import {
-  Box,
-  Stack,
-  Group,
-  List,
-  Space,
-  Text,
-  Title,
-  Tabs,
-  Divider,
-  Sx,
-  BoxProps,
-  ActionIcon,
-  ScrollArea,
-} from '@mantine/core';
+import { Box, Stack, Group, Text, Title, Tabs, Divider, Sx, ActionIcon, ScrollArea, TabsValue } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CardRoot from 'src/components/CardRoot';
@@ -28,7 +14,7 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
   const { currentEditKey } = useSelector((state: RootState) => state.tierList);
   const listTypeCollection = useSelector((state: RootState) => state.tierListType.collection);
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState<TabsValue>(null);
   const [activeEnv, setActiveEnv] = useState(0);
   const [type1List] = useState([
     {
@@ -67,7 +53,7 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
 
   const type2List = useMemo(() => {
     let list = [];
-    if (activeTab === 0) {
+    if (activeTab === 'AE') {
       list = treeToArray(listTypeCollection[0].children).map((it) => ({
         value: it.id,
         label: it.name,
@@ -95,13 +81,15 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
     return list;
   }, [activeEnv, activeTab, envList, listTypeCollection]);
 
+  const tabValue = type1List.find((it) => it.value === activeTab)?.value ?? '';
+  const fitObj = type2List.find((it) => tabValue + '-' + it?.road === currentEditKey);
+
   const handleType2Change = (value: string) => {
     const typeItem = type2List.find((it) => it.value === value);
-    dispatch(updateEditKey1(type1List[activeTab].value));
+    dispatch(updateEditKey1(tabValue));
     dispatch(updateEditKey2({ key: value, road: typeItem?.road ?? '' }));
     onInside?.();
   };
-  const fitObj = type2List.find((it) => type1List[activeTab].value + '-' + it?.road === currentEditKey);
 
   return (
     <>
@@ -115,14 +103,18 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
           <Description />
           <CardRoot>
             <Stack>
-              <Tabs active={activeTab} variant="pills" grow onTabChange={setActiveTab}>
-                {type1List.map((it) => (
-                  <Tabs.Tab key={it.value} tabKey={it.value} label={it.label} icon={it.icon} />
-                ))}
+              <Tabs value={activeTab} variant="pills" onTabChange={setActiveTab}>
+                <Tabs.List grow>
+                  {type1List.map((it) => (
+                    <Tabs.Tab key={it.value} value={it.value} icon={it.icon}>
+                      {it.label}
+                    </Tabs.Tab>
+                  ))}
+                </Tabs.List>
               </Tabs>
               {/* <Select sx={{ width: '75px' }} value={tierListType.key1Select} onChange={} data={} /> */}
               <Group noWrap sx={{ alignItems: 'flex-start' }}>
-                {activeTab !== 0 && (
+                {activeTab !== 'AE' && (
                   <>
                     <ScrollArea>
                       <Group

@@ -1,4 +1,4 @@
-import { Avatar, AvatarsGroup, Box, Button, createStyles, Space, Grid, Center } from '@mantine/core';
+import { Avatar, Box, Button, createStyles, Space, Grid, Center } from '@mantine/core';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'src/hooks';
@@ -75,15 +75,11 @@ const CustomAvatar: FC<{ letter: string; text: string; src: { imgUrl: string; to
       }}
     >
       {!downSM ? <Box className={classes.bigLetter}>{letter}</Box> : <Box className={classes.text}>{text}</Box>}
-      <AvatarsGroup
-        size="md"
-        radius="xl"
-        limit={2}
-        sx={{ marginLeft: downSM ? '' : '12px', padding: downSM ? '0' : '' }}
-      >
+      <Avatar.Group sx={{ marginLeft: downSM ? '' : '12px', padding: downSM ? '0' : '' }}>
         {src.map((it, index) => {
           return (
             <Avatar
+              radius="xl"
               key={index}
               src={it.imgUrl}
               sx={{ margin: downSM ? '0 auto' : '' }}
@@ -92,7 +88,7 @@ const CustomAvatar: FC<{ letter: string; text: string; src: { imgUrl: string; to
             />
           );
         })}
-      </AvatarsGroup>
+      </Avatar.Group>
     </Box>
   );
 };

@@ -7,15 +7,24 @@ export default function Index() {
   return (
     <Container size={1200}>
       <Center py="lg">
-        <Accordion sx={{ width: '100%' }} multiple initialItem={0}>
-          <Accordion.Item label="显示">
-            <Stack>
-              <MiniSwitch />
-              <NameDisplaySwitch />
-            </Stack>
+        <Accordion sx={{ width: '100%' }} multiple defaultValue={['display', 'lang']}>
+          <Accordion.Item value="display">
+            <Accordion.Control>显示</Accordion.Control>
+            <Accordion.Panel>
+              <Stack>
+                <MiniSwitch />
+                <NameDisplaySwitch />
+              </Stack>
+            </Accordion.Panel>
           </Accordion.Item>
-          <Accordion.Item label="语言" aria-disabled>
-            <LangSelect />
+          <Accordion.Item value="lang">
+            <Accordion.Control disabled>语言</Accordion.Control>
+            <Accordion.Panel>
+              <Stack>
+                <MiniSwitch />
+                <NameDisplaySwitch />
+              </Stack>
+            </Accordion.Panel>
           </Accordion.Item>
         </Accordion>
       </Center>

@@ -154,24 +154,22 @@ export default function Index() {
               <Divider sx={{ height: '55px' }} orientation="vertical" />
               <Box sx={{ flex: 1 }}>
                 <Title order={3}>{statisticData?.validCount ?? t('statistics.key-not-found')}</Title>
-                <Popover
-                  opened={opened}
-                  onClose={() => setOpened(false)}
-                  target={
+                <Popover opened={opened}>
+                  <Popover.Target>
                     <Text sx={{ userSelect: 'none', cursor: 'pointer' }} onClick={() => setOpened((o) => !o)}>
                       {t('statistics.validCount')}
                       {/* <IconInfoCircle size={10} /> */}
                     </Text>
-                  }
-                  width={310}
-                  position="bottom"
-                  withArrow
-                >
-                  <List sx={{ fontSize: '14px' }}>
-                    <List.Item>以下情况计入有效样本：等级数大于2，干员评价数大于7，且上次保存时间在14天以内</List.Item>
-                    <List.Item>分数计算规则：将有效样本的评价等比反向映射到[0,5]，求出平均值</List.Item>
-                    <List.Item>分层按算法自动划分，统计数据每十分钟更新一次</List.Item>
-                  </List>
+                  </Popover.Target>
+                  <Popover.Dropdown>
+                    <List sx={{ fontSize: '14px' }}>
+                      <List.Item>
+                        以下情况计入有效样本：等级数大于2，干员评价数大于7，且上次保存时间在14天以内
+                      </List.Item>
+                      <List.Item>分数计算规则：将有效样本的评价等比反向映射到[0,5]，求出平均值</List.Item>
+                      <List.Item>分层按算法自动划分，统计数据每十分钟更新一次</List.Item>
+                    </List>
+                  </Popover.Dropdown>
                 </Popover>
               </Box>
               <Divider sx={{ height: '55px' }} orientation="vertical" />

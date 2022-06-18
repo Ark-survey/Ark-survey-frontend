@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Popover, Button, Box, NumberInput, ActionIcon, InputWrapper, TextInput, Space } from '@mantine/core';
+import { Popover, Button, Box, NumberInput, ActionIcon, TextInput, Space } from '@mantine/core';
 import { IconEdit } from '@tabler/icons';
 import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
@@ -21,11 +21,11 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
       name: tier.name,
     },
     validate: {
-      value: (value) =>
+      value: (value: number) =>
         tier.value !== value && (tiers ?? []).filter((v) => v.value === value).length > 0
           ? t('this-level-already-exists')
           : null,
-      name: (value) => {
+      name: (value: string) => {
         return (value?.length ?? '') > 6 ? t('name-cannot-be-longer-than-6-characters') : null;
       },
     },
@@ -52,7 +52,11 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
       onClose={() => {
         setOpened(false);
       }}
-      target={
+      width={200}
+      position="right"
+      withArrow
+    >
+      <Popover.Target>
         <ActionIcon
           sx={{
             background: '#fff',
@@ -63,34 +67,34 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
         >
           <IconEdit />
         </ActionIcon>
-      }
-      width={200}
-      position="right"
-      placement="center"
-      withArrow
-    >
-      <form onSubmit={form.onSubmit(handleConfirm)}>
-        <InputWrapper label={t('tier-name')} description={t('optional-no-more-than-6-characters')}>
-          <TextInput {...form.getInputProps('name')} placeholder={t('displays-the-T+grade-value-by-default')} />
-        </InputWrapper>
-        <Space h="sm" />
-        <NumberInput
-          label={t('grade-value')}
-          description={t('range-[-9,9]-with-one-decimal-place')}
-          placeholder={t('please-enter')}
-          {...form.getInputProps('value')}
-          precision={1}
-          step={0.5}
-          min={-9}
-          max={9}
-        />
-        <Space h="lg" />
-        <Box sx={{ width: '100%', textAlign: 'center' }}>
-          <Button radius="xl" type="submit">
-            {t('confirm-update')}
-          </Button>
-        </Box>
-      </form>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <form onSubmit={form.onSubmit(handleConfirm)}>
+          <TextInput
+            label={t('tier-name')}
+            description={t('optional-no-more-than-6-characters')}
+            {...form.getInputProps('name')}
+            placeholder={t('displays-the-T+grade-value-by-default')}
+          />
+          <Space h="sm" />
+          <NumberInput
+            label={t('grade-value')}
+            description={t('range-[-9,9]-with-one-decimal-place')}
+            placeholder={t('please-enter')}
+            {...form.getInputProps('value')}
+            precision={1}
+            step={0.5}
+            min={-9}
+            max={9}
+          />
+          <Space h="lg" />
+          <Box sx={{ width: '100%', textAlign: 'center' }}>
+            <Button radius="xl" type="submit">
+              {t('confirm-update')}
+            </Button>
+          </Box>
+        </form>
+      </Popover.Dropdown>
     </Popover>
   );
 }

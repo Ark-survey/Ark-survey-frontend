@@ -31,10 +31,8 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
   };
 
   return (
-    <Popover
-      opened={opened}
-      onClose={() => setOpened(false)}
-      target={
+    <Popover opened={opened} onClose={() => setOpened(false)} width={210} position="right" withArrow>
+      <Popover.Target>
         <ActionIcon
           sx={{
             background: '#fff',
@@ -45,18 +43,15 @@ export default function DeleteTierPopover({ tierValue }: { tierValue: number }) 
         >
           <IconTrash />
         </ActionIcon>
-      }
-      width={210}
-      position="right"
-      placement="center"
-      withArrow
-    >
-      <Text size="sm">{t('del-tier-confirm')}</Text>
-      <Box sx={{ width: '100%', textAlign: 'center' }}>
-        <Button sx={{ marginTop: '15px' }} radius="xl" color="red" onClick={handleConfirm}>
-          {t('confirm-del')}
-        </Button>
-      </Box>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Text size="sm">{t('del-tier-confirm')}</Text>
+        <Box sx={{ width: '100%', textAlign: 'center' }}>
+          <Button sx={{ marginTop: '15px' }} radius="xl" color="red" onClick={handleConfirm}>
+            {t('confirm-del')}
+          </Button>
+        </Box>
+      </Popover.Dropdown>
     </Popover>
   );
 }

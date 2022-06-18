@@ -1,10 +1,10 @@
 import { keyframes, Box, Group, Modal, Text, Transition } from '@mantine/core';
-import { t } from 'i18next';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconRefresh } from '@tabler/icons';
 import { persistor, RootState } from './store';
 import { updateUserData } from './store/slice/userSlice';
+import { useTranslation } from 'react-i18next';
 
 const a1 = keyframes({
   '0%': { transform: 'rotate(0deg)' },
@@ -47,6 +47,7 @@ function onSuccess(_registration: any) {
 function UpdateVersionNotion() {
   const [opened, setOpened] = useState(false);
   const user = useSelector((state: RootState) => state.user.userData);
+  const { t } = useTranslation();
 
   const state = useStatus();
   const dispatch = useDispatch();

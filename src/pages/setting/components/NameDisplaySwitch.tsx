@@ -19,12 +19,7 @@ export default function Index() {
       checked={setting.nameDisplay}
       onChange={handleMiniStatusChange}
       label={
-        <Tooltip
-          label="开启这个选项后，除皮肤以外所有的头像会显示干员名称"
-          position="bottom"
-          placement="end"
-          gutter={10}
-        >
+        <Tooltip label="开启这个选项后，除皮肤以外所有的头像会显示干员名称" position="bottom-end" offset={10}>
           <Group position="center" spacing={8}>
             <Text>干员名称显示</Text>
             <IconInfoCircle size={12} />
