@@ -1,4 +1,4 @@
-import { post } from '.';
+import { post } from 'src/utils/ApiUtils';
 
 // 皮肤
 export interface CharSkinBox {

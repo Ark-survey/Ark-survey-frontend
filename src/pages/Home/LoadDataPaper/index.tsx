@@ -3,7 +3,7 @@ import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { UserServer } from 'src/api/UserServer';
+import { UserServer } from 'src/service/UserServer';
 import { updateUserData } from 'src/store/slice/userSlice';
 import { errorNotice, successNotice } from '../../../components/Notice';
 

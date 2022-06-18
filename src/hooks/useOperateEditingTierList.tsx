@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Tier } from 'src/api/TierListServer';
+import { Tier } from 'src/service/TierListServer';
 import { editingTierList, updateEditingTierList } from 'src/store/slice/TierListSlice';
 
 export function useOperateEditingTierList() {

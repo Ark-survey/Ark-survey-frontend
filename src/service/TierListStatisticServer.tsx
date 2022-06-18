@@ -1,5 +1,5 @@
 import { CharacterType } from 'src/store/slice/userSlice';
-import { post } from '.';
+import { post } from 'src/utils/ApiUtils';
 
 export interface CharStatistic {
   avgValue?: number; // 均分

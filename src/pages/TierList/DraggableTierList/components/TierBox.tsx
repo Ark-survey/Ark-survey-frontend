@@ -6,7 +6,7 @@ import { useDrop } from 'react-dnd';
 import CharListItem, { CharDragItem } from 'src/pages/TierList/CharListBox/components/CharListItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Tier } from 'src/api/TierListServer';
+import { Tier } from 'src/service/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { editingTierList } from 'src/store/slice/TierListSlice';
 import CharContainer, { ItemTypes } from 'src/components/@arksurvey/CharContainer';

@@ -1,4 +1,4 @@
-import { post } from '.';
+import { post } from 'src/utils/ApiUtils';
 
 export interface MetaData {
   version?: string;

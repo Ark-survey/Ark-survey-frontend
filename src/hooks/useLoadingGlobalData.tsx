@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { MetaDataServer } from 'src/api/MetaDataServer.';
+import { MetaDataServer } from 'src/service/MetaDataServer.';
 import { successNotice } from 'src/components/Notice';
 import { updateVersion } from 'src/store/slice/userSlice';
 

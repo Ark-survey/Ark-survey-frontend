@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from 'src/api/UserServer';
+import { User } from 'src/service/UserServer';
 
 export interface ImgPosition {
   skillImgPosition: {

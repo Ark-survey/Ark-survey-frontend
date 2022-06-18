@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, createStyles, Space, Grid, Center } from '@mantine/core';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useWindowSize } from 'src/hooks/useIsMobile';
+import { useWindowSize } from 'src/hooks/useWindowSize';
 import { IconBrandGithub, IconNotes, IconTent, IconTrash } from '@tabler/icons';
 
 interface HeaderProps {

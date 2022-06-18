@@ -5,7 +5,7 @@ import { RootState } from 'src/store';
 import { IconFilter } from '@tabler/icons';
 import { useTranslation } from 'react-i18next';
 import CharListBox from '../CharListBox';
-import useCharFilterDrawer from 'src/components/CharFilterDrawer/useCharFilterDrawer';
+import useCharFilterDrawer from 'src/components/@arksurvey/CharFilterDrawer/useCharFilterDrawer';
 import CardRoot from 'src/components/CardRoot';
 import { useMemo } from 'react';
 import { filterChar } from 'src/store/slice/filterSlice';

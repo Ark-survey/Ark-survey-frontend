@@ -3,7 +3,7 @@ import { Popover, Button, Box, NumberInput, ActionIcon, TextInput, Space } from 
 import { IconEdit } from '@tabler/icons';
 import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
-import { Tier } from 'src/api/TierListServer';
+import { Tier } from 'src/service/TierListServer';
 import { successNotice } from '../../../../components/Notice';
 import { useTranslation } from 'react-i18next';
 import { editingTierList } from 'src/store/slice/TierListSlice';

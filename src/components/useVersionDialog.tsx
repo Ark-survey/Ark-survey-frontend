@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Dialog, Group, Button, TextInput, Text, ScrollArea, Box, Title, Stack, List } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { VersionAnnouncement, VersionAnnouncementServer } from 'src/api/AnnouncementServer';
+import { VersionAnnouncement, VersionAnnouncementServer } from 'src/service/AnnouncementServer';
 
 export default function useVersionDialog() {
   const [opened, setOpened] = useState(false);

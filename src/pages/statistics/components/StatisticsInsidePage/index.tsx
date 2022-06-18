@@ -2,7 +2,7 @@ import { Box, Text, Group, List, Popover, useMantineTheme, Container, Divider, S
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { TierListStatistic, TierListStatisticsServer } from 'src/api/TierListStatisticServer';
+import { TierListStatistic, TierListStatisticsServer } from 'src/service/TierListStatisticServer';
 import { RootState } from 'src/store';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { IconInfoCircle } from '@tabler/icons';

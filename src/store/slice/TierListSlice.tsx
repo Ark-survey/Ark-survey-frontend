@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TierList, TierLists } from 'src/api/TierListServer';
+import { TierList, TierLists } from 'src/service/TierListServer';
 import { RootState } from '..';
 
 export interface TierListStateType {

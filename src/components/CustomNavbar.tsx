@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { useChangeSize } from 'src/hooks/useIsMobile';
+import { useChangeSize } from 'src/hooks/useChangeSize';
 import { successNotice } from 'src/components/Notice';
 import { RootState } from 'src/store';
 import {
