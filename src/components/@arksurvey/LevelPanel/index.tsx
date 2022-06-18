@@ -13,7 +13,7 @@ import {
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Character } from 'src/api/CharBoxServer';
-import { CharLevelDataType } from 'src/components/CharDataUnit';
+import { CharLevelDataType } from 'src/components/@arksurvey/CharDataUnit';
 import { RootState } from 'src/store';
 import { IconFoldDown, IconFoldUp } from '@tabler/icons';
 

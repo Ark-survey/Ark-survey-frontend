@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Character, Module } from 'src/api/CharBoxServer';
 import { RootState } from 'src/store';
 import { IconChevronsDown, IconChevronsUp } from '@tabler/icons';
-import UniEquipImg from '../image-container/UniEquipImg';
+import UniEquipImg from '../ImageContainer/UniEquipImg';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
   container: {

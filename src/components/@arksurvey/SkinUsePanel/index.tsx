@@ -2,9 +2,9 @@ import { Box, createStyles, Group } from '@mantine/core';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Character } from 'src/api/CharBoxServer';
-import { CharSkinType } from 'src/components/CharDataUnit';
+import { CharSkinType } from 'src/components/@arksurvey/CharDataUnit';
 import { RootState } from 'src/store';
-import CharContainer from '../char-container';
+import CharContainer from '../CharContainer';
 import PanelContainer from '../PanelContainer';
 
 const useStyles = createStyles((theme) => ({}));

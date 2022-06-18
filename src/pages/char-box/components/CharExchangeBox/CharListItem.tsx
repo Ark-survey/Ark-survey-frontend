@@ -1,6 +1,6 @@
 import { RootState } from 'src/store';
 import { useSelector } from 'react-redux';
-import CharContainer from 'src/components/char-container';
+import CharContainer from 'src/components/@arksurvey/CharContainer';
 import { CharacterType } from 'src/store/slice/userSlice';
 
 export const ItemTypes = {

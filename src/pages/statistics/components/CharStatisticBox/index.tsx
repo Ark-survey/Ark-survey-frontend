@@ -3,7 +3,7 @@ import { useClickOutside } from '@mantine/hooks';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import CharContainer from 'src/components/char-container';
+import CharContainer from 'src/components/@arksurvey/CharContainer';
 import { RootState } from 'src/store';
 import { CharacterType } from 'src/store/slice/userSlice';
 

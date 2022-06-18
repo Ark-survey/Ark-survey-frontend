@@ -1,7 +1,7 @@
 import { RootState } from 'src/store';
 import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import CharContainer, { CharContainerType } from 'src/components/char-container';
+import CharContainer, { CharContainerType } from 'src/components/@arksurvey/CharContainer';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { CharacterType } from 'src/store/slice/userSlice';
 

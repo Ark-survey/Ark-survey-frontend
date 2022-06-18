@@ -9,7 +9,7 @@ import { RootState } from 'src/store';
 import { Tier } from 'src/api/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { editingTierList } from 'src/store/slice/TierListSlice';
-import CharContainer, { ItemTypes } from 'src/components/char-container';
+import CharContainer, { ItemTypes } from 'src/components/@arksurvey/CharContainer';
 import { IconPlus } from '@tabler/icons';
 import { t } from 'i18next';
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';

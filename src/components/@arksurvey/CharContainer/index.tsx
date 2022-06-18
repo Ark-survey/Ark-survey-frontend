@@ -3,7 +3,7 @@ import { ReactNode, useMemo } from 'react';
 import { useDrag } from 'react-dnd';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from 'src/hooks';
-import CharAvatar from '../image-container/CharAvatar';
+import CharAvatar from '../ImageContainer/CharAvatar';
 import { useClickOutside } from '@mantine/hooks';
 
 export const ItemTypes = {

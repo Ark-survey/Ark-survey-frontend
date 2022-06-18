@@ -6,7 +6,7 @@ import { RootState } from 'src/store';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { CharacterType } from 'src/store/slice/userSlice';
 import { useTranslation } from 'react-i18next';
-import CharContainer from 'src/components/char-container';
+import CharContainer from 'src/components/@arksurvey/CharContainer';
 import { filterChar } from 'src/store/slice/filterSlice';
 import { updateEditingCharKey } from 'src/store/slice/charBoxSlice';
 

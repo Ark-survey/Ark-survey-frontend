@@ -2,12 +2,12 @@ import { Group, Stack } from '@mantine/core';
 import { useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Character } from 'src/api/CharBoxServer';
-import LevelPanel from 'src/components/level-panel';
-import SkillGroup from 'src/components/skill-container/SkillGroup';
-import UnitEquipPanel from 'src/components/uni-equip-panel';
+import LevelPanel from 'src/components/@arksurvey/LevelPanel';
+import SkillGroup from 'src/components/@arksurvey/SkillContainer/SkillGroup';
+import UnitEquipPanel from 'src/components/@arksurvey/UniequipPanel';
 import { RootState } from 'src/store';
 import { updateEditingChar, updateEditingCharKey } from 'src/store/slice/charBoxSlice';
-import SkinUsePanel from './skin-use-panel';
+import SkinUsePanel from '../SkinUsePanel';
 
 export type CharLevelDataType = {
   potentialLevel: number;

@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from 'src/hooks';
 import { useClickOutside } from '@mantine/hooks';
-import SkillIcon from '../image-container/SkillIcon';
+import SkillIcon from '../ImageContainer/SkillIcon';
 
 export const ItemTypes = {
   OPERATOR: 'Operator',
