@@ -9,24 +9,23 @@ import { RootState } from 'src/store';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { useMemo, useState } from 'react';
-import { filterChar } from 'src/store/slice/filterSlice';
 import { mapToArray } from 'src/utils/ObjectUtils';
+import { CharacterType } from 'src/store/slice/userSlice';
 
-export default function CharListItemType() {
+export default function CharListItemType({ filterChar }: { filterChar: (char: CharacterType) => boolean }) {
   const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
-  const filterCharFunc = useSelector((state: RootState) => filterChar(state));
   const [charsSelect, setCharsSelect] = useState<string[]>([]);
 
   const charsFilter = useMemo(
     () =>
       charData.filter((it) => {
-        if (it.isNotObtainable || !filterCharFunc(it)) return false;
+        if (it.isNotObtainable || !filterChar(it)) return false;
         return true;
       }),
-    [charData, filterCharFunc],
+    [charData, filterChar],
   );
 
   const handleCharacterReturn = ({ fromTierValue, charKey }: CharDragItem) => {

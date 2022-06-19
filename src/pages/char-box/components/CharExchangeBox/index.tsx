@@ -21,15 +21,19 @@ import { mapToArray } from 'src/utils/ObjectUtils';
 import { addCharToBox, delCharFromBox, updateCharInBox } from 'src/store/slice/charBoxSlice';
 import { Character, CharBoxServer, Module, Skill } from 'src/service/CharBoxServer';
 import { errorNotice, successNotice } from 'src/components/Notice';
-import { filterChar } from 'src/store/slice/filterSlice';
+import { CharacterType } from 'src/store/slice/userSlice';
 
-export default function Index({ onClickFilter }: { onClickFilter: () => void }) {
-  const filters = useSelector((state: RootState) => state.filters);
+export default function Index({
+  filterChar,
+  onClickFilter,
+}: {
+  filterChar: (char: CharacterType) => boolean;
+  onClickFilter: () => void;
+}) {
   const userId = useSelector((state: RootState) => state.user.userData?.id);
   const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
   const { charInBox, charBoxId } = useSelector((state: RootState) => state.charBox);
   const charInBoxArray = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
-  const filterCharFunc = useSelector((state: RootState) => filterChar(state));
   const { charBoxEditing } = useSelector((state: RootState) => state.setting);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -40,18 +44,18 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
   const charTypeInBox = useMemo(
     () =>
       charData.filter((it) => {
-        return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterCharFunc(it);
+        return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
       }),
-    [charData, charInBoxArray, filterCharFunc],
+    [charData, charInBoxArray, filterChar],
   );
 
   const charTypeOutBox = useMemo(
     () =>
       charData.filter((it) => {
         if (it.isNotObtainable) return false;
-        return charTypeInBox.findIndex((i) => i.key === it.key) === -1 && filterCharFunc(it);
+        return charTypeInBox.findIndex((i) => i.key === it.key) === -1 && filterChar(it);
       }),
-    [charData, charTypeInBox, filterCharFunc],
+    [charData, charTypeInBox, filterChar],
   );
 
   const selectMax = charTypeOutBox.length !== 0 && charTypeOutBox.length === charSelectOutBox.length;
@@ -174,7 +178,7 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
           </>
         ) : (
           <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '850px' }}>
-            <CharBoxList />
+            <CharBoxList filterChar={filterChar} />
           </ScrollArea>
         )}
         <Divider />

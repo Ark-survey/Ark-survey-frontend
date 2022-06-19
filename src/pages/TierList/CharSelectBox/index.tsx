@@ -8,23 +8,21 @@ import CharListBox from '../CharListBox';
 import useCharFilterDrawer from 'src/components/@arksurvey/CharFilterDrawer/useCharFilterDrawer';
 import CardRoot from 'src/components/CardRoot';
 import { useMemo } from 'react';
-import { filterChar } from 'src/store/slice/filterSlice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 
 export default function Index() {
-  const { setOpened, drawerContext } = useCharFilterDrawer();
+  const { setOpened, drawerContext, filterChar } = useCharFilterDrawer();
   const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
-  const filterCharFunc = useSelector((state: RootState) => filterChar(state));
   const { t } = useTranslation();
 
   const charsFilter = useMemo(
     () =>
       charData.filter((it) => {
         if (it.isNotObtainable) return false;
-        else if (!filterCharFunc(it)) return false;
+        else if (!filterChar(it)) return false;
         return true;
       }),
-    [charData, filterCharFunc],
+    [charData, filterChar],
   );
 
   return (
@@ -40,7 +38,7 @@ export default function Index() {
           </Group>
         </Header>
         <Divider />
-        <CharListBox />
+        <CharListBox filterChar={filterChar} />
       </Stack>
       {drawerContext}
     </CardRoot>

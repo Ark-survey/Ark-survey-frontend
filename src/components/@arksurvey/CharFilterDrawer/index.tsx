@@ -1,40 +1,63 @@
 import { Button, Stack } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
 import { rarity, profession, position } from 'src/contexts';
-import { changeChipGroup, changeDateRange, reset } from 'src/store/slice/filterSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'src/store';
 import { ChipGroups } from './ChipGroups';
 import { DateSelect } from './DateSelect';
 import { useTranslation } from 'react-i18next';
 
-export default function CharFilterBox() {
-  const filters = useSelector((state: RootState) => state.filters);
-  const dispatch = useDispatch();
+export const initialState: FilterType = {
+  fold: true,
+  chipGroup: {
+    opRate: [],
+    profession: [],
+    // sex: [],
+    rarity: [5],
+    position: [],
+    // accessChannel: [],
+  },
+  dateRange: [0, 100],
+};
+
+export interface FilterType {
+  chipGroup: { [x: string]: any[] };
+  dateRange: [number, number];
+  fold: boolean;
+}
+
+interface CharFilterDrawerProps {
+  filters: FilterType;
+  onFilterChange?: (filters: FilterType) => void;
+}
+
+export default function CharFilterBox({ filters, onFilterChange }: CharFilterDrawerProps) {
   const { t } = useTranslation();
 
   const handleDateSelectChange = useCallback(
     (values: [number, number]) => {
-      dispatch(changeDateRange(values));
+      onFilterChange?.({
+        ...filters,
+        dateRange: values,
+      });
     },
-    [dispatch],
+    [filters, onFilterChange],
   );
 
   const handleChipsChange = useCallback(
     (values: string[], groupName: string) => {
-      dispatch(
-        changeChipGroup({
+      onFilterChange?.({
+        ...filters,
+        chipGroup: {
           ...filters.chipGroup,
           [groupName]: values,
-        }),
-      );
+        },
+      });
     },
-    [dispatch, filters],
+    [filters, onFilterChange],
   );
 
-  const handleResetFilter = useCallback(() => {
-    dispatch(reset());
-  }, [dispatch]);
+  const handleResetFilter = () => {
+    onFilterChange?.(initialState);
+  };
 
   const chipGroupList = useMemo(() => {
     return (

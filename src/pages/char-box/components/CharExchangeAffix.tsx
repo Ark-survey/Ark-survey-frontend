@@ -8,23 +8,28 @@ import { Character, CharBoxServer } from 'src/service/CharBoxServer';
 import { successNotice, errorNotice } from 'src/components/Notice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { useMemo } from 'react';
-import { filterChar } from 'src/store/slice/filterSlice';
+import { CharacterType } from 'src/store/slice/userSlice';
 
-export default function Index({ onClickFilter }: { onClickFilter: () => void }) {
+export default function Index({
+  filterChar,
+  onClickFilter,
+}: {
+  filterChar: (char: CharacterType) => boolean;
+  onClickFilter: () => void;
+}) {
   const { charInBox, charBoxId } = useSelector((state: RootState) => state.charBox);
   const { charBoxEditing } = useSelector((state: RootState) => state.setting);
   const userId = useSelector((state: RootState) => state.user.userData?.id);
   const charInBoxArray = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
   const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
   const dispatch = useDispatch();
-  const filterCharFunc = useSelector((state: RootState) => filterChar(state));
 
   const charTypeInBox = useMemo(
     () =>
       charData.filter((it) => {
-        return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterCharFunc(it);
+        return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
       }),
-    [charData, charInBoxArray, filterCharFunc],
+    [charData, charInBoxArray, filterChar],
   );
 
   const handleSaveCharBox = async () => {
@@ -68,7 +73,7 @@ export default function Index({ onClickFilter }: { onClickFilter: () => void }) 
           </Title> */}
         </Stack>
         <Box sx={{ height: '100%', overflow: 'auto', flex: 1 }}>
-          <CharBoxList />
+          <CharBoxList filterChar={filterChar} />
         </Box>
       </Paper>
     </Affix>

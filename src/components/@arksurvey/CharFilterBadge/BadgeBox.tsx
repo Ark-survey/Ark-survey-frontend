@@ -9,16 +9,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }));
 
-export default function Index({ title, badgeKey, list }: { title: string; badgeKey: string; list: any[] }) {
-  const filters = useSelector((state: RootState) => state.filters);
+export default function Index({ title, chips, list }: { title: string; chips: any; list: any[] }) {
   const { classes } = useStyles();
 
-  return filters.chipGroup[badgeKey]?.length > 0 ? (
+  return chips?.length > 0 ? (
     <Box className={classes.badge}>
       <Badge>
-        {title +
-          ' ' +
-          filters.chipGroup[badgeKey].map((item) => list[list.findIndex((i) => i.value === item)]?.name).join(',')}
+        {title + ' ' + chips.map((item: any) => list[list.findIndex((i) => i.value === item)]?.name).join(',')}
       </Badge>
     </Box>
   ) : null;

@@ -10,14 +10,14 @@ export default function CharBox() {
   const setting = useSelector((state: RootState) => state.setting);
   const { menuOpen } = useSelector((state: RootState) => state.user);
   const { downSM } = useWindowSize();
-  const { setOpened, drawerContext } = useCharFilterDrawer();
+  const { setOpened, drawerContext, filterChar } = useCharFilterDrawer();
 
   return (
     <>
       {!(setting.charBoxEditing && downSM) ? (
-        <CharExchangeBox onClickFilter={() => setOpened(true)} />
+        <CharExchangeBox filterChar={filterChar} onClickFilter={() => setOpened(true)} />
       ) : (
-        !menuOpen && <CharExchangeAffix onClickFilter={() => setOpened(true)} />
+        !menuOpen && <CharExchangeAffix filterChar={filterChar} onClickFilter={() => setOpened(true)} />
       )}
       {setting.charBoxEditing && <CharDataUnit />}
       {drawerContext}

@@ -28,7 +28,6 @@ interface TierBoxProps {
 export default function TierBox({ tier, operationDisplay = false, onDropCharacter }: TierBoxProps) {
   const tierList = useSelector(editingTierList);
   const charMap = useSelector((state: RootState) => state.characters.charMap);
-  const filter = useSelector((state: RootState) => state.filters);
   const setting = useSelector((state: RootState) => state.setting);
   const dispatch = useDispatch();
   const { addTierChars, findTierIndexByValue } = useOperateEditingTierList();
