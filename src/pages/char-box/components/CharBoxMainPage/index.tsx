@@ -3,7 +3,7 @@ import { ReactNode, useState } from 'react';
 import CardRoot from 'src/components/CardRoot';
 import NavItem from 'src/components/NavItem';
 import PageHeader from 'src/components/PageHeader';
-import { IconArrowLeft, IconPackage, IconHanger, IconFileImport } from '@tabler/icons';
+import { IconArrowLeft, IconPackage, IconHanger, IconFileImport, IconFileExport } from '@tabler/icons';
 import Description from './Description';
 
 export default function Index({ inside, onInside }: { inside: boolean; onInside?: () => void }) {
@@ -38,7 +38,6 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
                 {type1List.map((it, index) => (
                   <NavItem
                     key={index}
-                    sx={{ height: '100px' }}
                     disabled={it.disabled}
                     onClick={() => {
                       setActiveTab(index);
@@ -60,19 +59,34 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
                 ))}
               </Group>
               <Divider />
-              <NavItem sx={{ textAlign: 'center' }} disabled>
-                <SelectItem
-                  label="快速导入"
-                  topIcon={<IconFileImport />}
-                  titleProps={{
-                    sx: {
-                      fontSize: '16px',
-                      width: '100%',
-                    },
-                  }}
-                  groupsSx={{ alignItems: 'center', justifyContent: 'center' }}
-                />
-              </NavItem>
+              <Group noWrap>
+                <NavItem sx={{ textAlign: 'center' }} disabled>
+                  <SelectItem
+                    label="快速导入数据"
+                    topIcon={<IconFileImport />}
+                    titleProps={{
+                      sx: {
+                        fontSize: '16px',
+                        width: '100%',
+                      },
+                    }}
+                    groupsSx={{ alignItems: 'center', justifyContent: 'center' }}
+                  />
+                </NavItem>
+                <NavItem sx={{ textAlign: 'center' }} disabled>
+                  <SelectItem
+                    label="导出数据"
+                    topIcon={<IconFileExport />}
+                    titleProps={{
+                      sx: {
+                        fontSize: '16px',
+                        width: '100%',
+                      },
+                    }}
+                    groupsSx={{ alignItems: 'center', justifyContent: 'center' }}
+                  />
+                </NavItem>
+              </Group>
             </Stack>
           </CardRoot>
         </>

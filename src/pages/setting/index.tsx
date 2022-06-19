@@ -18,11 +18,10 @@ export default function Index() {
             </Accordion.Panel>
           </Accordion.Item>
           <Accordion.Item value="lang">
-            <Accordion.Control disabled>语言</Accordion.Control>
+            <Accordion.Control>语言</Accordion.Control>
             <Accordion.Panel>
               <Stack>
-                <MiniSwitch />
-                <NameDisplaySwitch />
+                <LangSelect />
               </Stack>
             </Accordion.Panel>
           </Accordion.Item>
