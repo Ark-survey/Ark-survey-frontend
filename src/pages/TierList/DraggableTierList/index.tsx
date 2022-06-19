@@ -1,4 +1,4 @@
-import { Group, Divider, Paper, Stack, createStyles, ActionIcon, ScrollArea } from '@mantine/core';
+import { Group, Divider, Paper, Stack, createStyles, ActionIcon, ScrollArea, Space } from '@mantine/core';
 import Header from 'src/components/Header';
 
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
@@ -73,7 +73,8 @@ export default function Index() {
         </Header>
         <Divider />
         <ScrollArea ref={tiersBox} id="tierList">
-          <Stack>
+          <Stack spacing={22} sx={{ maxHeight: '600px', height: '100%' }}>
+            <Space />
             {tierList?.tiers?.map((tier) => (
               <TierBox
                 key={tier.value}

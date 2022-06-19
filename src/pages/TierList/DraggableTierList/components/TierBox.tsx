@@ -1,4 +1,4 @@
-import { Box, Center } from '@mantine/core';
+import { Box, Center, Group, Title } from '@mantine/core';
 import { ReactNode, useMemo } from 'react';
 import DeleteTier from './DeleteTierPopover';
 import EditTierPopover from './EditTierPopover';
@@ -88,38 +88,35 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
   }, [addTierChars, charMap, dispatch, setting.mini, findTierIndexByValue, tier.value]);
 
   return (
-    <Box
+    <Group
+      p="md"
+      spacing="md"
       ref={drop}
       sx={{
-        boxSizing: 'border-box',
-        border: isOver ? '2px #aaa solid' : '2px #ccc dashed',
+        border: isOver ? '1px #aaa solid' : '1px #ccc dashed',
         borderRadius: '20px',
-        minHeight: setting.mini ? '75px' : '115px',
+        minHeight: setting.mini ? '76px' : '115px',
         position: 'relative',
-        margin: '5px',
         padding: '5px',
       }}
     >
-      <Box sx={{ padding: '10px', display: 'flex', flexFlow: 'row wrap' }}>
-        {characterImgList}
-        {addCharacter}
-      </Box>
-      <Box
+      {characterImgList}
+      {addCharacter}
+      <Title
+        px="xs"
         sx={{
           position: 'absolute',
           background: '#fff',
-          fontWeight: 600,
-          fontSize: '12px',
-          padding: '2px 5px',
-          top: '-12px',
+          top: '-14px',
           left: '20px',
         }}
+        order={5}
       >
         {(tier?.name?.length ?? 0) > 0 ? tier.name : 'T ' + tier.value}
-      </Box>
+      </Title>
       {operationDisplay && (
         <>
-          <Box
+          <Group
             sx={{
               position: 'absolute',
               top: setting.mini ? '-10px' : '12px',
@@ -128,13 +125,11 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
               display: setting.mini ? 'flex' : '',
               zIndex: 1,
             }}
+            spacing="xs"
           >
-            {/* <AddCharactersToTierPopover tierValue={tier.value ?? 0} />
-            <Box sx={{ width: '6px', height: '4px' }} /> */}
             <EditTierPopover tier={tier} />
-            <Box sx={{ width: '6px', height: '4px' }} />
             <DeleteTier tierValue={tier.value ?? 0} />
-          </Box>
+          </Group>
           <Box
             sx={{
               position: 'absolute',
@@ -153,6 +148,6 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
           </Box>
         </>
       )}
-    </Box>
+    </Group>
   );
 }

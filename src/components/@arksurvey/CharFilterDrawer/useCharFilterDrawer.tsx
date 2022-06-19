@@ -10,7 +10,7 @@ export default function useCharFilterDrawer() {
 
   const filterChar = (char: CharacterType) => {
     return (
-      (filters.chipGroup.rarity.length === 0 || filters.chipGroup.rarity.includes(char.rarity)) &&
+      (filters.chipGroup.rarity.length === 0 || filters.chipGroup.rarity.includes(char.rarity.toString())) &&
       (filters.chipGroup.profession.length === 0 || filters.chipGroup.profession.includes(char.profession)) &&
       (filters.chipGroup.position.length === 0 || filters.chipGroup.position.includes(char.position))
     );

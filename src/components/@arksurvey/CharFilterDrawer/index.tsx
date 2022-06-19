@@ -11,7 +11,7 @@ export const initialState: FilterType = {
     opRate: [],
     profession: [],
     // sex: [],
-    rarity: [5],
+    rarity: ['5'],
     position: [],
     // accessChannel: [],
   },
