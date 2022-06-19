@@ -188,12 +188,15 @@ export default function Index() {
         </Group>
       </CardRoot>
       <Stack spacing={0} sx={{ width: '100%' }}>
-        {statistic.map((item, index) => (
-          <React.Fragment key={index}>
-            <Divider variant="dashed" label={convert(index + 1)} />
-            <Group px={20}>{item}</Group>
-          </React.Fragment>
-        ))}
+        {statistic.map(
+          (item, index) =>
+            item.length > 0 && (
+              <React.Fragment key={index}>
+                <Divider variant="dashed" label={convert(index + 1)} />
+                <Group px={20}>{item}</Group>
+              </React.Fragment>
+            ),
+        )}
       </Stack>
     </>
   );

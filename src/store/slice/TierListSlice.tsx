@@ -5,17 +5,11 @@ import { RootState } from '..';
 export interface TierListStateType {
   tierLists: TierLists;
   currentEditKey: string;
-  key1Select: string;
-  key2Select: string;
-  road: string;
 }
 
 let initialState: TierListStateType = {
   tierLists: {},
   currentEditKey: 'AE-CII',
-  key1Select: 'AE',
-  key2Select: 'CII',
-  road: 'CII',
 };
 
 export const TierListSlice = createSlice({
@@ -75,13 +69,8 @@ export const TierListSlice = createSlice({
     resetTierLists: (state) => {
       state.tierLists = {};
     },
-    updateEditKey1: (state, action: PayloadAction<string>) => {
-      state.key1Select = action.payload;
-    },
-    updateEditKey2: (state, action: PayloadAction<{ key: string; road: string }>) => {
-      state.currentEditKey = state.key1Select + '-' + action.payload.road;
-      state.key2Select = action.payload.key;
-      state.road = action.payload.road;
+    updateCurrentEditKey: (state, action: PayloadAction<string>) => {
+      state.currentEditKey = action.payload;
     },
   },
 });
@@ -92,8 +81,7 @@ export const {
   updateEditingTierList,
   updateTierLists,
   resetTierLists,
-  updateEditKey1,
-  updateEditKey2,
+  updateCurrentEditKey,
 } = TierListSlice.actions;
 
 export default TierListSlice.reducer;

@@ -5,7 +5,6 @@ import thunk from 'redux-thunk';
 
 import characterReducer from './slice/characterSlice';
 import filterReducer from './slice/filterSlice';
-import tierListTypeReducer from './slice/tierListTypeSlice';
 import TierListReducer from './slice/TierListSlice';
 import userReducer from './slice/userSlice';
 import settingReducer from './slice/settingSlice';
@@ -15,7 +14,6 @@ import CharBoxReducer from './slice/charBoxSlice';
 const reducers = combineReducers({
   characters: characterReducer,
   filters: filterReducer,
-  tierListType: tierListTypeReducer,
   tierList: TierListReducer,
   tierListStatistics: TierListStatisticsReducer,
   charBox: CharBoxReducer,
