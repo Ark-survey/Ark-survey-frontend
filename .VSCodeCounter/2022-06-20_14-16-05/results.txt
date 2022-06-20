@@ -1,0 +1,211 @@
+Date : 2022-06-20 14:16:05
+Directory : /Users/heggria/github/Ark-survey-frontend
+Total : 128 files,  16120 codes, 276 comments, 1886 blanks, all 18282 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| YAML               |          4 |      9,248 |          7 |      1,264 |     10,519 |
+| TypeScript React   |         98 |      6,070 |        157 |        542 |      6,769 |
+| TypeScript         |         11 |        371 |         68 |         51 |        490 |
+| JSON               |          8 |        250 |          0 |          0 |        250 |
+| Markdown           |          3 |         74 |          0 |         25 |         99 |
+| JavaScript         |          2 |         49 |         19 |          0 |         68 |
+| HTML               |          1 |         36 |         25 |          3 |         64 |
+| JSON with Comments |          1 |         22 |          0 |          1 |         23 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                     | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                        |        128 |     16,120 |        276 |      1,886 |     18,282 |
+| .github                                                                                                                  |          5 |        140 |          7 |         33 |        180 |
+| .github/ISSUE_TEMPLATE                                                                                                   |          2 |         45 |          0 |         15 |         60 |
+| .github/workflows                                                                                                        |          3 |         95 |          7 |         18 |        120 |
+| public                                                                                                                   |          3 |         69 |         25 |          3 |         97 |
+| src                                                                                                                      |        114 |      6,571 |        225 |        593 |      7,389 |
+| src/components                                                                                                           |         32 |      2,602 |         43 |        185 |      2,830 |
+| src/components/@arksurvey                                                                                                |         22 |      2,028 |         39 |        144 |      2,211 |
+| src/components/@arksurvey/CharContainer                                                                                  |          1 |        168 |          1 |         15 |        184 |
+| src/components/@arksurvey/CharDataUnit                                                                                   |          1 |        206 |          7 |         13 |        226 |
+| src/components/@arksurvey/CharFilterBadge                                                                                |          2 |         51 |          1 |          9 |         61 |
+| src/components/@arksurvey/CharFilterDrawer                                                                               |          5 |        230 |         18 |         29 |        277 |
+| src/components/@arksurvey/EnvSelecter                                                                                    |          2 |        265 |          0 |         15 |        280 |
+| src/components/@arksurvey/ImageContainer                                                                                 |          4 |        116 |          2 |         14 |        132 |
+| src/components/@arksurvey/LevelPanel                                                                                     |          1 |        246 |          2 |          7 |        255 |
+| src/components/@arksurvey/PanelContainer                                                                                 |          1 |         35 |          0 |          6 |         41 |
+| src/components/@arksurvey/SkillContainer                                                                                 |          2 |        447 |          2 |         19 |        468 |
+| src/components/@arksurvey/SkinUsePanel                                                                                   |          1 |         36 |          1 |          6 |         43 |
+| src/components/@arksurvey/UniequipPanel                                                                                  |          1 |        217 |          3 |          8 |        228 |
+| src/components/@arksurvey/VersionUpdate                                                                                  |          1 |         11 |          2 |          3 |         16 |
+| src/contexts                                                                                                             |          1 |        147 |          0 |          3 |        150 |
+| src/hooks                                                                                                                |          8 |        317 |         13 |         53 |        383 |
+| src/i18n                                                                                                                 |          7 |        159 |          1 |          6 |        166 |
+| src/i18n/locales                                                                                                         |          5 |        130 |          0 |          0 |        130 |
+| src/pages                                                                                                                |         39 |      2,350 |         41 |        195 |      2,586 |
+| src/pages/Home                                                                                                           |          2 |        125 |         24 |         12 |        161 |
+| src/pages/Home/LoadDataPaper                                                                                             |          1 |         77 |         24 |          9 |        110 |
+| src/pages/NotFound                                                                                                       |          1 |         23 |          0 |          4 |         27 |
+| src/pages/TierList                                                                                                       |         15 |        902 |          6 |         84 |        992 |
+| src/pages/TierList/CharListBox                                                                                           |          3 |        168 |          0 |         21 |        189 |
+| src/pages/TierList/CharListBox/components                                                                                |          2 |        101 |          0 |         14 |        115 |
+| src/pages/TierList/CharSelectBox                                                                                         |          1 |         43 |          0 |          4 |         47 |
+| src/pages/TierList/DraggableTierList                                                                                     |          8 |        616 |          6 |         50 |        672 |
+| src/pages/TierList/DraggableTierList/components                                                                          |          7 |        532 |          6 |         42 |        580 |
+| src/pages/TierList/TierListMainPage                                                                                      |          2 |         54 |          0 |          5 |         59 |
+| src/pages/char-box                                                                                                       |          9 |        556 |          6 |         46 |        608 |
+| src/pages/char-box/components                                                                                            |          8 |        537 |          6 |         42 |        585 |
+| src/pages/char-box/components/CharBoxInsidePage                                                                          |          1 |         24 |          0 |          3 |         27 |
+| src/pages/char-box/components/CharBoxMainPage                                                                            |          2 |        143 |          0 |          7 |        150 |
+| src/pages/char-box/components/CharExchangeBox                                                                            |          4 |        297 |          2 |         27 |        326 |
+| src/pages/demo                                                                                                           |          1 |         13 |          1 |          1 |         15 |
+| src/pages/setting                                                                                                        |          4 |        112 |          0 |         14 |        126 |
+| src/pages/setting/components                                                                                             |          3 |         81 |          0 |         12 |         93 |
+| src/pages/statistics                                                                                                     |          5 |        362 |          3 |         22 |        387 |
+| src/pages/statistics/components                                                                                          |          4 |        343 |          3 |         18 |        364 |
+| src/pages/statistics/components/CharStatisticBox                                                                         |          1 |         61 |          0 |          3 |         64 |
+| src/pages/statistics/components/StatisticsInsidePage                                                                     |          1 |        239 |          3 |         10 |        252 |
+| src/pages/statistics/components/StatisticsMainPage                                                                       |          2 |         43 |          0 |          5 |         48 |
+| src/service                                                                                                              |          7 |        168 |         14 |         29 |        211 |
+| src/store                                                                                                                |          7 |        362 |         35 |         48 |        445 |
+| src/store/slice                                                                                                          |          6 |        330 |         33 |         39 |        402 |
+| src/theme                                                                                                                |          1 |          3 |          0 |          3 |          6 |
+| src/utils                                                                                                                |          6 |        156 |          1 |         15 |        172 |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                                 | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/heggria/github/Ark-survey-frontend/.eslintrc.js                                                                   | JavaScript         |         27 |          0 |          0 |         27 |
+| /Users/heggria/github/Ark-survey-frontend/.github/ISSUE_TEMPLATE/bug_report.md                                           | Markdown           |         30 |          0 |          9 |         39 |
+| /Users/heggria/github/Ark-survey-frontend/.github/ISSUE_TEMPLATE/feature_request.md                                      | Markdown           |         15 |          0 |          6 |         21 |
+| /Users/heggria/github/Ark-survey-frontend/.github/workflows/deploy-product-env.yml                                       | YAML               |         36 |          0 |          7 |         43 |
+| /Users/heggria/github/Ark-survey-frontend/.github/workflows/deploy-test-env.yml                                          | YAML               |         36 |          0 |          7 |         43 |
+| /Users/heggria/github/Ark-survey-frontend/.github/workflows/sync.yml                                                     | YAML               |         23 |          7 |          4 |         34 |
+| /Users/heggria/github/Ark-survey-frontend/.prettierrc.js                                                                 | JavaScript         |         22 |         19 |          0 |         41 |
+| /Users/heggria/github/Ark-survey-frontend/README.md                                                                      | Markdown           |         29 |          0 |         10 |         39 |
+| /Users/heggria/github/Ark-survey-frontend/package.json                                                                   | JSON               |         87 |          0 |          0 |         87 |
+| /Users/heggria/github/Ark-survey-frontend/pnpm-lock.yaml                                                                 | YAML               |      9,153 |          0 |      1,246 |     10,399 |
+| /Users/heggria/github/Ark-survey-frontend/public/index.html                                                              | HTML               |         36 |         25 |          3 |         64 |
+| /Users/heggria/github/Ark-survey-frontend/public/manifest.json                                                           | JSON               |         25 |          0 |          0 |         25 |
+| /Users/heggria/github/Ark-survey-frontend/public/vercel.json                                                             | JSON               |          8 |          0 |          0 |          8 |
+| /Users/heggria/github/Ark-survey-frontend/src/App.tsx                                                                    | TypeScript React   |         38 |          0 |          4 |         42 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/CharContainer/index.tsx                              | TypeScript React   |        168 |          1 |         15 |        184 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/CharDataUnit/index.tsx                               | TypeScript React   |        206 |          7 |         13 |        226 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/CharFilterBadge/BadgeBox.tsx                         | TypeScript React   |         19 |          0 |          4 |         23 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/CharFilterBadge/TimeBadgeBox.tsx                     | TypeScript React   |         32 |          1 |          5 |         38 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/CharFilterDrawer/ChipGroups.tsx                      | TypeScript React   |         36 |          0 |          6 |         42 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/CharFilterDrawer/DateSelect.tsx                      | TypeScript React   |         46 |          0 |          3 |         49 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/CharFilterDrawer/FilterItemBox.tsx                   | TypeScript React   |         21 |          0 |          3 |         24 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/CharFilterDrawer/index.tsx                           | TypeScript React   |        104 |         18 |         11 |        133 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/CharFilterDrawer/useCharFilterDrawer.tsx             | TypeScript React   |         23 |          0 |          6 |         29 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/EnvSelecter/data.tsx                                 | TypeScript React   |        126 |          0 |          5 |        131 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/EnvSelecter/useEnvSelect.tsx                         | TypeScript React   |        139 |          0 |         10 |        149 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/ImageContainer/CharAvatar.tsx                        | TypeScript React   |         21 |          0 |          3 |         24 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/ImageContainer/SkillIcon.tsx                         | TypeScript React   |         20 |          0 |          3 |         23 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/ImageContainer/UniEquipImg.tsx                       | TypeScript React   |         20 |          0 |          3 |         23 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/ImageContainer/index.tsx                             | TypeScript React   |         55 |          2 |          5 |         62 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/LevelPanel/index.tsx                                 | TypeScript React   |        246 |          2 |          7 |        255 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/PanelContainer/index.tsx                             | TypeScript React   |         35 |          0 |          6 |         41 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/SkillContainer/SkillGroup.tsx                        | TypeScript React   |        326 |          1 |          7 |        334 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/SkillContainer/index.tsx                             | TypeScript React   |        121 |          1 |         12 |        134 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/SkinUsePanel/index.tsx                               | TypeScript React   |         36 |          1 |          6 |         43 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/UniequipPanel/index.tsx                              | TypeScript React   |        217 |          3 |          8 |        228 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/@arksurvey/VersionUpdate/index.tsx                              | TypeScript React   |         11 |          2 |          3 |         16 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/Brand.tsx                                                       | TypeScript React   |         89 |          3 |          6 |         98 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/CardRoot.tsx                                                    | TypeScript React   |         11 |          0 |          3 |         14 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/CustomNavbar.tsx                                                | TypeScript React   |         75 |          0 |          5 |         80 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/Footer.tsx                                                      | TypeScript React   |        222 |          0 |          6 |        228 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/Header.tsx                                                      | TypeScript React   |         14 |          0 |          3 |         17 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/NavItem.tsx                                                     | TypeScript React   |         70 |          1 |          4 |         75 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/Notice.tsx                                                      | TypeScript React   |         20 |          0 |          3 |         23 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/PageHeader.tsx                                                  | TypeScript React   |         18 |          0 |          3 |         21 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/StyledTabs.tsx                                                  | TypeScript React   |          4 |          0 |          2 |          6 |
+| /Users/heggria/github/Ark-survey-frontend/src/components/useVersionDialog.tsx                                            | TypeScript React   |         51 |          0 |          6 |         57 |
+| /Users/heggria/github/Ark-survey-frontend/src/contexts/index.tsx                                                         | TypeScript React   |        147 |          0 |          3 |        150 |
+| /Users/heggria/github/Ark-survey-frontend/src/hooks/useChangeSize.tsx                                                    | TypeScript React   |         20 |          1 |          5 |         26 |
+| /Users/heggria/github/Ark-survey-frontend/src/hooks/useCreateLocalTierList.tsx                                           | TypeScript React   |         29 |          0 |          4 |         33 |
+| /Users/heggria/github/Ark-survey-frontend/src/hooks/useIsMobile.tsx                                                      | TypeScript React   |         14 |          1 |          5 |         20 |
+| /Users/heggria/github/Ark-survey-frontend/src/hooks/useLoadStaticFile.tsx                                                | TypeScript React   |         24 |          2 |          4 |         30 |
+| /Users/heggria/github/Ark-survey-frontend/src/hooks/useLoadUserTierLists.tsx                                             | TypeScript React   |         52 |          3 |          7 |         62 |
+| /Users/heggria/github/Ark-survey-frontend/src/hooks/useLoadingGlobalData.tsx                                             | TypeScript React   |         22 |          1 |          5 |         28 |
+| /Users/heggria/github/Ark-survey-frontend/src/hooks/useOperateEditingTierList.tsx                                        | TypeScript React   |        133 |          4 |         17 |        154 |
+| /Users/heggria/github/Ark-survey-frontend/src/hooks/useWindowSize.tsx                                                    | TypeScript React   |         23 |          1 |          6 |         30 |
+| /Users/heggria/github/Ark-survey-frontend/src/i18n/index.ts                                                              | TypeScript         |         16 |          1 |          3 |         20 |
+| /Users/heggria/github/Ark-survey-frontend/src/i18n/locales/en.json                                                       | JSON               |          3 |          0 |          0 |          3 |
+| /Users/heggria/github/Ark-survey-frontend/src/i18n/locales/ja.json                                                       | JSON               |          1 |          0 |          0 |          1 |
+| /Users/heggria/github/Ark-survey-frontend/src/i18n/locales/ko.json                                                       | JSON               |          1 |          0 |          0 |          1 |
+| /Users/heggria/github/Ark-survey-frontend/src/i18n/locales/zh-CN.json                                                    | JSON               |        124 |          0 |          0 |        124 |
+| /Users/heggria/github/Ark-survey-frontend/src/i18n/locales/zh-TW.json                                                    | JSON               |          1 |          0 |          0 |          1 |
+| /Users/heggria/github/Ark-survey-frontend/src/i18n/resources.ts                                                          | TypeScript         |         13 |          0 |          3 |         16 |
+| /Users/heggria/github/Ark-survey-frontend/src/index.tsx                                                                  | TypeScript React   |         15 |          8 |          6 |         29 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/Home/LoadDataPaper/index.tsx                                         | TypeScript React   |         77 |         24 |          9 |        110 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/Home/index.tsx                                                       | TypeScript React   |         48 |          0 |          3 |         51 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/NotFound/index.tsx                                                   | TypeScript React   |         23 |          0 |          4 |         27 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/CharListBox/components/CharList.tsx                         | TypeScript React   |         35 |          0 |          6 |         41 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/CharListBox/components/CharListItem.tsx                     | TypeScript React   |         66 |          0 |          8 |         74 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/CharListBox/index.tsx                                       | TypeScript React   |         67 |          0 |          7 |         74 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/CharSelectBox/index.tsx                                     | TypeScript React   |         43 |          0 |          4 |         47 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/DraggableTierList/components/AddCharactersToTierPopover.tsx | TypeScript React   |         53 |          0 |          4 |         57 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/DraggableTierList/components/AddTierPopover.tsx             | TypeScript React   |         79 |          1 |          8 |         88 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/DraggableTierList/components/DeleteTierPopover.tsx          | TypeScript React   |         53 |          0 |          5 |         58 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/DraggableTierList/components/EditTierPopover.tsx            | TypeScript React   |         94 |          1 |          6 |        101 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/DraggableTierList/components/ResetAllCharacterPopover.tsx   | TypeScript React   |         37 |          0 |          6 |         43 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/DraggableTierList/components/TierBox.tsx                    | TypeScript React   |        144 |          3 |          7 |        154 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/DraggableTierList/components/UploadPopover.tsx              | TypeScript React   |         72 |          1 |          6 |         79 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/DraggableTierList/index.tsx                                 | TypeScript React   |         84 |          0 |          8 |         92 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/TierListMainPage/Description.tsx                            | TypeScript React   |         26 |          0 |          2 |         28 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/TierListMainPage/index.tsx                                  | TypeScript React   |         28 |          0 |          3 |         31 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/TierList/index.tsx                                                   | TypeScript React   |         21 |          0 |          4 |         25 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/char-box/components/CharBoxInsidePage/index.tsx                      | TypeScript React   |         24 |          0 |          3 |         27 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/char-box/components/CharBoxMainPage/Description.tsx                  | TypeScript React   |         25 |          0 |          2 |         27 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/char-box/components/CharBoxMainPage/index.tsx                        | TypeScript React   |        118 |          0 |          5 |        123 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/char-box/components/CharExchangeAffix.tsx                            | TypeScript React   |         73 |          4 |          5 |         82 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/char-box/components/CharExchangeBox/CharBoxList.tsx                  | TypeScript React   |         43 |          1 |          5 |         49 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/char-box/components/CharExchangeBox/CharList.tsx                     | TypeScript React   |         35 |          0 |          5 |         40 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/char-box/components/CharExchangeBox/CharListItem.tsx                 | TypeScript React   |         32 |          0 |          6 |         38 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/char-box/components/CharExchangeBox/index.tsx                        | TypeScript React   |        187 |          1 |         11 |        199 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/char-box/index.tsx                                                   | TypeScript React   |         19 |          0 |          4 |         23 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/demo/index.tsx                                                       | TypeScript React   |         13 |          1 |          1 |         15 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/index.tsx                                                            | TypeScript React   |        142 |          1 |          8 |        151 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/route.tsx                                                            | TypeScript React   |        115 |          0 |          4 |        119 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/setting/components/LangSelect.tsx                                    | TypeScript React   |         25 |          0 |          4 |         29 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/setting/components/MiniSwitch.tsx                                    | TypeScript React   |         28 |          0 |          4 |         32 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/setting/components/NameDisplaySwitch.tsx                             | TypeScript React   |         28 |          0 |          4 |         32 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/setting/index.tsx                                                    | TypeScript React   |         31 |          0 |          2 |         33 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/statistics/components/CharStatisticBox/index.tsx                     | TypeScript React   |         61 |          0 |          3 |         64 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/statistics/components/StatisticsInsidePage/index.tsx                 | TypeScript React   |        239 |          3 |         10 |        252 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/statistics/components/StatisticsMainPage/Description.tsx             | TypeScript React   |         15 |          0 |          2 |         17 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/statistics/components/StatisticsMainPage/index.tsx                   | TypeScript React   |         28 |          0 |          3 |         31 |
+| /Users/heggria/github/Ark-survey-frontend/src/pages/statistics/index.tsx                                                 | TypeScript React   |         19 |          0 |          4 |         23 |
+| /Users/heggria/github/Ark-survey-frontend/src/registrationStatus.tsx                                                     | TypeScript React   |         68 |          3 |         16 |         87 |
+| /Users/heggria/github/Ark-survey-frontend/src/reportWebVitals.ts                                                         | TypeScript         |         13 |          0 |          3 |         16 |
+| /Users/heggria/github/Ark-survey-frontend/src/service-worker.ts                                                          | TypeScript         |         77 |         35 |         15 |        127 |
+| /Users/heggria/github/Ark-survey-frontend/src/service/AnnouncementServer.tsx                                             | TypeScript React   |         13 |          0 |          3 |         16 |
+| /Users/heggria/github/Ark-survey-frontend/src/service/CharBoxServer.tsx                                                  | TypeScript React   |         41 |         12 |          7 |         60 |
+| /Users/heggria/github/Ark-survey-frontend/src/service/CharSkinBoxServer.tsx                                              | TypeScript React   |         19 |          1 |          3 |         23 |
+| /Users/heggria/github/Ark-survey-frontend/src/service/MetaDataServer..tsx                                                | TypeScript React   |         12 |          0 |          3 |         15 |
+| /Users/heggria/github/Ark-survey-frontend/src/service/TierListServer.tsx                                                 | TypeScript React   |         37 |          0 |          5 |         42 |
+| /Users/heggria/github/Ark-survey-frontend/src/service/TierListStatisticServer.tsx                                        | TypeScript React   |         29 |          1 |          5 |         35 |
+| /Users/heggria/github/Ark-survey-frontend/src/service/UserServer.tsx                                                     | TypeScript React   |         17 |          0 |          3 |         20 |
+| /Users/heggria/github/Ark-survey-frontend/src/serviceWorkerRegistration.ts                                               | TypeScript         |         96 |         31 |         12 |        139 |
+| /Users/heggria/github/Ark-survey-frontend/src/store/index.tsx                                                            | TypeScript React   |         32 |          2 |          9 |         43 |
+| /Users/heggria/github/Ark-survey-frontend/src/store/slice/TierListSlice.tsx                                              | TypeScript React   |         83 |          1 |          8 |         92 |
+| /Users/heggria/github/Ark-survey-frontend/src/store/slice/TierListStatisticsSlice.tsx                                    | TypeScript React   |         32 |          0 |          6 |         38 |
+| /Users/heggria/github/Ark-survey-frontend/src/store/slice/charBoxSlice.tsx                                               | TypeScript React   |         58 |         32 |          6 |         96 |
+| /Users/heggria/github/Ark-survey-frontend/src/store/slice/characterSlice.tsx                                             | TypeScript React   |         39 |          0 |          5 |         44 |
+| /Users/heggria/github/Ark-survey-frontend/src/store/slice/settingSlice.tsx                                               | TypeScript React   |         28 |          0 |          6 |         34 |
+| /Users/heggria/github/Ark-survey-frontend/src/store/slice/userSlice.tsx                                                  | TypeScript React   |         90 |          0 |          8 |         98 |
+| /Users/heggria/github/Ark-survey-frontend/src/theme/index.tsx                                                            | TypeScript React   |          3 |          0 |          3 |          6 |
+| /Users/heggria/github/Ark-survey-frontend/src/utils/ApiUtils.ts                                                          | TypeScript         |         39 |          0 |          3 |         42 |
+| /Users/heggria/github/Ark-survey-frontend/src/utils/CaptureUtils.ts                                                      | TypeScript         |          7 |          0 |          1 |          8 |
+| /Users/heggria/github/Ark-survey-frontend/src/utils/DownloadUtils.ts                                                     | TypeScript         |          8 |          0 |          0 |          8 |
+| /Users/heggria/github/Ark-survey-frontend/src/utils/JSONLoadUtils.ts                                                     | TypeScript         |         34 |          0 |          5 |         39 |
+| /Users/heggria/github/Ark-survey-frontend/src/utils/ObjectUtils.ts                                                       | TypeScript         |         26 |          0 |          3 |         29 |
+| /Users/heggria/github/Ark-survey-frontend/src/utils/TreeUtils.ts                                                         | TypeScript         |         42 |          1 |          3 |         46 |
+| /Users/heggria/github/Ark-survey-frontend/tsconfig.json                                                                  | JSON with Comments |         22 |          0 |          1 |         23 |
+| Total                                                                                                                    |                    |     16,120 |        276 |      1,886 |     18,282 |
++--------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
