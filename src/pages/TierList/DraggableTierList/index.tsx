@@ -12,21 +12,22 @@ import UploadPopover from './components/UploadPopover';
 import { useCallback, useRef, useState } from 'react';
 import { capture } from 'src/utils/CaptureUtils';
 import { format } from 'date-fns';
-import { successNotice } from '../../../components/Notice';
+import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
-import { editingTierList } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { IconAperture } from '@tabler/icons';
 import CardRoot from 'src/components/CardRoot';
+import useTierList from '../useTierList';
 
 export default function Index() {
-  const tierList = useSelector(editingTierList);
   const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
   const { t } = useTranslation();
   const [makingImg, setMakingImg] = useState(false);
   const { addTierChars, delTierOneChar, findTierIndexByValue, moveTierChars } = useOperateEditingTierList();
+
+  const { tierList } = useTierList();
 
   const handleDropCharacterOnTier = useCallback(
     ({ charKey, type, fromTierValue }: CharDragItem, toTierValue: number) => {

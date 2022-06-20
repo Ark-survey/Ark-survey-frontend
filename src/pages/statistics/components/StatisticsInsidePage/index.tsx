@@ -1,54 +1,53 @@
 import { Box, Text, Group, List, Popover, useMantineTheme, Container, Divider, Stack, Title } from '@mantine/core';
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { TierListStatistic, TierListStatisticsServer } from 'src/service/TierListStatisticServer';
 import { RootState } from 'src/store';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { IconInfoCircle } from '@tabler/icons';
 import { errorNotice, successNotice } from 'src/components/Notice';
 import CharStatisticBox from '../CharStatisticBox';
 import CardRoot from 'src/components/CardRoot';
 import { format } from 'date-fns';
+import { useStatisticsKey } from '../../store';
 
 export default function Index() {
   const [statisticData, setStatisticData] = useState<TierListStatistic>();
   const charMap = useSelector((state: RootState) => state.characters.charMap);
-  const { currentEditKey } = useSelector((state: RootState) => state.tierList);
+  const { statisticsKey } = useStatisticsKey();
   const { t } = useTranslation();
   const theme = useMantineTheme();
-  const dispatch = useDispatch();
   const [opened, setOpened] = useState(false);
 
   const fetchStatisticData = useCallback(async () => {
-    return await new TierListStatisticsServer().getLatest({ keys: [currentEditKey] });
-  }, [currentEditKey]);
+    return await new TierListStatisticsServer().getLatest({ keys: [statisticsKey] });
+  }, [statisticsKey]);
 
   const handleLoadData = useCallback(async () => {
     const { data } = await fetchStatisticData();
-    if (data[currentEditKey]) {
+    if (data[statisticsKey]) {
       Object.keys(charMap).forEach((key) => {
-        data[currentEditKey].charStatistics[key] = {
+        data[statisticsKey].charStatistics[key] = {
           char: charMap[key],
           statistic: {
-            count: data[currentEditKey]?.charStatistics?.[key]?.count,
-            avgValue: data[currentEditKey]?.charStatistics?.[key]?.avgValue,
+            count: data[statisticsKey]?.charStatistics?.[key]?.count,
+            avgValue: data[statisticsKey]?.charStatistics?.[key]?.avgValue,
           },
         };
       });
-      setStatisticData(data[currentEditKey]);
+      setStatisticData(data[statisticsKey]);
       successNotice(t('statistics.updated-successfully'));
     } else {
-      setStatisticData(data[currentEditKey]);
+      setStatisticData(data[statisticsKey]);
       errorNotice(t('statistics.key-not-found'));
     }
-  }, [charMap, currentEditKey, fetchStatisticData, t]);
+  }, [charMap, statisticsKey, fetchStatisticData, t]);
 
   useEffect(() => {
     const timeout = setTimeout(() => handleLoadData(), 100);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentEditKey]);
+  }, [statisticsKey]);
 
   const statistic = useMemo(() => {
     const sortableCharList = mapToArray(statisticData?.charStatistics ?? {})

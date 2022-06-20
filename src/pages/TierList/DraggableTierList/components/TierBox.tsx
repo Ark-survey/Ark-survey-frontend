@@ -4,17 +4,17 @@ import DeleteTier from './DeleteTierPopover';
 import EditTierPopover from './EditTierPopover';
 import { useDrop } from 'react-dnd';
 import CharListItem, { CharDragItem } from 'src/pages/TierList/CharListBox/components/CharListItem';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { Tier } from 'src/service/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { editingTierList } from 'src/store/slice/TierListSlice';
 import CharContainer, { ItemTypes } from 'src/components/@arksurvey/CharContainer';
 import { IconPlus } from '@tabler/icons';
 import { t } from 'i18next';
-import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
-import { successNotice } from '../../../../components/Notice';
+import { successNotice } from 'src/components/Notice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
+import { useCharBoxSelectKeys } from '../../store';
+import useTierList from '../../useTierList';
 
 /**
  * @param value tier value
@@ -26,12 +26,15 @@ interface TierBoxProps {
 }
 
 export default function TierBox({ tier, operationDisplay = false, onDropCharacter }: TierBoxProps) {
-  const tierList = useSelector(editingTierList);
   const charMap = useSelector((state: RootState) => state.characters.charMap);
   const setting = useSelector((state: RootState) => state.setting);
-  const dispatch = useDispatch();
   const { addTierChars, findTierIndexByValue } = useOperateEditingTierList();
 
+  // state
+  const { tierList } = useTierList();
+  const { selectKeys } = useCharBoxSelectKeys();
+
+  // dnd
   const [{ isOver }, drop] = useDrop(
     () => ({
       accept: ItemTypes.OPERATOR,
@@ -40,52 +43,34 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
         isOver: !!monitor.isOver(),
       }),
     }),
-    [onDropCharacter, tierList.tiers],
+    [onDropCharacter, tierList?.tiers],
   );
 
   const characterImgList = useMemo(() => {
     const characterList = mapToArray(charMap).filter(
       (character) => tier.characterKeys.indexOf(character?.key ?? '') > -1,
     );
-    let cache: ReactNode[] = [];
-    characterList.forEach((value) => {
-      cache.push(<CharListItem key={value.key} character={value} fromTierValue={tier.value} type="tier-list" />);
-    });
-    return cache;
+    return characterList.map((value) => (
+      <CharListItem key={value.key} character={value} fromTierValue={tier.value} type="tier-list" />
+    ));
   }, [charMap, tier.characterKeys, tier.value]);
 
-  const addCharacter = useMemo(() => {
-    const addList: string[] = [];
-    Object.keys(charMap).forEach((key) => {
-      if (charMap[key].selecting) {
-        addList.push(key);
-      }
-    });
-    if (addList.length > 0) {
-      return (
-        <CharContainer
-          mini={setting.mini}
-          sx={{
-            margin: '5px',
+  // add new char into tier box
+  const addCharacterButton = useMemo(
+    () => (
+      <CharContainer mini={setting.mini}>
+        <Center
+          sx={{ height: '100%', cursor: 'pointer' }}
+          onClick={() => {
+            addTierChars(findTierIndexByValue(tier.value ?? 0) ?? 0, selectKeys);
           }}
         >
-          <Center
-            sx={{ height: '100%', cursor: 'pointer' }}
-            onClick={() => {
-              addList.forEach((key) => {
-                dispatch(updateCharacterPicked({ key, picked: true }));
-                dispatch(updateCharacterSelecting({ key, selecting: false }));
-              });
-              addTierChars(findTierIndexByValue(tier.value ?? 0) ?? 0, addList);
-              successNotice(t('bulk-added-successfully'));
-            }}
-          >
-            <IconPlus color="grey" />
-          </Center>
-        </CharContainer>
-      );
-    }
-  }, [addTierChars, charMap, dispatch, setting.mini, findTierIndexByValue, tier.value]);
+          <IconPlus color="grey" />
+        </Center>
+      </CharContainer>
+    ),
+    [selectKeys, setting.mini, addTierChars, findTierIndexByValue, tier.value],
+  );
 
   return (
     <Group
@@ -101,7 +86,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
       }}
     >
       {characterImgList}
-      {addCharacter}
+      {selectKeys.length > 0 && addCharacterButton}
       <Title
         px="xs"
         sx={{

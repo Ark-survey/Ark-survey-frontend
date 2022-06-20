@@ -12,6 +12,9 @@ import { useState } from 'react';
 import PageContainer from './pages';
 import customTheme from './theme';
 import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   const isMobile = useIsMobile();
@@ -21,19 +24,21 @@ function App() {
 
   return (
     <Provider store={store}>
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider theme={{ ...customTheme, colorScheme }}>
-          <NotificationsProvider position="bottom-center">
-            <PersistGate loading={null} persistor={persistor}>
-              <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-                <BrowserRouter>
-                  <PageContainer />
-                </BrowserRouter>
-              </DndProvider>
-            </PersistGate>
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <MantineProvider theme={{ ...customTheme, colorScheme }}>
+            <NotificationsProvider position="bottom-center">
+              <PersistGate loading={null} persistor={persistor}>
+                <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+                  <BrowserRouter>
+                    <PageContainer />
+                  </BrowserRouter>
+                </DndProvider>
+              </PersistGate>
+            </NotificationsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </QueryClientProvider>
     </Provider>
   );
 }

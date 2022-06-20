@@ -3,7 +3,6 @@ import { useDrop } from 'react-dnd';
 import CharacterList from './components/CharList';
 import { CharDragItem, ItemTypes } from './components/CharListItem';
 
-import { updateCharacterPicked } from 'src/store/slice/characterSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { useTranslation } from 'react-i18next';
@@ -11,13 +10,18 @@ import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { CharacterType } from 'src/store/slice/userSlice';
+import { useCharBoxSelectKeys } from '../store';
 
 export default function CharListItemType({ filterChar }: { filterChar: (char: CharacterType) => boolean }) {
   const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
-  const [charsSelect, setCharsSelect] = useState<string[]>([]);
+
+  // zustand
+  const selectKeys = useCharBoxSelectKeys((state) => state.selectKeys);
+  const addSelectKeys = useCharBoxSelectKeys((state) => state.addSelectKeys);
+  const delSelectKeys = useCharBoxSelectKeys((state) => state.delSelectKeys);
 
   const charsFilter = useMemo(
     () =>
@@ -29,7 +33,6 @@ export default function CharListItemType({ filterChar }: { filterChar: (char: Ch
   );
 
   const handleCharacterReturn = ({ fromTierValue, charKey }: CharDragItem) => {
-    dispatch(updateCharacterPicked({ key: charKey ?? '', picked: false }));
     if (fromTierValue !== undefined) delTierOneChar(findTierIndexByValue(fromTierValue) ?? 0, charKey ?? '');
   };
 
@@ -62,11 +65,9 @@ export default function CharListItemType({ filterChar }: { filterChar: (char: Ch
       )}
       <CharacterList
         filterCharData={charsFilter}
-        selectKeys={charsSelect}
-        onSelect={(key) => {
-          setCharsSelect([...charsSelect, key]);
-        }}
-        onSelectCancel={(key) => setCharsSelect((c) => c.filter((i) => i !== key))}
+        selectKeys={selectKeys}
+        onSelect={(key) => addSelectKeys([key])}
+        onSelectCancel={(key) => delSelectKeys([key])}
       />
     </ScrollArea>
   );

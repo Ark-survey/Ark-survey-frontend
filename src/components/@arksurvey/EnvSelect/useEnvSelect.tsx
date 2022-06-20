@@ -1,15 +1,11 @@
 import { Stack, Tabs, Group, Title, Divider, TabsValue, Box, Text, Sx, Grid, ScrollArea } from '@mantine/core';
 import { useCallback, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import NavItem from 'src/components/NavItem';
-import { RootState } from 'src/store';
-import { updateCurrentEditKey } from 'src/store/slice/TierListSlice';
 import { envList, category, tierListTypes } from './data';
 
-export default function useEnvSelect({ onClickEnvButton }: { onClickEnvButton?: (key: string) => void }) {
+export default function useEnvSelect({ onClickEnvButton }: { onClickEnvButton?: (key?: string) => void }) {
+  const [currentEditKey, setCurrentEditKey] = useState<string>();
   const [activeTab, setActiveTab] = useState<TabsValue>('AE');
-  const { currentEditKey } = useSelector((state: RootState) => state.tierList);
-  const dispatch = useDispatch();
   const [activeEnv, setActiveEnv] = useState<TabsValue>(envList[0].value);
 
   const categoryTabValue = category.find((it) => it.value === activeTab)?.value ?? '';
@@ -30,11 +26,10 @@ export default function useEnvSelect({ onClickEnvButton }: { onClickEnvButton?: 
 
   const handleTypeClick = useCallback(
     (value?: string) => {
-      const typeItem = typeList.find((it) => it.road === value);
-      dispatch(updateCurrentEditKey(typeItem?.road ?? ''));
-      onClickEnvButton?.(value + '-' + typeItem?.road);
+      setCurrentEditKey(value);
+      onClickEnvButton?.(value);
     },
-    [dispatch, onClickEnvButton, typeList],
+    [onClickEnvButton],
   );
 
   const EnvSelectContent = useMemo(

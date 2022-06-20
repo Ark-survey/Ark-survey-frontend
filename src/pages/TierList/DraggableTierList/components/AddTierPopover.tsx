@@ -1,18 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Popover, Button, Box, NumberInput, Space, TextInput, ActionIcon } from '@mantine/core';
-import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
-import { successNotice } from '../../../../components/Notice';
+import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
-import { editingTierList } from 'src/store/slice/TierListSlice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { IconPlus } from '@tabler/icons';
+import useTierList from '../../useTierList';
 
 export default function UploadPopover() {
   const [opened, setOpened] = useState(false);
-  const { tiers } = useSelector(editingTierList);
   const { t } = useTranslation();
   const { addTier } = useOperateEditingTierList();
+  const { tierList } = useTierList();
 
   const form = useForm({
     initialValues: {
@@ -22,7 +21,7 @@ export default function UploadPopover() {
 
     validate: {
       value: (value) =>
-        (tiers?.filter((v) => v.value === value).length ?? 0) > 0 ? t('this-level-already-exists') : null,
+        (tierList?.tiers?.filter((v) => v.value === value).length ?? 0) > 0 ? t('this-level-already-exists') : null,
       name: (value) => {
         return value.length > 6 ? t('name-cannot-be-longer-than-6-characters') : null;
       },

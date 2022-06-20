@@ -11,7 +11,6 @@ import { useEffect, useRef } from 'react';
 import { RootRouter } from './route';
 import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
 import { useLoadUserTierLists } from 'src/hooks/useLoadUserTierLists';
-import { useCreateLocalTierList } from 'src/hooks/useCreateLocalTierList';
 import { useLoadStaticFile } from 'src/hooks/useLoadStaticFile';
 import { UpdateVersionNotion } from 'src/registrationStatus';
 
@@ -85,7 +84,6 @@ export default function PageContainer() {
   const user = useSelector((state: RootState) => state.user);
   const { classes, cx } = useStyles({ menuOpen: user.menuOpen });
 
-  useCreateLocalTierList();
   useLoadingGlobalData();
   useLoadUserTierLists();
   useLoadStaticFile();

@@ -16,9 +16,6 @@ export const characterSlice = createSlice({
     updateCharacterSelecting: (state, action: PayloadAction<{ key: string; selecting: boolean }>) => {
       state.charMap = setMapAttr(state.charMap, action.payload.key, { selecting: action.payload.selecting });
     },
-    updateAllCharacterSelecting: (state, action: PayloadAction<boolean>) => {
-      state.charMap = setAllMapAttr(state.charMap, { selecting: action.payload });
-    },
     updateCharacterPicked: (state, action: PayloadAction<{ key: string; picked: boolean }>) => {
       state.charMap = setMapAttr(state.charMap, action.payload.key, { picked: action.payload.picked });
     },
@@ -35,7 +32,6 @@ export const {
   updateCharacterPicked,
   updateCharacter,
   updateAllCharacterPicked,
-  updateAllCharacterSelecting,
   updateCharacterSelecting,
   updateCharMap,
 } = characterSlice.actions;

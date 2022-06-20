@@ -9,7 +9,7 @@ export interface Tier {
 
 export interface TierList {
   id?: string;
-  userId?: string;
+  userId?: string; // cannot get from server, should be set by frontend
   name?: string;
   tiers?: Tier[];
   updatedDate?: string;
@@ -17,25 +17,26 @@ export interface TierList {
   value?: number;
 }
 
-export interface TierLists {
-  [key: string]: TierList;
-}
-
 export class TierListServer {
   public serviceName = 'tierList';
-  public getAllByUserId(params: { userId: string }) {
-    return post<TierLists>(this.serviceName, 'getAllByUserId', params);
+
+  // know key & userId
+  public getOne(params: { key: string; userId: string }) {
+    return post<TierList>(this.serviceName, 'getOne', params);
   }
-  public getById(params: { id: string }) {
-    return post<TierList>(this.serviceName, 'getById', params);
+
+  // know id
+  public getOneById(params: { id: string }) {
+    return post<TierList>(this.serviceName, 'getOneById', params);
   }
-  public createOne(params: { tierList: TierList; userId: string }) {
+
+  // need userId
+  public createOne(params: { tierList: TierList }) {
     return post<TierList>(this.serviceName, 'createOne', params);
   }
-  public deleteById(params: { id: string }) {
-    return post<undefined>(this.serviceName, 'deleteById', params);
-  }
-  public updateOne(params: { tierList: TierList; userId: string }) {
+
+  // need userId
+  public updateOne(params: { tierList: TierList }) {
     return post<TierList>(this.serviceName, 'updateOne', params);
   }
 }

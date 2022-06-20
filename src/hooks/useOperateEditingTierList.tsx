@@ -1,12 +1,10 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import useTierList from 'src/pages/TierList/useTierList';
 import { Tier } from 'src/service/TierListServer';
-import { editingTierList, updateEditingTierList } from 'src/store/slice/TierListSlice';
 
 export function useOperateEditingTierList() {
-  const tierList = useSelector(editingTierList);
+  const { tierList, updateLocalTierList } = useTierList();
 
-  const dispatch = useDispatch();
   const findTierIndexByValue = useCallback(
     (tierValue: number) => tierList?.tiers?.findIndex((it) => it.value === tierValue),
     [tierList?.tiers],
@@ -20,31 +18,23 @@ export function useOperateEditingTierList() {
           ...tiers[tierIndex],
           characterKeys,
         };
-        dispatch(
-          updateEditingTierList({
-            tierList: {
-              ...tierList,
-              tiers,
-            },
-          }),
-        );
+        updateLocalTierList.mutate({
+          ...tierList,
+          tiers,
+        });
       }
     },
-    [dispatch, tierList],
+    [tierList, updateLocalTierList],
   );
 
   const updateTier = useCallback(
     (tiers: Tier[]) => {
-      dispatch(
-        updateEditingTierList({
-          tierList: {
-            ...tierList,
-            tiers: sortTiersUp(tiers),
-          },
-        }),
-      );
+      updateLocalTierList.mutate({
+        ...tierList,
+        tiers: sortTiersUp(tiers),
+      });
     },
-    [dispatch, tierList],
+    [tierList, updateLocalTierList],
   );
 
   const sortTiersUp = (tiers: Tier[]) => tiers.sort((a, b) => (a.value ?? 0) - (b.value ?? 0));
@@ -97,16 +87,12 @@ export function useOperateEditingTierList() {
       newTiers[fromTierIndex] = { ...newTiers[fromTierIndex], characterKeys: fromCharacterKeys };
       newTiers[toTierIndex] = { ...newTiers[toTierIndex], characterKeys: toCharacterKeys };
 
-      dispatch(
-        updateEditingTierList({
-          tierList: {
-            ...tierList,
-            tiers: newTiers,
-          },
-        }),
-      );
+      updateLocalTierList.mutate({
+        ...tierList,
+        tiers: newTiers,
+      });
     },
-    [dispatch, tierList],
+    [tierList, updateLocalTierList],
   );
 
   const delTierOneChar = useCallback(
@@ -126,18 +112,14 @@ export function useOperateEditingTierList() {
   );
 
   const delAllTierChar = useCallback(() => {
-    dispatch(
-      updateEditingTierList({
-        tierList: {
-          ...tierList,
-          tiers: (tierList?.tiers ?? []).map((it) => ({
-            ...it,
-            characterKeys: [],
-          })),
-        },
-      }),
-    );
-  }, [dispatch, tierList]);
+    updateLocalTierList.mutate({
+      ...tierList,
+      tiers: (tierList?.tiers ?? []).map((it) => ({
+        ...it,
+        characterKeys: [],
+      })),
+    });
+  }, [tierList, updateLocalTierList]);
 
   return {
     findTierIndexByValue,

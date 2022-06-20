@@ -4,15 +4,15 @@ import { IconEdit } from '@tabler/icons';
 import { useSelector } from 'react-redux';
 import { useForm } from '@mantine/form';
 import { Tier } from 'src/service/TierListServer';
-import { successNotice } from '../../../../components/Notice';
+import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
-import { editingTierList } from 'src/store/slice/TierListSlice';
+import useTierList from '../../useTierList';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
 export default function EditTierPopover({ tier }: { tier: Tier }) {
   const [opened, setOpened] = useState(false);
   const { t } = useTranslation();
-  const { tiers } = useSelector(editingTierList);
+  const { tierList } = useTierList();
   const { findTierIndexByValue, updateOneTier } = useOperateEditingTierList();
 
   const form = useForm({
@@ -22,7 +22,7 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
     },
     validate: {
       value: (value: number) =>
-        tier.value !== value && (tiers ?? []).filter((v) => v.value === value).length > 0
+        tier.value !== value && (tierList?.tiers ?? []).filter((v) => v.value === value).length > 0
           ? t('this-level-already-exists')
           : null,
       name: (value: string) => {

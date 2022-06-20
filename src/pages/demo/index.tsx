@@ -1,5 +1,5 @@
 import { Box } from '@mantine/core';
-import CharDataUnit from '../../components/@arksurvey/CharDataUnit';
+import CharDataUnit from 'src/components/@arksurvey/CharDataUnit';
 export default function Demo() {
   return (
     <Box p="lg">

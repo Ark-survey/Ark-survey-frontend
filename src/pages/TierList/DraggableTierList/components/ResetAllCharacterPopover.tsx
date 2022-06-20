@@ -3,7 +3,7 @@ import { Popover, Button, Box, Text, ActionIcon } from '@mantine/core';
 
 import { updateAllCharacterPicked } from 'src/store/slice/characterSlice';
 import { useDispatch } from 'react-redux';
-import { successNotice } from '../../../../components/Notice';
+import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { IconClearAll } from '@tabler/icons';
