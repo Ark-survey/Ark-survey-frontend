@@ -15,6 +15,7 @@ interface CharListItemProps {
   fromTierValue?: number;
   hidden?: boolean;
   selecting?: boolean;
+  charStatus?: 'picked' | 'default';
   onSelect?: (key: string) => void;
   onSelectCancel?: (key: string) => void;
 }
@@ -31,6 +32,7 @@ export default function Index({
   type,
   fromTierValue,
   selecting,
+  charStatus = 'default',
   onSelect,
   onSelectCancel,
 }: CharListItemProps) {
@@ -59,7 +61,7 @@ export default function Index({
       charKey={character?.key ?? ''}
       charName={character?.name ?? ''}
       mini={setting.mini}
-      charStatus={character?.picked && type === 'default' ? 'picked' : 'default'}
+      charStatus={charStatus}
       type={type}
       hidden={hidden}
       selecting={selecting}

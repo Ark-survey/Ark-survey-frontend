@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateMenuOpen, updateUserData } from 'src/store/slice/userSlice';
 import { useChangeSize } from 'src/hooks/useChangeSize';
 import { useWindowSize } from 'src/hooks/useWindowSize';
-import { useEffect, useRef } from 'react';
+import { lazy, useEffect, useRef } from 'react';
 import { RootRouter } from './route';
 import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
 import { useLoadUserTierLists } from 'src/hooks/useLoadUserTierLists';

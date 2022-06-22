@@ -6,14 +6,7 @@ export const get = (server: string, resource: string, data: { [key: string]: str
   let params: string[] = [];
   Object.keys(data).map((key) => params.push(key + '=' + data[key]));
   axios
-    .get(
-      (process.env.REACT_APP_ORIGIN_ENV ?? 'https://arksurvey.yituliu.site/') +
-        server +
-        '/' +
-        resource +
-        '?' +
-        params.join('&'),
-    )
+    .get(import.meta.env.VITE_ORIGIN_ENV + server + '/' + resource + '?' + params.join('&'))
     .then((res) => res.data)
     .catch(() => {
       errorNotice(t('network.error'));
@@ -26,15 +19,11 @@ export const post: <T>(server: string, resource: string, data?: any) => Promise<
   data?: any,
 ) =>
   axios
-    .post<any, AxiosResponse<any, any>, T>(
-      (process.env.REACT_APP_ORIGIN_ENV ?? 'https://arksurvey.yituliu.site/') + server + '/' + resource,
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    .post<any, AxiosResponse<any, any>, T>(import.meta.env.VITE_ORIGIN_ENV + server + '/' + resource, data, {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+    })
     .then((res) => res.data)
     .catch(() => {
       errorNotice(t('network.error'));

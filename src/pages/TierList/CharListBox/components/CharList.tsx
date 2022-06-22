@@ -4,6 +4,7 @@ import CharListItem from './CharListItem';
 
 import { CharacterType } from 'src/store/slice/userSlice';
 import { useTranslation } from 'react-i18next';
+import useTierList from '../../useTierList';
 
 interface CharacterListProps {
   filterCharData: CharacterType[];
@@ -14,17 +15,19 @@ interface CharacterListProps {
 
 export default function CharacterList({ filterCharData, selectKeys, ...props }: CharacterListProps) {
   const { t } = useTranslation();
+  const { pickedCharKeys } = useTierList();
 
   const charListData = useMemo(() => {
     return filterCharData.map((character, index) => (
       <CharListItem
         key={character?.key ?? ''}
-        selecting={selectKeys.findIndex((it) => it === character?.key) > -1}
+        selecting={selectKeys.includes(character?.key)}
+        charStatus={pickedCharKeys.includes(character?.key) ? 'picked' : 'default'}
         character={character}
         {...props}
       />
     ));
-  }, [filterCharData, props, selectKeys]);
+  }, [filterCharData, pickedCharKeys, props, selectKeys]);
 
   return (
     <Group spacing={10} position="center">

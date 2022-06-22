@@ -32,7 +32,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
 
   // state
   const { tierList } = useTierList();
-  const { selectKeys } = useCharBoxSelectKeys();
+  const { selectKeys, resetSelectKeys } = useCharBoxSelectKeys();
 
   // dnd
   const [{ isOver }, drop] = useDrop(
@@ -63,13 +63,14 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
           sx={{ height: '100%', cursor: 'pointer' }}
           onClick={() => {
             addTierChars(findTierIndexByValue(tier.value ?? 0) ?? 0, selectKeys);
+            resetSelectKeys();
           }}
         >
           <IconPlus color="grey" />
         </Center>
       </CharContainer>
     ),
-    [selectKeys, setting.mini, addTierChars, findTierIndexByValue, tier.value],
+    [setting.mini, addTierChars, findTierIndexByValue, tier.value, selectKeys, resetSelectKeys],
   );
 
   return (

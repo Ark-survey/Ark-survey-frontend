@@ -1,14 +1,6 @@
-import { ReactNode } from 'react';
+import { lazy, ReactNode, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
-import { RootState } from 'src/store';
-import CharBox from './char-box';
-import Demo from './demo';
-import Home from './Home';
-import NotFound from './NotFound';
-import Setting from './Setting';
-import TierList from './TierList';
-import Statistics from './Statistics';
 import {
   IconHome,
   IconSchool,
@@ -19,6 +11,16 @@ import {
   IconCopy,
   IconSettings,
 } from '@tabler/icons';
+import { RootState } from 'src/store';
+import { LoadingOverlay } from '@mantine/core';
+
+const Home = lazy(() => import('./Home'));
+const Setting = lazy(() => import('./Setting'));
+const NotFound = lazy(() => import('./NotFound'));
+const Demo = lazy(() => import('./demo'));
+const Statistics = lazy(() => import('./Statistics'));
+const CharBox = lazy(() => import('./char-box'));
+const TierList = lazy(() => import('./TierList'));
 
 interface NavbarDataType {
   id: string;
@@ -104,14 +106,41 @@ export function RootRouter() {
   return (
     <Routes>
       <Route path="/">
-        <Route index element={<Home />} />
+        <Route
+          index
+          element={
+            <Suspense fallback={<LoadingOverlay visible />}>
+              <Home />
+            </Suspense>
+          }
+        />
         {navbarData.map((section) =>
           section.nav
             .filter((it) => !it.disabled && (!it.needLogin || (it.needLogin && user.userData?.id)))
-            .map((it, i) => <Route key={it.id} path={it.id} element={it.element} />),
+            .map((it, i) => (
+              <Route
+                key={it.id}
+                path={it.id}
+                element={<Suspense fallback={<LoadingOverlay visible />}>{it.element}</Suspense>}
+              />
+            )),
         )}
-        <Route path="demo" element={<Demo />} />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="demo"
+          element={
+            <Suspense fallback={<LoadingOverlay visible />}>
+              <Demo />
+            </Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<LoadingOverlay visible />}>
+              <NotFound />
+            </Suspense>
+          }
+        />
       </Route>
     </Routes>
   );

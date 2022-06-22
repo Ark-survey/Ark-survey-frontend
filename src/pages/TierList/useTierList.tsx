@@ -4,7 +4,7 @@ import { RootState } from 'src/store';
 import { useCharBoxSelectKeys, useTierListKey } from './store';
 import { TierList, TierListServer } from 'src/service/TierListServer';
 import { useQuery, useQueryClient, useMutation } from 'react-query';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { errorNotice, successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
 
@@ -48,7 +48,7 @@ export default function useTierList() {
 
   const { isLoading, error, data } = useQuery(tierListQueryKey.current, async () => {
     if (!tierListKey) {
-      errorNotice('Select first!');
+      // errorNotice('Select first!');
       return;
     }
     const { data } = await new TierListServer().getOne({ userId: userData?.id ?? '', key: tierListKey });
@@ -91,5 +91,13 @@ export default function useTierList() {
     },
   );
 
-  return { tierList: data, uploadTierList, updateLocalTierList, isLoading };
+  const pickedCharKeys = useMemo(() => {
+    let keys: string[] = [];
+    data?.tiers?.forEach((tier) => {
+      keys.push(...tier.characterKeys);
+    });
+    return keys;
+  }, [data?.tiers]);
+
+  return { tierList: data, uploadTierList, pickedCharKeys, updateLocalTierList, isLoading };
 }

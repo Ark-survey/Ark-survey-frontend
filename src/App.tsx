@@ -14,7 +14,13 @@ import customTheme from './theme';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // retryOnMount: false,
+    },
+  },
+});
 
 function App() {
   const isMobile = useIsMobile();
