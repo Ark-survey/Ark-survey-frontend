@@ -30,11 +30,7 @@ Modern web application, built on top of the React framework. PRs are welcome!
 ```sh
 pnpm i
 
-# Run in Mac
 pnpm start
-pnpm build
 
-# Run in Win
-pnpm start:win
-pnpm build:win
+pnpm build
 ```
