@@ -1,17 +1,18 @@
-# ArkSurvey
+# Ark-Survey Frontend
 
-Survey something of Arknights.
+Modern web application, built on top of the React framework. PRs are welcome!
 
-## v0.4 🔥 DEVELOPING 80%
+## 🔥 DEVELOPING v0.4.5
 
 - product env: https://ark-survey.com/
 
-## How?
+## 📖 References
 
-- Lang [TS](https://www.typescriptlang.org/docs/handbook/intro.html)
-- UI-Frame [React 18](https://beta.reactjs.org/learn/passing-data-deeply-with-context)
-- UI-Components [Mantine](https://mantine.dev/core/app-shell/)
-- SSR-Frame [Remix](https://remix.run/docs/en/v1)(pending)
+- JS bundle: [ESbuild](https://esbuild.org/) depended by Remix(pending)
+- Lang [TypeScript](https://www.typescriptlang.org/docs/handbook/intro.html)
+- UI frame [React 18](https://beta.reactjs.org/learn/passing-data-deeply-with-context)
+- UI components & CSS in JS [Mantine 5](https://mantine.dev/core/app-shell/)
+- SSR frame [Remix](https://remix.run/docs/en/v1)(pending)
 - Router [React Router 6](https://reactrouter.com/docs/en/v6/getting-started/overview)
 - StateManager [Redux Toolkit](https://redux-toolkit.js.org/tutorials/quick-start) to [zustand](https://github.com/pmndrs/zustand) (developing)
 - DND [React DnD](https://react-dnd.github.io/react-dnd/about)
@@ -20,10 +21,11 @@ Survey something of Arknights.
 - Eslint [alloy](https://github.com/AlloyTeam/eslint-config-alloy)
 - PM [pnpm](https://github.com/pnpm/pnpm)
 - PWA [workbox](https://web.dev/learn/pwa/workbox/)
-- Data Query [axios](https://github.com/axios/axios) + [React Query](https://react-query.tanstack.com/overview) (developing)
-- Others date-fns html-to-image
+- Data query [axios](https://github.com/axios/axios) + [React Query](https://react-query.tanstack.com/overview) (developing)
+- Date format [date-fns](https://date-fns.org/docs/Getting-Started)
+- Screenshot html-to-image
 
-## Run
+## 🏃 Let's get started
 
 ```sh
 pnpm i
