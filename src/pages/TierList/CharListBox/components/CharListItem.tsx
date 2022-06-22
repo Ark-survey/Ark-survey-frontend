@@ -1,9 +1,8 @@
 import { RootState } from 'src/store';
-import { updateCharacterPicked } from 'src/store/slice/characterSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import CharContainer, { CharContainerType } from 'src/components/@arksurvey/CharContainer';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
-import { CharacterType } from 'src/store/slice/userSlice';
+import { CharacterType, useSetting } from 'src/pages/store';
 
 export const ItemTypes = {
   OPERATOR: 'Operator',
@@ -36,17 +35,10 @@ export default function Index({
   onSelect,
   onSelectCancel,
 }: CharListItemProps) {
-  const setting = useSelector((state: RootState) => state.setting);
-  const dispatch = useDispatch();
+  const { setting } = useSetting();
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
 
   const handleCharacterDelete = () => {
-    dispatch(
-      updateCharacterPicked({
-        key: character?.key ?? '',
-        picked: false,
-      }),
-    );
     delTierOneChar(findTierIndexByValue(fromTierValue ?? 0) ?? 0, character?.key ?? '');
   };
 

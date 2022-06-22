@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Popover, Button, Box, Text, ActionIcon } from '@mantine/core';
 
-import { updateAllCharacterPicked } from 'src/store/slice/characterSlice';
-import { useDispatch } from 'react-redux';
 import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
@@ -11,13 +9,10 @@ import { IconClearAll } from '@tabler/icons';
 export default function ResetAllCharacterPopover() {
   const [opened, setOpened] = useState(false);
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { delAllTierChar } = useOperateEditingTierList();
 
   const handleConfirm = () => {
     delAllTierChar();
-
-    dispatch(updateAllCharacterPicked(false));
     successNotice(t('reset-successfully'));
     setOpened(false);
   };

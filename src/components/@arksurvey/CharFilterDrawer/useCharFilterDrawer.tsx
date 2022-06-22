@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Drawer, Title } from '@mantine/core';
-import { CharacterType } from 'src/store/slice/userSlice';
 import CharFilterBox, { initialState } from '.';
+import { CharacterType } from 'src/pages/store';
 
 export default function useCharFilterDrawer() {
   const [opened, setOpened] = useState(false);

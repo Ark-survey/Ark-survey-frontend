@@ -1,10 +1,9 @@
 import { Box, Button, Center, createStyles, Paper, SegmentedControl, Space, Stack } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { Character, Module } from 'src/service/CharBoxServer';
-import { RootState } from 'src/store';
 import { IconChevronsDown, IconChevronsUp } from '@tabler/icons';
 import UniEquipImg from '../ImageContainer/UniEquipImg';
+import { useDataMap } from 'src/pages/store';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
   container: {
@@ -44,22 +43,22 @@ export default function Index({
     ],
     [],
   );
-  const { charData } = useSelector((state: RootState) => state.user);
+  const { charMap } = useDataMap();
   const { classes, cx } = useStyles({ fold });
   const equips = useMemo(() => {
     const result: { [key: string]: any } = {};
-    Object.keys(charData[data.key].equips).forEach((it, index) => {
+    Object.keys(charMap[data.key].equips).forEach((it, index) => {
       if (index === 0) {
-        result['default'] = { ...charData[data.key].equips[it] };
+        result['default'] = { ...charMap[data.key].equips[it] };
         return;
       }
       result[it] = {
-        ...charData[data.key].equips[it],
+        ...charMap[data.key].equips[it],
       };
     });
 
     return result;
-  }, [charData, data.key]);
+  }, [charMap, data.key]);
 
   const findCurrentAroundNode = useMemo(() => {
     let frontKey = '';

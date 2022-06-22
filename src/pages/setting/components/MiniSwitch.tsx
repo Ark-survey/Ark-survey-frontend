@@ -1,17 +1,14 @@
 import { Group, Switch, Text, Tooltip } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { changeMini } from 'src/store/slice/settingSlice';
 import { IconInfoCircle } from '@tabler/icons';
+import { useSetting } from 'src/pages/store';
 
 export default function Index() {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const setting = useSelector((state: RootState) => state.setting);
+  const { setting, setSettingKeyValue } = useSetting();
 
   const handleMiniStatusChange = (event: any) => {
-    dispatch(changeMini(event.currentTarget.checked));
+    setSettingKeyValue('mini', event.currentTarget.checked);
   };
 
   return (

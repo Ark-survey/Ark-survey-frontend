@@ -1,10 +1,9 @@
 import { Box, createStyles, Header, ScrollArea, Space, Overlay } from '@mantine/core';
 import Footer from 'src/components/Footer';
 import CustomNavbar from 'src/components/CustomNavbar';
-import { persistor, RootState } from 'src/store';
+import { persistor } from 'src/store';
 import { Brand } from 'src/components/Brand';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateMenuOpen, updateUserData } from 'src/store/slice/userSlice';
+import { useDispatch } from 'react-redux';
 import { useChangeSize } from 'src/hooks/useChangeSize';
 import { useWindowSize } from 'src/hooks/useWindowSize';
 import { useEffect, useRef } from 'react';
@@ -13,6 +12,7 @@ import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
 import { useLoadUserTierLists } from 'src/hooks/useLoadUserTierLists';
 import { useLoadStaticFile } from 'src/hooks/useLoadStaticFile';
 import { UpdateVersionNotion } from 'src/registrationStatus';
+import { useMeta, useSetting } from './store';
 
 const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getRef) => ({
   container: {
@@ -81,19 +81,17 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
 export default function PageContainer() {
   const { downSM } = useWindowSize();
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const { classes, cx } = useStyles({ menuOpen: user.menuOpen });
+  const { user, setUser } = useMeta();
+  const { setting, setSettingKeyValue } = useSetting();
+  const { classes, cx } = useStyles({ menuOpen: setting.menuOpened });
 
   useLoadingGlobalData();
   useLoadUserTierLists();
   useLoadStaticFile();
 
   useEffect(() => {
-    if (downSM) dispatch(updateMenuOpen(false));
-    else {
-      dispatch(updateMenuOpen(true));
-    }
-  }, [dispatch, downSM]);
+    setSettingKeyValue('menuOpened', !downSM);
+  }, [downSM, setSettingKeyValue]);
 
   const refreshing = useRef(false);
   useEffect(() => {
@@ -102,12 +100,12 @@ export default function PageContainer() {
         return;
       }
       refreshing.current = true;
-      const id = user.userData?.id ?? '';
+      const id = user.id;
       await persistor.flush();
-      dispatch(updateUserData({ id }));
+      setUser({ id });
       window.location.reload();
     });
-  }, [dispatch, user.userData?.id]);
+  }, [dispatch, setUser, user.id]);
 
   const { height } = useChangeSize();
 
@@ -126,12 +124,12 @@ export default function PageContainer() {
           zIndex: 1,
         }}
       >
-        {(user.menuOpen || !downSM) && (
+        {(setting.menuOpened || !downSM) && (
           <Box className={classes.scrollArea}>
             <CustomNavbar />
           </Box>
         )}
-        {user.menuOpen && downSM && <Overlay zIndex={9} onClick={() => dispatch(updateMenuOpen(false))} />}
+        {setting.menuOpened && downSM && <Overlay zIndex={9} onClick={() => setSettingKeyValue('menuOpened', false)} />}
         <ScrollArea className={classes.container}>
           <Box className={classes.page}>
             <Space h={60} />

@@ -1,14 +1,13 @@
 import { Affix, Box, Paper, Divider, ActionIcon, Stack, Indicator } from '@mantine/core';
 import { IconDeviceFloppy, IconExchange, IconFilter } from '@tabler/icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
+import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import CharBoxList from './CharExchangeBox/CharBoxList';
 import { Character, CharBoxServer } from 'src/service/CharBoxServer';
 import { successNotice, errorNotice } from 'src/components/Notice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { useMemo } from 'react';
-import { CharacterType } from 'src/store/slice/userSlice';
+import { CharacterType, useDataMap, useMeta, useSetting } from 'src/pages/store';
 
 export default function Index({
   filterChar,
@@ -18,18 +17,17 @@ export default function Index({
   onClickFilter: () => void;
 }) {
   const { charInBox, charBoxId } = useSelector((state: RootState) => state.charBox);
-  const { charBoxEditing } = useSelector((state: RootState) => state.setting);
-  const userId = useSelector((state: RootState) => state.user.userData?.id);
+  const { setting, setSettingKeyValue } = useSetting();
   const charInBoxArray = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
-  const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
-  const dispatch = useDispatch();
+  const { charMap } = useDataMap();
+  const { user } = useMeta();
 
   const charTypeInBox = useMemo(
     () =>
-      charData.filter((it) => {
+      mapToArray(charMap).filter((it) => {
         return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
       }),
-    [charData, charInBoxArray, filterChar],
+    [charMap, charInBoxArray, filterChar],
   );
 
   const handleSaveCharBox = async () => {
@@ -41,7 +39,7 @@ export default function Index({
       const { data } = await new CharBoxServer().updateOne({
         charBox: {
           id: charBoxId,
-          userId: userId ?? '',
+          userId: user.id,
           characterKeys,
         },
       });
@@ -60,7 +58,7 @@ export default function Index({
           <ActionIcon size="lg" color="blue" radius="md" onClick={handleSaveCharBox}>
             <IconDeviceFloppy />
           </ActionIcon>
-          <ActionIcon size="lg" onClick={() => dispatch(updateCharBoxEditing(!charBoxEditing))}>
+          <ActionIcon size="lg" onClick={() => setSettingKeyValue('charBoxEditing', !setting.charBoxEditing)}>
             <IconExchange />
           </ActionIcon>
           <Indicator label={charTypeInBox.length} size={16}>

@@ -2,19 +2,15 @@ import { Overlay, ScrollArea } from '@mantine/core';
 import { useDrop } from 'react-dnd';
 import CharacterList from './components/CharList';
 import { CharDragItem, ItemTypes } from './components/CharListItem';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'src/store';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { useMemo } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { CharacterType } from 'src/store/slice/userSlice';
 import { useCharBoxSelectKeys } from '../store';
+import { CharacterType, useDataMap } from 'src/pages/store';
 
 export default function CharListItemType({ filterChar }: { filterChar: (char: CharacterType) => boolean }) {
-  const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
-  const dispatch = useDispatch();
+  const { charMap } = useDataMap();
   const { t } = useTranslation();
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
 
@@ -25,11 +21,11 @@ export default function CharListItemType({ filterChar }: { filterChar: (char: Ch
 
   const charsFilter = useMemo(
     () =>
-      charData.filter((it) => {
+      mapToArray(charMap).filter((it) => {
         if (it.isNotObtainable || !filterChar(it)) return false;
         return true;
       }),
-    [charData, filterChar],
+    [charMap, filterChar],
   );
 
   const handleCharacterReturn = ({ fromTierValue, charKey }: CharDragItem) => {

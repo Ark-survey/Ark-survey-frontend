@@ -2,9 +2,9 @@ import { Group, ActionIcon, useMantineColorScheme, Box, Image, Space, Burger, cr
 import { IconSun, IconMoonStars } from '@tabler/icons';
 import { RootState } from 'src/store';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import useVersionDialog from './useVersionDialog';
-import { updateMenuOpen } from 'src/store/slice/userSlice';
+import { useMeta, useSetting } from 'src/pages/store';
 
 const useStyles = createStyles((theme, params, getRef) => ({
   menu: {
@@ -27,7 +27,7 @@ function Logo() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
   const { dialogContext, setOpened } = useVersionDialog();
-  const user = useSelector((state: RootState) => state.user);
+  const { version } = useMeta();
   const { classes, cx } = useStyles();
 
   return (
@@ -58,7 +58,7 @@ function Logo() {
           }}
           onClick={() => setOpened((opened) => !opened)}
         >
-          {'v' + user.version}
+          {'v' + version}
         </Box>
         {dialogContext}
       </Box>
@@ -68,10 +68,8 @@ function Logo() {
 
 export function Brand() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const menuOpen = useSelector((state: RootState) => state.user.menuOpen);
-  const dispatch = useDispatch();
+  const { setting, setSettingKeyValue } = useSetting();
   const { classes, cx } = useStyles();
-  const user = useSelector((state: RootState) => state.user);
 
   return (
     <Box
@@ -81,7 +79,11 @@ export function Brand() {
       })}
     >
       <Group position="apart">
-        <Burger className={classes.menu} opened={menuOpen} onClick={() => dispatch(updateMenuOpen(!menuOpen))} />
+        <Burger
+          className={classes.menu}
+          opened={setting.menuOpened}
+          onClick={() => setSettingKeyValue('menuOpened', !setting.menuOpened)}
+        />
         <Logo />
         <Group>
           {/* <ActionIcon variant="default" disabled size={30}>

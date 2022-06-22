@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useMeta } from 'src/pages/store';
 import { CharBoxServer } from 'src/service/CharBoxServer';
-import { RootState } from 'src/store';
 import { updateCharInBox, updateCharBoxId } from 'src/store/slice/charBoxSlice';
 
 export function useLoadUserTierLists() {
-  const userData = useSelector((state: RootState) => state.user.userData);
+  const { user } = useMeta();
   const dispatch = useDispatch();
 
   const fetchCharData = async () => {
     try {
-      const result = await new CharBoxServer().getCharBoxByUserId({ userId: userData?.id ?? '' });
+      const result = await new CharBoxServer().getCharBoxByUserId({ userId: user.id });
       if (!result.data) {
-        return await new CharBoxServer().createOne({ charBox: { userId: userData?.id ?? '', characterKeys: {} } });
+        return await new CharBoxServer().createOne({ charBox: { userId: user.id, characterKeys: {} } });
       }
       return result;
     } catch {
@@ -22,7 +22,7 @@ export function useLoadUserTierLists() {
 
   useEffect(() => {
     const timeout = setTimeout(async () => {
-      if (userData?.id) {
+      if (user.id) {
         const { data } = await fetchCharData();
         if (data) {
           dispatch(updateCharInBox(data.characterKeys));
@@ -32,5 +32,5 @@ export function useLoadUserTierLists() {
     }, 100);
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userData?.id]);
+  }, [user.id]);
 }

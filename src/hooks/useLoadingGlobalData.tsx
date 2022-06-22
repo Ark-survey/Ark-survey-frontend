@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { MetaDataServer } from 'src/service/MetaDataServer.';
 import { successNotice } from 'src/components/Notice';
-import { updateVersion } from 'src/store/slice/userSlice';
+import { useMeta } from 'src/pages/store';
 
 export function useLoadingGlobalData() {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { setVersion } = useMeta();
 
   const fetchLatestMetaData = async () => {
     return await new MetaDataServer().latest();
@@ -15,7 +14,7 @@ export function useLoadingGlobalData() {
 
   const handleLoadData = async () => {
     const { data } = await fetchLatestMetaData();
-    dispatch(updateVersion(data?.version ?? ''));
+    setVersion(data.version);
     successNotice(t('basic-data-updated-successfully'));
   };
 

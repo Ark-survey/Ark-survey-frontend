@@ -1,4 +1,3 @@
-import { CharacterType } from 'src/store/slice/userSlice';
 import { post } from 'src/utils/ApiUtils';
 
 export interface Tier {

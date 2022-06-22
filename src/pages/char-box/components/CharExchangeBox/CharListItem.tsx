@@ -1,7 +1,5 @@
-import { RootState } from 'src/store';
-import { useSelector } from 'react-redux';
 import CharContainer from 'src/components/@arksurvey/CharContainer';
-import { CharacterType } from 'src/store/slice/userSlice';
+import { CharacterType, useSetting } from 'src/pages/store';
 
 export const ItemTypes = {
   OPERATOR: 'Operator',
@@ -15,7 +13,7 @@ interface CharListItemProps {
 }
 
 export default function Index({ character, selecting, onSelect, onSelectCancel }: CharListItemProps) {
-  const setting = useSelector((state: RootState) => state.setting);
+  const { setting } = useSetting();
 
   const handleCharacterSelect = (value: boolean) => {
     if (value) onSelect?.(character?.key ?? '');

@@ -1,12 +1,11 @@
 import { Navbar, Space, Stack } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useChangeSize } from 'src/hooks/useChangeSize';
 import { successNotice } from 'src/components/Notice';
-import { RootState } from 'src/store';
 import NavItem from './NavItem';
 import { navbarData } from 'src/pages/route';
+import { useMeta } from 'src/pages/store';
 
 function copyToClip(content: string) {
   const aux = document.createElement('input');
@@ -22,16 +21,16 @@ export default function Index() {
   const { t } = useTranslation();
   const location = useLocation();
   const { height } = useChangeSize();
-  const userData = useSelector((state: RootState) => state.user.userData);
+  const { user } = useMeta();
 
   const handleCopyText = async () => {
-    if (userData?.id) {
+    if (user.id) {
       if (!navigator.clipboard) {
-        copyToClip(userData?.id);
+        copyToClip(user.id);
         successNotice(t('copied-old'));
         return;
       }
-      navigator.clipboard.writeText(userData?.id);
+      navigator.clipboard.writeText(user.id);
       successNotice(t('copied'));
     }
   };
@@ -57,7 +56,7 @@ export default function Index() {
                   key={i}
                   title={t('nav.' + it.id)}
                   leftIcon={it.icon}
-                  disabled={it.disabled || (it.needLogin && !userData?.id)}
+                  disabled={it.disabled || (it.needLogin && !user.id)}
                   onClick={() => it.action === 'copy-id' && handleCopyText()}
                 />
               ) : (
@@ -67,7 +66,7 @@ export default function Index() {
                   to={'/' + it.id}
                   leftIcon={it.icon}
                   selecting={location.pathname === '/' + it.id}
-                  disabled={it.disabled || (it.needLogin && !userData?.id)}
+                  disabled={it.disabled || (it.needLogin && !user.id)}
                 />
               ),
             )}

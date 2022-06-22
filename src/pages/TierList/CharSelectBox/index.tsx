@@ -1,7 +1,5 @@
 import { ActionIcon, Divider, Group, Indicator, Stack } from '@mantine/core';
 import Header from 'src/components/Header';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import { IconFilter } from '@tabler/icons';
 import { useTranslation } from 'react-i18next';
 import CharListBox from '../CharListBox';
@@ -9,20 +7,21 @@ import useCharFilterDrawer from 'src/components/@arksurvey/CharFilterDrawer/useC
 import CardRoot from 'src/components/CardRoot';
 import { useMemo } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
+import { useDataMap } from 'src/pages/store';
 
 export default function Index() {
   const { setOpened, drawerContext, filterChar } = useCharFilterDrawer();
-  const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
+  const { charMap } = useDataMap();
   const { t } = useTranslation();
 
   const charsFilter = useMemo(
     () =>
-      charData.filter((it) => {
+      mapToArray(charMap).filter((it) => {
         if (it.isNotObtainable) return false;
         else if (!filterChar(it)) return false;
         return true;
       }),
-    [charData, filterChar],
+    [charMap, filterChar],
   );
 
   return (

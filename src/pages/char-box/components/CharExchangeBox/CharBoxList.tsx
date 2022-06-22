@@ -4,21 +4,21 @@ import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { CharacterType } from 'src/store/slice/userSlice';
 import { useTranslation } from 'react-i18next';
 import CharContainer from 'src/components/@arksurvey/CharContainer';
 import { updateEditingCharKey } from 'src/store/slice/charBoxSlice';
+import { CharacterType, useDataMap, useSetting } from 'src/pages/store';
 
 // char which is in charBox
 export default function CharacterList({ filterChar }: { filterChar: (char: CharacterType) => boolean }) {
-  const { charData } = useSelector((state: RootState) => state.user);
+  const { charMap } = useDataMap();
   const { editingCharKey, charInBox } = useSelector((state: RootState) => state.charBox);
   const dispatch = useDispatch();
-  const { mini, nameDisplay } = useSelector((state: RootState) => state.setting);
+  const { setting } = useSetting();
   const { t } = useTranslation();
 
   const list = useMemo(() => {
-    return mapToArray<CharacterType>(charData)
+    return mapToArray<CharacterType>(charMap)
       .filter((it) => {
         return !it.isNotObtainable && Object.keys(charInBox).filter((i) => i === it.key).length > 0 && filterChar(it);
       })
@@ -29,12 +29,12 @@ export default function CharacterList({ filterChar }: { filterChar: (char: Chara
           onSelectChange={() => dispatch(updateEditingCharKey(character?.key))}
           charKey={charInBox[character.key].skinUse ?? ''}
           charName={character?.name ?? ''}
-          nameDisplay={nameDisplay}
-          mini={mini}
+          nameDisplay={setting.nameDisplay}
+          mini={setting.mini}
           dragDisabled
         />
       ));
-  }, [charData, charInBox, dispatch, editingCharKey, filterChar, mini, nameDisplay]);
+  }, [charInBox, charMap, dispatch, editingCharKey, filterChar, setting.mini, setting.nameDisplay]);
 
   return list.length > 0 ? (
     <Group spacing={10} position="center">

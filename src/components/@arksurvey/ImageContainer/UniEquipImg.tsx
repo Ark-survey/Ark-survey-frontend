@@ -1,5 +1,4 @@
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { useDataMap } from 'src/pages/store';
 import ImageContainer from '.';
 
 interface HeaderProps {
@@ -9,14 +8,15 @@ interface HeaderProps {
 }
 
 export default function UniEquipImg({ imgKey, width = 256, flowWidthRef }: HeaderProps) {
-  const { uniEquipImgPosition } = useSelector((state: RootState) => state.user.imgPosition);
+  const { imgPositionMap } = useDataMap();
+
   return (
     <ImageContainer
       url="https://img.yituliu.site/static/uniequip_0.5.webp"
       width={width}
       originWidth={256}
       flowWidthRef={flowWidthRef}
-      position={uniEquipImgPosition[imgKey]}
+      position={imgPositionMap.uniEquipImgPosition[imgKey]}
     />
   );
 }

@@ -3,11 +3,8 @@ import { Popover, Text, Button, Box, ActionIcon } from '@mantine/core';
 import { IconCloudUpload, IconRefresh } from '@tabler/icons';
 import useTierList from '../../useTierList';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 
 export default function UploadPopover() {
-  const user = useSelector((state: RootState) => state.user);
   const { t } = useTranslation();
 
   // state
@@ -15,13 +12,7 @@ export default function UploadPopover() {
   const { tierList, uploadTierList } = useTierList();
 
   return (
-    <Popover
-      opened={opened}
-      onClose={() => setOpened(false)}
-      width={user.newTierList ? 200 : 300}
-      position="left"
-      withArrow
-    >
+    <Popover opened={opened} onClose={() => setOpened(false)} width={300} position="left" withArrow>
       <Popover opened={opened} onClose={() => setOpened(false)} width={160} position="bottom" withArrow>
         <Popover.Target>
           <ActionIcon

@@ -1,4 +1,4 @@
-import { CharacterType } from 'src/store/slice/userSlice';
+import { CharacterType } from 'src/pages/store';
 import { post } from 'src/utils/ApiUtils';
 
 export interface CharStatistic {

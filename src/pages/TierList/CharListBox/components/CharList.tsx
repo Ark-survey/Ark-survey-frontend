@@ -2,9 +2,9 @@ import { Text, Center, Group } from '@mantine/core';
 import { useMemo } from 'react';
 import CharListItem from './CharListItem';
 
-import { CharacterType } from 'src/store/slice/userSlice';
 import { useTranslation } from 'react-i18next';
 import useTierList from '../../useTierList';
+import { CharacterType } from 'src/pages/store';
 
 interface CharacterListProps {
   filterCharData: CharacterType[];

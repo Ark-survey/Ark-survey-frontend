@@ -1,12 +1,10 @@
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-
 import { useCharBoxSelectKeys, useTierListKey } from './store';
 import { TierList, TierListServer } from 'src/service/TierListServer';
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { useMemo, useRef } from 'react';
 import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
+import { useMeta } from '../store';
 
 const initValue: TierList = {
   id: '',
@@ -42,7 +40,8 @@ export default function useTierList() {
 
   // state
   const tierListQueryKey = useRef('tier-list');
-  const userData = useSelector((state: RootState) => state.user.userData);
+  const { user } = useMeta();
+
   const { resetSelectKeys } = useCharBoxSelectKeys();
   const { tierListKey } = useTierListKey();
 
@@ -51,7 +50,7 @@ export default function useTierList() {
       // errorNotice('Select first!');
       return;
     }
-    const { data } = await new TierListServer().getOne({ userId: userData?.id ?? '', key: tierListKey });
+    const { data } = await new TierListServer().getOne({ userId: user.id, key: tierListKey });
     if (!data) {
       successNotice('初稿已创建');
       return initValue;
@@ -64,10 +63,10 @@ export default function useTierList() {
     async () =>
       data?.id
         ? await new TierListServer().updateOne({
-            tierList: { ...data, userId: userData?.id ?? '' },
+            tierList: { ...data, userId: user.id },
           })
         : await new TierListServer().createOne({
-            tierList: { ...data, userId: userData?.id ?? '' },
+            tierList: { ...data, userId: user.id },
           }),
     {
       onSuccess: () => {

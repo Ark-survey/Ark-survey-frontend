@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconRefresh } from '@tabler/icons';
 import { persistor, RootState } from './store';
-import { updateUserData } from './store/slice/userSlice';
 import { useTranslation } from 'react-i18next';
+import { useMeta } from './pages/store';
 
 const a1 = keyframes({
   '0%': { transform: 'rotate(0deg)' },
@@ -46,7 +46,7 @@ function onSuccess(_registration: any) {
 
 function UpdateVersionNotion() {
   const [opened, setOpened] = useState(false);
-  const user = useSelector((state: RootState) => state.user.userData);
+  const { user, setUser } = useMeta();
   const { t } = useTranslation();
 
   const state = useStatus();
@@ -54,9 +54,9 @@ function UpdateVersionNotion() {
 
   const handleUpdate = async () => {
     // update event
-    const id = user?.id ?? '';
+    const id = user.id;
     await persistor.flush();
-    dispatch(updateUserData({ id }));
+    setUser({ id });
     setOpened(false);
     navigator.serviceWorker.controller?.postMessage({ type: 'SKIP_WAITING' });
   };

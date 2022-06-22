@@ -1,8 +1,6 @@
 import { Group, Sx, Text, UnstyledButton } from '@mantine/core';
 import { ReactNode } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from 'src/store';
 
 interface NavItemProps {
   sx?: Sx;
@@ -16,9 +14,7 @@ interface NavItemProps {
 }
 
 export default function Index({ sx, selecting, leftIcon, title, disabled, children, to, onClick }: NavItemProps) {
-  const user = useSelector((state: RootState) => state.user);
   let navigate = useNavigate();
-  const dispatch = useDispatch();
 
   return (
     <UnstyledButton

@@ -1,6 +1,4 @@
-import { useSelector } from 'react-redux';
-import { useLoadStaticFile } from 'src/hooks/useLoadStaticFile';
-import { RootState } from 'src/store';
+import { useDataMap } from 'src/pages/store';
 import ImageContainer from '.';
 
 interface HeaderProps {
@@ -10,14 +8,14 @@ interface HeaderProps {
 }
 
 export default function CharAvatar({ imgKey, width = 90, flowWidthRef }: HeaderProps) {
-  const { avatarImgPosition } = useSelector((state: RootState) => state.user.imgPosition);
+  const { imgPositionMap } = useDataMap();
   return (
     <ImageContainer
       url="https://img.yituliu.site/static/char_0.5.webp"
       width={width}
       originWidth={90}
       flowWidthRef={flowWidthRef}
-      position={avatarImgPosition[imgKey]}
+      position={imgPositionMap.avatarImgPosition[imgKey]}
     />
   );
 }

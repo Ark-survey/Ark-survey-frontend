@@ -1,20 +1,17 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { updateCharMap } from 'src/store/slice/characterSlice';
-import { updateCharData, updateImgPosition } from 'src/store/slice/userSlice';
+import { useDataMap } from 'src/pages/store';
 import { getImgPositionJSON, characterDataLoad } from 'src/utils/JSONLoadUtils';
 
 export function useLoadStaticFile() {
-  const dispatch = useDispatch();
+  const { setCharMap, setImgPositionMap } = useDataMap();
   const handleLoadImg = async () => {
     const result = await getImgPositionJSON('https://img.yituliu.site/static/');
-    dispatch(updateImgPosition(result));
+    setImgPositionMap({ ...result });
   };
 
   const handleLoadCharData = async () => {
     const result = await characterDataLoad('https://img.yituliu.site/static/');
-    dispatch(updateCharMap(result));
-    dispatch(updateCharData(result));
+    setCharMap({ ...result });
   };
 
   // 当 userData?.id 改变并不为空时加载

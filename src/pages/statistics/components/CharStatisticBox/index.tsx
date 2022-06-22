@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import CharContainer from 'src/components/@arksurvey/CharContainer';
+import { CharacterType, useSetting } from 'src/pages/store';
 import { RootState } from 'src/store';
-import { CharacterType } from 'src/store/slice/userSlice';
 
 export default function CharStatisticBox({
   char,
@@ -23,7 +23,7 @@ export default function CharStatisticBox({
   index: number;
   all: number;
 }) {
-  const setting = useSelector((state: RootState) => state.setting);
+  const { setting } = useSetting();
   const [opened, setOpened] = useState(false);
   const parent = useClickOutside(() => setOpened(false), ['mouseup', 'touchend']);
   const { t } = useTranslation();

@@ -1,11 +1,9 @@
-import { Box, createStyles, Group } from '@mantine/core';
+import { createStyles, Group } from '@mantine/core';
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { Character } from 'src/service/CharBoxServer';
-import { CharSkinType } from 'src/components/@arksurvey/CharDataUnit';
-import { RootState } from 'src/store';
 import CharContainer from '../CharContainer';
 import PanelContainer from '../PanelContainer';
+import { useDataMap } from 'src/pages/store';
 
 const useStyles = createStyles((theme) => ({}));
 
@@ -16,10 +14,10 @@ interface LevelPanelProps {
 }
 
 export default function Index({ data, selectedSkinKey, onSelectChange }: LevelPanelProps) {
-  const { charData } = useSelector((state: RootState) => state.user);
+  const { charMap } = useDataMap();
 
   const skinList = useMemo(() => {
-    const charAllSkins = charData[data?.key]?.skins ?? [];
+    const charAllSkins = charMap[data?.key]?.skins ?? [];
     // const skins = Object.values(charData).filter((it) => it.key);
     return Object.keys(charAllSkins).map((key) => {
       return (
@@ -32,7 +30,7 @@ export default function Index({ data, selectedSkinKey, onSelectChange }: LevelPa
         />
       );
     });
-  }, [charData, data.key, data.skinUse, onSelectChange]);
+  }, [charMap, data?.key, data.skinUse, onSelectChange]);
 
   return (
     <PanelContainer>

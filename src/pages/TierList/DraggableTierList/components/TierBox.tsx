@@ -13,6 +13,7 @@ import { IconPlus } from '@tabler/icons';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { useCharBoxSelectKeys } from '../../store';
 import useTierList from '../../useTierList';
+import { useDataMap, useSetting } from 'src/pages/store';
 
 /**
  * @param value tier value
@@ -24,8 +25,8 @@ interface TierBoxProps {
 }
 
 export default function TierBox({ tier, operationDisplay = false, onDropCharacter }: TierBoxProps) {
-  const charMap = useSelector((state: RootState) => state.characters.charMap);
-  const setting = useSelector((state: RootState) => state.setting);
+  const { charMap } = useDataMap();
+  const { setting } = useSetting();
   const { addTierChars, findTierIndexByValue } = useOperateEditingTierList();
 
   // state

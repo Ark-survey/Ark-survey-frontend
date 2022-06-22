@@ -2,22 +2,21 @@ import { Center, Paper, TextInput, Button, Space, Group, LoadingOverlay } from '
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { UserServer } from 'src/service/UserServer';
-import { updateUserData } from 'src/store/slice/userSlice';
 import { errorNotice, successNotice } from 'src/components/Notice';
+import { useMeta } from 'src/pages/store';
 
 export default function Index() {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const { setUser } = useMeta();
 
   const handleCreateUser = async () => {
     setLoading(true);
     try {
       const { data } = await new UserServer().createOne({});
       if (data.id) {
-        dispatch(updateUserData({ id: data.id }));
+        setUser({ id: data.id });
         successNotice(t('loadUserPage.createSuccess'));
       } else {
         errorNotice(t('loadUserPage.networkError'));
@@ -33,7 +32,7 @@ export default function Index() {
       try {
         const { data } = await new UserServer().getById({ id });
         if (data?.id) {
-          dispatch(updateUserData({ id: data.id }));
+          setUser({ id: data.id });
           successNotice(t('loadUserPage.loadSuccess'));
         } else {
           setFieldError('id', t('no-corresponding-data-for-this-ID'));

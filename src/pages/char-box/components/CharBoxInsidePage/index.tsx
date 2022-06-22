@@ -1,14 +1,12 @@
-import { useSelector } from 'react-redux';
 import useCharFilterDrawer from 'src/components/@arksurvey/CharFilterDrawer/useCharFilterDrawer';
 import { useWindowSize } from 'src/hooks/useWindowSize';
-import { RootState } from 'src/store';
 import CharDataUnit from 'src/components/@arksurvey/CharDataUnit';
 import CharExchangeAffix from '../CharExchangeAffix';
 import CharExchangeBox from '../CharExchangeBox';
+import { useSetting } from 'src/pages/store';
 
 export default function CharBox() {
-  const setting = useSelector((state: RootState) => state.setting);
-  const { menuOpen } = useSelector((state: RootState) => state.user);
+  const { setting } = useSetting();
   const { downSM } = useWindowSize();
   const { setOpened, drawerContext, filterChar } = useCharFilterDrawer();
 
@@ -17,7 +15,7 @@ export default function CharBox() {
       {!(setting.charBoxEditing && downSM) ? (
         <CharExchangeBox filterChar={filterChar} onClickFilter={() => setOpened(true)} />
       ) : (
-        !menuOpen && <CharExchangeAffix filterChar={filterChar} onClickFilter={() => setOpened(true)} />
+        !setting.menuOpened && <CharExchangeAffix filterChar={filterChar} onClickFilter={() => setOpened(true)} />
       )}
       {setting.charBoxEditing && <CharDataUnit />}
       {drawerContext}

@@ -1,5 +1,4 @@
 import { lazy, ReactNode, Suspense } from 'react';
-import { useSelector } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import {
   IconHome,
@@ -11,8 +10,8 @@ import {
   IconCopy,
   IconSettings,
 } from '@tabler/icons';
-import { RootState } from 'src/store';
 import { LoadingOverlay } from '@mantine/core';
+import { useMeta } from './store';
 
 const Home = lazy(() => import('./Home'));
 const Setting = lazy(() => import('./Setting'));
@@ -102,7 +101,7 @@ export const navbarData: { grow?: boolean; nav: NavbarDataType[] }[] = [
 ];
 
 export function RootRouter() {
-  const user = useSelector((state: RootState) => state.user);
+  const { user } = useMeta();
   return (
     <Routes>
       <Route path="/">
@@ -116,7 +115,7 @@ export function RootRouter() {
         />
         {navbarData.map((section) =>
           section.nav
-            .filter((it) => !it.disabled && (!it.needLogin || (it.needLogin && user.userData?.id)))
+            .filter((it) => !it.disabled && (!it.needLogin || (it.needLogin && user.id)))
             .map((it, i) => (
               <Route
                 key={it.id}

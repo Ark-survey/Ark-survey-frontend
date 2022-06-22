@@ -3,18 +3,10 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 
-import characterReducer from './slice/characterSlice';
-import userReducer from './slice/userSlice';
-import settingReducer from './slice/settingSlice';
-import TierListStatisticsReducer from './slice/TierListStatisticsSlice';
 import CharBoxReducer from './slice/charBoxSlice';
 
 const reducers = combineReducers({
-  characters: characterReducer,
-  tierListStatistics: TierListStatisticsReducer,
   charBox: CharBoxReducer,
-  user: userReducer,
-  setting: settingReducer,
 });
 
 const persistConfig = {

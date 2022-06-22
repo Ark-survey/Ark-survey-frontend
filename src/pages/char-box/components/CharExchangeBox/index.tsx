@@ -1,4 +1,4 @@
-import { Button, Stack, ScrollArea, Group, Divider, Paper, createStyles, ActionIcon, Indicator } from '@mantine/core';
+import { Button, Stack, ScrollArea, Group, Divider, Paper, ActionIcon, Indicator } from '@mantine/core';
 import Header from 'src/components/Header';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
@@ -14,14 +14,13 @@ import {
 } from '@tabler/icons';
 import { useTranslation } from 'react-i18next';
 import CharList from './CharList';
-import { updateCharBoxEditing } from 'src/store/slice/settingSlice';
 import CharBoxList from './CharBoxList';
 import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { addCharToBox, delCharFromBox, updateCharInBox } from 'src/store/slice/charBoxSlice';
+import { addCharToBox, delCharFromBox } from 'src/store/slice/charBoxSlice';
 import { Character, CharBoxServer, Module, Skill } from 'src/service/CharBoxServer';
 import { errorNotice, successNotice } from 'src/components/Notice';
-import { CharacterType } from 'src/store/slice/userSlice';
+import { CharacterType, useDataMap, useMeta, useSetting } from 'src/pages/store';
 
 export default function Index({
   filterChar,
@@ -30,11 +29,11 @@ export default function Index({
   filterChar: (char: CharacterType) => boolean;
   onClickFilter: () => void;
 }) {
-  const userId = useSelector((state: RootState) => state.user.userData?.id);
-  const charData = useSelector((state: RootState) => mapToArray(state.user.charData));
+  const { user } = useMeta();
+  const { charMap } = useDataMap();
   const { charInBox, charBoxId } = useSelector((state: RootState) => state.charBox);
   const charInBoxArray = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
-  const { charBoxEditing } = useSelector((state: RootState) => state.setting);
+  const { setting, setSettingKeyValue } = useSetting();
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -43,19 +42,19 @@ export default function Index({
 
   const charTypeInBox = useMemo(
     () =>
-      charData.filter((it) => {
+      mapToArray(charMap).filter((it) => {
         return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
       }),
-    [charData, charInBoxArray, filterChar],
+    [charMap, charInBoxArray, filterChar],
   );
 
   const charTypeOutBox = useMemo(
     () =>
-      charData.filter((it) => {
+      mapToArray(charMap).filter((it) => {
         if (it.isNotObtainable) return false;
         return charTypeInBox.findIndex((i) => i.key === it.key) === -1 && filterChar(it);
       }),
-    [charData, charTypeInBox, filterChar],
+    [charMap, charTypeInBox, filterChar],
   );
 
   const selectMax = charTypeOutBox.length !== 0 && charTypeOutBox.length === charSelectOutBox.length;
@@ -79,7 +78,7 @@ export default function Index({
       const { data } = await new CharBoxServer().updateOne({
         charBox: {
           id: charBoxId,
-          userId: userId ?? '',
+          userId: user.id,
           characterKeys,
         },
       });
@@ -129,9 +128,9 @@ export default function Index({
   return (
     <Paper shadow="md" radius="lg" p="lg" withBorder sx={{ flex: '1' }}>
       <Stack>
-        <Header title={charBoxEditing ? '干员盒' : '持有编辑'}>
+        <Header title={setting.charBoxEditing ? '干员盒' : '持有编辑'}>
           <Group position="right" spacing={10}>
-            {!charBoxEditing && (
+            {!setting.charBoxEditing && (
               <ActionIcon size="lg" radius="md" onClick={handleChangeAllCharOutBoxSelect}>
                 {selectMax ? <IconSquareCheck /> : charSelectOutBox.length !== 0 ? <IconSquareDot /> : <IconSquare />}
               </ActionIcon>
@@ -139,7 +138,7 @@ export default function Index({
             <ActionIcon size="lg" color="blue" radius="md" onClick={handleSaveCharBox}>
               <IconDeviceFloppy />
             </ActionIcon>
-            <Indicator label={!charBoxEditing ? charTypeOutBox.length : charTypeInBox.length} size={16}>
+            <Indicator label={!setting.charBoxEditing ? charTypeOutBox.length : charTypeInBox.length} size={16}>
               <ActionIcon size="lg" radius="md" onClick={onClickFilter}>
                 <IconFilter />
               </ActionIcon>
@@ -147,7 +146,7 @@ export default function Index({
           </Group>
         </Header>
         <Divider />
-        {!charBoxEditing ? (
+        {!setting.charBoxEditing ? (
           <>
             <ScrollArea sx={{ height: '370px' }}>
               <CharList
@@ -167,7 +166,7 @@ export default function Index({
               </Button>
             </Group>
             <Divider />
-            <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '' }}>
+            <ScrollArea sx={{ height: !setting.charBoxEditing ? '370px' : '' }}>
               <CharList
                 filterCharData={charTypeInBox}
                 selectKeys={charSelectInBox}
@@ -177,19 +176,19 @@ export default function Index({
             </ScrollArea>
           </>
         ) : (
-          <ScrollArea sx={{ height: !charBoxEditing ? '370px' : '850px' }}>
+          <ScrollArea sx={{ height: !setting.charBoxEditing ? '370px' : '850px' }}>
             <CharBoxList filterChar={filterChar} />
           </ScrollArea>
         )}
         <Divider />
         <Group position="center">
           <Button
-            variant={charBoxEditing ? 'outline' : 'filled'}
+            variant={setting.charBoxEditing ? 'outline' : 'filled'}
             color="indigo"
             leftIcon={<IconExchange />}
-            onClick={() => dispatch(updateCharBoxEditing(!charBoxEditing))}
+            onClick={() => setSettingKeyValue('charBoxEditing', !setting.charBoxEditing)}
           >
-            {charBoxEditing ? '练度编辑模式' : '持有编辑模式'}
+            {setting.charBoxEditing ? '练度编辑模式' : '持有编辑模式'}
           </Button>
         </Group>
       </Stack>

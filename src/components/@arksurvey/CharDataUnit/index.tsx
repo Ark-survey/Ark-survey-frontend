@@ -8,6 +8,7 @@ import UnitEquipPanel from 'src/components/@arksurvey/UniequipPanel';
 import { RootState } from 'src/store';
 import { updateEditingChar, updateEditingCharKey } from 'src/store/slice/charBoxSlice';
 import SkinUsePanel from '../SkinUsePanel';
+import { useDataMap } from 'src/pages/store';
 
 export type CharLevelDataType = {
   potentialLevel: number;
@@ -37,10 +38,10 @@ export default function Index() {
   const editingChar = useSelector((state: RootState) => state.charBox.charInBox[state.charBox.editingCharKey]) as
     | Character
     | undefined;
-  const { charData } = useSelector((state: RootState) => state.user);
+  const { charMap } = useDataMap();
   const dispatch = useDispatch();
-  const rarity = editingChar?.key ? charData[editingChar.key].rarity : 0;
-  const maxPotentialLevel = (editingChar?.key && charData[editingChar.key].maxPotentialLevel) ?? 0;
+  const rarity = editingChar?.key ? charMap[editingChar.key].rarity : 0;
+  const maxPotentialLevel = (editingChar?.key && charMap[editingChar.key].maxPotentialLevel) ?? 0;
 
   useEffect(() => {
     if (!editingChar) dispatch(updateEditingCharKey(Object.keys(charBox)[0]));
@@ -63,7 +64,7 @@ export default function Index() {
       ...rules,
       potentialLevel: [0, maxPotentialLevel],
     }));
-  }, [charData, maxPotentialLevel]);
+  }, [maxPotentialLevel]);
 
   const onSkillLevelChange = useCallback(
     (v: string, char: Character, changeKey: string) => {
@@ -208,7 +209,7 @@ export default function Index() {
               onSelectSkillChange={(key) => dispatch(updateEditingChar({ ...editingChar, skillUse: key }))}
               onSkillLevelChange={onSkillLevelChange}
             />
-            {Object.keys(charData[editingChar?.key]?.equips).length > 0 && (
+            {Object.keys(charMap[editingChar?.key]?.equips).length > 0 && (
               <UnitEquipPanel
                 fold={fold3}
                 onClickFoldButton={setFold3}

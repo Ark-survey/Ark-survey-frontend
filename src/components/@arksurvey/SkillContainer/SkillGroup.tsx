@@ -1,10 +1,9 @@
 import { Box, Group, createStyles, Button, SegmentedControl, Divider, Paper } from '@mantine/core';
-import { ReactNode, useCallback, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { ReactNode, useMemo } from 'react';
 import { Character } from 'src/service/CharBoxServer';
-import { RootState } from 'src/store';
 import { IconCheck, IconFoldDown, IconFoldUp } from '@tabler/icons';
 import SkillContainer from '.';
+import { useDataMap } from 'src/pages/store';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
   rankBox: {
@@ -108,7 +107,7 @@ export default function Index({
 }: SkillGroupProps) {
   const { classes, cx } = useStyles({ fold });
   const { elite, skills, skillUse } = data;
-  const { charData } = useSelector((state: RootState) => state.user);
+  const { charMap } = useDataMap();
   const segmentedControlData = useMemo(() => {
     const result = [
       { label: '1', value: '1' },
@@ -128,7 +127,7 @@ export default function Index({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [elite]);
 
-  const skillData = charData[data.key].skills;
+  const skillData = charMap[data.key].skills;
 
   const skillIconGroup = useMemo(() => {
     const node: ReactNode[] = [];

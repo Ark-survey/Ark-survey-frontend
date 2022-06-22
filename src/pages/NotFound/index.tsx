@@ -1,11 +1,10 @@
 import { Title, Center, Text, Box } from '@mantine/core';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from 'src/store';
+import { useMeta } from '../store';
 
 export default function Index() {
-  const user = useSelector((state: RootState) => state.user);
+  const { user } = useMeta();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -13,7 +12,7 @@ export default function Index() {
       navigate(`/`);
     }, 2000);
     return () => clearTimeout(timeout);
-  }, [navigate, user?.userData?.id]);
+  }, [navigate, user.id]);
 
   return (
     <Center sx={{ height: '80vh' }}>

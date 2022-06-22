@@ -16,6 +16,7 @@ import { Character } from 'src/service/CharBoxServer';
 import { CharLevelDataType } from 'src/components/@arksurvey/CharDataUnit';
 import { RootState } from 'src/store';
 import { IconFoldDown, IconFoldUp } from '@tabler/icons';
+import { useDataMap } from 'src/pages/store';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
   container: {
@@ -86,9 +87,9 @@ export default function Index({
   onCharBasicDataChange,
 }: LevelPanelProps) {
   const { classes, cx } = useStyles({ fold });
-  const { charData } = useSelector((state: RootState) => state.user);
+  const { charMap } = useDataMap();
 
-  const rarity = charData[data.key].rarity;
+  const rarity = charMap[data.key].rarity;
 
   const eliteData = useMemo(() => {
     const result = [

@@ -1,19 +1,18 @@
 import { Box, Text, Group, List, Popover, useMantineTheme, Divider, Stack, Title } from '@mantine/core';
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { TierListStatistic, TierListStatisticsServer } from 'src/service/TierListStatisticServer';
-import { RootState } from 'src/store';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { errorNotice, successNotice } from 'src/components/Notice';
 import CharStatisticBox from '../CharStatisticBox';
 import CardRoot from 'src/components/CardRoot';
 import { format } from 'date-fns';
 import { useStatisticsKey } from '../../store';
+import { useDataMap } from 'src/pages/store';
 
 export default function Index() {
   const [statisticData, setStatisticData] = useState<TierListStatistic>();
-  const charMap = useSelector((state: RootState) => state.characters.charMap);
+  const { charMap } = useDataMap();
   const { statisticsKey } = useStatisticsKey();
   const { t } = useTranslation();
   const theme = useMantineTheme();

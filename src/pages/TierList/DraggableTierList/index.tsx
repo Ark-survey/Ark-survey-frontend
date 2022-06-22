@@ -1,9 +1,5 @@
 import { Group, Divider, Stack, ActionIcon, ScrollArea, Space } from '@mantine/core';
 import Header from 'src/components/Header';
-
-import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
-import { useDispatch } from 'react-redux';
-
 import { CharDragItem } from '../CharListBox/components/CharListItem';
 import AddTierPopover from './components/AddTierPopover';
 import ResetAllCharacterPopover from './components/ResetAllCharacterPopover';
@@ -20,20 +16,17 @@ import CardRoot from 'src/components/CardRoot';
 import useTierList from '../useTierList';
 
 export default function Index() {
-  const dispatch = useDispatch();
   const tiersBox = useRef<HTMLDivElement>(null);
 
   const { t } = useTranslation();
   const [makingImg, setMakingImg] = useState(false);
-  const { addTierChars, delTierOneChar, findTierIndexByValue, moveTierChars } = useOperateEditingTierList();
+  const { addTierChars, findTierIndexByValue, moveTierChars } = useOperateEditingTierList();
 
   const { tierList } = useTierList();
 
   const handleDropCharacterOnTier = useCallback(
     ({ charKey, type, fromTierValue }: CharDragItem, toTierValue: number) => {
       if (type === 'default' || (type === 'tier-list' && fromTierValue !== toTierValue)) {
-        dispatch(updateCharacterPicked({ key: charKey ?? '', picked: true }));
-        dispatch(updateCharacterSelecting({ key: charKey ?? '', selecting: false }));
         if (type === 'tier-list') {
           moveTierChars(
             findTierIndexByValue(fromTierValue ?? 0) ?? 0,
@@ -45,7 +38,7 @@ export default function Index() {
         }
       }
     },
-    [addTierChars, dispatch, findTierIndexByValue, moveTierChars],
+    [addTierChars, findTierIndexByValue, moveTierChars],
   );
 
   const makeTierImg = useCallback(() => {
