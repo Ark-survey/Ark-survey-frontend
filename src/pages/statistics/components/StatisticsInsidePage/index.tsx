@@ -1,4 +1,4 @@
-import { Box, Text, Group, List, Popover, useMantineTheme, Container, Divider, Stack, Title } from '@mantine/core';
+import { Box, Text, Group, List, Popover, useMantineTheme, Divider, Stack, Title } from '@mantine/core';
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';

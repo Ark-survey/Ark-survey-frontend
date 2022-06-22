@@ -1,4 +1,4 @@
-import { Affix, Box, Paper, Divider, Title, ActionIcon, Stack, Indicator } from '@mantine/core';
+import { Affix, Box, Paper, Divider, ActionIcon, Stack, Indicator } from '@mantine/core';
 import { IconDeviceFloppy, IconExchange, IconFilter } from '@tabler/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCharBoxEditing } from 'src/store/slice/settingSlice';

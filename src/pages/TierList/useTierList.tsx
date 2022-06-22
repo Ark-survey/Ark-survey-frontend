@@ -5,7 +5,7 @@ import { useCharBoxSelectKeys, useTierListKey } from './store';
 import { TierList, TierListServer } from 'src/service/TierListServer';
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { useMemo, useRef } from 'react';
-import { errorNotice, successNotice } from 'src/components/Notice';
+import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
 
 const initValue: TierList = {

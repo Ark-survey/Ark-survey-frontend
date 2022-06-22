@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { useTranslation } from 'react-i18next';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { CharacterType } from 'src/store/slice/userSlice';
 import { useCharBoxSelectKeys } from '../store';

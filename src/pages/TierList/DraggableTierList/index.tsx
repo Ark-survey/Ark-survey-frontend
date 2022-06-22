@@ -1,8 +1,8 @@
-import { Group, Divider, Paper, Stack, createStyles, ActionIcon, ScrollArea, Space } from '@mantine/core';
+import { Group, Divider, Stack, ActionIcon, ScrollArea, Space } from '@mantine/core';
 import Header from 'src/components/Header';
 
 import { updateCharacterPicked, updateCharacterSelecting } from 'src/store/slice/characterSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { CharDragItem } from '../CharListBox/components/CharListItem';
 import AddTierPopover from './components/AddTierPopover';

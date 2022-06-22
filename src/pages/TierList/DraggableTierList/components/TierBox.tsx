@@ -1,5 +1,5 @@
 import { Box, Center, Group, Title } from '@mantine/core';
-import { ReactNode, useMemo } from 'react';
+import { useMemo } from 'react';
 import DeleteTier from './DeleteTierPopover';
 import EditTierPopover from './EditTierPopover';
 import { useDrop } from 'react-dnd';
@@ -10,8 +10,6 @@ import { Tier } from 'src/service/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import CharContainer, { ItemTypes } from 'src/components/@arksurvey/CharContainer';
 import { IconPlus } from '@tabler/icons';
-import { t } from 'i18next';
-import { successNotice } from 'src/components/Notice';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { useCharBoxSelectKeys } from '../../store';
 import useTierList from '../../useTierList';

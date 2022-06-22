@@ -1,4 +1,4 @@
-import { Box, Group, Title } from '@mantine/core';
+import { Group, Title } from '@mantine/core';
 import { ReactNode } from 'react';
 
 interface HeaderProps {

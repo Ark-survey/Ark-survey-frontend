@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateCharMap } from 'src/store/slice/characterSlice';
 import { updateCharData, updateImgPosition } from 'src/store/slice/userSlice';
