@@ -1,19 +1,16 @@
 import { Center, Group, Text } from '@mantine/core';
 import { useMemo } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { useTranslation } from 'react-i18next';
 import CharContainer from 'src/components/@arksurvey/CharContainer';
-import { updateEditingCharKey } from 'src/store/slice/charBoxSlice';
 import { CharacterType, useDataMap, useSetting } from 'src/pages/store';
+import { useCharBox } from '../../store';
 
 // char which is in charBox
 export default function CharacterList({ filterChar }: { filterChar: (char: CharacterType) => boolean }) {
   const { charMap } = useDataMap();
-  const { editingCharKey, charInBox } = useSelector((state: RootState) => state.charBox);
-  const dispatch = useDispatch();
+  const { editingCharKey, charInBox, updateEditingCharKey } = useCharBox();
   const { setting } = useSetting();
   const { t } = useTranslation();
 
@@ -26,7 +23,7 @@ export default function CharacterList({ filterChar }: { filterChar: (char: Chara
         <CharContainer
           key={charInBox[character.key].skinUse}
           selecting={editingCharKey === character?.key}
-          onSelectChange={() => dispatch(updateEditingCharKey(character?.key))}
+          onSelectChange={() => updateEditingCharKey(character?.key)}
           charKey={charInBox[character.key].skinUse ?? ''}
           charName={character?.name ?? ''}
           nameDisplay={setting.nameDisplay}
@@ -34,7 +31,7 @@ export default function CharacterList({ filterChar }: { filterChar: (char: Chara
           dragDisabled
         />
       ));
-  }, [charInBox, charMap, dispatch, editingCharKey, filterChar, setting.mini, setting.nameDisplay]);
+  }, [charInBox, charMap, editingCharKey, filterChar, setting.mini, setting.nameDisplay, updateEditingCharKey]);
 
   return list.length > 0 ? (
     <Group spacing={10} position="center">

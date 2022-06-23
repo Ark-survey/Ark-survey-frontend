@@ -1,7 +1,5 @@
 import { Button, Stack, ScrollArea, Group, Divider, Paper, ActionIcon, Indicator } from '@mantine/core';
 import Header from 'src/components/Header';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'src/store';
 import {
   IconChevronsDown,
   IconChevronsUp,
@@ -17,10 +15,10 @@ import CharList from './CharList';
 import CharBoxList from './CharBoxList';
 import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { addCharToBox, delCharFromBox } from 'src/store/slice/charBoxSlice';
 import { Character, CharBoxServer, Module, Skill } from 'src/service/CharBoxServer';
 import { errorNotice, successNotice } from 'src/components/Notice';
 import { CharacterType, useDataMap, useMeta, useSetting } from 'src/pages/store';
+import { useCharBox } from '../../store';
 
 export default function Index({
   filterChar,
@@ -31,22 +29,19 @@ export default function Index({
 }) {
   const { user } = useMeta();
   const { charMap } = useDataMap();
-  const { charInBox, charBoxId } = useSelector((state: RootState) => state.charBox);
-  const charInBoxArray = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
+  const { charInBox, charBoxId, addCharToBox, delCharFromBox } = useCharBox();
   const { setting, setSettingKeyValue } = useSetting();
-  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const [charSelectInBox, setCharSelectInBox] = useState<string[]>([]);
   const [charSelectOutBox, setCharSelectOutBox] = useState<string[]>([]);
 
-  const charTypeInBox = useMemo(
-    () =>
-      mapToArray(charMap).filter((it) => {
-        return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
-      }),
-    [charMap, charInBoxArray, filterChar],
-  );
+  const charTypeInBox = useMemo(() => {
+    const charInBoxArray = mapToArray(charInBox);
+    return mapToArray(charMap).filter((it) => {
+      return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
+    });
+  }, [charInBox, charMap, filterChar]);
 
   const charTypeOutBox = useMemo(
     () =>
@@ -65,7 +60,7 @@ export default function Index({
   };
 
   const handleCharOut = () => {
-    dispatch(delCharFromBox(charSelectInBox));
+    delCharFromBox(charSelectInBox);
     setCharSelectInBox([]);
   };
 
@@ -121,7 +116,7 @@ export default function Index({
         modules: newModule,
       };
     });
-    dispatch(addCharToBox(obj));
+    addCharToBox(obj);
     setCharSelectOutBox([]);
   };
 

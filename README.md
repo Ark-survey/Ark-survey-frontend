@@ -14,7 +14,7 @@ Modern web application, built on top of the React framework. PRs are welcome!
 - UI components & CSS in JS [Mantine 5](https://mantine.dev/core/app-shell/)
 - SR frame [Remix](https://remix.run/docs/en/v1)(pending)
 - Router [React Router 6](https://reactrouter.com/docs/en/v6/getting-started/overview)
-- StateManager [Redux Toolkit](https://redux-toolkit.js.org/tutorials/quick-start) to [zustand](https://github.com/pmndrs/zustand) (developing)
+- StateManager [zustand](https://github.com/pmndrs/zustand)
 - DND [React DnD](https://react-dnd.github.io/react-dnd/about)
 - i18n [React i18next](https://react.i18next.com/)
 - Icons [@tabler/icons](https://tabler-icons.io/)

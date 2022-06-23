@@ -1,6 +1,4 @@
 import { Box, Badge, createStyles } from '@mantine/core';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   badge: {

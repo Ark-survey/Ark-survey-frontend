@@ -1,6 +1,3 @@
-import { Provider } from 'react-redux';
-import store, { persistor } from './store';
-import { PersistGate } from 'redux-persist/integration/react';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import './i18n';
@@ -29,23 +26,19 @@ function App() {
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-          <MantineProvider theme={{ ...customTheme, colorScheme }}>
-            <NotificationsProvider position="bottom-center">
-              <PersistGate loading={null} persistor={persistor}>
-                <BrowserRouter>
-                  <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-                    <PageContainer />
-                  </DndProvider>
-                </BrowserRouter>
-              </PersistGate>
-            </NotificationsProvider>
-          </MantineProvider>
-        </ColorSchemeProvider>
-      </QueryClientProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <MantineProvider theme={{ ...customTheme, colorScheme }}>
+          <NotificationsProvider position="bottom-center">
+            <BrowserRouter>
+              <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+                <PageContainer />
+              </DndProvider>
+            </BrowserRouter>
+          </NotificationsProvider>
+        </MantineProvider>
+      </ColorSchemeProvider>
+    </QueryClientProvider>
   );
 }
 

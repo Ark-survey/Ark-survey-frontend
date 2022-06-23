@@ -1,9 +1,7 @@
 import { Box, createStyles, Header, ScrollArea, Space, Overlay } from '@mantine/core';
 import Footer from 'src/components/Footer';
 import CustomNavbar from 'src/components/CustomNavbar';
-import { persistor } from 'src/store';
 import { Brand } from 'src/components/Brand';
-import { useDispatch } from 'react-redux';
 import { useChangeSize } from 'src/hooks/useChangeSize';
 import { useWindowSize } from 'src/hooks/useWindowSize';
 import { useEffect, useRef } from 'react';
@@ -80,7 +78,6 @@ const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getR
 
 export default function PageContainer() {
   const { downSM } = useWindowSize();
-  const dispatch = useDispatch();
   const { user, setUser } = useMeta();
   const { setting, setSettingKeyValue } = useSetting();
   const { classes, cx } = useStyles({ menuOpen: setting.menuOpened });
@@ -101,11 +98,10 @@ export default function PageContainer() {
       }
       refreshing.current = true;
       const id = user.id;
-      await persistor.flush();
       setUser({ id });
       window.location.reload();
     });
-  }, [dispatch, setUser, user.id]);
+  }, [setUser, user.id]);
 
   const { height } = useChangeSize();
 

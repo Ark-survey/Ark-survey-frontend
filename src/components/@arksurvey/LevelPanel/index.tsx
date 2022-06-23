@@ -10,11 +10,8 @@ import {
   SegmentedControl,
   Text,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useMemo } from 'react';
 import { Character } from 'src/service/CharBoxServer';
-import { CharLevelDataType } from 'src/components/@arksurvey/CharDataUnit';
-import { RootState } from 'src/store';
 import { IconFoldDown, IconFoldUp } from '@tabler/icons';
 import { useDataMap } from 'src/pages/store';
 

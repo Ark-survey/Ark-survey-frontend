@@ -2,10 +2,8 @@ import { Sx, Box, Group, Paper, Stack } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import CharContainer from 'src/components/@arksurvey/CharContainer';
 import { CharacterType, useSetting } from 'src/pages/store';
-import { RootState } from 'src/store';
 
 export default function CharStatisticBox({
   char,

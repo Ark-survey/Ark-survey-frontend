@@ -1,14 +1,12 @@
 import { Group, Stack } from '@mantine/core';
 import { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Character } from 'src/service/CharBoxServer';
 import LevelPanel from 'src/components/@arksurvey/LevelPanel';
 import SkillGroup from 'src/components/@arksurvey/SkillContainer/SkillGroup';
 import UnitEquipPanel from 'src/components/@arksurvey/UniequipPanel';
-import { RootState } from 'src/store';
-import { updateEditingChar, updateEditingCharKey } from 'src/store/slice/charBoxSlice';
 import SkinUsePanel from '../SkinUsePanel';
 import { useDataMap } from 'src/pages/store';
+import { useCharBox } from 'src/pages/CharBox/store';
 
 export type CharLevelDataType = {
   potentialLevel: number;
@@ -34,18 +32,15 @@ export default function Index() {
   const [fold, setFold] = useState(false);
   const [fold2, setFold2] = useState(false);
   const [fold3, setFold3] = useState(false);
-  const charBox = useSelector((state: RootState) => state.charBox);
-  const editingChar = useSelector((state: RootState) => state.charBox.charInBox[state.charBox.editingCharKey]) as
-    | Character
-    | undefined;
   const { charMap } = useDataMap();
-  const dispatch = useDispatch();
+  const { charInBox, editingCharKey, updateEditingChar, updateEditingCharKey } = useCharBox();
+  const editingChar = charInBox[editingCharKey];
   const rarity = editingChar?.key ? charMap[editingChar.key].rarity : 0;
   const maxPotentialLevel = (editingChar?.key && charMap[editingChar.key].maxPotentialLevel) ?? 0;
 
   useEffect(() => {
-    if (!editingChar) dispatch(updateEditingCharKey(Object.keys(charBox)[0]));
-  }, [charBox, editingChar, dispatch]);
+    if (!editingChar) updateEditingCharKey(Object.keys(charMap)[0]);
+  }, [charMap, editingChar, updateEditingCharKey]);
 
   const [maxEliteVerifyRule] = useState<Array<number>>([0, 0, 1, 2, 2, 2]);
   const [maxLevelVerifyRule] = useState<Array<number>[]>([
@@ -82,14 +77,12 @@ export default function Index() {
       Object.keys(newSkills).forEach((key) => {
         if (key === changeKey) newSkills[key] = { ...newSkills[key], level };
       });
-      dispatch(
-        updateEditingChar({
-          ...char,
-          skills: newSkills,
-        }),
-      );
+      updateEditingChar({
+        ...char,
+        skills: newSkills,
+      });
     },
-    [dispatch],
+    [updateEditingChar],
   );
 
   const handleCharLevelDataChange = useCallback(
@@ -154,7 +147,7 @@ export default function Index() {
           modules: newUniEquipData,
           moduleUse: equipResetFlag ? 'default' : editingChar?.moduleUse,
         };
-        dispatch(updateEditingChar(newChar));
+        updateEditingChar(newChar);
         // 提交技能更改
         Object.keys(editingChar?.skills).forEach((key, index) => {
           if (value.elite !== editingChar?.elite)
@@ -166,7 +159,7 @@ export default function Index() {
         });
       }
     },
-    [commonVerifyRule, dispatch, editingChar, maxLevelVerifyRule, onSkillLevelChange, rarity],
+    [commonVerifyRule, editingChar, maxLevelVerifyRule, onSkillLevelChange, rarity, updateEditingChar],
   );
 
   const handleUniEquipLevelChange = useCallback(
@@ -176,9 +169,9 @@ export default function Index() {
         ...obj[editingChar.moduleUse],
         level,
       };
-      dispatch(updateEditingChar({ ...editingChar, modules: obj }));
+      updateEditingChar({ ...editingChar, modules: obj });
     },
-    [dispatch],
+    [updateEditingChar],
   );
 
   return (
@@ -189,7 +182,7 @@ export default function Index() {
             <SkinUsePanel
               data={editingChar}
               selectedSkinKey={editingChar?.skinUse}
-              onSelectChange={(key) => dispatch(updateEditingChar({ ...editingChar, skinUse: key }))}
+              onSelectChange={(key) => updateEditingChar({ ...editingChar, skinUse: key })}
             />
             <LevelPanel
               fold={fold2}
@@ -206,7 +199,7 @@ export default function Index() {
               fold={fold}
               onClickFoldButton={setFold}
               data={editingChar}
-              onSelectSkillChange={(key) => dispatch(updateEditingChar({ ...editingChar, skillUse: key }))}
+              onSelectSkillChange={(key) => updateEditingChar({ ...editingChar, skillUse: key })}
               onSkillLevelChange={onSkillLevelChange}
             />
             {Object.keys(charMap[editingChar?.key]?.equips).length > 0 && (
@@ -214,7 +207,7 @@ export default function Index() {
                 fold={fold3}
                 onClickFoldButton={setFold3}
                 data={editingChar}
-                onSelectUniEquipChange={(key) => dispatch(updateEditingChar({ ...editingChar, moduleUse: key }))}
+                onSelectUniEquipChange={(key) => updateEditingChar({ ...editingChar, moduleUse: key })}
                 onUniEquipLevelChange={handleUniEquipLevelChange}
               />
             )}

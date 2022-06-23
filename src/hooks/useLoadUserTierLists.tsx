@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCharBox } from 'src/pages/CharBox/store';
 import { useMeta } from 'src/pages/store';
 import { CharBoxServer } from 'src/service/CharBoxServer';
-import { updateCharInBox, updateCharBoxId } from 'src/store/slice/charBoxSlice';
 
 export function useLoadUserTierLists() {
   const { user } = useMeta();
-  const dispatch = useDispatch();
+  const { updateCharInBox, updateCharBoxId } = useCharBox();
 
   const fetchCharData = async () => {
     try {
@@ -25,8 +24,8 @@ export function useLoadUserTierLists() {
       if (user.id) {
         const { data } = await fetchCharData();
         if (data) {
-          dispatch(updateCharInBox(data.characterKeys));
-          dispatch(updateCharBoxId(data.id ?? ''));
+          updateCharInBox(data.characterKeys);
+          updateCharBoxId(data.id ?? '');
         }
       }
     }, 100);

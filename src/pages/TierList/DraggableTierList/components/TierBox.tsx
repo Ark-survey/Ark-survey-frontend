@@ -4,8 +4,6 @@ import DeleteTier from './DeleteTierPopover';
 import EditTierPopover from './EditTierPopover';
 import { useDrop } from 'react-dnd';
 import CharListItem, { CharDragItem } from 'src/pages/TierList/CharListBox/components/CharListItem';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import { Tier } from 'src/service/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import CharContainer, { ItemTypes } from 'src/components/@arksurvey/CharContainer';

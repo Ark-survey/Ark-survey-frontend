@@ -1,5 +1,3 @@
-import { RootState } from 'src/store';
-import { useSelector } from 'react-redux';
 import CharContainer, { CharContainerType } from 'src/components/@arksurvey/CharContainer';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { CharacterType, useSetting } from 'src/pages/store';

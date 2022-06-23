@@ -1,8 +1,6 @@
 import { keyframes, Box, Group, Modal, Text, Transition } from '@mantine/core';
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { IconRefresh } from '@tabler/icons';
-import { persistor, RootState } from './store';
 import { useTranslation } from 'react-i18next';
 import { useMeta } from './pages/store';
 
@@ -50,12 +48,10 @@ function UpdateVersionNotion() {
   const { t } = useTranslation();
 
   const state = useStatus();
-  const dispatch = useDispatch();
 
   const handleUpdate = async () => {
     // update event
     const id = user.id;
-    await persistor.flush();
     setUser({ id });
     setOpened(false);
     navigator.serviceWorker.controller?.postMessage({ type: 'SKIP_WAITING' });

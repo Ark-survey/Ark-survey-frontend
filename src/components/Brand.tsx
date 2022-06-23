@@ -1,8 +1,6 @@
 import { Group, ActionIcon, useMantineColorScheme, Box, Image, Space, Burger, createStyles } from '@mantine/core';
 import { IconSun, IconMoonStars } from '@tabler/icons';
-import { RootState } from 'src/store';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import useVersionDialog from './useVersionDialog';
 import { useMeta, useSetting } from 'src/pages/store';
 

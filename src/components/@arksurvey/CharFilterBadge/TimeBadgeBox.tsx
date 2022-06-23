@@ -2,9 +2,7 @@ import { Box, Badge, createStyles } from '@mantine/core';
 import { format } from 'date-fns';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { timeMarks } from 'src/contexts';
-import { RootState } from 'src/store';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   badge: {

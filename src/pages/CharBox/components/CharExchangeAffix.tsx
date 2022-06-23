@@ -1,13 +1,12 @@
 import { Affix, Box, Paper, Divider, ActionIcon, Stack, Indicator } from '@mantine/core';
 import { IconDeviceFloppy, IconExchange, IconFilter } from '@tabler/icons';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import CharBoxList from './CharExchangeBox/CharBoxList';
 import { Character, CharBoxServer } from 'src/service/CharBoxServer';
 import { successNotice, errorNotice } from 'src/components/Notice';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { useMemo } from 'react';
 import { CharacterType, useDataMap, useMeta, useSetting } from 'src/pages/store';
+import { useCharBox } from '../store';
 
 export default function Index({
   filterChar,
@@ -16,19 +15,17 @@ export default function Index({
   filterChar: (char: CharacterType) => boolean;
   onClickFilter: () => void;
 }) {
-  const { charInBox, charBoxId } = useSelector((state: RootState) => state.charBox);
   const { setting, setSettingKeyValue } = useSetting();
-  const charInBoxArray = useSelector((state: RootState) => mapToArray(state.charBox.charInBox));
+  const { charInBox, charBoxId } = useCharBox();
   const { charMap } = useDataMap();
   const { user } = useMeta();
 
-  const charTypeInBox = useMemo(
-    () =>
-      mapToArray(charMap).filter((it) => {
-        return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
-      }),
-    [charMap, charInBoxArray, filterChar],
-  );
+  const charTypeInBox = useMemo(() => {
+    const charInBoxArray = mapToArray(charInBox);
+    return mapToArray(charMap).filter((it) => {
+      return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
+    });
+  }, [charMap, charInBox, filterChar]);
 
   const handleSaveCharBox = async () => {
     try {
