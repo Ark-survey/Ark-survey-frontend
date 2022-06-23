@@ -18,7 +18,7 @@ const Setting = lazy(() => import('./Setting'));
 const NotFound = lazy(() => import('./NotFound'));
 const Demo = lazy(() => import('./demo'));
 const Statistics = lazy(() => import('./Statistics'));
-const CharBox = lazy(() => import('./char-box'));
+const CharBox = lazy(() => import('./CharBox'));
 const TierList = lazy(() => import('./TierList'));
 
 interface NavbarDataType {
