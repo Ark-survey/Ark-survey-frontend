@@ -6,27 +6,33 @@ import PageHeader from 'src/components/PageHeader';
 import { IconArrowLeft, IconPackage, IconHanger, IconFileImport, IconFileExport } from '@tabler/icons';
 import Description from './Description';
 
-export default function Index({ inside, onInside }: { inside: boolean; onInside?: () => void }) {
+const type1List = [
+  {
+    value: 'char',
+    label: '干员 BOX 编辑',
+    icon: <IconPackage />,
+  },
+  {
+    value: 'skin',
+    label: '皮肤持有编辑',
+    icon: <IconHanger />,
+  },
+];
+
+export default function Index({
+  inside,
+  onInside,
+}: {
+  inside: boolean;
+  onInside?: (inside: boolean, key?: string) => void;
+}) {
   const [activeTab, setActiveTab] = useState(0);
-  const [type1List] = useState([
-    {
-      value: '0',
-      label: '干员 BOX 编辑',
-      icon: <IconPackage />,
-    },
-    {
-      value: '1',
-      label: '皮肤持有编辑',
-      icon: <IconHanger />,
-      disabled: true,
-    },
-  ]);
 
   return (
     <>
       <PageHeader title={inside ? type1List[activeTab]?.label : '干员数据'} inside={inside}>
         <ActionIcon size="md">
-          <IconArrowLeft onClick={onInside} />
+          <IconArrowLeft onClick={() => onInside?.(false)} />
         </ActionIcon>
       </PageHeader>
       {!inside && (
@@ -38,10 +44,9 @@ export default function Index({ inside, onInside }: { inside: boolean; onInside?
                 {type1List.map((it, index) => (
                   <NavItem
                     key={index}
-                    disabled={it.disabled}
                     onClick={() => {
                       setActiveTab(index);
-                      onInside?.();
+                      onInside?.(true, it.value);
                     }}
                   >
                     <SelectItem

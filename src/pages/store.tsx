@@ -1,4 +1,5 @@
 import create from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface CharacterType {
   key: string;
@@ -43,7 +44,7 @@ export interface BaseDataState {
   setImgPositionMap: (imgPositionMap: any) => void;
 }
 
-export const useDataMap = create<BaseDataState>((set) => ({
+export const useDataMap = create<BaseDataState>((set, get) => ({
   charMap: {},
   imgPositionMap: { skillImgPosition: {}, avatarImgPosition: {}, uniEquipImgPosition: {} },
   setCharMap: (charMap) => set((state) => ({ ...state, charMap })),
@@ -59,12 +60,19 @@ export interface MetaDataState {
   setVersion: (version: any) => void;
 }
 
-export const useMeta = create<MetaDataState>((set) => ({
-  user: { id: '' },
-  version: '',
-  setUser: (user) => set((state) => ({ ...state, user })),
-  setVersion: (version) => set((state) => ({ ...state, version })),
-}));
+export const useMeta = create(
+  persist<MetaDataState>(
+    (set) => ({
+      user: { id: '' },
+      version: '',
+      setUser: (user) => set((state) => ({ ...state, user })),
+      setVersion: (version) => set((state) => ({ ...state, version })),
+    }),
+    {
+      name: 'meta-storage', // name of item in the storage (must be unique)
+    },
+  ),
+);
 
 // Setting: all in one by key-value
 
