@@ -16,7 +16,7 @@ import { useMeta } from './store';
 const Home = lazy(() => import('./Home'));
 const Setting = lazy(() => import('./Setting'));
 const NotFound = lazy(() => import('./NotFound'));
-const Demo = lazy(() => import('./demo'));
+const Demo = lazy(() => import('./Demo'));
 const Statistics = lazy(() => import('./Statistics'));
 const CharBox = lazy(() => import('./CharBox'));
 const TierList = lazy(() => import('./TierList'));
@@ -125,7 +125,7 @@ export function RootRouter() {
             )),
         )}
         <Route
-          path="demo"
+          path="Demo"
           element={
             <Suspense fallback={<LoadingOverlay visible />}>
               <Demo />
