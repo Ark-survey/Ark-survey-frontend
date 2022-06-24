@@ -1,6 +1,5 @@
-import { TierList, TierListServer } from 'src/service/TierListServer';
 import { useQuery, useQueryClient, useMutation } from 'react-query';
-import { useMemo, useRef } from 'react';
+import { useRef } from 'react';
 import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
 import { useMeta } from '../store';
@@ -14,7 +13,7 @@ const initValue: CharSkinBox = {
 };
 
 // Tier list state all in one.
-export default function useTierList() {
+export default function useSkinBox() {
   const queryClient = useQueryClient();
   const { t } = useTranslation();
 
@@ -30,7 +29,7 @@ export default function useTierList() {
     return data;
   });
 
-  const uploadTierList = useMutation(
+  const uploadSkinBox = useMutation(
     async () =>
       data?.id
         ? await new CharSkinBoxServer().updateOne({
@@ -48,10 +47,10 @@ export default function useTierList() {
   );
 
   // Only change local state temporarily.
-  // If you want to change original data, please use uploadTierList.
-  const updateLocalTierList = useMutation(
-    async (tierList: TierList) => {
-      queryClient.setQueryData(skinBoxQueryKey.current, tierList);
+  // If you want to change original data, please use uploadSkinBox.
+  const updateLocalSkinBox = useMutation(
+    async (skinBox: CharSkinBox) => {
+      queryClient.setQueryData(skinBoxQueryKey.current, skinBox);
     },
     {
       onSuccess: () => {
@@ -61,5 +60,5 @@ export default function useTierList() {
     },
   );
 
-  return { skinBox: data, uploadTierList, updateLocalTierList, isLoading };
+  return { skinBox: data, uploadSkinBox, updateLocalSkinBox, isLoading };
 }

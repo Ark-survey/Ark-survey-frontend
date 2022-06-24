@@ -12,7 +12,7 @@ interface CharListItemProps<T> {
   onSelectCancel: (key: string) => void;
 }
 
-export default function Index<T extends { key: string }>({
+export default function Index<T extends { skinKey: string }>({
   data,
   selecting,
   onSelect,
@@ -21,14 +21,14 @@ export default function Index<T extends { key: string }>({
   const { setting } = useSetting();
 
   const handleCharacterSelect = (value: boolean) => {
-    if (value) onSelect?.(data?.key ?? '');
-    else onSelectCancel?.(data?.key ?? '');
+    if (value) onSelect?.(data?.skinKey ?? '');
+    else onSelectCancel?.(data?.skinKey ?? '');
   };
 
   return (
     <CharContainer
       // nameDisplay={setting.nameDisplay}
-      charKey={data?.key ?? ''}
+      charKey={data?.skinKey ?? ''}
       // charName={data?.name ?? ''}
       mini={setting.mini}
       selecting={selecting}

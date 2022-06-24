@@ -1,16 +1,20 @@
 import { useState } from 'react';
-import { Container, Stack, Box } from '@mantine/core';
+import { Stack, Box } from '@mantine/core';
 
 import CharBoxInsidePage from './components/CharBoxInsidePage';
 import CharBoxMainPage from './components/CharBoxMainPage';
 import SkinBoxInsidePage from './components/SkinBoxInsidePage';
+import PageContainer from 'src/components/PageContainer';
+import useSkinBox from './useSkinBox';
 
 export default function Index() {
   const [inside, setInside] = useState(false);
   const [pageKey, setPageKey] = useState('char');
 
+  const { isLoading } = useSkinBox();
+
   return (
-    <Container size={1200} p="xl" sx={{ userSelect: 'none' }}>
+    <PageContainer loading={isLoading}>
       <Stack>
         <CharBoxMainPage
           inside={inside}
@@ -25,6 +29,6 @@ export default function Index() {
           </Box>
         )}
       </Stack>
-    </Container>
+    </PageContainer>
   );
 }

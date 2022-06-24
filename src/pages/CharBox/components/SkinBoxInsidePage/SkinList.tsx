@@ -10,7 +10,7 @@ interface CharacterListProps<T> {
   onSelectCancel: (key: string) => void;
 }
 
-export default function CharacterList<T extends { key: string }>({
+export default function CharacterList<T extends { skinKey: string }>({
   filterData,
   selectKeys,
   ...props
@@ -20,9 +20,9 @@ export default function CharacterList<T extends { key: string }>({
   const charListData = useMemo(() => {
     return filterData.map((data, index) => (
       <SkinListItem
-        key={data?.key ?? ''}
+        key={data?.skinKey ?? ''}
         data={data}
-        selecting={selectKeys.findIndex((it) => it === data?.key) > -1}
+        selecting={selectKeys.findIndex((it) => it === data?.skinKey) > -1}
         {...props}
       />
     ));

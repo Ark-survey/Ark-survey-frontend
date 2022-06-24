@@ -4,7 +4,6 @@ import {
   IconChevronsDown,
   IconChevronsUp,
   IconDeviceFloppy,
-  IconExchange,
   IconFilter,
   IconSquare,
   IconSquareCheck,
@@ -13,17 +12,13 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { Character, CharBoxServer, Module, Skill } from 'src/service/CharBoxServer';
-import { errorNotice, successNotice } from 'src/components/Notice';
-import { CharacterType, useDataMap, useMeta, useSetting } from 'src/pages/store';
-import { useCharBox } from '../../store';
+import { CharacterType, useDataMap } from 'src/pages/store';
 import CharList from '../CharExchangeBox/CharList';
-import CharBoxList from '../CharExchangeBox/CharBoxList';
 import SkinList from './SkinList';
+import useSkinBox from '../../useSkinBox';
 
-interface SkinAvatar {
-  key: string;
-  charKey: string;
+interface SkinAvatar extends CharacterType {
+  skinKey: string;
 }
 
 export default function Index({
@@ -33,97 +28,73 @@ export default function Index({
   filterChar: (char: CharacterType) => boolean;
   onClickFilter: () => void;
 }) {
-  const { user } = useMeta();
   const { charMap } = useDataMap();
-  const { charInBox, charBoxId, addCharToBox, delCharFromBox } = useCharBox();
-  const { setting, setSettingKeyValue } = useSetting();
   const { t } = useTranslation();
+  const { skinBox, updateLocalSkinBox, uploadSkinBox } = useSkinBox();
 
-  const [charSelectInBox, setCharSelectInBox] = useState<string[]>([]);
-  const [charSelectOutBox, setCharSelectOutBox] = useState<string[]>([]);
-
-  const charTypeInBox = useMemo(() => {
-    const charInBoxArray = mapToArray(charInBox);
-    return mapToArray(charMap).filter((it) => {
-      return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
-    });
-  }, [charInBox, charMap, filterChar]);
+  const [skinSelectInBox, setSkinSelectInBox] = useState<string[]>([]);
+  const [skinSelectOutBox, setSkinSelectOutBox] = useState<string[]>([]);
 
   const charSkinList = useMemo(() => {
     let skins: SkinAvatar[] = [];
     mapToArray(charMap).forEach((it, index) => {
       skins.push(
         ...Object.keys(it.skins)
-          .map((key) => ({ key, charKey: it.key }))
-          .filter((i) => i.key.includes('#')),
+          .map((key) => ({ skinKey: key, ...it }))
+          .filter((i) => i.skinKey.includes('#')),
       );
     });
-    console.log(skins);
-
     return skins;
   }, [charMap]);
 
-  const charTypeOutBox = useMemo(() => {
-    return charSkinList.filter((it) => {
-      // if (it.isNotObtainable) return false;
-      // return charTypeInBox.findIndex((i) => i.key === it.key) === -1 && filterChar(it);
-      return true;
-    });
-  }, [charSkinList]);
+  const skinInBox = useMemo(
+    () => charSkinList.filter((it) => skinBox?.charSkinKeys?.find((i) => i === it.key) && filterChar(it)),
+    [charSkinList, filterChar, skinBox?.charSkinKeys],
+  );
 
-  const selectMax = charTypeOutBox.length !== 0 && charTypeOutBox.length === charSelectOutBox.length;
+  const skinOutBox = useMemo(() => {
+    return charSkinList.filter((it) => {
+      return skinInBox.findIndex((i) => i.key === it.key) === -1 && filterChar(it);
+    });
+  }, [charSkinList, filterChar, skinInBox]);
+
+  const selectMax = skinOutBox.length !== 0 && skinOutBox.length === skinSelectOutBox.length;
 
   const handleChangeAllCharOutBoxSelect = () => {
-    if (selectMax) setCharSelectOutBox([]);
-    else setCharSelectOutBox(charTypeOutBox.map((it) => it.charKey));
-  };
-
-  const handleCharOut = () => {
-    delCharFromBox(charSelectInBox);
-    setCharSelectInBox([]);
-  };
-
-  const handleSaveCharBox = async () => {
-    try {
-      const characterKeys: { [key: string]: Character } = {};
-      charTypeInBox.forEach((it) => {
-        characterKeys[it.key] = charInBox[it.key];
-      });
-      const { data } = await new CharBoxServer().updateOne({
-        charBox: {
-          id: charBoxId,
-          userId: user.id,
-          characterKeys,
-        },
-      });
-      // dispatch(updateCharInBox(data.characterKeys));
-      successNotice('保存成功');
-    } catch {
-      errorNotice('保存失败');
-    }
+    if (selectMax) setSkinSelectOutBox([]);
+    else setSkinSelectOutBox(skinOutBox.map((it) => it.skinKey));
   };
 
   const handleCharIn = () => {
-    const c = [...charTypeOutBox].filter((it) => charSelectOutBox.findIndex((i) => i === it.key) > -1);
-    const obj: { [key: string]: Character } = {};
-    addCharToBox(obj);
-    setCharSelectOutBox([]);
+    updateLocalSkinBox.mutate({
+      ...skinBox,
+      charSkinKeys: [...(skinBox?.charSkinKeys ?? []), ...skinSelectOutBox],
+    });
+    console.log([...(skinBox?.charSkinKeys ?? []), ...skinSelectOutBox]);
+
+    setSkinSelectOutBox([]);
+  };
+
+  const handleCharOut = () => {
+    updateLocalSkinBox.mutate({
+      ...skinBox,
+      charSkinKeys: skinBox?.charSkinKeys?.filter((key) => !skinSelectInBox.includes(key)),
+    });
+    setSkinSelectInBox([]);
   };
 
   return (
     <Paper shadow="md" radius="lg" p="lg" withBorder sx={{ flex: '1' }}>
       <Stack>
-        <Header title={setting.charBoxEditing ? '干员盒' : '持有编辑'}>
+        <Header title="持有编辑">
           <Group position="right" spacing={10}>
-            {!setting.charBoxEditing && (
-              <ActionIcon size="lg" radius="md" onClick={handleChangeAllCharOutBoxSelect}>
-                {selectMax ? <IconSquareCheck /> : charSelectOutBox.length !== 0 ? <IconSquareDot /> : <IconSquare />}
-              </ActionIcon>
-            )}
-            <ActionIcon size="lg" color="blue" radius="md" onClick={handleSaveCharBox}>
+            <ActionIcon size="lg" radius="md" onClick={handleChangeAllCharOutBoxSelect}>
+              {selectMax ? <IconSquareCheck /> : skinSelectOutBox.length !== 0 ? <IconSquareDot /> : <IconSquare />}
+            </ActionIcon>
+            <ActionIcon size="lg" color="blue" radius="md" onClick={() => uploadSkinBox.mutate()}>
               <IconDeviceFloppy />
             </ActionIcon>
-            <Indicator label={!setting.charBoxEditing ? charTypeOutBox.length : charTypeInBox.length} size={16}>
+            <Indicator label={skinOutBox.length} size={16}>
               <ActionIcon size="lg" radius="md" onClick={onClickFilter}>
                 <IconFilter />
               </ActionIcon>
@@ -131,40 +102,32 @@ export default function Index({
           </Group>
         </Header>
         <Divider />
-        {!setting.charBoxEditing ? (
-          <>
-            <ScrollArea sx={{ height: '370px' }}>
-              <SkinList<SkinAvatar>
-                filterData={charTypeOutBox}
-                selectKeys={charSelectOutBox}
-                onSelect={(key) => setCharSelectOutBox([...charSelectOutBox, key])}
-                onSelectCancel={(key) => setCharSelectOutBox((c) => c.filter((i) => i !== key))}
-              />
-            </ScrollArea>
-            <Divider />
-            <Group position="center">
-              <Button leftIcon={<IconChevronsUp />} size="xs" color="red" variant="outline" onClick={handleCharOut}>
-                移至未持有
-              </Button>
-              <Button leftIcon={<IconChevronsDown />} size="xs" variant="outline" onClick={handleCharIn}>
-                移至已持有
-              </Button>
-            </Group>
-            <Divider />
-            <ScrollArea sx={{ height: !setting.charBoxEditing ? '370px' : '' }}>
-              <CharList
-                filterCharData={charTypeInBox}
-                selectKeys={charSelectInBox}
-                onSelect={(key) => setCharSelectInBox([...charSelectInBox, key])}
-                onSelectCancel={(key) => setCharSelectInBox((c) => c.filter((i) => i !== key))}
-              />
-            </ScrollArea>
-          </>
-        ) : (
-          <ScrollArea sx={{ height: !setting.charBoxEditing ? '370px' : '850px' }}>
-            <CharBoxList filterChar={filterChar} />
-          </ScrollArea>
-        )}
+        <ScrollArea sx={{ height: '370px' }}>
+          <SkinList<SkinAvatar>
+            filterData={skinOutBox}
+            selectKeys={skinSelectOutBox}
+            onSelect={(key) => setSkinSelectOutBox([...skinSelectOutBox, key])}
+            onSelectCancel={(key) => setSkinSelectOutBox((c) => c.filter((i) => i !== key))}
+          />
+        </ScrollArea>
+        <Divider />
+        <Group position="center">
+          <Button leftIcon={<IconChevronsUp />} size="xs" color="red" variant="outline" onClick={handleCharOut}>
+            移至未持有
+          </Button>
+          <Button leftIcon={<IconChevronsDown />} size="xs" variant="outline" onClick={handleCharIn}>
+            移至已持有
+          </Button>
+        </Group>
+        <Divider />
+        <ScrollArea sx={{ height: '370px' }}>
+          <CharList
+            filterCharData={skinInBox}
+            selectKeys={skinSelectInBox}
+            onSelect={(key) => setSkinSelectInBox([...skinSelectInBox, key])}
+            onSelectCancel={(key) => setSkinSelectInBox((c) => c.filter((i) => i !== key))}
+          />
+        </ScrollArea>
       </Stack>
     </Paper>
   );
