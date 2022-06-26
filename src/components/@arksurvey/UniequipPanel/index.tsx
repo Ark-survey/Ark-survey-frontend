@@ -1,4 +1,16 @@
-import { Box, Button, Center, createStyles, Paper, SegmentedControl, Space, Stack } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Center,
+  createStyles,
+  Group,
+  Paper,
+  SegmentedControl,
+  Space,
+  Stack,
+  Title,
+} from '@mantine/core';
 import { useCallback, useMemo } from 'react';
 import { Character, Module } from 'src/service/CharBoxServer';
 import { IconChevronsDown, IconChevronsUp } from '@tabler/icons';
@@ -23,7 +35,7 @@ interface UniEquipPanelProps {
   data: Character;
   onClickFoldButton?: (value: boolean) => void;
   onSelectUniEquipChange?: (key: string) => void;
-  onUniEquipLevelChange?: (level: number, char: Character) => void;
+  onUniEquipLevelChange?: (level: number, key: string) => void;
 }
 
 // 等比缩放
@@ -63,7 +75,7 @@ export default function Index({
   const findCurrentAroundNode = useMemo(() => {
     let frontKey = '';
     let backKey = '';
-    const keys = Object.keys(equips);
+    const keys = Object.keys(equips).filter((it) => it === 'default' || data?.modules?.[it]?.level > 0);
     if (keys.length > 0) {
       const currentKeyIndex = keys.findIndex((value) => value === data.moduleUse);
       if (currentKeyIndex > 0) {
@@ -74,7 +86,7 @@ export default function Index({
       }
     }
     return { frontKey, backKey };
-  }, [data.moduleUse, equips]);
+  }, [data.moduleUse, data.modules, equips]);
 
   const handleDisplayChange = useCallback(
     (action: 'up' | 'down') => {
@@ -95,24 +107,42 @@ export default function Index({
     <Box sx={{ position: 'relative', width: '335px', userSelect: 'none' }}>
       <Box
         sx={{
-          position: 'absolute',
-          top: 8,
-          left: 16,
-          fontWeight: 700,
-        }}
-      >
-        {data.elite === 2 && equips?.[data.moduleUse]?.name}
-      </Box>
-      <Box
-        sx={{
           transition: 'all 0.5s',
           position: 'absolute',
-          top: 8,
-          right: 16,
-          fontWeight: 700,
+          width: '100%',
+          top: '0px',
         }}
       >
-        模组
+        <Group position="apart" mx={16}>
+          <Title order={5}>{data.elite === 2 && equips?.[data.moduleUse]?.name}</Title>
+          {Object.keys(equips).length > 0 && data.elite === 2 && (
+            <Group>
+              {Object.keys(data.modules)
+                .filter((it) => !it.includes('001'))
+                .map((key) => {
+                  if (data.modules[key].level === 0) {
+                    return (
+                      <ActionIcon size="lg" key={key} onClick={() => onUniEquipLevelChange?.(1, key)}>
+                        <UniEquipImg imgKey={data.modules[key].key} width={30} />
+                      </ActionIcon>
+                    );
+                  }
+                  return (
+                    <ActionIcon
+                      size="lg"
+                      variant="outline"
+                      color="green"
+                      key={key}
+                      onClick={() => onUniEquipLevelChange?.(0, key)}
+                    >
+                      <UniEquipImg imgKey={data.modules[key].key} width={30} />
+                    </ActionIcon>
+                  );
+                })}
+              <Title order={5}>模组</Title>
+            </Group>
+          )}
+        </Group>
       </Box>
       <Paper withBorder shadow="md" className={classes.container}>
         {Object.keys(equips).length > 0 && data.elite === 2 ? (
@@ -157,7 +187,7 @@ export default function Index({
                     <Space h={5} />
                     <SegmentedControl
                       value={data.modules?.[data.moduleUse]?.level.toString()}
-                      onChange={(value) => onUniEquipLevelChange?.(parseInt(value, 10), data)}
+                      onChange={(value) => onUniEquipLevelChange?.(parseInt(value, 10), data.moduleUse)}
                       data={segmentedControlData}
                       size="xs"
                       orientation="vertical"

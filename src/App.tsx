@@ -13,9 +13,7 @@ import { useIsMobile } from './hooks/useIsMobile';
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      // retryOnMount: false,
-    },
+    queries: {},
   },
 });
 

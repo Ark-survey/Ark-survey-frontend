@@ -95,7 +95,7 @@ interface SkillGroupProps {
   fold?: boolean;
   onClickFoldButton?: (value: boolean) => void;
   onSelectSkillChange?: (key: string) => void;
-  onSkillLevelChange?: (v: string, char: Character, skills: any) => void;
+  onSkillLevelChange?: (v: string, char: Character, skillKey: string) => void;
 }
 
 export default function Index({

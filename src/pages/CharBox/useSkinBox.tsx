@@ -40,22 +40,19 @@ export default function useSkinBox() {
           }),
     {
       onSuccess: () => {
-        successNotice(t('upload-success'));
-        queryClient.invalidateQueries(skinBoxQueryKey.current);
+        // successNotice('自动保存成功');
+        // queryClient.invalidateQueries(skinBoxQueryKey.current);
       },
     },
   );
 
-  // Only change local state temporarily.
-  // If you want to change original data, please use uploadSkinBox.
   const updateLocalSkinBox = useMutation(
     async (skinBox: CharSkinBox) => {
       queryClient.setQueryData(skinBoxQueryKey.current, skinBox);
     },
     {
       onSuccess: () => {
-        // successNotice(t('upload-success'));
-        // queryClient.invalidateQueries('tier-list');
+        uploadSkinBox.mutate();
       },
     },
   );

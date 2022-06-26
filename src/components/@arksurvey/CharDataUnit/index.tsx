@@ -6,7 +6,8 @@ import SkillGroup from 'src/components/@arksurvey/SkillContainer/SkillGroup';
 import UnitEquipPanel from 'src/components/@arksurvey/UniequipPanel';
 import SkinUsePanel from '../SkinUsePanel';
 import { useDataMap } from 'src/pages/store';
-import { useCharBox } from 'src/pages/CharBox/store';
+import { useEditingCharKey } from 'src/pages/CharBox/store';
+import useCharBox from 'src/pages/CharBox/useCharBox';
 
 export type CharLevelDataType = {
   potentialLevel: number;
@@ -33,8 +34,9 @@ export default function Index() {
   const [fold2, setFold2] = useState(false);
   const [fold3, setFold3] = useState(false);
   const { charMap } = useDataMap();
-  const { charInBox, editingCharKey, updateEditingChar, updateEditingCharKey } = useCharBox();
-  const editingChar = charInBox[editingCharKey];
+  const { editingCharKey, updateEditingCharKey } = useEditingCharKey();
+  const { charBox, updateChar } = useCharBox();
+  const editingChar = charBox?.characterKeys?.[editingCharKey];
   const rarity = editingChar?.key ? charMap[editingChar.key].rarity : 0;
   const maxPotentialLevel = (editingChar?.key && charMap[editingChar.key].maxPotentialLevel) ?? 0;
 
@@ -61,29 +63,23 @@ export default function Index() {
     }));
   }, [maxPotentialLevel]);
 
-  const onSkillLevelChange = useCallback(
-    (v: string, char: Character, changeKey: string) => {
-      const level = parseInt(v, 10);
-      const newSkills = { ...char.skills };
-      if ((level <= 7 && char.skills[changeKey].level <= 7) || (level < 7 && char.skills[changeKey].level >= 7)) {
-        Object.keys(newSkills).forEach((key) => {
-          if (key !== changeKey) newSkills[key] = { ...newSkills[key], level };
-        });
-      } else if (level > 7 && char.skills[changeKey].level < 7) {
-        Object.keys(newSkills).forEach((key) => {
-          if (key !== changeKey) newSkills[key] = { ...newSkills[key], level: 7 };
-        });
-      }
+  const onSkillLevelChange = useCallback((v: string, char: Character, changeKey: string) => {
+    const level = parseInt(v, 10);
+    const newSkills = { ...char.skills };
+    if ((level <= 7 && char.skills[changeKey].level <= 7) || (level < 7 && char.skills[changeKey].level >= 7)) {
       Object.keys(newSkills).forEach((key) => {
-        if (key === changeKey) newSkills[key] = { ...newSkills[key], level };
+        if (key !== changeKey) newSkills[key] = { ...newSkills[key], level };
       });
-      updateEditingChar({
-        ...char,
-        skills: newSkills,
+    } else if (level > 7 && char.skills[changeKey].level < 7) {
+      Object.keys(newSkills).forEach((key) => {
+        if (key !== changeKey) newSkills[key] = { ...newSkills[key], level: 7 };
       });
-    },
-    [updateEditingChar],
-  );
+    }
+    Object.keys(newSkills).forEach((key) => {
+      if (key === changeKey) newSkills[key] = { ...newSkills[key], level };
+    });
+    return newSkills;
+  }, []);
 
   const handleCharLevelDataChange = useCallback(
     (value: Character) => {
@@ -147,31 +143,33 @@ export default function Index() {
           modules: newUniEquipData,
           moduleUse: equipResetFlag ? 'default' : editingChar?.moduleUse,
         };
-        updateEditingChar(newChar);
         // 提交技能更改
         Object.keys(editingChar?.skills).forEach((key, index) => {
           if (value.elite !== editingChar?.elite)
             if (maxIndex < 1) {
-              onSkillLevelChange?.('4', newChar, key);
+              newChar.skills = onSkillLevelChange?.('4', newChar, key);
             } else {
-              onSkillLevelChange?.('7', newChar, key);
+              newChar.skills = onSkillLevelChange?.('7', newChar, key);
             }
         });
+        updateChar.mutate(newChar);
       }
     },
-    [commonVerifyRule, editingChar, maxLevelVerifyRule, onSkillLevelChange, rarity, updateEditingChar],
+    [commonVerifyRule, editingChar, maxLevelVerifyRule, onSkillLevelChange, rarity, updateChar],
   );
 
   const handleUniEquipLevelChange = useCallback(
-    (level: number, editingChar: Character) => {
-      const obj = { ...editingChar.modules };
-      obj[editingChar.moduleUse] = {
-        ...obj[editingChar.moduleUse],
-        level,
-      };
-      updateEditingChar({ ...editingChar, modules: obj });
+    (level: number, key: string) => {
+      if (editingChar) {
+        const obj = { ...editingChar?.modules };
+        obj[key] = {
+          ...obj[key],
+          level,
+        };
+        updateChar.mutate({ ...editingChar, moduleUse: level === 0 ? 'default' : editingChar.moduleUse, modules: obj });
+      }
     },
-    [updateEditingChar],
+    [editingChar, updateChar],
   );
 
   return (
@@ -182,7 +180,7 @@ export default function Index() {
             <SkinUsePanel
               data={editingChar}
               selectedSkinKey={editingChar?.skinUse}
-              onSelectChange={(key) => updateEditingChar({ ...editingChar, skinUse: key })}
+              onSelectChange={(key) => updateChar.mutate({ ...editingChar, skinUse: key })}
             />
             <LevelPanel
               fold={fold2}
@@ -199,15 +197,20 @@ export default function Index() {
               fold={fold}
               onClickFoldButton={setFold}
               data={editingChar}
-              onSelectSkillChange={(key) => updateEditingChar({ ...editingChar, skillUse: key })}
-              onSkillLevelChange={onSkillLevelChange}
+              onSelectSkillChange={(key) => updateChar.mutate({ ...editingChar, skillUse: key })}
+              onSkillLevelChange={(v, char, skillKey) => {
+                updateChar.mutate({
+                  ...char,
+                  skills: onSkillLevelChange(v, char, skillKey),
+                });
+              }}
             />
             {Object.keys(charMap[editingChar?.key]?.equips).length > 0 && (
               <UnitEquipPanel
                 fold={fold3}
                 onClickFoldButton={setFold3}
                 data={editingChar}
-                onSelectUniEquipChange={(key) => updateEditingChar({ ...editingChar, moduleUse: key })}
+                onSelectUniEquipChange={(key) => updateChar.mutate({ ...editingChar, moduleUse: key })}
                 onUniEquipLevelChange={handleUniEquipLevelChange}
               />
             )}

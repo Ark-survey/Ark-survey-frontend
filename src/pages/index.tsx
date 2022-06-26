@@ -7,7 +7,6 @@ import { useWindowSize } from 'src/hooks/useWindowSize';
 import { useEffect, useRef } from 'react';
 import { RootRouter } from './route';
 import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
-import { useLoadUserTierLists } from 'src/hooks/useLoadUserTierLists';
 import { useLoadStaticFile } from 'src/hooks/useLoadStaticFile';
 import { UpdateVersionNotion } from 'src/registrationStatus';
 import { useMeta, useSetting } from './store';
@@ -83,7 +82,6 @@ export default function PageContainer() {
   const { classes, cx } = useStyles({ menuOpen: setting.menuOpened });
 
   useLoadingGlobalData();
-  useLoadUserTierLists();
   useLoadStaticFile();
 
   useEffect(() => {

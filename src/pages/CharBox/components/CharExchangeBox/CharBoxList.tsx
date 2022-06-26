@@ -5,14 +5,18 @@ import { mapToArray } from 'src/utils/ObjectUtils';
 import { useTranslation } from 'react-i18next';
 import CharContainer from 'src/components/@arksurvey/CharContainer';
 import { CharacterType, useDataMap, useSetting } from 'src/pages/store';
-import { useCharBox } from '../../store';
+import useCharBox from '../../useCharBox';
+import { useEditingCharKey } from '../../store';
 
 // char which is in charBox
 export default function CharacterList({ filterChar }: { filterChar: (char: CharacterType) => boolean }) {
   const { charMap } = useDataMap();
-  const { editingCharKey, charInBox, updateEditingCharKey } = useCharBox();
   const { setting } = useSetting();
   const { t } = useTranslation();
+
+  const { editingCharKey, updateEditingCharKey } = useEditingCharKey();
+  const { charBox } = useCharBox();
+  const charInBox = useMemo(() => charBox?.characterKeys ?? {}, [charBox?.characterKeys]);
 
   const list = useMemo(() => {
     return mapToArray<CharacterType>(charMap)

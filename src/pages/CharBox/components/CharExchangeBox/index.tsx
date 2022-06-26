@@ -3,7 +3,6 @@ import Header from 'src/components/Header';
 import {
   IconChevronsDown,
   IconChevronsUp,
-  IconDeviceFloppy,
   IconExchange,
   IconFilter,
   IconSquare,
@@ -15,10 +14,10 @@ import CharList from './CharList';
 import CharBoxList from './CharBoxList';
 import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import { Character, CharBoxServer, Module, Skill } from 'src/service/CharBoxServer';
-import { errorNotice, successNotice } from 'src/components/Notice';
-import { CharacterType, useDataMap, useMeta, useSetting } from 'src/pages/store';
-import { useCharBox } from '../../store';
+import { Character, Module, Skill } from 'src/service/CharBoxServer';
+import { CharacterType, useDataMap, useSetting } from 'src/pages/store';
+import useCharBox from '../../useCharBox';
+import CardRoot from 'src/components/CardRoot';
 
 export default function Index({
   filterChar,
@@ -27,9 +26,8 @@ export default function Index({
   filterChar: (char: CharacterType) => boolean;
   onClickFilter: () => void;
 }) {
-  const { user } = useMeta();
   const { charMap } = useDataMap();
-  const { charInBox, charBoxId, addCharToBox, delCharFromBox } = useCharBox();
+  const { charBox, addCharToBox, delCharFromBox, isLoading } = useCharBox();
   const { setting, setSettingKeyValue } = useSetting();
   const { t } = useTranslation();
 
@@ -37,11 +35,11 @@ export default function Index({
   const [charSelectOutBox, setCharSelectOutBox] = useState<string[]>([]);
 
   const charTypeInBox = useMemo(() => {
-    const charInBoxArray = mapToArray(charInBox);
+    const charInBoxArray = mapToArray(charBox?.characterKeys ?? {});
     return mapToArray(charMap).filter((it) => {
       return charInBoxArray.findIndex((i) => i.key === it.key) > -1 && filterChar(it);
     });
-  }, [charInBox, charMap, filterChar]);
+  }, [charBox, charMap, filterChar]);
 
   const charTypeOutBox = useMemo(
     () =>
@@ -60,28 +58,8 @@ export default function Index({
   };
 
   const handleCharOut = () => {
-    delCharFromBox(charSelectInBox);
+    delCharFromBox.mutate(charSelectInBox);
     setCharSelectInBox([]);
-  };
-
-  const handleSaveCharBox = async () => {
-    try {
-      const characterKeys: { [key: string]: Character } = {};
-      charTypeInBox.forEach((it) => {
-        characterKeys[it.key] = charInBox[it.key];
-      });
-      const { data } = await new CharBoxServer().updateOne({
-        charBox: {
-          id: charBoxId,
-          userId: user.id,
-          characterKeys,
-        },
-      });
-      // dispatch(updateCharInBox(data.characterKeys));
-      successNotice('保存成功');
-    } catch {
-      errorNotice('保存失败');
-    }
   };
 
   const handleCharIn = () => {
@@ -98,7 +76,7 @@ export default function Index({
       const newModule: { [key: string]: Module } = {};
       Object.keys({ ...it.equips }).forEach((key) => {
         newModule[key] = {
-          level: 1,
+          level: 0,
           key,
         };
       });
@@ -116,12 +94,12 @@ export default function Index({
         modules: newModule,
       };
     });
-    addCharToBox(obj);
+    addCharToBox.mutate(obj);
     setCharSelectOutBox([]);
   };
 
   return (
-    <Paper shadow="md" radius="lg" p="lg" withBorder sx={{ flex: '1' }}>
+    <CardRoot loading={isLoading}>
       <Stack>
         <Header title={setting.charBoxEditing ? '干员盒' : '持有编辑'}>
           <Group position="right" spacing={10}>
@@ -130,9 +108,6 @@ export default function Index({
                 {selectMax ? <IconSquareCheck /> : charSelectOutBox.length !== 0 ? <IconSquareDot /> : <IconSquare />}
               </ActionIcon>
             )}
-            <ActionIcon size="lg" color="blue" radius="md" onClick={handleSaveCharBox}>
-              <IconDeviceFloppy />
-            </ActionIcon>
             <Indicator label={!setting.charBoxEditing ? charTypeOutBox.length : charTypeInBox.length} size={16}>
               <ActionIcon size="lg" radius="md" onClick={onClickFilter}>
                 <IconFilter />
@@ -187,6 +162,6 @@ export default function Index({
           </Button>
         </Group>
       </Stack>
-    </Paper>
+    </CardRoot>
   );
 }

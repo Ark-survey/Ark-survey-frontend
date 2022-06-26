@@ -3,7 +3,6 @@ import Header from 'src/components/Header';
 import {
   IconChevronsDown,
   IconChevronsUp,
-  IconDeviceFloppy,
   IconFilter,
   IconSquare,
   IconSquareCheck,
@@ -13,9 +12,10 @@ import { useTranslation } from 'react-i18next';
 import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { CharacterType, useDataMap } from 'src/pages/store';
-import CharList from '../CharExchangeBox/CharList';
 import SkinList from './SkinList';
 import useSkinBox from '../../useSkinBox';
+import { errorNotice } from 'src/components/Notice';
+import CardRoot from 'src/components/CardRoot';
 
 interface SkinAvatar extends CharacterType {
   skinKey: string;
@@ -30,7 +30,7 @@ export default function Index({
 }) {
   const { charMap } = useDataMap();
   const { t } = useTranslation();
-  const { skinBox, updateLocalSkinBox, uploadSkinBox } = useSkinBox();
+  const { skinBox, updateLocalSkinBox, isLoading } = useSkinBox();
 
   const [skinSelectInBox, setSkinSelectInBox] = useState<string[]>([]);
   const [skinSelectOutBox, setSkinSelectOutBox] = useState<string[]>([]);
@@ -48,7 +48,7 @@ export default function Index({
   }, [charMap]);
 
   const skinInBox = useMemo(
-    () => charSkinList.filter((it) => skinBox?.charSkinKeys?.find((i) => i === it.key) && filterChar(it)),
+    () => charSkinList.filter((it) => skinBox?.charSkinKeys?.find((i) => i === it.skinKey) && filterChar(it)),
     [charSkinList, filterChar, skinBox?.charSkinKeys],
   );
 
@@ -66,16 +66,23 @@ export default function Index({
   };
 
   const handleCharIn = () => {
+    if (skinSelectOutBox.length === 0) {
+      errorNotice('请先至少选择一个未持有的皮肤！');
+      return;
+    }
     updateLocalSkinBox.mutate({
       ...skinBox,
       charSkinKeys: [...(skinBox?.charSkinKeys ?? []), ...skinSelectOutBox],
     });
-    console.log([...(skinBox?.charSkinKeys ?? []), ...skinSelectOutBox]);
 
     setSkinSelectOutBox([]);
   };
 
   const handleCharOut = () => {
+    if (skinSelectInBox.length === 0) {
+      errorNotice('请先至少选择一个已持有的皮肤！');
+      return;
+    }
     updateLocalSkinBox.mutate({
       ...skinBox,
       charSkinKeys: skinBox?.charSkinKeys?.filter((key) => !skinSelectInBox.includes(key)),
@@ -84,15 +91,12 @@ export default function Index({
   };
 
   return (
-    <Paper shadow="md" radius="lg" p="lg" withBorder sx={{ flex: '1' }}>
+    <CardRoot loading={isLoading}>
       <Stack>
         <Header title="持有编辑">
           <Group position="right" spacing={10}>
             <ActionIcon size="lg" radius="md" onClick={handleChangeAllCharOutBoxSelect}>
               {selectMax ? <IconSquareCheck /> : skinSelectOutBox.length !== 0 ? <IconSquareDot /> : <IconSquare />}
-            </ActionIcon>
-            <ActionIcon size="lg" color="blue" radius="md" onClick={() => uploadSkinBox.mutate()}>
-              <IconDeviceFloppy />
             </ActionIcon>
             <Indicator label={skinOutBox.length} size={16}>
               <ActionIcon size="lg" radius="md" onClick={onClickFilter}>
@@ -121,14 +125,14 @@ export default function Index({
         </Group>
         <Divider />
         <ScrollArea sx={{ height: '370px' }}>
-          <CharList
-            filterCharData={skinInBox}
+          <SkinList<SkinAvatar>
+            filterData={skinInBox}
             selectKeys={skinSelectInBox}
             onSelect={(key) => setSkinSelectInBox([...skinSelectInBox, key])}
             onSelectCancel={(key) => setSkinSelectInBox((c) => c.filter((i) => i !== key))}
           />
         </ScrollArea>
       </Stack>
-    </Paper>
+    </CardRoot>
   );
 }

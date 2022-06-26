@@ -38,8 +38,8 @@ export type Character = {
 // 干员盒
 export interface CharBox {
   id?: string;
-  userId: string; // 创建的时候保存，不可更改，永远不返回
-  characterKeys: { [key: string]: Character }; // 持有的干员 keys
+  userId?: string; // 创建的时候保存，不可更改，永远不返回
+  characterKeys?: { [key: string]: Character }; // 持有的干员 keys
   // 默认有一个 { name:'默认分组', value:'0' }，value不可重复
   // groups: Group[];
   updatedDate?: string; // 更新日期
