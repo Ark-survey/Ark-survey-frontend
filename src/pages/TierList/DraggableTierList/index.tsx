@@ -4,7 +4,6 @@ import { CharDragItem } from '../CharListBox/components/CharListItem';
 import AddTierPopover from './components/AddTierPopover';
 import ResetAllCharacterPopover from './components/ResetAllCharacterPopover';
 import TierBox from './components/TierBox';
-import UploadPopover from './components/UploadPopover';
 import { useCallback, useRef, useState } from 'react';
 import { capture } from 'src/utils/CaptureUtils';
 import { format } from 'date-fns';
@@ -62,7 +61,6 @@ export default function Index() {
             <ActionIcon disabled size="lg" radius="md" onClick={makeTierImg}>
               <IconAperture />
             </ActionIcon>
-            <UploadPopover />
           </Group>
         </Header>
         <Divider />

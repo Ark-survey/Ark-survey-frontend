@@ -4,7 +4,6 @@ import DraggableTierList from './DraggableTierList';
 import CharSelectBox from './CharSelectBox';
 import TierListMainPage from './TierListMainPage';
 import { useState } from 'react';
-import useTierList from './useTierList';
 import PageContainer from 'src/components/PageContainer';
 import { useTierListKey } from './store';
 import { TouchBackend } from 'react-dnd-touch-backend';
@@ -16,11 +15,10 @@ export default function Index() {
   const [inside, setInside] = useState(false);
   const { setTierListKey } = useTierListKey();
   const isMobile = useIsMobile();
-  const { isLoading } = useTierList();
 
   return (
     <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-      <PageContainer loading={isLoading}>
+      <PageContainer>
         <Stack>
           <TierListMainPage
             inside={inside}

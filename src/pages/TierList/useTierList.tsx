@@ -6,32 +6,40 @@ import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
 import { useMeta } from '../store';
 
-const initValue: TierList = {
+const initValueFactory: (key: string) => TierList = (key) => ({
   id: '',
+  name: '',
+  key,
+  value: 1,
   updatedDate: new Date().getTime().toString(),
   tiers: [
     {
+      name: '',
       value: 1,
       characterKeys: [],
     },
     {
+      name: '',
       value: 2,
       characterKeys: [],
     },
     {
+      name: '',
       value: 3,
       characterKeys: [],
     },
     {
+      name: '',
       value: 4,
       characterKeys: [],
     },
     {
+      name: '',
       value: 5,
       characterKeys: [],
     },
   ],
-};
+});
 
 // Tier list state all in one.
 export default function useTierList() {
@@ -51,11 +59,12 @@ export default function useTierList() {
       return;
     }
     const { data } = await new TierListServer().getOne({ userId: user.id, key: tierListKey });
-    if (!data) {
-      successNotice('初稿已创建');
-      return initValue;
-    }
     resetSelectKeys();
+    console.log(data);
+
+    if (!data?.id) {
+      return initValueFactory(tierListKey);
+    }
     return data;
   });
 
@@ -70,8 +79,8 @@ export default function useTierList() {
           }),
     {
       onSuccess: () => {
-        successNotice(t('upload-success'));
-        queryClient.invalidateQueries(tierListQueryKey.current);
+        // successNotice(t('upload-success'));
+        // queryClient.invalidateQueries(tierListQueryKey.current);
       },
     },
   );
@@ -84,7 +93,7 @@ export default function useTierList() {
     },
     {
       onSuccess: () => {
-        // successNotice(t('upload-success'));
+        uploadTierList.mutate();
         // queryClient.invalidateQueries('tier-list');
       },
     },
