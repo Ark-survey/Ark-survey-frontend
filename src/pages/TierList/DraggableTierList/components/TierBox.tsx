@@ -1,5 +1,5 @@
 import { Box, Center, Group, Title } from '@mantine/core';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import DeleteTier from './DeleteTierPopover';
 import EditTierPopover from './EditTierPopover';
 import { useDrop } from 'react-dnd';
@@ -10,7 +10,6 @@ import DraggableCharContainer, { ItemTypes } from 'src/components/@arksurvey/Cha
 import { IconPlus } from '@tabler/icons';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { useCharBoxSelectKeys } from '../../store';
-import useTierList from '../../useTierList';
 import { useDataMap, useSetting } from 'src/pages/store';
 
 /**
@@ -19,16 +18,25 @@ import { useDataMap, useSetting } from 'src/pages/store';
 interface TierBoxProps {
   tier: Tier;
   operationDisplay?: boolean;
+  tierValueList: number[];
   onDropCharacter: (item: CharDragItem) => void;
+  onDeleteChar: () => void;
+  onTierUpdate: (newTier: Tier) => void;
 }
 
-export default function TierBox({ tier, operationDisplay = false, onDropCharacter }: TierBoxProps) {
+export default function TierBox({
+  onDeleteChar,
+  onTierUpdate,
+  tierValueList,
+  tier,
+  operationDisplay = false,
+  onDropCharacter,
+}: TierBoxProps) {
   const { charMap } = useDataMap();
   const { setting } = useSetting();
-  const { addTierChars, findTierIndexByValue } = useOperateEditingTierList();
+  const { addTierChars, delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
 
   // state
-  const { tierList } = useTierList();
   const { selectKeys, resetSelectKeys } = useCharBoxSelectKeys();
 
   // dnd
@@ -40,7 +48,14 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
         isOver: !!monitor.isOver(),
       }),
     }),
-    [onDropCharacter, tierList?.tiers],
+    [onDropCharacter],
+  );
+
+  const handleCharacterDelete = useCallback(
+    (value: number, key: string) => {
+      delTierOneChar(findTierIndexByValue(value) ?? 0, key);
+    },
+    [delTierOneChar, findTierIndexByValue],
   );
 
   const characterImgList = useMemo(() => {
@@ -48,9 +63,15 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
       (character) => tier.characterKeys.indexOf(character?.key ?? '') > -1,
     );
     return characterList.map((value) => (
-      <CharListItem key={value.key} character={value} fromTierValue={tier.value} type="tier-list" />
+      <CharListItem
+        key={value.key}
+        character={value}
+        onDelete={() => handleCharacterDelete(tier.value ?? 0, value.key)}
+        fromTierValue={tier.value}
+        type="tier-list"
+      />
     ));
-  }, [charMap, tier.characterKeys, tier.value]);
+  }, [charMap, handleCharacterDelete, tier.characterKeys, tier.value]);
 
   // add new char into tier box
   const addCharacterButton = useMemo(
@@ -110,8 +131,8 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
             }}
             spacing="xs"
           >
-            <EditTierPopover tier={tier} />
-            <DeleteTier tierValue={tier.value ?? 0} />
+            <EditTierPopover tier={tier} onSubmit={onTierUpdate} tierValueList={tierValueList} />
+            <DeleteTier onSubmit={onDeleteChar} />
           </Group>
           <Box
             sx={{

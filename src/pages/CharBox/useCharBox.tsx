@@ -18,7 +18,7 @@ export default function useCharBox() {
   const { t } = useTranslation();
 
   // state
-  const charBoxQueryKey = useRef('skin-box');
+  const charBoxQueryKey = useRef('char-box');
   const { user } = useMeta();
   const { editingCharKey, updateEditingCharKey } = useEditingCharKey();
 

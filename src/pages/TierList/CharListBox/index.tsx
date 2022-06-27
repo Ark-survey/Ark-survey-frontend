@@ -9,7 +9,7 @@ import { mapToArray } from 'src/utils/ObjectUtils';
 import { useCharBoxSelectKeys } from '../store';
 import { CharacterType, useDataMap } from 'src/pages/store';
 
-export default function CharListItemType({ filterChar }: { filterChar: (char: CharacterType) => boolean }) {
+export default function CharListBox({ filterChar }: { filterChar: (char: CharacterType) => boolean }) {
   const { charMap } = useDataMap();
   const { t } = useTranslation();
   const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();

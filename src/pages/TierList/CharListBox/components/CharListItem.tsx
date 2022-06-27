@@ -1,7 +1,6 @@
 import DraggableCharContainer, {
   CharContainerType,
 } from 'src/components/@arksurvey/CharContainer/DraggableCharContainer';
-import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { CharacterType, useSetting } from 'src/pages/store';
 
 export const ItemTypes = {
@@ -17,6 +16,7 @@ interface CharListItemProps {
   charStatus?: 'picked' | 'default';
   onSelect?: (key: string) => void;
   onSelectCancel?: (key: string) => void;
+  onDelete?: () => void;
 }
 
 export interface CharDragItem {
@@ -34,13 +34,9 @@ export default function Index({
   charStatus = 'default',
   onSelect,
   onSelectCancel,
+  onDelete,
 }: CharListItemProps) {
   const { setting } = useSetting();
-  const { delTierOneChar, findTierIndexByValue } = useOperateEditingTierList();
-
-  const handleCharacterDelete = () => {
-    delTierOneChar(findTierIndexByValue(fromTierValue ?? 0) ?? 0, character?.key ?? '');
-  };
 
   const handleCharacterSelect = (value: boolean) => {
     if (value) onSelect?.(character?.key ?? '');
@@ -58,7 +54,7 @@ export default function Index({
       hidden={hidden}
       selecting={selecting}
       onSelectChange={handleCharacterSelect}
-      onDelete={handleCharacterDelete}
+      onDelete={onDelete}
       metaInfo={{
         fromTierValue,
       }}

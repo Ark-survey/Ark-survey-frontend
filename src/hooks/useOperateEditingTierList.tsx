@@ -122,6 +122,7 @@ export function useOperateEditingTierList() {
   }, [tierList, updateLocalTierList]);
 
   return {
+    tierList,
     findTierIndexByValue,
     addTierChars,
     updateOneTier,

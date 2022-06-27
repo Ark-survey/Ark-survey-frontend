@@ -3,8 +3,8 @@ import { useMemo } from 'react';
 import CharListItem from './CharListItem';
 
 import { useTranslation } from 'react-i18next';
-import useTierList from '../../useTierList';
 import { CharacterType } from 'src/pages/store';
+import useTierList from '../../useTierList';
 
 interface CharacterListProps {
   filterCharData: CharacterType[];

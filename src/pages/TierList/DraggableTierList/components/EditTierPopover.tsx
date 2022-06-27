@@ -3,16 +3,19 @@ import { Popover, Button, Box, NumberInput, ActionIcon, TextInput, Space } from 
 import { IconEdit } from '@tabler/icons';
 import { useForm } from '@mantine/form';
 import { Tier } from 'src/service/TierListServer';
-import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
-import useTierList from '../../useTierList';
-import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 
-export default function EditTierPopover({ tier }: { tier: Tier }) {
+export default function EditTierPopover({
+  tier,
+  tierValueList,
+  onSubmit,
+}: {
+  tier: Tier;
+  tierValueList: number[];
+  onSubmit?: (tier: Tier) => void;
+}) {
   const [opened, setOpened] = useState(false);
   const { t } = useTranslation();
-  const { tierList } = useTierList();
-  const { findTierIndexByValue, updateOneTier } = useOperateEditingTierList();
 
   const form = useForm({
     initialValues: {
@@ -21,24 +24,12 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
     },
     validate: {
       value: (value: number) =>
-        tier.value !== value && (tierList?.tiers ?? []).filter((v) => v.value === value).length > 0
-          ? t('this-level-already-exists')
-          : null,
+        tier.value !== value && tierValueList.includes(value) ? t('this-level-already-exists') : null,
       name: (value: string) => {
         return (value?.length ?? '') > 6 ? t('name-cannot-be-longer-than-6-characters') : null;
       },
     },
   });
-
-  const handleConfirm = ({ value, name }: { value?: number; name?: string }) => {
-    updateOneTier(findTierIndexByValue(tier.value ?? 0) ?? 0, {
-      ...tier,
-      value,
-      name: name ?? '',
-    });
-    successNotice(t('modified-successfully'));
-    setOpened(false);
-  };
 
   useEffect(() => {
     form.reset();
@@ -68,7 +59,12 @@ export default function EditTierPopover({ tier }: { tier: Tier }) {
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown>
-        <form onSubmit={form.onSubmit(handleConfirm)}>
+        <form
+          onSubmit={form.onSubmit((values) => {
+            onSubmit?.({ ...tier, value: values.value, name: values.name });
+            setOpened(false);
+          })}
+        >
           <TextInput
             label={t('tier-name')}
             description={t('optional-no-more-than-6-characters')}

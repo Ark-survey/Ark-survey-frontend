@@ -1,8 +1,7 @@
-import { useCharBoxSelectKeys, useTierListKey } from './store';
+import { useTierListKey } from './store';
 import { TierList, TierListServer } from 'src/service/TierListServer';
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { useMemo, useRef } from 'react';
-import { successNotice } from 'src/components/Notice';
 import { useTranslation } from 'react-i18next';
 import { useMeta } from '../store';
 
@@ -49,18 +48,16 @@ export default function useTierList() {
   // state
   const tierListQueryKey = useRef('tier-list');
   const { user } = useMeta();
-
-  const { resetSelectKeys } = useCharBoxSelectKeys();
   const { tierListKey } = useTierListKey();
 
   const { isLoading, error, data } = useQuery(tierListQueryKey.current, async () => {
+    console.log(1111);
+
     if (!tierListKey) {
       // errorNotice('Select first!');
       return;
     }
     const { data } = await new TierListServer().getOne({ userId: user.id, key: tierListKey });
-    resetSelectKeys();
-    console.log(data);
 
     if (!data?.id) {
       return initValueFactory(tierListKey);
