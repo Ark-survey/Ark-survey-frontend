@@ -6,10 +6,6 @@ import PageContainer from './pages';
 import customTheme from './theme';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { TouchBackend } from 'react-dnd-touch-backend';
-import { useIsMobile } from './hooks/useIsMobile';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,7 +14,6 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const isMobile = useIsMobile();
   const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
@@ -29,9 +24,7 @@ function App() {
         <MantineProvider theme={{ ...customTheme, colorScheme }}>
           <NotificationsProvider position="bottom-center">
             <BrowserRouter>
-              <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
-                <PageContainer />
-              </DndProvider>
+              <PageContainer />
             </BrowserRouter>
           </NotificationsProvider>
         </MantineProvider>

@@ -7,30 +7,36 @@ import { useState } from 'react';
 import useTierList from './useTierList';
 import PageContainer from 'src/components/PageContainer';
 import { useTierListKey } from './store';
+import { TouchBackend } from 'react-dnd-touch-backend';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useIsMobile } from 'src/hooks/useIsMobile';
+import { DndProvider } from 'react-dnd';
 
 export default function Index() {
   const [inside, setInside] = useState(false);
   const { setTierListKey } = useTierListKey();
-
+  const isMobile = useIsMobile();
   const { isLoading } = useTierList();
 
   return (
-    <PageContainer loading={isLoading}>
-      <Stack>
-        <TierListMainPage
-          inside={inside}
-          onInsideChange={(inside, key) => {
-            setInside(inside);
-            setTierListKey(key ?? '');
-          }}
-        />
-        {inside && (
-          <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-            <CharSelectBox />
-            <DraggableTierList />
-          </Box>
-        )}
-      </Stack>
-    </PageContainer>
+    <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
+      <PageContainer loading={isLoading}>
+        <Stack>
+          <TierListMainPage
+            inside={inside}
+            onInsideChange={(inside, key) => {
+              setInside(inside);
+              setTierListKey(key ?? '');
+            }}
+          />
+          {inside && (
+            <Box sx={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+              <CharSelectBox />
+              <DraggableTierList />
+            </Box>
+          )}
+        </Stack>
+      </PageContainer>
+    </DndProvider>
   );
 }

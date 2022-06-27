@@ -1,4 +1,6 @@
-import CharContainer, { CharContainerType } from 'src/components/@arksurvey/CharContainer';
+import DraggableCharContainer, {
+  CharContainerType,
+} from 'src/components/@arksurvey/CharContainer/DraggableCharContainer';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { CharacterType, useSetting } from 'src/pages/store';
 
@@ -46,7 +48,7 @@ export default function Index({
   };
 
   return (
-    <CharContainer
+    <DraggableCharContainer
       nameDisplay={setting.nameDisplay}
       charKey={character?.key ?? ''}
       charName={character?.name ?? ''}

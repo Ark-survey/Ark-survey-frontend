@@ -6,7 +6,7 @@ import { useDrop } from 'react-dnd';
 import CharListItem, { CharDragItem } from 'src/pages/TierList/CharListBox/components/CharListItem';
 import { Tier } from 'src/service/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import CharContainer, { ItemTypes } from 'src/components/@arksurvey/CharContainer';
+import DraggableCharContainer, { ItemTypes } from 'src/components/@arksurvey/CharContainer/DraggableCharContainer';
 import { IconPlus } from '@tabler/icons';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { useCharBoxSelectKeys } from '../../store';
@@ -55,7 +55,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
   // add new char into tier box
   const addCharacterButton = useMemo(
     () => (
-      <CharContainer mini={setting.mini}>
+      <DraggableCharContainer mini={setting.mini}>
         <Center
           sx={{ height: '100%', cursor: 'pointer' }}
           onClick={() => {
@@ -65,7 +65,7 @@ export default function TierBox({ tier, operationDisplay = false, onDropCharacte
         >
           <IconPlus color="grey" />
         </Center>
-      </CharContainer>
+      </DraggableCharContainer>
     ),
     [setting.mini, addTierChars, findTierIndexByValue, tier.value, selectKeys, resetSelectKeys],
   );
