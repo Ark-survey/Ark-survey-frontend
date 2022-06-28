@@ -30,14 +30,17 @@ export default function useSkinBox() {
   });
 
   const uploadSkinBox = useMutation(
-    async () =>
-      data?.id
+    async () => {
+      const result = data?.id
         ? await new CharSkinBoxServer().updateOne({
             charSkinBox: { ...data, userId: user.id },
           })
         : await new CharSkinBoxServer().createOne({
             charSkinBox: { ...data, userId: user.id },
-          }),
+          });
+      queryClient.setQueryData(skinBoxQueryKey.current, result.data);
+      return result;
+    },
     {
       onSuccess: () => {
         // successNotice('自动保存成功');

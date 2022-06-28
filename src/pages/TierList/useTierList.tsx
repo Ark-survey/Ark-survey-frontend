@@ -64,14 +64,17 @@ export default function useTierList() {
   });
 
   const uploadTierList = useMutation(
-    async () =>
-      data?.id
+    async () => {
+      const result = data?.id
         ? await new TierListServer().updateOne({
             tierList: { ...data, userId: user.id },
           })
         : await new TierListServer().createOne({
             tierList: { ...data, userId: user.id },
-          }),
+          });
+      queryClient.setQueryData(tierListQueryKey.current, result.data);
+      return result;
+    },
     {
       onSuccess: () => {
         // successNotice(t('upload-success'));

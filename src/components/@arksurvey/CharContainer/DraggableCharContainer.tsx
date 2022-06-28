@@ -69,6 +69,7 @@ export interface CharContainerProps {
   nameDisplay?: boolean;
   readonly?: boolean;
   mini?: boolean;
+  skinDisabled?: boolean;
   selecting?: boolean;
   onSelectChange?: (value: boolean) => void;
   onDelete?: () => void;

@@ -8,6 +8,7 @@ import SkinUsePanel from '../SkinUsePanel';
 import { useDataMap } from 'src/pages/store';
 import { useEditingCharKey } from 'src/pages/CharBox/store';
 import useCharBox from 'src/pages/CharBox/useCharBox';
+import useSkinBox from 'src/pages/CharBox/useSkinBox';
 
 export type CharLevelDataType = {
   potentialLevel: number;
@@ -39,6 +40,7 @@ export default function Index() {
   const editingChar = charBox?.characterKeys?.[editingCharKey];
   const rarity = editingChar?.key ? charMap[editingChar.key].rarity : 0;
   const maxPotentialLevel = (editingChar?.key && charMap[editingChar.key].maxPotentialLevel) ?? 0;
+  const { skinBox } = useSkinBox();
 
   useEffect(() => {
     if (!editingChar) updateEditingCharKey(Object.keys(charMap)[0]);
@@ -108,6 +110,8 @@ export default function Index() {
           };
         });
       }
+      // 控制皮肤
+
       // 校验
       const newValue = { ...value };
       if (isNaN(newValue.level)) newValue.level = 1;
@@ -134,11 +138,17 @@ export default function Index() {
           }
         }
       });
+
       // 当前的 index 位置比最大位置大的时候，设置为最大Index
       if (editingChar) {
         const newChar = {
           ...editingChar,
           ...newValue,
+          skinUse:
+            (editingChar.elite > (newValue?.elite ?? 0) && newValue?.skinUse.includes('_2')) ||
+            newValue?.skinUse.includes('_1')
+              ? newValue?.key
+              : newValue.skinUse,
           skillUse: hasSelectedIndex > maxIndex ? maxKey : editingChar?.skillUse,
           modules: newUniEquipData,
           moduleUse: equipResetFlag ? 'default' : editingChar?.moduleUse,
@@ -179,7 +189,7 @@ export default function Index() {
           <Stack>
             <SkinUsePanel
               data={editingChar}
-              selectedSkinKey={editingChar?.skinUse}
+              charSkinKeys={skinBox?.charSkinKeys ?? []}
               onSelectChange={(key) => updateChar.mutate({ ...editingChar, skinUse: key })}
             />
             <LevelPanel

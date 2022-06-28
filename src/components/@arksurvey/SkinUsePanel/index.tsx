@@ -5,21 +5,25 @@ import CharContainer from '../CharContainer';
 import PanelContainer from '../PanelContainer';
 import { useDataMap } from 'src/pages/store';
 
-const useStyles = createStyles((theme) => ({}));
-
 interface LevelPanelProps {
   data: Character;
-  selectedSkinKey: string;
+  charSkinKeys: string[];
   onSelectChange?: (key: string) => void;
 }
 
-export default function Index({ data, selectedSkinKey, onSelectChange }: LevelPanelProps) {
+export default function Index({ data, charSkinKeys, onSelectChange }: LevelPanelProps) {
   const { charMap } = useDataMap();
 
   const skinList = useMemo(() => {
     const charAllSkins = charMap[data?.key]?.skins ?? [];
     // const skins = Object.values(charData).filter((it) => it.key);
     return Object.keys(charAllSkins).map((key) => {
+      const eliteFit =
+        key === data.key ||
+        (data.elite >= 1 && key === data.key + '_1') ||
+        (data.elite >= 2 && key === data.key + '_2');
+      const inSkinBox = charSkinKeys?.includes(key);
+
       return (
         <CharContainer
           key={key}
@@ -27,10 +31,12 @@ export default function Index({ data, selectedSkinKey, onSelectChange }: LevelPa
           onSelectChange={() => onSelectChange?.(key)}
           sx={{ background: data.skinUse === key ? 'yellow' : undefined }}
           dragDisabled
+          skinDisabled={!inSkinBox && !eliteFit}
+          readonly={!inSkinBox && !eliteFit}
         />
       );
     });
-  }, [charMap, data?.key, data.skinUse, onSelectChange]);
+  }, [charMap, charSkinKeys, data.elite, data.key, data.skinUse, onSelectChange]);
 
   return (
     <PanelContainer>

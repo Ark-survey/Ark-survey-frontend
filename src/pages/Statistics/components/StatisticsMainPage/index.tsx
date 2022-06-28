@@ -14,8 +14,6 @@ export default function Index({
 }) {
   const { envLabel, EnvSelectContent } = useEnvSelect({
     onClickEnvButton: (key?: string) => {
-      console.log('onClickEnvButton', key);
-
       onInsideChange?.(true, key);
     },
   });

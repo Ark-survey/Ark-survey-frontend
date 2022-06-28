@@ -13,6 +13,7 @@ export default function CharContainer({
   readonly = !charKey || charStatus === 'picked',
   selecting,
   metaInfo,
+  skinDisabled,
   charName,
   hidden,
   nameDisplay,
@@ -45,10 +46,11 @@ export default function CharContainer({
         <Box>
           {charStatus === 'picked' && t('picked')}
           {selecting && type === 'tier-list' && t('charContainer.delete')}
+          {skinDisabled && '未持有'}
         </Box>
       </Overlay>
     );
-  }, [mini, t, charStatus, selecting, type]);
+  }, [mini, charStatus, t, selecting, type, skinDisabled]);
 
   const name = useMemo(() => {
     return <Box className={classes.nameBox}>{charName}</Box>;
@@ -80,6 +82,7 @@ export default function CharContainer({
           >
             {!(selecting || charStatus === 'default') && overlay}
             {selecting && type === 'tier-list' && overlay}
+            {skinDisabled && overlay}
             {nameDisplay && name}
             <CharAvatar imgKey={charKey ?? ''} width={mini ? 40 : 80} flowWidthRef={parent.current ?? undefined} />
           </Box>

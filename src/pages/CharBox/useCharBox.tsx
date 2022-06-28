@@ -33,14 +33,17 @@ export default function useCharBox() {
   });
 
   const uploadCharBox = useMutation(
-    async () =>
-      data?.id
+    async () => {
+      const result = data?.id
         ? await new CharBoxServer().updateOne({
             charBox: { ...data, userId: user.id },
           })
         : await new CharBoxServer().createOne({
             charBox: { ...data, userId: user.id },
-          }),
+          });
+      queryClient.setQueryData(charBoxQueryKey.current, result.data);
+      return result;
+    },
     {
       onSuccess: () => {
         // successNotice('自动保存成功');
