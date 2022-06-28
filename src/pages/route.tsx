@@ -14,10 +14,10 @@ import { LoadingOverlay } from '@mantine/core';
 import { useMeta } from './store';
 
 const Home = lazy(() => import('./Home'));
-const Setting = lazy(() => import('./Setting'));
+const Setting = lazy(() => import('./Setting1'));
 const NotFound = lazy(() => import('./NotFound'));
-const Demo = lazy(() => import('./Demo'));
-const Statistics = lazy(() => import('./Statistics'));
+const Demo = lazy(() => import('./Demo1'));
+const Statistics = lazy(() => import('./Statistics1'));
 const CharBox = lazy(() => import('./CharBox'));
 const TierList = lazy(() => import('./TierList'));
 
