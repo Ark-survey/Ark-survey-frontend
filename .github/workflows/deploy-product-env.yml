@@ -20,10 +20,10 @@ jobs:
         with:
           node-version: 16.x
 
-      - name: pnpm build
+      - name: npm build
         run: |
           yarn
-          yarn build
+          yarn run build
 
       - name: Deploy org
         uses: s0/git-publish-subdir-action@develop
