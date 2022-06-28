@@ -124,10 +124,9 @@ export default function TierBox({
           <Group
             sx={{
               position: 'absolute',
-              top: setting.mini ? '-10px' : '12px',
-              left: setting.mini ? '' : '-10px',
-              right: setting.mini ? '20px' : '',
-              display: setting.mini ? 'flex' : '',
+              top: '-10px',
+              right: '20px',
+              display: 'flex',
               zIndex: 1,
             }}
             spacing="xs"
