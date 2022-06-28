@@ -8,7 +8,6 @@ import { useEffect, useRef } from 'react';
 import { RootRouter } from './route';
 import { useLoadingGlobalData } from 'src/hooks/useLoadingGlobalData';
 import { useLoadStaticFile } from 'src/hooks/useLoadStaticFile';
-import { UpdateVersionNotion } from 'src/registrationStatus';
 import { useMeta, useSetting } from './store';
 
 const useStyles = createStyles((theme, { menuOpen }: { menuOpen: boolean }, getRef) => ({
@@ -105,7 +104,6 @@ export default function PageContainer() {
 
   return (
     <Box>
-      <UpdateVersionNotion />
       <Header height={60} p="xs" sx={{ position: 'fixed', zIndex: 2 }}>
         <Brand />
       </Header>
