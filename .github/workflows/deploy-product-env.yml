@@ -30,7 +30,7 @@ jobs:
         env:
           REPO: git@github.com:Ark-survey/product-env.git
           BRANCH: main
-          FOLDER: build
+          FOLDER: dist
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
 
       - name: Deploy per
@@ -38,5 +38,5 @@ jobs:
         env:
           REPO: git@github.com:HEGGRIA/Ark-survey-product-env.git
           BRANCH: main
-          FOLDER: build
+          FOLDER: dist
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
