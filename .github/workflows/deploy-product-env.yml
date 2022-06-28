@@ -22,8 +22,8 @@ jobs:
 
       - name: pnpm build
         run: |
-          pnpm
-          pnpm run build
+          yarn
+          yarn build
 
       - name: Deploy org
         uses: s0/git-publish-subdir-action@develop
