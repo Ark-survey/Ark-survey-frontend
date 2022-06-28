@@ -51,8 +51,6 @@ export default function useTierList() {
   const { tierListKey } = useTierListKey();
 
   const { isLoading, error, data } = useQuery(tierListQueryKey.current, async () => {
-    console.log(1111);
-
     if (!tierListKey) {
       // errorNotice('Select first!');
       return;

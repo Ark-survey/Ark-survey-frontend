@@ -67,6 +67,7 @@ export default function TierBox({
         key={value.key}
         character={value}
         onDelete={() => handleCharacterDelete(tier.value ?? 0, value.key)}
+        onSelect={() => {}}
         fromTierValue={tier.value}
         type="tier-list"
       />

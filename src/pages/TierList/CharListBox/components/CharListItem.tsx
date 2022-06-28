@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import DraggableCharContainer, {
   CharContainerType,
 } from 'src/components/@arksurvey/CharContainer/DraggableCharContainer';
@@ -38,7 +39,13 @@ export default function Index({
 }: CharListItemProps) {
   const { setting } = useSetting();
 
+  const [delSelect, setDelSelect] = useState(false);
+
   const handleCharacterSelect = (value: boolean) => {
+    if (type === 'tier-list') {
+      setDelSelect(value);
+      return;
+    }
     if (value) onSelect?.(character?.key ?? '');
     else onSelectCancel?.(character?.key ?? '');
   };
@@ -52,7 +59,7 @@ export default function Index({
       charStatus={charStatus}
       type={type}
       hidden={hidden}
-      selecting={selecting}
+      selecting={selecting || delSelect}
       onSelectChange={handleCharacterSelect}
       onDelete={onDelete}
       metaInfo={{
