@@ -149,6 +149,10 @@ export default function Index({ children }: HeaderProps) {
                       imgUrl: 'https://avatars.githubusercontent.com/u/17798738',
                       to: 'https://github.com/LamForest',
                     },
+                    {
+                      imgUrl: 'https://avatars.githubusercontent.com/u/18512423',
+                      to: 'https://github.com/qq853726827',
+                    },
                   ]}
                 />
               </Center>
