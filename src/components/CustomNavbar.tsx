@@ -46,7 +46,10 @@ export default function Index() {
           key={index}
           mx="xs"
           sx={(theme) => ({
-            borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`,
+            borderTop:
+              index !== 0
+                ? `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]}`
+                : '',
           })}
         >
           <Stack py="xs" spacing="xs">
@@ -65,7 +68,7 @@ export default function Index() {
                   title={t('nav.' + it.id)}
                   to={'/' + it.id}
                   leftIcon={it.icon}
-                  selecting={location.pathname === '/' + it.id}
+                  selecting={(it.id === 'home' && location.pathname === '/') || location.pathname === '/' + it.id}
                   disabled={it.disabled || (it.needLogin && !user.id)}
                 />
               ),
