@@ -1,4 +1,4 @@
-import CharContainer from 'src/components/@arksurvey/CharContainer';
+import CharContainer from 'src/components/@arksurvey/Avatar/CharAvatar';
 import { CharacterType, useSetting } from 'src/pages/store';
 
 export const ItemTypes = {

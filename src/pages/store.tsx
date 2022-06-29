@@ -1,3 +1,4 @@
+import { ImgMetaDataKey } from 'src/components/@arksurvey/ImageSprite';
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -22,17 +23,7 @@ export interface CharacterType {
   picked?: boolean;
 }
 
-export interface ImgPosition {
-  skillImgPosition: {
-    [key: string]: [number, number];
-  };
-  avatarImgPosition: {
-    [key: string]: [number, number];
-  };
-  uniEquipImgPosition: {
-    [key: string]: [number, number];
-  };
-}
+export type ImgPosition = Record<ImgMetaDataKey, { [key: string]: [number, number] }>;
 
 // data map
 // img position map
@@ -46,7 +37,7 @@ export interface BaseDataState {
 
 export const useDataMap = create<BaseDataState>((set, get) => ({
   charMap: {},
-  imgPositionMap: { skillImgPosition: {}, avatarImgPosition: {}, uniEquipImgPosition: {} },
+  imgPositionMap: { skill: {}, avatar: {}, equip: {} },
   setCharMap: (charMap) => set((state) => ({ ...state, charMap })),
   setImgPositionMap: (imgPositionMap) => set((state) => ({ ...state, imgPositionMap })),
 }));

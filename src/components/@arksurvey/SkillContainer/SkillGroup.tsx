@@ -2,7 +2,7 @@ import { Box, Group, createStyles, Button, SegmentedControl, Divider, Paper } fr
 import { ReactNode, useMemo } from 'react';
 import { Character } from 'src/service/CharBoxServer';
 import { IconCheck, IconFoldDown, IconFoldUp } from '@tabler/icons';
-import SkillContainer from '.';
+import SkillContainer from '../Avatar/SkinAvatar';
 import { useDataMap } from 'src/pages/store';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({

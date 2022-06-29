@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from 'src/hooks/useIsMobile';
 import { useClickOutside } from '@mantine/hooks';
-import SkillIcon from '../ImageContainer/SkillIcon';
+import ImageSprite from '../ImageSprite';
 
 export const ItemTypes = {
   OPERATOR: 'Operator',
@@ -126,7 +126,12 @@ export default function SkillContainer({
   return (
     <Box ref={parent} className={classes.avatarBox} onClick={handleClick}>
       <Box>
-        <SkillIcon imgKey={skillKey ?? ''} width={mini ? 30 : 60} flowWidthRef={parent.current ?? undefined} />
+        <ImageSprite
+          type="skill"
+          imgKey={skillKey ?? ''}
+          width={mini ? 30 : 60}
+          flowWidthRef={parent.current ?? undefined}
+        />
       </Box>
     </Box>
   );

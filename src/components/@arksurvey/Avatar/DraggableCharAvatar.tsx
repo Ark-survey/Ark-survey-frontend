@@ -3,7 +3,7 @@ import { ReactNode, useMemo } from 'react';
 import { useDrag } from 'react-dnd';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from 'src/hooks/useIsMobile';
-import CharAvatar from '../ImageContainer/CharAvatar';
+import ImageSprite from '../ImageSprite';
 import { useClickOutside } from '@mantine/hooks';
 
 export const ItemTypes = {
@@ -81,7 +81,7 @@ export interface CharContainerProps {
   children?: ReactNode;
 }
 
-export default function DraggableCharContainer({
+export default function DraggableCharAvatar({
   sx,
   charKey,
   type = 'default',
@@ -176,7 +176,12 @@ export default function DraggableCharContainer({
             {(!(selecting || charStatus === 'default') || isDragging) && overlay}
             {selecting && type === 'tier-list' && overlay}
             {nameDisplay && name}
-            <CharAvatar imgKey={charKey ?? ''} width={mini ? 40 : 80} flowWidthRef={parent.current ?? undefined} />
+            <ImageSprite
+              type="avatar"
+              imgKey={charKey ?? ''}
+              width={mini ? 40 : 80}
+              flowWidthRef={parent.current ?? undefined}
+            />
           </Box>
         ))}
     </Box>

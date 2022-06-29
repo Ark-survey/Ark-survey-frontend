@@ -1,11 +1,11 @@
 import { Box, Overlay } from '@mantine/core';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import CharAvatar from '../ImageContainer/CharAvatar';
+import ImageSprite from '../ImageSprite';
 import { useClickOutside } from '@mantine/hooks';
-import { CharContainerProps, useStyles } from './DraggableCharContainer';
+import { CharContainerProps, useStyles } from './DraggableCharAvatar';
 
-export default function CharContainer({
+export default function CharAvatar({
   sx,
   charKey,
   type = 'default',
@@ -84,7 +84,12 @@ export default function CharContainer({
             {selecting && type === 'tier-list' && overlay}
             {skinDisabled && overlay}
             {nameDisplay && name}
-            <CharAvatar imgKey={charKey ?? ''} width={mini ? 40 : 80} flowWidthRef={parent.current ?? undefined} />
+            <ImageSprite
+              type="avatar"
+              imgKey={charKey ?? ''}
+              width={mini ? 40 : 80}
+              flowWidthRef={parent.current ?? undefined}
+            />
           </Box>
         ))}
     </Box>

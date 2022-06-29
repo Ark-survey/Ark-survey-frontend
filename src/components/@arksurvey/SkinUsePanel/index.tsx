@@ -1,7 +1,7 @@
 import { createStyles, Group } from '@mantine/core';
 import { useMemo } from 'react';
 import { Character } from 'src/service/CharBoxServer';
-import CharContainer from '../CharContainer';
+import CharContainer from '../Avatar/CharAvatar';
 import PanelContainer from '../PanelContainer';
 import { useDataMap } from 'src/pages/store';
 

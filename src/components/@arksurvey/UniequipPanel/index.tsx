@@ -14,7 +14,7 @@ import {
 import { useCallback, useMemo } from 'react';
 import { Character, Module } from 'src/service/CharBoxServer';
 import { IconChevronsDown, IconChevronsUp } from '@tabler/icons';
-import UniEquipImg from '../ImageContainer/UniEquipImg';
+import ImageSprite from '../ImageSprite';
 import { useDataMap } from 'src/pages/store';
 
 const useStyles = createStyles((theme, { fold }: { fold: boolean }) => ({
@@ -123,7 +123,7 @@ export default function Index({
                   if (data.modules[key].level === 0) {
                     return (
                       <ActionIcon size="lg" key={key} onClick={() => onUniEquipLevelChange?.(1, key)}>
-                        <UniEquipImg imgKey={data.modules[key].key} width={30} />
+                        <ImageSprite type="equip" imgKey={data.modules[key].key} width={30} />
                       </ActionIcon>
                     );
                   }
@@ -135,7 +135,7 @@ export default function Index({
                       key={key}
                       onClick={() => onUniEquipLevelChange?.(0, key)}
                     >
-                      <UniEquipImg imgKey={data.modules[key].key} width={30} />
+                      <ImageSprite type="equip" imgKey={data.modules[key].key} width={30} />
                     </ActionIcon>
                   );
                 })}
@@ -243,7 +243,7 @@ export default function Index({
               ) : (
                 <Center sx={{ flex: '1', fontWeight: 500, color: '#ccc' }}>NO INFO</Center>
               )}
-              <UniEquipImg imgKey={data.moduleUse} width={150} />
+              <ImageSprite type="equip" imgKey={data.moduleUse} width={150} />
               <Box sx={{ borderLeft: '1px solid #ccc' }} />
             </Box>
           </>
