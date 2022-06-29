@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { useTranslation } from 'react-i18next';
-import CharContainer from 'src/components/@arksurvey/Avatar/CharAvatar';
+import CharContainer from 'src/components/@arksurvey/CharAvatar/CharAvatar';
 import { CharacterType, useDataMap, useSetting } from 'src/pages/store';
 import useCharBox from '../../useCharBox';
 import { useEditingCharKey } from '../../store';

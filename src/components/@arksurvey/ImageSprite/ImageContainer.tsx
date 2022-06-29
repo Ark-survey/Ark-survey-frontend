@@ -1,6 +1,5 @@
-import { Box, Center, Skeleton, Text } from '@mantine/core';
+import { Box, Skeleton } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 interface ImageContainerProps {
   url: string;
@@ -14,7 +13,6 @@ interface ImageContainerProps {
 // 使用 flowWidthRef 的时候会忽略 width，跟随指定元素的宽度
 export default function ImageContainer({ url, width, originWidth, flowWidthRef, position }: ImageContainerProps) {
   const [flowWidth, setFlowWidth] = useState<number>();
-  const { t } = useTranslation();
 
   useEffect(() => {
     let resizeObserver: any;

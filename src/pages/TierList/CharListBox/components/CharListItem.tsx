@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import DraggableCharContainer, { CharContainerType } from 'src/components/@arksurvey/Avatar/DraggableCharAvatar';
+import DraggableCharContainer, { CharContainerType } from 'src/components/@arksurvey/CharAvatar/DraggableCharAvatar';
 import { CharacterType, useSetting } from 'src/pages/store';
 
 export const ItemTypes = {

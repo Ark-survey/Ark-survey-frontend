@@ -2,7 +2,7 @@ import { Sx, Box, Group, Paper, Stack } from '@mantine/core';
 import { useClickOutside } from '@mantine/hooks';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CharContainer from 'src/components/@arksurvey/Avatar/CharAvatar';
+import CharContainer from 'src/components/@arksurvey/CharAvatar/CharAvatar';
 import { CharacterType, useSetting } from 'src/pages/store';
 
 export default function CharStatisticBox({
