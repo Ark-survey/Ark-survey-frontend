@@ -1,9 +1,10 @@
 import { Box, Sx } from '@mantine/core';
-import { ReactNode, RefObject } from 'react';
+import { ReactNode, useRef } from 'react';
 import ImageSprite from '../ImageSprite';
 import CharName from './AvatarName';
 import AvatarOverlay from './AvatarOverlay';
 import { useStyles } from './style';
+import { RemovableAvatar, HasCharAvatar, PickedCharAvatar, DraggableCharAvatar } from './AvatarFactory';
 
 export interface CharAvatarProps {
   avatarKey: string;
@@ -16,7 +17,6 @@ export interface CharAvatarProps {
   mini?: boolean;
   readonly?: boolean;
   sx?: Sx;
-  parentRef?: any;
   // Width and height is 100%.
   children?: ReactNode;
   onClick?: () => void;
@@ -38,20 +38,27 @@ export default function CharAvatar({
   readonly,
   sx,
   children,
-  parentRef,
   onClick,
 }: CharAvatarProps) {
   const { classes } = useStyles({ mini, selected, readonly, themeColor });
+  const parentRef = useRef<HTMLDivElement>(null);
 
   return (
-    <Box className={classes.avatar} sx={{ ...sx }} onClick={() => readonly && onClick?.()}>
+    <Box className={classes.avatar} ref={parentRef} sx={{ ...sx }} onClick={() => readonly && onClick?.()}>
       {children ?? (
         <>
           {nameDisplay && <CharName mini={mini}>{nameValue}</CharName>}
           {overlayDisplay && <AvatarOverlay>{overlayText}</AvatarOverlay>}
-          <ImageSprite type="avatar" imgKey={avatarKey} width={mini ? 40 : 80} flowWidthRef={parentRef ?? undefined} />
+          <ImageSprite
+            type="avatar"
+            imgKey={avatarKey}
+            width={mini ? 40 : 80}
+            flowWidthRef={parentRef.current ?? undefined}
+          />
         </>
       )}
     </Box>
   );
 }
+
+export { RemovableAvatar, HasCharAvatar, PickedCharAvatar, DraggableCharAvatar };

@@ -1,4 +1,4 @@
-import { Button, Stack, ScrollArea, Group, Divider, Paper, ActionIcon, Indicator } from '@mantine/core';
+import { Button, Stack, ScrollArea, Group, Divider, ActionIcon, Indicator } from '@mantine/core';
 import Header from 'src/components/Header';
 import {
   IconChevronsDown,
@@ -10,7 +10,6 @@ import {
   IconSquareDot,
 } from '@tabler/icons';
 import { useTranslation } from 'react-i18next';
-import CharList from './CharList';
 import CharBoxList from './CharBoxList';
 import { useMemo, useState } from 'react';
 import { mapToArray } from 'src/utils/ObjectUtils';
@@ -18,6 +17,7 @@ import { Character, Module, Skill } from 'src/service/CharBoxServer';
 import { CharacterType, useDataMap, useSetting } from 'src/pages/store';
 import useCharBox from '../../useCharBox';
 import CardRoot from 'src/components/CardRoot';
+import AvatarList from 'src/components/@arksurvey/AvatarList';
 
 export default function Index({
   filterChar,
@@ -119,11 +119,12 @@ export default function Index({
         {!setting.charBoxEditing ? (
           <>
             <ScrollArea sx={{ height: '370px' }}>
-              <CharList
-                filterCharData={charTypeOutBox}
+              <AvatarList
+                charDataList={charTypeOutBox}
                 selectKeys={charSelectOutBox}
-                onSelect={(key) => setCharSelectOutBox([...charSelectOutBox, key])}
-                onSelectCancel={(key) => setCharSelectOutBox((c) => c.filter((i) => i !== key))}
+                onSelectChange={(key, changeTo) =>
+                  setCharSelectOutBox((c) => (changeTo ? [...charSelectOutBox, key] : c.filter((i) => i !== key)))
+                }
               />
             </ScrollArea>
             <Divider />
@@ -137,11 +138,12 @@ export default function Index({
             </Group>
             <Divider />
             <ScrollArea sx={{ height: !setting.charBoxEditing ? '370px' : '' }}>
-              <CharList
-                filterCharData={charTypeInBox}
+              <AvatarList
+                charDataList={charTypeInBox}
                 selectKeys={charSelectInBox}
-                onSelect={(key) => setCharSelectInBox([...charSelectInBox, key])}
-                onSelectCancel={(key) => setCharSelectInBox((c) => c.filter((i) => i !== key))}
+                onSelectChange={(key, changeTo) =>
+                  setCharSelectInBox((c) => (changeTo ? [...charSelectInBox, key] : c.filter((i) => i !== key)))
+                }
               />
             </ScrollArea>
           </>

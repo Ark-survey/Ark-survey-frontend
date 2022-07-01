@@ -33,7 +33,7 @@ export default function ImageSprite({ type, imgKey, width = imgMetaData[type].si
       width={width}
       originWidth={imgMetaData[type].size}
       flowWidthRef={flowWidthRef}
-      position={imgPositionMap[type][imgKey]}
+      position={imgKey ? imgPositionMap[type][imgKey] : undefined}
     />
   );
 }

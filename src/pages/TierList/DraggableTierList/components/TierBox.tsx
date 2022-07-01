@@ -6,7 +6,7 @@ import { useDrop } from 'react-dnd';
 import CharListItem, { CharDragItem } from 'src/pages/TierList/CharListBox/components/CharListItem';
 import { Tier } from 'src/service/TierListServer';
 import { mapToArray } from 'src/utils/ObjectUtils';
-import DraggableCharContainer, { ItemTypes } from 'src/components/@arksurvey/CharAvatar/DraggableCharAvatar';
+import DraggableCharContainer, { ItemTypes } from 'src/components/@arksurvey/CharAvatar/AvatarFactory';
 import { IconPlus } from '@tabler/icons';
 import { useOperateEditingTierList } from 'src/hooks/useOperateEditingTierList';
 import { useCharBoxSelectKeys } from '../../store';

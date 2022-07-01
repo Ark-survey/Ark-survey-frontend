@@ -31,8 +31,8 @@ export async function getImgPositionJSON<ImgPosition>(origin: string) {
   const skillJsonUrl = origin + 'skill_0.5.json';
   const avatarJsonUrl = origin + 'char_0.5.json';
   const uniEquipJsonUrl = origin + 'uniequip_0.5.json';
-  const skillImgPosition: { [key: string]: [number, number] } = await (await fetch(skillJsonUrl)).json();
-  const avatarImgPosition: { [key: string]: [number, number] } = await (await fetch(avatarJsonUrl)).json();
-  const uniEquipImgPosition: { [key: string]: [number, number] } = await (await fetch(uniEquipJsonUrl)).json();
-  return { skillImgPosition, avatarImgPosition, uniEquipImgPosition };
+  const skill: { [key: string]: [number, number] } = await (await fetch(skillJsonUrl)).json();
+  const avatar: { [key: string]: [number, number] } = await (await fetch(avatarJsonUrl)).json();
+  const equip: { [key: string]: [number, number] } = await (await fetch(uniEquipJsonUrl)).json();
+  return { skill, avatar, equip };
 }

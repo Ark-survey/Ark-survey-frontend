@@ -1,32 +1,33 @@
 import { Center, Group, Text } from '@mantine/core';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import SkinListItem from './SkinListItem';
+import CharAvatar from 'src/components/@arksurvey/CharAvatar';
 
-interface CharacterListProps<T> {
+interface CharacterListProps<T extends { [key: string]: any }> {
   filterData: T[];
+  keyName: keyof T;
   selectKeys: string[];
-  onSelect: (key: string) => void;
-  onSelectCancel: (key: string) => void;
+  onClick: () => void;
 }
 
-export default function CharacterList<T extends { skinKey: string }>({
+export default function CharacterList<T extends { [key: string]: any }>({
   filterData,
   selectKeys,
-  ...props
+  keyName,
+  onClick,
 }: CharacterListProps<T>) {
   const { t } = useTranslation();
 
   const charListData = useMemo(() => {
-    return filterData.map((data, index) => (
-      <SkinListItem
-        key={data?.skinKey ?? ''}
-        data={data}
-        selecting={selectKeys.findIndex((it) => it === data?.skinKey) > -1}
-        {...props}
+    return filterData.map((data) => (
+      <CharAvatar
+        key={data[keyName]}
+        avatarKey={data[keyName]}
+        selected={!!selectKeys.find((it) => it === data?.skinKey)}
+        onClick={onClick}
       />
     ));
-  }, [filterData, props, selectKeys]);
+  }, [filterData, keyName, onClick, selectKeys]);
 
   return (
     <Group spacing={10} position="center">

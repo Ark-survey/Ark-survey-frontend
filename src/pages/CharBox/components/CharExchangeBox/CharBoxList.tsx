@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { mapToArray } from 'src/utils/ObjectUtils';
 import { useTranslation } from 'react-i18next';
-import CharContainer from 'src/components/@arksurvey/CharAvatar/CharAvatar';
+import CharAvatar from 'src/components/@arksurvey/CharAvatar';
 import { CharacterType, useDataMap, useSetting } from 'src/pages/store';
 import useCharBox from '../../useCharBox';
 import { useEditingCharKey } from '../../store';
@@ -24,15 +24,14 @@ export default function CharacterList({ filterChar }: { filterChar: (char: Chara
         return !it.isNotObtainable && Object.keys(charInBox).filter((i) => i === it.key).length > 0 && filterChar(it);
       })
       .map((character) => (
-        <CharContainer
+        <CharAvatar
           key={charInBox[character.key].skinUse}
-          selecting={editingCharKey === character?.key}
-          onSelectChange={() => updateEditingCharKey(character?.key)}
-          charKey={charInBox[character.key].skinUse ?? ''}
-          charName={character?.name ?? ''}
+          selected={editingCharKey === character?.key}
+          onClick={() => updateEditingCharKey(character?.key)}
+          avatarKey={charInBox[character.key].skinUse ?? ''}
+          nameValue={character?.name ?? ''}
           nameDisplay={setting.nameDisplay}
           mini={setting.mini}
-          dragDisabled
         />
       ));
   }, [charInBox, charMap, editingCharKey, filterChar, setting.mini, setting.nameDisplay, updateEditingCharKey]);

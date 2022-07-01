@@ -1,7 +1,7 @@
 import { createStyles, Group } from '@mantine/core';
 import { useMemo } from 'react';
 import { Character } from 'src/service/CharBoxServer';
-import CharContainer from '../CharAvatar/CharAvatar';
+import CharAvatar, { HasCharAvatar } from '../CharAvatar';
 import PanelContainer from '../PanelContainer';
 import { useDataMap } from 'src/pages/store';
 
@@ -24,16 +24,16 @@ export default function Index({ data, charSkinKeys, onSelectChange }: LevelPanel
         (data.elite >= 2 && key === data.key + '_2');
       const inSkinBox = charSkinKeys?.includes(key);
 
-      return (
-        <CharContainer
+      return inSkinBox || eliteFit ? (
+        <CharAvatar
           key={key}
-          charKey={key}
-          onSelectChange={() => onSelectChange?.(key)}
-          sx={{ background: data.skinUse === key ? 'yellow' : undefined }}
-          dragDisabled
-          skinDisabled={!inSkinBox && !eliteFit}
-          readonly={!inSkinBox && !eliteFit}
+          avatarKey={key}
+          onClick={() => onSelectChange?.(key)}
+          selected={data.skinUse === key}
+          themeColor="yellow"
         />
+      ) : (
+        <HasCharAvatar key={key} avatarKey={key} />
       );
     });
   }, [charMap, charSkinKeys, data.elite, data.key, data.skinUse, onSelectChange]);
